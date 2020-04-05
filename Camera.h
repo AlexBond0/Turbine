@@ -10,10 +10,6 @@ class Camera {
 
 public:
 
-	//float position[3];	// XYZ of camera position
-	//float target[3];	// XYZ of camera target
-	//float up[3];		// XYZ of camera up
-
 	glm::vec3 position;	// XYZ of camera position
 	glm::vec3 target;	// XYZ of camera target
 	glm::vec3 up;		// XYZ of camera up
@@ -26,13 +22,9 @@ public:
 	// calcualte a picking ray from the scene
 	// float* CalculatePickRay(float windX, float windY, float windH, float windV);
 
-	void SetPosition(float x, float y, float z);
-	void SetTarget(float x, float y, float z);
-	void SetUp(float x, float y, float z);
-
-	void SetPositionVec(glm::vec3 newPosition);
-	void SetTargetVec(glm::vec3 newTarget);
-	void SetUpVec(glm::vec3 newUp);
+	void SetPosition(glm::vec3 newPosition);
+	void SetTarget(glm::vec3 newTarget);
+	void SetUp(glm::vec3 newUp);
 
 	void DefaultSceneCam();
 	void DefaultPOVCam();
@@ -47,7 +39,6 @@ private:
 	int		_prevX = -1;
 	int		_prevY = -1;
 
-	void	_MoveCam(float dx, float dy, float dz);
 	void	_MoveCam(glm::vec3 movement);
 };
 

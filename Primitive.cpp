@@ -48,14 +48,10 @@ void Primitive::GenerateTree(float radius, float height) {
 
 	_AssignGeomitoryData(tree);
 
-	ambient[0] = ambient[1] = ambient[2] = 0.4f;
-	ambient[3] = 1.0f;
 
-	diffuse[0] = diffuse[1] = diffuse[2] = 1.0f;
-	diffuse[3] = 1.0f;
-
-	specular[0] = specular[1] = specular[2] = 0;
-	specular[3] = 1.0f;
+	ambient = color4(0.4, 0.4, 0.4, 1.0);
+	diffuse = color4(1.0, 1.0, 1.0, 1.0);
+	specular = color4(0.0, 0.0, 0.0, 1.0);
 }
 
 // generate a cylinder primitive

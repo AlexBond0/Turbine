@@ -4,14 +4,10 @@
 
 Material::Material() {
 
-	ambient[0] = ambient[1] = ambient[2] = 0.2f;
-	ambient[3] = 1.0f;
 
-	diffuse[0] = diffuse[1] = diffuse[2] = 0.8f;
-	diffuse[3] = 1.0f;
-
-	specular[0] = specular[1] = specular[2] = 0;
-	specular[3] = 1.0f;
+	ambient = color4(1.0, 1.0, 1.0, 1.0);
+	diffuse = color4(0.8, 0.8, 0.8, 1.0);
+	specular = color4(0.0, 0.0, 0.0, 1.0);
 
 	speclevel = 5;
 	glossiness = 25;
@@ -19,9 +15,13 @@ Material::Material() {
 
 Material::Material(Material* copy) {
 
-	memcpy(ambient, copy->ambient, sizeof(ambient));
+	/*memcpy(ambient, copy->ambient, sizeof(ambient));
 	memcpy(diffuse, copy->diffuse, sizeof(diffuse));
-	memcpy(specular, copy->specular, sizeof(specular));
+	memcpy(specular, copy->specular, sizeof(specular));*/
+
+	ambient = color4(copy->ambient);
+	diffuse = color4(copy->diffuse);
+	specular = color4(copy->specular);
 
 	speclevel = copy->speclevel;
 	glossiness = copy->glossiness;
@@ -33,14 +33,27 @@ Material::~Material()
 
 void Material::SetMaterial(byte* buffer)
 {
-	int i;
-	int offset = 0;
-	for (i = 0; i < 4; i++, offset += 4)
-	{
-		ambient[i] = *(float*)(buffer + offset);
-		diffuse[i] = *(float*)(buffer + offset + 16);
-		specular[i] = *(float*)(buffer + offset + 32);
-	}
+	ambient = color4(
+		*(float*)buffer,
+		*(float*)(buffer + 4),
+		*(float*)(buffer + 8),
+		*(float*)(buffer + 12)
+	);
+
+	diffuse = color4(
+		*(float*)buffer + 16,
+		*(float*)(buffer + 20),
+		*(float*)(buffer + 24),
+		*(float*)(buffer + 28)
+	);
+
+	specular = color4(
+		*(float*)buffer + 32,
+		*(float*)(buffer + 36),
+		*(float*)(buffer + 40),
+		*(float*)(buffer + 44)
+	);
+
 
 	WORD tmp = *(WORD*)(buffer + 48);
 	glossiness = (float)tmp;
@@ -54,62 +67,61 @@ void Material::SetMaterial(byte* buffer)
 		speclevel = 100;
 
 	float spec = speclevel / 100.0f;
-	for (int i = 0; i < 4; i++)
-		specular[i] *= spec;
+	specular.r *= spec;
+	specular.g *= spec;
+	specular.b *= spec;
+	specular.a *= spec;
 }
 
 // ======================================
 
 void Material::SetAmbient(float r, float g, float b, float a) {
 
-	ambient[0] = r;
-	ambient[1] = g;
-	ambient[2] = b;
-	ambient[3] = a;
+	ambient = color4(r, g, b, a);
 }
 
 void Material::SetAmbient(byte* buffer) {
 
-	ambient[0] = *(float*)buffer;
-	ambient[1] = *(float*)(buffer + 4);
-	ambient[2] = *(float*)(buffer + 8);
-	ambient[3] = *(float*)(buffer + 12);
+	ambient = color4(
+		*(float*)buffer,
+		*(float*)(buffer + 4),
+		*(float*)(buffer + 8),
+		*(float*)(buffer + 12)
+	);
 }
 
 // ======================================
 
 void Material::SetDiffuse(float r, float g, float b, float a) {
 
-	diffuse[0] = r;
-	diffuse[1] = g;
-	diffuse[2] = b;
-	diffuse[3] = a;
+	diffuse = color4(r, g, b, a);
 }
 
 void Material::SetDiffuse(byte* buffer) {
 
-	diffuse[0] = *(float*)buffer;
-	diffuse[1] = *(float*)(buffer + 4);
-	diffuse[2] = *(float*)(buffer + 8);
-	diffuse[3] = *(float*)(buffer + 12);
+	diffuse = color4(
+		*(float*)buffer,
+		*(float*)(buffer + 4),
+		*(float*)(buffer + 8),
+		*(float*)(buffer + 12)
+	);
 }
 
 // ======================================
 
 void Material::SetSpecular(float r, float g, float b, float a) {
 
-	specular[0] = r;
-	specular[1] = g;
-	specular[2] = b;
-	specular[3] = a;
+	specular = color4(r, g, b, a);
 }
 
 void Material::SetSpecular(byte* buffer) {
 
-	specular[0] = *(float*)buffer;
-	specular[1] = *(float*)(buffer + 4);
-	specular[2] = *(float*)(buffer + 8);
-	specular[3] = *(float*)(buffer + 12);
+	specular = color4(
+		*(float*)buffer,
+		*(float*)(buffer + 4),
+		*(float*)(buffer + 8),
+		*(float*)(buffer + 12)
+	);
 }
 
 // ======================================

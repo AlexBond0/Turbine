@@ -100,6 +100,9 @@
     <ClInclude Include="RideAnimation.h">
       <Filter>Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Shading</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="vertshader.txt">

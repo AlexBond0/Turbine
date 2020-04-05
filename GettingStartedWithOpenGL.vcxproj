@@ -106,6 +106,7 @@
   <ItemGroup>
     <ClInclude Include="Animator.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Color.h" />
     <ClInclude Include="GLSetup.h" />
     <ClInclude Include="InstancedObject.h" />
     <ClInclude Include="Light.h" />

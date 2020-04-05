@@ -43,11 +43,11 @@ void Scene::Render(RenderingContext rcontext) {
 	light.CalculateHalfPlane(camera.position);
 
 	// assign light handles
-	glUniform3fv(rcontext.lighthandles[0], 1, light.direction);
-	glUniform3fv(rcontext.lighthandles[1], 1, light.halfplane);
-	glUniform4fv(rcontext.lighthandles[2], 1, light.ambient);
-	glUniform4fv(rcontext.lighthandles[3], 1, light.diffuse);
-	glUniform4fv(rcontext.lighthandles[4], 1, light.specular);
+	glUniform3fv(rcontext.lighthandles[0], 1, light.GetDirection());
+	glUniform3fv(rcontext.lighthandles[1], 1, light.GetHalfplane());
+	glUniform4fv(rcontext.lighthandles[2], 1, light.ambient.toFloat());
+	glUniform4fv(rcontext.lighthandles[3], 1, light.diffuse.toFloat());
+	glUniform4fv(rcontext.lighthandles[4], 1, light.specular.toFloat());
 
 	// draw full models via their root object
 	for (Model3D* model : modelsToDraw)

@@ -81,9 +81,9 @@ void Object3D::_InitVBOs()
 void Object3D::_AssignHandleInformation(RenderingContext& rcontext) {
 
 	// Material
-	glUniform4fv(rcontext.mathandles[0], 1, ambient);
-	glUniform4fv(rcontext.mathandles[1], 1, diffuse);
-	glUniform4fv(rcontext.mathandles[2], 1, specular);
+	glUniform4fv(rcontext.mathandles[0], 1, ambient.toFloat());
+	glUniform4fv(rcontext.mathandles[1], 1, diffuse.toFloat());
+	glUniform4fv(rcontext.mathandles[2], 1, specular.toFloat());
 	glUniform1f(rcontext.mathandles[3], glossiness);
 
 	// flags

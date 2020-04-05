@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Windows.h>
+#include "Color.h"
 
 class Material 
 {
@@ -13,15 +14,15 @@ public:
 
 	void SetAmbient(float r, float g, float b, float a);
 	void SetAmbient(byte* buffer);
-	const float* GetAmbient();
+	const color4 GetAmbient();
 
 	void SetDiffuse(float r, float g, float b, float a);
 	void SetDiffuse(byte* buffer);
-	const float* GetDiffuse();
+	const color4 GetDiffuse();
 
 	void SetSpecular(float r, float g, float b, float a);
 	void SetSpecular(byte* buffer);
-	const float* GetSpecular();
+	const color4 GetSpecular();
 
 	void SetGlossiness(float g);
 	const float GetGlossiness();
@@ -32,20 +33,20 @@ public:
 protected:
 
 	float glossiness, speclevel;
-	float ambient[4], diffuse[4], specular[4];
+	color4 ambient, diffuse, specular;
 };
 
-inline const float* Material::GetAmbient() {
+inline const color4 Material::GetAmbient() {
 
 	return ambient;
 }
 
-inline const float* Material::GetDiffuse() {
+inline const color4 Material::GetDiffuse() {
 
 	return diffuse;
 }
 
-inline const float* Material::GetSpecular() {
+inline const color4 Material::GetSpecular() {
 
 	return specular;
 }

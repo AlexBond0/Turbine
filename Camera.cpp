@@ -15,61 +15,38 @@ Camera::~Camera() {
 // ================================================================
 
 // set position of camera
-void Camera::SetPosition(float x, float y, float z) {
+void Camera::SetPosition(glm::vec3 newPosition) {
 
-	position[0] = x;
-	position[1] = y;
-	position[2] = z;
+	position = newPosition;
 }
 
 // set the target of the camera
-void Camera::SetTarget(float x, float y, float z) {
+void Camera::SetTarget(glm::vec3 newTarget) {
 
-	target[0] = x;
-	target[1] = y;
-	target[2] = z;
+	target = newTarget;
 }
 
 // set the up direction of the camera
-void Camera::SetUp(float x, float y, float z) {
+void Camera::SetUp(glm::vec3 newUp) {
 
-	up[0] = x;
-	up[1] = y;
-	up[2] = z;
-}
-
-// ================================================================
-
-void Camera::SetPositionVec(glm::vec3 newPosition) {
-
-	position = position;
-}
-
-void Camera::SetTargetVec(glm::vec3 newTarget) {
-
-	target = target;
-}
-
-void Camera::SetUpVec(glm::vec3 newUp) {
-
-	up = up;
+	up = newUp;
 }
 
 // ================================================================
 
 void Camera::DefaultSceneCam() {
 
-	SetTarget(0.0f, 0.2f, 0.0f);
-	SetPosition(-0.8f, 0.5f, 1.0f);
-	SetUp(0.0f, 1.0f, 0.0f);
+	SetTarget(glm::vec3(0.0f, 0.2f, 0.0f));
+	SetPosition(glm::vec3(-0.8f, 0.5f, 1.0f));
+	SetUp(glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
 void Camera::DefaultPOVCam() {
 
 	// these are more like offsets here as the camerapositioner handles the absolute position
-	SetTarget(0.0f, 0.0f, 1.0f);
-	SetPosition(0.0f, 0.0f, 0.0f);
-	SetUp(0.0f, 1.0f, 0.0f);
+	SetTarget(glm::vec3(0.0f, 0.0f, 1.0f));
+	SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+	SetUp(glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
 //// calcualte a picking ray from the camrea
@@ -123,31 +100,15 @@ void Camera::RotateCam(int newX, int newY, bool arcballCam) {
 			glm::vec3 cross = glm::normalize(glm::cross(direction, up));
 
 			// Rotate Mat4 By Vec3
-			// glm::rotate(cameraRotation, cross);
 			cameraRotation = glm::rotate(cameraRotation, -diffY, glm::cross(direction, up));
-			// MyMatrix::RotateMat4ByVec3(cameraRotation, cross, diffY);
 
 			// preform yaw rotation
-			// MyMatrix::RotateY(cameraRotation, -diffX);
 			cameraRotation = glm::rotate(cameraRotation, diffX, glm::vec3(0, 1, 0));
 
 			// calculate new direction
-			// MyMatrix::MultiplyVecByMatrix(direction, cameraRotation);
 			direction = glm::vec3(glm::vec4(direction, 0) * cameraRotation);
 
 			// set new position
-			//if (arcballCam) {
-
-			//	position[0] = (direction[0] + target[0]);
-			//	position[1] = (direction[1] + target[1]);
-			//	position[2] = (direction[2] + target[2]);
-			//}
-			//else {
-
-			//	target[0] = (position[0] - direction[0]);
-			//	target[1] = (position[1] - direction[1]);
-			//	target[2] = (position[2] - direction[2]);
-			//}
 			if (arcballCam) {
 
 				position = (direction + target);
@@ -158,60 +119,7 @@ void Camera::RotateCam(int newX, int newY, bool arcballCam) {
 			}
 
 			// calculate up
-			//MyMatrix::MultiplyVecByMatrix(up, cameraRotation);
 			up = up * glm::mat3(cameraRotation);
-
-			// ==================================================================
-
-			//// create a camrea rotation matrix
-			//float cameraRotation[16];
-			//MyMatrix::SetIdentity(cameraRotation);
-
-			//// get the direction vector
-			//float direction[3] = {
-			//	position[0] - target[0],
-			//	position[1] - target[1],
-			//	position[2] - target[2]
-			//};
-
-			//// preform pitch rotation
-			//float cross[3];
-
-			//MyMatrix::CrossProduct3(direction, up, cross);
-			//MyMatrix::Normalise3(cross);
-			//MyMatrix::RotateMat4ByVec3(cameraRotation, cross, diffY);
-
-
-
-			//// preform yaw rotation
-			//MyMatrix::RotateY(cameraRotation, -diffX);
-
-			//// calculate new direction
-			//MyMatrix::MultiplyVecByMatrix(direction, cameraRotation);
-
-			//// set new position
-			//if (arcballCam) {
-
-			//	position[0] = (direction[0] + target[0]);
-			//	position[1] = (direction[1] + target[1]);
-			//	position[2] = (direction[2] + target[2]);
-			//}
-			//else {
-
-			//	target[0] = (position[0] - direction[0]);
-			//	target[1] = (position[1] - direction[1]);
-			//	target[2] = (position[2] - direction[2]);
-			//}
-
-			//// calculate up
-			//MyMatrix::MultiplyVecByMatrix(up, cameraRotation);
-
-			//cameraRotation = glm::rotate(cameraRotation, diffY, glm::cross(target, up));			// pitch
-			//cameraRotation = glm::rotate(cameraRotation, -diffX, glm::vec3(0, 1, 0));				// yaw
-
-			//position = (glm::mat3(cameraRotation) * (position - target)) + target;
-			//target = glm::normalize(position - target);
-			//up = glm::mat3(cameraRotation) * up;
 		}
 
 		// save previous values
@@ -246,51 +154,6 @@ void Camera::MoveCam(int newX, int newY) {
 
 		// apply the changes
 		_MoveCam(horz + vert);
-
-
-		// ===========================
-
-		//// get the direction vector
-		//float direction[3] = {
-		//	position[0] - target[0],
-		//	position[1] - target[1],
-		//	position[2] - target[2]
-		//};
-
-		//// calculate change horisontally
-		//float horz[3];
-		//MyMatrix::CrossProduct3(direction, up, horz);
-		//MyMatrix::Normalise3(horz);
-
-		//// calculate change vertically
-		//float vert[3];
-		//MyMatrix::CrossProduct3(horz, direction, vert);
-		//MyMatrix::Normalise3(vert);
-
-		//// scale the changes
-		//MyMatrix::Scale(horz, diffX);
-		//MyMatrix::Scale(vert, diffY);
-
-		//// apply the changes
-		//_MoveCam(
-		//	horz[0] + vert[0],
-		//	horz[1] + vert[1],
-		//	horz[2] + vert[2]
-		//);
-
-		// ===========================
-
-		// calculate change horisontally
-		//glm::vec3 cross = glm::cross(target, up);
-		//glm::vec3 norm = (cross == glm::vec3(0, 0, 0) ? cross : glm::normalize(cross));
-		//glm::vec3 diff = norm * (diffX == 0 ? 1.0f : diffX);
-		//_MoveCam(diff);
-
-		//// calculate change vertically
-		//cross = glm::cross(norm, target);
-		//norm = (cross == glm::vec3(0, 0, 0) ? cross : glm::normalize(cross));
-		//diff = norm * (diffY == 0 ? 1.0f : diffY);
-		//_MoveCam(diff);
 	}
 
 	// save previous values
@@ -328,18 +191,6 @@ void Camera::FocusCam(int zoomDelta) {
 		position[1] -= direction[1];
 		position[2] -= direction[2];
 	}
-}
-
-// move cameras position and target in space
-void Camera::_MoveCam(float dx, float dy, float dz) {
-
-	position[0] += dx;
-	position[1] += dy;
-	position[2] += dz;
-
-	target[0] += dx;
-	target[1] += dy;
-	target[2] += dz;
 }
 
 // move cameras position and target in space
