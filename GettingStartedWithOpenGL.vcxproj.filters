@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Camera.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Primitive.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Shading</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Shading</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Instancing</Filter>
+    </ClCompile>
+    <ClCompile Include="InstancedObject.cpp">
+      <Filter>Instancing</Filter>
+    </ClCompile>
+    <ClCompile Include="Model3D.cpp">
+      <Filter>Object\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Moveable.cpp">
+      <Filter>Object\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Object3D.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Object\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="GLSetup.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="RideAnimation.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="RenderingContext.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Primitive.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Shading</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Shading</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Instancing</Filter>
+    </ClInclude>
+    <ClInclude Include="InstancedObject.h">
+      <Filter>Instancing</Filter>
+    </ClInclude>
+    <ClInclude Include="Model3D.h">
+      <Filter>Object\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Moveable.h">
+      <Filter>Object\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Object3D.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Object\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="GLSetup.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="RideAnimation.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="vertshader.txt">
+      <Filter>Shading</Filter>
+    </Text>
+    <Text Include="fragshader.txt">
+      <Filter>Shading</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Object">
+      <UniqueIdentifier>{287ea044-1429-49a4-a77b-6e50028008c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{9199b1ef-6ffa-4166-9fc1-6728eb2d09b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shading">
+      <UniqueIdentifier>{51ff0292-3cf8-4393-8997-60680d2bc240}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Instancing">
+      <UniqueIdentifier>{9b7d0a74-7a84-41a8-bac8-dc38fda3ab38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Base">
+      <UniqueIdentifier>{901fb3a6-c4f2-457d-be9f-60d9341837a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools">
+      <UniqueIdentifier>{70a82410-67a1-426b-bfef-86362c3c54e2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
