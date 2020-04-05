@@ -116,7 +116,7 @@ void Object3D::_AssignHandleInformation(RenderingContext& rcontext) {
 	rcontext.PushModelMatrix();
 
 	// as the current translation values are global and not local, preform the offset values instead
-	rcontext.Translate(offset[0], offset[1], offset[2]);
+	rcontext.Translate(localPos[0], localPos[1], localPos[2]);
 
 	rcontext.Translate(translation[0], translation[1], translation[2]);
 
@@ -185,7 +185,7 @@ void Object3D::AddChild(Object3D* newChild) {
 	float dY = childPosition[1] - worldPos[1];
 	float dZ = childPosition[2] - worldPos[2];
 
-	newChild->SetOffset(dX, dY, dZ);
+	newChild->SetLocalPos(dX, dY, dZ);
 };
 
 // ======================================

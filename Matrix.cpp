@@ -3,15 +3,28 @@
 
 void MyMatrix::CrossProduct3(const float* vec1, const float* vec2, float* dst) {
 
-	dst[0] = (vec1[1] * vec2[2]) - (vec1[2] * vec2[1]);
+	/*dst[0] = (vec1[1] * vec2[2]) - (vec1[2] * vec2[1]);
 	dst[1] = (vec1[2] * vec2[0]) - (vec1[0] * vec2[2]);
-	dst[2] = (vec1[0] * vec2[1]) - (vec1[1] * vec2[0]);
-	
+	dst[2] = (vec1[0] * vec2[1]) - (vec1[1] * vec2[0]);*/
+
+	glm::vec3 v1 = glm::vec3(vec1[0], vec1[1], vec1[2]);
+	glm::vec3 v2 = glm::vec3(vec2[0], vec2[1], vec2[2]);
+
+	v1 = glm::cross(v1, v2);
+
+	dst[0] = v1.x;
+	dst[1] = v1.y;
+	dst[2] = v1.z;
 }
 
 float MyMatrix::DotProduct3(const float* vec1, const float* vec2) {
 
-	return (vec1[0] * vec2[0]) + (vec1[1] * vec2[1]) + (vec1[2] * vec2[2]);
+	// return (vec1[0] * vec2[0]) + (vec1[1] * vec2[1]) + (vec1[2] * vec2[2]);
+
+	glm::vec3 v1 = glm::vec3(vec1[0], vec1[1], vec1[2]);
+	glm::vec3 v2 = glm::vec3(vec2[0], vec2[1], vec2[2]);
+
+	return glm::dot(v1, v2);
 }
 
 

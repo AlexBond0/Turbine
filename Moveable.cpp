@@ -7,7 +7,7 @@ Moveable::Moveable() {
 	worldPos[0] = worldPos[1] = worldPos[2] = 0.0f;
 	translation[0] = translation[1] = translation[2] = 0.0f;
 	rotation[0] = rotation[1] = rotation[2] = 0.0f;
-	offset[0] = offset[1] = offset[2] = 0.0f;
+	localPos[0] = localPos[1] = localPos[2] = 0.0f;
 	scale[0] = scale[1] = scale[2] = 1.0f;
 }
 
@@ -17,7 +17,7 @@ Moveable::Moveable(Moveable* copy) {
 	memcpy(translation, copy->translation, sizeof(translation));
 	memcpy(rotation, copy->rotation, sizeof(rotation));
 	memcpy(scale, copy->scale, sizeof(scale));
-	offset[0] = offset[1] = offset[2] = 0.0f;
+	localPos[0] = localPos[1] = localPos[2] = 0.0f;
 }
 
 Moveable::~Moveable()
@@ -88,18 +88,18 @@ void Moveable::ShiftRotation(float x, float y, float z)
 
 // ======================================
 
-void Moveable::SetOffset(float x, float y, float z)
+void Moveable::SetLocalPos(float x, float y, float z)
 {
-	offset[0] = x;
-	offset[1] = y;
-	offset[2] = z;
+	localPos[0] = x;
+	localPos[1] = y;
+	localPos[2] = z;
 }
 
-void Moveable::SetOffset(byte* buffer)
+void Moveable::SetLocalPos(byte* buffer)
 {
-	offset[0] = *(float*)buffer;
-	offset[1] = *(float*)(buffer + 4);
-	offset[2] = *(float*)(buffer + 8);
+	localPos[0] = *(float*)buffer;
+	localPos[1] = *(float*)(buffer + 4);
+	localPos[2] = *(float*)(buffer + 8);
 }
 
 // ======================================

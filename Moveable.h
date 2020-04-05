@@ -29,15 +29,16 @@ public:
 	void SetScale(float x, float y, float z);
 	float* GetScale();
 
-	void SetOffset(byte* buffer);
-	void SetOffset(float x, float y, float z);
+	void SetLocalPos(byte* buffer);
+	void SetLocalPos(float x, float y, float z);
 	float* GetOffset();
 
 protected:
 
 	float worldPos[3];
+	float localPos[3];
+	
 	float translation[3];
-	float offset[3];
 	float rotation[3];
 	float scale[3];
 };
@@ -59,7 +60,7 @@ inline float* Moveable::GetRotation() {
 
 inline float* Moveable::GetOffset() {
 
-	return offset;
+	return localPos;
 }
 
 inline float* Moveable::GetScale() {
