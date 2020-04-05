@@ -240,16 +240,16 @@ void CameraPositioner::PositionCamera(RenderingContext& rcontext, Camera cam) {
 
 		MyMatrix::Translate(
 			offsetMatrix,
-			(objList[objIndex]->GetOffset())[0],
-			(objList[objIndex]->GetOffset())[1],
-			(objList[objIndex]->GetOffset())[2]
+			(objList[objIndex]->GetLocalPosVec()).x,
+			(objList[objIndex]->GetLocalPosVec()).y,
+			(objList[objIndex]->GetLocalPosVec()).z
 		);
 
 		MyMatrix::RotateXYZ(
 			offsetMatrix,
-			(objList[objIndex]->GetRotation())[0],
-			(objList[objIndex]->GetRotation())[1],
-			(objList[objIndex]->GetRotation())[2]
+			(objList[objIndex]->GetRotationVec()).x,
+			(objList[objIndex]->GetRotationVec()).y,
+			(objList[objIndex]->GetRotationVec()).z
 		);
 	}
 

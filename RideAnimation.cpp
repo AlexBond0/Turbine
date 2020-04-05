@@ -251,7 +251,7 @@ void RideAnimation::ResetRotations() {
 // move the tilt with respect to limits
 void RideAnimation::_MoveTilt(Change change) {
 
-	float currentTilt = -s_tilt.object->GetRotation()[0];
+	float currentTilt = -s_tilt.object->GetRotationVec().x;
 
 	bool up = (change == Change::TILT_UP);
 

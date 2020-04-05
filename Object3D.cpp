@@ -179,11 +179,11 @@ void Object3D::AddChild(Object3D* newChild) {
 
 	children.push_back(newChild);
 
-	float* childPosition = newChild->GetWorldPos();
+	glm::vec3 childPosition = newChild->GetWorldPosVec();
 
-	float dX = childPosition[0] - worldPos[0];
-	float dY = childPosition[1] - worldPos[1];
-	float dZ = childPosition[2] - worldPos[2];
+	float dX = childPosition.x - worldPos[0];
+	float dY = childPosition.y - worldPos[1];
+	float dZ = childPosition.z - worldPos[2];
 
 	newChild->SetLocalPos(dX, dY, dZ);
 };
