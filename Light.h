@@ -16,6 +16,7 @@ public:
 	~Light();
 
 	void CalculateHalfPlane(float* cameraPosition);
+	void CalculateHalfPlane(glm::vec3 cameraPosition);
 	void CreateSun();
 	void CreateMoon();
 };

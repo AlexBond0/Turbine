@@ -33,7 +33,7 @@ void Scene::Render(RenderingContext rcontext) {
 	}
 	else {
 
-		MyMatrix::SetLookAt(
+		MyMatrix::SetLookAtGLM(
 			rcontext.viewmatrix,
 			camera.position,
 			camera.target,

@@ -26,6 +26,21 @@ void Light::CalculateHalfPlane(float* cameraPosition) {
 	halfplane[2] = h[2];
 }
 
+void Light::CalculateHalfPlane(glm::vec3 cameraPosition) {
+
+	float h[3] = {
+		cameraPosition.x + direction[0],
+		cameraPosition.y + direction[1],
+		cameraPosition.z + direction[2],
+	};
+
+	MyMatrix::Normalise3(h);
+
+	halfplane[0] = h[0];
+	halfplane[1] = h[1];
+	halfplane[2] = h[2];
+}
+
 void Light::CreateSun() {
 
 	direction[0] = 1.0f;

@@ -485,3 +485,39 @@ void MyMatrix::SetLookAt(float* matrix, const float* eye, const float* centre, c
 	matrix[14] = MyMatrix::DotProduct3(forwards, eye);
 	matrix[15] = 1;
 }
+
+void MyMatrix::SetLookAtGLM(float* matrix, const glm::vec3 eye, const glm::vec3 centre, const glm::vec3 up) {
+
+	// forewards = centre - eye
+	glm::vec3 forwards = glm::normalize(centre - eye);
+
+	// normalise the up direction
+	glm::vec3 normUp = glm::normalize(up);
+
+	// side direction = forward X normUp
+	glm::vec3 side = glm::normalize(glm::cross(forwards, normUp));
+
+	// cross product up = side X forwards
+	glm::vec3 crossUp = glm::normalize(glm::cross(side, forwards));
+
+	// set up lookat matrix with given values
+	matrix[0] = side.x;
+	matrix[1] = crossUp.x;
+	matrix[2] = -forwards.x;
+	matrix[3] = 0;
+
+	matrix[4] = side.y;
+	matrix[5] = crossUp.y;
+	matrix[6] = -forwards.y;
+	matrix[7] = 0;
+
+	matrix[8] = side.z;
+	matrix[9] = crossUp.z;
+	matrix[10] = -forwards.z;
+	matrix[11] = 0;
+
+	matrix[12] = -glm::dot(side, eye);
+	matrix[13] = -glm::dot(crossUp, eye);
+	matrix[14] = glm::dot(forwards, eye);
+	matrix[15] = 1;
+}
