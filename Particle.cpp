@@ -184,7 +184,7 @@ ParticleProfile Particle::_CreateParticle() {
 	// MyMatrix::MultiplyVecByMatrix(newParticle.speed, modelView);
 	newParticle.speed = *modelView * newParticle.speed;
 
-	// position the new particle correctly
+	// position the new particle correctlyl
 	// MyMatrix::MultiplyVecByMatrix(newParticle.position, modelView);
 	newParticle.position = *modelView * newParticle.position;
 

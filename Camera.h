@@ -43,6 +43,7 @@ private:
 };
 
 // small class for positioning a camera according to a list of object transformations
+// very broken, will be replaced with entity based systam
 class CameraPositioner {
 
 public:
@@ -55,9 +56,9 @@ public:
 
 private:
 
-	float offsetMatrix[16];
+	glm::mat4 offsetMatrix;
 
-	float relPosition[3];
-	float relTarget[3];
-	float relUp[3];
+	glm::vec4 relPosition;
+	glm::vec4 relTarget;
+	glm::vec4 relUp;
 };

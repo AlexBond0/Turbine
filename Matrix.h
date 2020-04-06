@@ -22,7 +22,7 @@ public:
 	static void SetIdentity(float* matrix);
 	static void Normalise3(float* vector);
 
-	static void CrossProduct3(const float* vec1, const float* vec2, float* dst);
+	// static void CrossProduct3(const float* vec1, const float* vec2, float* dst);
 	static float DotProduct3(const float* vec1, const float* vec2);
 
 	static void MultiplyMatrix(float* result, const float* lhs, const float* rhs);
@@ -49,6 +49,6 @@ public:
 	static void SetOrtho(float* matrix, const float left, const float right, const float bottom, const float top, const float znear, const float zfar);
 	static void SetFrustum(float* matrix, const float left, const float right, const float bottom, const float top, const float znear, const float zfar);
 	
-	static void SetLookAt(float* matrix, const float* eye, const float* centre, const float* up);
-	static void SetLookAtGLM(float* matrix, const glm::vec3 eye, const glm::vec3 centre, const glm::vec3 up);
+	// static void SetLookAt(float* matrix, const float* eye, const float* centre, const float* up);
+	// static void SetLookAtGLM(float* matrix, const glm::vec3 eye, const glm::vec3 centre, const glm::vec3 up);
 };

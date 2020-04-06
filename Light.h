@@ -3,6 +3,7 @@
 #include "Matrix.h"
 #include "Color.h"
 
+// Light element to add basic lighing to the scene
 class Light
 {
 public:

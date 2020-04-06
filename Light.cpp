@@ -11,21 +11,27 @@ Light::~Light()
 {
 }
 
+// Return handle-friendly direction information
+// might be replaced with a glm::value_ptr()
 float* Light::GetDirection() {
 
 	return &direction.x;
 }
 
+// Return handle-friendly halfplane information
+// might be replaced with a glm::value_ptr()
 float* Light::GetHalfplane() {
 
 	return &halfplane.x;
 }
 
+// Calculate the half plane for sending to the GLSL shaders
 void Light::CalculateHalfPlane(glm::vec3 cameraPosition) {
 
 	halfplane = glm::normalize(cameraPosition + direction);
 }
 
+// Create a default sun light
 void Light::CreateSun() {
 
 	direction = glm::vec3(1.0, 1.0, 1.0);
@@ -35,6 +41,7 @@ void Light::CreateSun() {
 	specular = color4(1.0, 1.0, 1.0, 1.0);
 }
 
+// Create a default moon light
 void Light::CreateMoon() {
 
 	direction = glm::vec3(1.0, 0.5, 0.0);

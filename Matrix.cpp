@@ -1,21 +1,21 @@
 #include "Matrix.h"
 
 
-void MyMatrix::CrossProduct3(const float* vec1, const float* vec2, float* dst) {
-
-	/*dst[0] = (vec1[1] * vec2[2]) - (vec1[2] * vec2[1]);
-	dst[1] = (vec1[2] * vec2[0]) - (vec1[0] * vec2[2]);
-	dst[2] = (vec1[0] * vec2[1]) - (vec1[1] * vec2[0]);*/
-
-	glm::vec3 v1 = glm::vec3(vec1[0], vec1[1], vec1[2]);
-	glm::vec3 v2 = glm::vec3(vec2[0], vec2[1], vec2[2]);
-
-	v1 = glm::cross(v1, v2);
-
-	dst[0] = v1.x;
-	dst[1] = v1.y;
-	dst[2] = v1.z;
-}
+//void MyMatrix::CrossProduct3(const float* vec1, const float* vec2, float* dst) {
+//
+//	/*dst[0] = (vec1[1] * vec2[2]) - (vec1[2] * vec2[1]);
+//	dst[1] = (vec1[2] * vec2[0]) - (vec1[0] * vec2[2]);
+//	dst[2] = (vec1[0] * vec2[1]) - (vec1[1] * vec2[0]);*/
+//
+//	glm::vec3 v1 = glm::vec3(vec1[0], vec1[1], vec1[2]);
+//	glm::vec3 v2 = glm::vec3(vec2[0], vec2[1], vec2[2]);
+//
+//	v1 = glm::cross(v1, v2);
+//
+//	dst[0] = v1.x;
+//	dst[1] = v1.y;
+//	dst[2] = v1.z;
+//}
 
 float MyMatrix::DotProduct3(const float* vec1, const float* vec2) {
 
@@ -438,86 +438,86 @@ void MyMatrix::SetFrustum(float* matrix, const float left, const float right, co
 	matrix[14] = -((2.0f * zfar * znear) / (zfar - znear));
 	matrix[15] = 0.0f;
 }
-
-void MyMatrix::SetLookAt(float* matrix, const float* eye, const float* centre, const float* up) {
-
-	// forewards = centre - eye
-	float forwards[3] = {
-
-		centre[0] - eye[0],
-		centre[1] - eye[1],
-		centre[2] - eye[2]
-	};
-	MyMatrix::Normalise3(forwards);
-
-	// normalise the up direction
-	float normUp[3] = { up[0], up[1], up[2] };
-	MyMatrix::Normalise3(normUp);
-
-	// side direction = forward X normUp
-	float side[3]; // = { forwards[0], forwards[1], forwards[2] };
-	MyMatrix::CrossProduct3(forwards, normUp, side);
-	MyMatrix::Normalise3(side);
-
-	// cross product up = side X forwards
-	float crossUp[3]; // = { side[0], side[1], side[2] };
-	MyMatrix::CrossProduct3(side, forwards, crossUp);
-	MyMatrix::Normalise3(crossUp);
-
-	// set up lookat matrix with given values
-	matrix[0] = side[0];
-	matrix[1] = crossUp[0];
-	matrix[2] = -forwards[0];
-	matrix[3] = 0;
-
-	matrix[4] = side[1];
-	matrix[5] = crossUp[1];
-	matrix[6] = -forwards[1];
-	matrix[7] = 0;
-
-	matrix[8] = side[2];
-	matrix[9] = crossUp[2];
-	matrix[10] = -forwards[2];
-	matrix[11] = 0;
-
-	matrix[12] = -MyMatrix::DotProduct3(side, eye);
-	matrix[13] = -MyMatrix::DotProduct3(crossUp, eye);
-	matrix[14] = MyMatrix::DotProduct3(forwards, eye);
-	matrix[15] = 1;
-}
-
-void MyMatrix::SetLookAtGLM(float* matrix, const glm::vec3 eye, const glm::vec3 centre, const glm::vec3 up) {
-
-	// forewards = centre - eye
-	glm::vec3 forwards = glm::normalize(centre - eye);
-
-	// normalise the up direction
-	glm::vec3 normUp = glm::normalize(up);
-
-	// side direction = forward X normUp
-	glm::vec3 side = glm::normalize(glm::cross(forwards, normUp));
-
-	// cross product up = side X forwards
-	glm::vec3 crossUp = glm::normalize(glm::cross(side, forwards));
-
-	// set up lookat matrix with given values
-	matrix[0] = side.x;
-	matrix[1] = crossUp.x;
-	matrix[2] = -forwards.x;
-	matrix[3] = 0;
-
-	matrix[4] = side.y;
-	matrix[5] = crossUp.y;
-	matrix[6] = -forwards.y;
-	matrix[7] = 0;
-
-	matrix[8] = side.z;
-	matrix[9] = crossUp.z;
-	matrix[10] = -forwards.z;
-	matrix[11] = 0;
-
-	matrix[12] = -glm::dot(side, eye);
-	matrix[13] = -glm::dot(crossUp, eye);
-	matrix[14] = glm::dot(forwards, eye);
-	matrix[15] = 1;
-}
+//
+//void MyMatrix::SetLookAt(float* matrix, const float* eye, const float* centre, const float* up) {
+//
+//	// forewards = centre - eye
+//	float forwards[3] = {
+//
+//		centre[0] - eye[0],
+//		centre[1] - eye[1],
+//		centre[2] - eye[2]
+//	};
+//	MyMatrix::Normalise3(forwards);
+//
+//	// normalise the up direction
+//	float normUp[3] = { up[0], up[1], up[2] };
+//	MyMatrix::Normalise3(normUp);
+//
+//	// side direction = forward X normUp
+//	float side[3]; // = { forwards[0], forwards[1], forwards[2] };
+//	MyMatrix::CrossProduct3(forwards, normUp, side);
+//	MyMatrix::Normalise3(side);
+//
+//	// cross product up = side X forwards
+//	float crossUp[3]; // = { side[0], side[1], side[2] };
+//	MyMatrix::CrossProduct3(side, forwards, crossUp);
+//	MyMatrix::Normalise3(crossUp);
+//
+//	// set up lookat matrix with given values
+//	matrix[0] = side[0];
+//	matrix[1] = crossUp[0];
+//	matrix[2] = -forwards[0];
+//	matrix[3] = 0;
+//
+//	matrix[4] = side[1];
+//	matrix[5] = crossUp[1];
+//	matrix[6] = -forwards[1];
+//	matrix[7] = 0;
+//
+//	matrix[8] = side[2];
+//	matrix[9] = crossUp[2];
+//	matrix[10] = -forwards[2];
+//	matrix[11] = 0;
+//
+//	matrix[12] = -MyMatrix::DotProduct3(side, eye);
+//	matrix[13] = -MyMatrix::DotProduct3(crossUp, eye);
+//	matrix[14] = MyMatrix::DotProduct3(forwards, eye);
+//	matrix[15] = 1;
+//}
+//
+//void MyMatrix::SetLookAtGLM(float* matrix, const glm::vec3 eye, const glm::vec3 centre, const glm::vec3 up) {
+//
+//	// forewards = centre - eye
+//	glm::vec3 forwards = glm::normalize(centre - eye);
+//
+//	// normalise the up direction
+//	glm::vec3 normUp = glm::normalize(up);
+//
+//	// side direction = forward X normUp
+//	glm::vec3 side = glm::normalize(glm::cross(forwards, normUp));
+//
+//	// cross product up = side X forwards
+//	glm::vec3 crossUp = glm::normalize(glm::cross(side, forwards));
+//
+//	// set up lookat matrix with given values
+//	matrix[0] = side.x;
+//	matrix[1] = crossUp.x;
+//	matrix[2] = -forwards.x;
+//	matrix[3] = 0;
+//
+//	matrix[4] = side.y;
+//	matrix[5] = crossUp.y;
+//	matrix[6] = -forwards.y;
+//	matrix[7] = 0;
+//
+//	matrix[8] = side.z;
+//	matrix[9] = crossUp.z;
+//	matrix[10] = -forwards.z;
+//	matrix[11] = 0;
+//
+//	matrix[12] = -glm::dot(side, eye);
+//	matrix[13] = -glm::dot(crossUp, eye);
+//	matrix[14] = glm::dot(forwards, eye);
+//	matrix[15] = 1;
+//}
