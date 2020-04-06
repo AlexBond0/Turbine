@@ -256,12 +256,19 @@ void RideAnimation::_MoveTilt(Change change) {
 	bool up = (change == Change::TILT_UP);
 
 	float* scaledState = _NewState(Part::TILT, change);
-	MyMatrix::Scale(scaledState, 6.0f);
+	glm::vec3 s = {
+		scaledState[0],
+		scaledState[1],
+		scaledState[2]
+	};
+
+	// MyMatrix::Scale(scaledState, 6.0f);
+	s = glm::normalize(s) * 6.0f;
 
 	if (up && currentTilt < TILT_MAX)
-		s_tilt.object->ShiftRotation(scaledState);
+		s_tilt.object->ShiftRotation(glm::value_ptr(s));
 	
 	else if (!up && currentTilt > TILT_MIN)
-		s_tilt.object->ShiftRotation(scaledState);
+		s_tilt.object->ShiftRotation(glm::value_ptr(s));
 
 }

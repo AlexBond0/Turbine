@@ -19,34 +19,35 @@ m[3] m[7] m[11] m[15]
 class MyMatrix
 {
 public:
-	static void SetIdentity(float* matrix);
-	static void Normalise3(float* vector);
+	// static void SetIdentity(float* matrix);
+	// static void Normalise3(float* vector);
 
 	// static void CrossProduct3(const float* vec1, const float* vec2, float* dst);
-	static float DotProduct3(const float* vec1, const float* vec2);
+	// static float DotProduct3(const float* vec1, const float* vec2);
 
-	static void MultiplyMatrix(float* result, const float* lhs, const float* rhs);
-	static void Translate(float* matrix, const float tx, const float ty, const float tz);
+	// static void MultiplyMatrix(float* result, const float* lhs, const float* rhs);
+	// static void Translate(float* matrix, const float tx, const float ty, const float tz);
 
-	static void Scale(float* matrix, const float sx, const float sy, const float sz);
-	static void Scale(float* vec3, const float scale);
+	// static void Scale(float* matrix, const float sx, const float sy, const float sz);
+	// static void Scale(float* vec3, const float scale);
 
-	static void RotateX(float* matrix, const float degs);
-	static void RotateY(float* matrix, const float degs);
-	static void RotateZ(float* matrix, const float degs);
-	static void RotateXYZ(float* matrix, const float degsX, const float degsY, const float degsZ);
+	//static void RotateX(float* matrix, const float degs);
+	//static void RotateY(float* matrix, const float degs);
+	//static void RotateZ(float* matrix, const float degs);
+	//static void RotateXYZ(float* matrix, const float degsX, const float degsY, const float degsZ);
 
-	static void MultiplyVecByMatrix(float* vec3, const float* mat3);
-	static void RotateMat4ByVec3(float* mat4, const float* vec3, const float rotation);
+	// static void MultiplyVecByMatrix(float* vec3, const float* mat3);
+	//static void RotateMat4ByVec3(float* mat4, const float* vec3, const float rotation);
 
-	static void InvertMat4(const float* m, float* invOut);
-	static void TransposeMat4(const float* m, float* transpose);
-	static void CreateNormalMatrix(const float* model, float* normal);
+	// static void InvertMat4(const float* m, float* invOut);
+	// static void TransposeMat4(const float* m, float* transpose);
+	// static void CreateNormalMatrix(const float* model, float* normal);
 
-	static float length(float* vec3);
-	static float distance(float* veca, float* vecb);
+	/*static float length(float* vec3);
+	static float distance(float* veca, float* vecb);*/
 
-	static void SetOrtho(float* matrix, const float left, const float right, const float bottom, const float top, const float znear, const float zfar);
+
+	// static void SetOrtho(float* matrix, const float left, const float right, const float bottom, const float top, const float znear, const float zfar);
 	static void SetFrustum(float* matrix, const float left, const float right, const float bottom, const float top, const float znear, const float zfar);
 	
 	// static void SetLookAt(float* matrix, const float* eye, const float* centre, const float* up);

@@ -173,23 +173,39 @@ void Camera::FocusCam(int zoomDelta) {
 
 	float focusDelta = 0.3;
 
-	float direction[3] = {
+	/*float direction[3] = {
 			position[0] - target[0],
 			position[1] - target[1],
 			position[2] - target[2]
-	};
+	};*/
+	glm::vec3 direction = position - target;
 
 	float focus = (float)(zoomDelta > 0 ? focusDelta : -focusDelta);
 
-	if (MyMatrix::length(direction) > focusDelta || focus < 0) {
+	//if (MyMatrix::length(direction) > focusDelta || focus < 0) {
+
+	//	// position -= glm::normalize(difference) * focus;
+	//	MyMatrix::Normalise3(direction);
+	//	MyMatrix::Scale(direction, focus);
+
+	//	position[0] -= direction[0];
+	//	position[1] -= direction[1];
+	//	position[2] -= direction[2];
+	//}
+
+	if (glm::length(direction) > focusDelta || focus < 0) {
 
 		// position -= glm::normalize(difference) * focus;
-		MyMatrix::Normalise3(direction);
-		MyMatrix::Scale(direction, focus);
+		// MyMatrix::Normalise3(direction);
+		direction = glm::normalize(direction);
 
-		position[0] -= direction[0];
-		position[1] -= direction[1];
-		position[2] -= direction[2];
+		// MyMatrix::Scale(direction, focus);
+		direction *= focus;
+
+		//position[0] -= direction[0];
+		//position[1] -= direction[1];
+		//position[2] -= direction[2];
+		position -= direction;
 	}
 }
 
