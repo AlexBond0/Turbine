@@ -252,7 +252,7 @@ void CameraPositioner::PositionCamera(RenderingContext& rcontext, Camera cam) {
 
 	// set the rcontex matricies
 	MyMatrix::SetLookAt(
-		rcontext.viewmatrix,
+		glm::value_ptr(rcontext.viewmatrix),
 		relPosition,
 		relTarget,
 		relUp

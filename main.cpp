@@ -286,7 +286,7 @@ void OnSize(DWORD type, UINT cx, UINT cy)
     float right=fAspect*top;
   
     MyMatrix::SetFrustum(
-		rcontext.projectionmatrix, 
+		glm::value_ptr(rcontext.projectionmatrix),
 		left, 
 		right, 
 		bottom, 

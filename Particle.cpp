@@ -81,21 +81,38 @@ void Particle::BlendDraw(RenderingContext rcontext) {
 void Particle::_AssignHandleInformation(RenderingContext& rcontext) {
 
 	// calculate the inverted view matrix
-	MyMatrix::InvertMat4(rcontext.viewmatrix, inverseView);
+	//MyMatrix::InvertMat4(rcontext.viewmatrix, inverseView);
+
+	//// get up dimention from the inverseView
+	//billboard_u[0] = inverseView[4];
+	//billboard_u[1] = inverseView[5];
+	//billboard_u[2] = inverseView[6];
+
+	//// get right dimention from the inverseView
+	//billboard_r[0] = inverseView[0];
+	//billboard_r[1] = inverseView[1];
+	//billboard_r[2] = inverseView[2];
+
+	// calculate the inverted view matrix
+	inverseView = glm::inverse(rcontext.viewmatrix);
 
 	// get up dimention from the inverseView
-	billboard_u[0] = inverseView[4];
-	billboard_u[1] = inverseView[5];
-	billboard_u[2] = inverseView[6];
+	billboard_u = glm::vec3(
+		inverseView[1][0],
+		inverseView[1][1],
+		inverseView[1][2]
+	);
 
 	// get right dimention from the inverseView
-	billboard_r[0] = inverseView[0];
-	billboard_r[1] = inverseView[1];
-	billboard_r[2] = inverseView[2];
+	billboard_r = glm::vec3(
+		inverseView[0][0],
+		inverseView[0][1],
+		inverseView[0][2]
+	);
 
 	// assign billboard information
-	glUniform3fv(rcontext.billboardhandles[0], 1, billboard_u);
-	glUniform3fv(rcontext.billboardhandles[1], 1, billboard_r);
+	glUniform3fv(rcontext.billboardhandles[0], 1, glm::value_ptr(billboard_u));
+	glUniform3fv(rcontext.billboardhandles[1], 1, glm::value_ptr(billboard_r));
 
 	// continue handle assignment
 	InstancedObject::_AssignHandleInformation(rcontext);
@@ -164,10 +181,12 @@ ParticleProfile Particle::_CreateParticle() {
 	newParticle.speed[2] += (float)((rand() % profile.spread) - halfSpread) / 100.0f;
 
 	// rotate the direction of speed correctly
-	MyMatrix::MultiplyVecByMatrix(newParticle.speed, modelView);
+	// MyMatrix::MultiplyVecByMatrix(newParticle.speed, modelView);
+	newParticle.speed = *modelView * newParticle.speed;
 
 	// position the new particle correctly
-	MyMatrix::MultiplyVecByMatrix(newParticle.position, modelView);
+	// MyMatrix::MultiplyVecByMatrix(newParticle.position, modelView);
+	newParticle.position = *modelView * newParticle.position;
 
 	// assign life offset
 	newParticle.life += time_ms;
@@ -182,10 +201,11 @@ void Particle::_UpdateParticles(long step) {
 	vertex v;
 	std::vector<vertex> points;
 
-	float camera[3] = {
-		inverseView[12],
-		inverseView[13],
-		inverseView[14]
+	glm::vec4 camera = {
+		inverseView[3][0],
+		inverseView[3][1],
+		inverseView[3][2],
+		1
 	};
 
 	float timeStep = (float)step / 10000;
@@ -196,17 +216,19 @@ void Particle::_UpdateParticles(long step) {
 		p = &particles[particleID];
 
 		// do gravity physics
-		p->speed[1] += -9.81f * timeStep * p->weight;
+		p->speed.y += -9.81f * timeStep * p->weight;
 
-		p->position[0] += p->speed[0] * timeStep;
+		/*p->position[0] += p->speed[0] * timeStep;
 		p->position[1] += p->speed[1] * timeStep;
-		p->position[2] += p->speed[2] * timeStep;
+		p->position[2] += p->speed[2] * timeStep;*/
+		p->position += p->speed * timeStep;
 
 		// save particle to a vertex struct
-		v.x = p->position[0];
-		v.y = p->position[1];
-		v.z = p->position[2];
-		v.dist = MyMatrix::distance(camera, p->position);
+		v.x = p->position.x;
+		v.y = p->position.y;
+		v.z = p->position.z;
+		// v.dist = MyMatrix::distance(camera, p->position);
+		v.dist = glm::distance(camera, p->position);
 
 		// save point
 		points.push_back(v);
@@ -238,6 +260,7 @@ void Particle::_SetupDefaultProfile() {
 	profile.position[0] = 0.0f;
 	profile.position[1] = 0.0f;
 	profile.position[2] = 0.0f;
+	profile.position[3] = 1.0f;
 
 	profile.speed[0] = 1.0f;
 	profile.speed[1] = 1.0f;

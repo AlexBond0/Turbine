@@ -132,9 +132,9 @@ void Object3D::_AssignHandleInformation(RenderingContext& rcontext) {
 
 
 	rcontext.UpdateMVPs();
-	glUniformMatrix4fv(rcontext.nmathandle, 1, false, rcontext.normalmatrix);
-	glUniformMatrix4fv(rcontext.mvphandle, 1, false, rcontext.mvpmatrix);
-	glUniformMatrix4fv(rcontext.vphandle, 1, false, rcontext.vpmatrix);
+	glUniformMatrix4fv(rcontext.nmathandle, 1, false, glm::value_ptr(rcontext.normalmatrix));
+	glUniformMatrix4fv(rcontext.mvphandle, 1, false, glm::value_ptr(rcontext.mvpmatrix));
+	glUniformMatrix4fv(rcontext.vphandle, 1, false, glm::value_ptr(rcontext.vpmatrix));
 }
 
 // handle VBO information for drawing

@@ -17,8 +17,8 @@ enum class ParticleType {
 // the profile of the generation of particles
 struct ParticleProfile {
 
-	float position[3];	// current particle position
-	float speed[3];		// current particle speed vector
+	glm::vec4 position;		// current particle position
+	glm::vec4 speed;		// current particle speed vector
 
 	float colour[4];	// particle colour
 	float weight;		// particle weight
@@ -75,11 +75,11 @@ private:
 
 	long time_ms;			// current animation time
 
-	float billboard_u[3];	// billboard up vector
-	float billboard_r[3];	// billboard right vector
+	glm::vec3 billboard_u;	// billboard up vector
+	glm::vec3 billboard_r;	// billboard right vector
 
-	float inverseView[16];	// inverse view matrix
-	float* modelView;		// model view matrix
+	glm::mat4 inverseView;	// inverse view matrix
+	glm::mat4* modelView;	// model view matrix
 
 	float* rawParticleData;	// raw partcile data passed to instance VBO
 

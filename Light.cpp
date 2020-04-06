@@ -13,14 +13,12 @@ Light::~Light()
 
 float* Light::GetDirection() {
 
-	float ret[3] = { direction.x, direction.y, direction.z };
-	return ret;
+	return &direction.x;
 }
 
 float* Light::GetHalfplane() {
 
-	float ret[3] = { halfplane.x, halfplane.y, halfplane.z };
-	return ret;
+	return &halfplane.x;
 }
 
 void Light::CalculateHalfPlane(glm::vec3 cameraPosition) {
