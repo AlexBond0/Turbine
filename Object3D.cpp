@@ -80,10 +80,13 @@ void Object3D::_InitVBOs()
 // pass current object amd context information to the shaders 
 void Object3D::_AssignHandleInformation(RenderingContext& rcontext) {
 
+
+	float c[4] = { 1.0, 1.0, 1.0, 1.0 };
+
 	// Material
-	glUniform4fv(rcontext.mathandles[0], 1, ambient.toFloat());
-	glUniform4fv(rcontext.mathandles[1], 1, diffuse.toFloat());
-	glUniform4fv(rcontext.mathandles[2], 1, specular.toFloat());
+	glUniform4fv(rcontext.mathandles[0], 1, ambient.rgba);
+	glUniform4fv(rcontext.mathandles[1], 1, diffuse.rgba);
+	glUniform4fv(rcontext.mathandles[2], 1, specular.rgba);
 	glUniform1f(rcontext.mathandles[3], glossiness);
 
 	// flags

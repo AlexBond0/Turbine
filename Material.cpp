@@ -41,14 +41,14 @@ void Material::SetMaterial(byte* buffer)
 	);
 
 	diffuse = color4(
-		*(float*)buffer + 16,
+		*(float*)(buffer + 16),
 		*(float*)(buffer + 20),
 		*(float*)(buffer + 24),
 		*(float*)(buffer + 28)
 	);
 
 	specular = color4(
-		*(float*)buffer + 32,
+		*(float*)(buffer + 32),
 		*(float*)(buffer + 36),
 		*(float*)(buffer + 40),
 		*(float*)(buffer + 44)
@@ -67,10 +67,7 @@ void Material::SetMaterial(byte* buffer)
 		speclevel = 100;
 
 	float spec = speclevel / 100.0f;
-	specular.r *= spec;
-	specular.g *= spec;
-	specular.b *= spec;
-	specular.a *= spec;
+	specular.Scale(spec);
 }
 
 // ======================================
