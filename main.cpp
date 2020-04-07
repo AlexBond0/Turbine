@@ -269,23 +269,22 @@ void OnTimer(UINT nIDEvent)
 // Called when the window is resized
 void OnSize(DWORD type, UINT cx, UINT cy)
 {
-  if (cx>0 && cy>0)
-  {
+  if (cx>0 && cy>0) {
+
+
     glViewport(0, 0, cx, cy);
 
+	Camera* c = &scene->camera;
 
-    // our FOV is 60 degrees 
-    const float FOVY=(60.0f*(float) M_PI/180.0f); 
-    const float NEAR_CLIP=0.01f;  // for example
-    const float FAR_CLIP=100.0f;  // for example
+    c->fAspect = (float) cx/cy;
 
-    float fAspect=(float) cx/cy;
-    float top=(float) (tan(FOVY*0.5)*NEAR_CLIP);
-    float bottom=-top;
-    float left=fAspect*bottom;
-    float right=fAspect*top;
+    float top= (float)( tan( c->fFovy * 0.5 ) * c->fZNear);
+
+    float bottom = -top;
+    float left = c->fAspect * bottom;
+    float right = c->fAspect * top;
   
-    MyMatrix::SetFrustum(
+    /*MyMatrix::SetFrustum(
 		glm::value_ptr(rcontext.projectionmatrix),
 		left, 
 		right, 
@@ -293,6 +292,14 @@ void OnSize(DWORD type, UINT cx, UINT cy)
 		top, 
 		NEAR_CLIP, 
 		FAR_CLIP
+	);*/
+	rcontext.projectionmatrix = glm::frustum(
+		left,
+		right,
+		bottom,
+		top,
+		c->fZNear,
+		c->fZFar
 	);
   }
 }

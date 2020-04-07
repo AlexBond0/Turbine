@@ -34,6 +34,13 @@ public:
 	void FinishMovement();
 	void FocusCam(int focusDelta);
 
+	// our FOV is 60 degrees 
+	float		fFovy	= (60.0f*(float)M_PI / 180.0f);
+
+	float		fZNear	= 0.01f;		// near clipping plane
+	float		fZFar	= 1000.0f;		// far clipping plane
+	float		fAspect;				// aspect ratio
+
 private:
 	bool	_prevValuesDirty = true;
 	int		_prevX = -1;

@@ -416,28 +416,28 @@
 //	matrix[15] = 1.0f;
 //}
 
-void MyMatrix::SetFrustum(float* matrix, const float left, const float right, const float bottom, const float top, const float znear, const float zfar) {
-
-	matrix[0] = (2.0f * znear) / (right - left);
-	matrix[1] = 0.0f;
-	matrix[2] = 0.0f;
-	matrix[3] = 0.0f;
-
-	matrix[4] = 0.0f;
-	matrix[5] = (2.0f * znear) / (top - bottom);
-	matrix[6] = 0.0f;
-	matrix[7] = 0.0f;
-
-	matrix[8] = (right + left) / (right - left);
-	matrix[9] = (top + bottom) / (top - bottom);
-	matrix[10] = -((zfar + znear) / (zfar - znear));
-	matrix[11] = -1.0f;
-
-	matrix[12] = 0.0f;
-	matrix[13] = 0.0f;
-	matrix[14] = -((2.0f * zfar * znear) / (zfar - znear));
-	matrix[15] = 0.0f;
-}
+//void MyMatrix::SetFrustum(float* matrix, const float left, const float right, const float bottom, const float top, const float znear, const float zfar) {
+//
+//	matrix[0] = (2.0f * znear) / (right - left);
+//	matrix[1] = 0.0f;
+//	matrix[2] = 0.0f;
+//	matrix[3] = 0.0f;
+//
+//	matrix[4] = 0.0f;
+//	matrix[5] = (2.0f * znear) / (top - bottom);
+//	matrix[6] = 0.0f;
+//	matrix[7] = 0.0f;
+//
+//	matrix[8] = (right + left) / (right - left);
+//	matrix[9] = (top + bottom) / (top - bottom);
+//	matrix[10] = -((zfar + znear) / (zfar - znear));
+//	matrix[11] = -1.0f;
+//
+//	matrix[12] = 0.0f;
+//	matrix[13] = 0.0f;
+//	matrix[14] = -((2.0f * zfar * znear) / (zfar - znear));
+//	matrix[15] = 0.0f;
+//}
 //
 //void MyMatrix::SetLookAt(float* matrix, const float* eye, const float* centre, const float* up) {
 //

@@ -48,7 +48,7 @@ public:
 
 
 	// static void SetOrtho(float* matrix, const float left, const float right, const float bottom, const float top, const float znear, const float zfar);
-	static void SetFrustum(float* matrix, const float left, const float right, const float bottom, const float top, const float znear, const float zfar);
+	// static void SetFrustum(float* matrix, const float left, const float right, const float bottom, const float top, const float znear, const float zfar);
 	
 	// static void SetLookAt(float* matrix, const float* eye, const float* centre, const float* up);
 	// static void SetLookAtGLM(float* matrix, const glm::vec3 eye, const glm::vec3 centre, const glm::vec3 up);
