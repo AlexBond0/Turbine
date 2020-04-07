@@ -16,6 +16,7 @@ InstancedObject::InstancedObject(Object3D* copy, std::string newName)
 	isInstanced = true;
 }
 
+
 InstancedObject::~InstancedObject() {
 
 	free(instanceData);

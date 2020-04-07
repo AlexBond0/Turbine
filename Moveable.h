@@ -3,7 +3,7 @@
 #include <Windows.h>
 #include "Matrix.h"
 
-
+// Inherit from this class to include simple spacial properties
 class Moveable
 {
 public:

@@ -20,7 +20,7 @@ struct ParticleProfile {
 	glm::vec4 position;		// current particle position
 	glm::vec4 speed;		// current particle speed vector
 
-	float colour[4];	// particle colour
+	color4 colour;		// particle colour
 	float weight;		// particle weight
 	int spread;			// particle random spread
 
@@ -40,6 +40,8 @@ struct vertex {
 	}
 };
 
+// An InstancedObject with billboarding and a custom profile to crudely simulate
+// particles
 class Particle
 	: public InstancedObject
 {

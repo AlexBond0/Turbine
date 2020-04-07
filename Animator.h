@@ -70,6 +70,8 @@ struct RideEffect {
 	std::vector<Particle*> particles;
 };
 
+// Handles a group of Object3D elements
+// needs abstracting out of just ride animation
 class Animator {
 
 public:

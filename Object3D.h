@@ -7,7 +7,7 @@
 #include <vector>
 #include <map>
 
-
+// Defines an object in the scene, along with handeling its rendering 
 class Object3D :
 	public Material,
 	public Moveable

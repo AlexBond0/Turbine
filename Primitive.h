@@ -11,6 +11,7 @@ struct Geomitory {
 
 Geomitory operator+(Geomitory& lhs, Geomitory& rhs);
 
+// An Object3D with pre-defined geometory & geometory creation tools
 class Primitive :
 	public Object3D
 {

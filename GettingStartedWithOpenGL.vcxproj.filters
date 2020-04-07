@@ -38,9 +38,6 @@
     <ClCompile Include="Material.cpp">
       <Filter>Object\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Matrix.cpp">
-      <Filter>Tools</Filter>
-    </ClCompile>
     <ClCompile Include="GLSetup.cpp">
       <Filter>Tools</Filter>
     </ClCompile>
@@ -91,9 +88,6 @@
     <ClInclude Include="Utils.h">
       <Filter>Tools</Filter>
     </ClInclude>
-    <ClInclude Include="Matrix.h">
-      <Filter>Tools</Filter>
-    </ClInclude>
     <ClInclude Include="GLSetup.h">
       <Filter>Tools</Filter>
     </ClInclude>
@@ -102,6 +96,9 @@
     </ClInclude>
     <ClInclude Include="Color.h">
       <Filter>Shading</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix.h">
+      <Filter>Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

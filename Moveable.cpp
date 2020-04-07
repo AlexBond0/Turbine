@@ -28,6 +28,7 @@ Moveable::~Moveable()
 
 // ======================================
 
+// Set the position of the element in world space
 void Moveable::SetWorldPos(byte* buffer)
 {
 	worldPos.x = *(float*)buffer;
@@ -37,6 +38,7 @@ void Moveable::SetWorldPos(byte* buffer)
 
 // ======================================
 
+// Set the translation of the element
 void Moveable::SetTranslation(byte* buffer)
 {
 	translation.x = *(float*)buffer;
@@ -44,6 +46,7 @@ void Moveable::SetTranslation(byte* buffer)
 	translation.z = *(float*)(buffer + 8);
 }
 
+// Set the translation of the element
 void Moveable::SetTranslation(float x, float y, float z)
 {
 	translation.x = x;
@@ -53,6 +56,7 @@ void Moveable::SetTranslation(float x, float y, float z)
 
 // ======================================
 
+// Set the rotation of the element
 void Moveable::SetRotation(byte* buffer)
 {
 	rotation.x = *(float*)buffer;
@@ -60,6 +64,7 @@ void Moveable::SetRotation(byte* buffer)
 	rotation.z = *(float*)(buffer + 8);
 }
 
+// Set the rotation of the element
 void Moveable::SetRotation(float* rot)
 {
 	rotation.x = rot[0];
@@ -67,6 +72,7 @@ void Moveable::SetRotation(float* rot)
 	rotation.z = rot[2];
 }
 
+// Set the rotation of the element
 void Moveable::SetRotation(float x, float y, float z)
 {
 	rotation.x = x;
@@ -74,6 +80,7 @@ void Moveable::SetRotation(float x, float y, float z)
 	rotation.z = z;
 }
 
+// Rotate the current rotation of the element
 void Moveable::ShiftRotation(float* rot)
 {
 	rotation.x += rot[0];
@@ -81,6 +88,7 @@ void Moveable::ShiftRotation(float* rot)
 	rotation.z += rot[2];
 }
 
+// Rotate the current rotation of the element
 void Moveable::ShiftRotation(float x, float y, float z)
 {
 	rotation.x += x;
@@ -90,6 +98,7 @@ void Moveable::ShiftRotation(float x, float y, float z)
 
 // ======================================
 
+// Set the local position of the element relative to world space
 void Moveable::SetLocalPos(float x, float y, float z)
 {
 	localPos.x = x;
@@ -97,6 +106,7 @@ void Moveable::SetLocalPos(float x, float y, float z)
 	localPos.z = z;
 }
 
+// Set the local position of the element relative to world space
 void Moveable::SetLocalPos(byte* buffer)
 {
 	localPos.x = *(float*)buffer;
@@ -106,6 +116,7 @@ void Moveable::SetLocalPos(byte* buffer)
 
 // ======================================
 
+// Set the scale of the element
 void Moveable::SetScale(float x, float y, float z)
 {
 	scale.x = x;
@@ -113,6 +124,7 @@ void Moveable::SetScale(float x, float y, float z)
 	scale.z = z;
 }
 
+// Set the scale of the element
 void Moveable::SetScale(byte* buffer)
 {
 	scale.x = *(float*)buffer;

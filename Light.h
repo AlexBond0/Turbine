@@ -22,7 +22,7 @@ public:
 	void CreateSun();
 	void CreateMoon();
 
-	 float* GetDirection();
-	 float* GetHalfplane();
+	float* GetDirection();
+	float* GetHalfplane();
 };
 

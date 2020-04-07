@@ -8,8 +8,9 @@
 
 #include "GLSetup.h"
 
-class Texture
-{
+// Container of handles to textures loaded from file
+class Texture {
+
 public:
 
 	std::map<std::string, unsigned int> id;	// the map of texture handles

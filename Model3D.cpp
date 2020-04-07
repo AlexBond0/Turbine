@@ -11,6 +11,7 @@ Model3D::~Model3D()
 	free(objects);
 }
 
+// Load a 3dsMax model into the scene
 Model3D* Model3D::LoadModel(const wchar_t* filename)
 {
 	Model3D* model = new Model3D();
@@ -31,6 +32,7 @@ Model3D* Model3D::LoadModel(const wchar_t* filename)
 	return model;
 }
 
+// Read the data from a 3dsMax model
 void Model3D::Read3DSVersion4(FILE* file, Model3D* model)
 {
 	int config = 0;   // if the file includes texture coordinates then config&1=1

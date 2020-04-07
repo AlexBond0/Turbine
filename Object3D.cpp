@@ -47,6 +47,7 @@ Object3D::~Object3D()
 
 // ======================================
 
+// Draw the object using the given rendering contect
 void Object3D::Draw(RenderingContext rcontext) {
 	
 	_AssignHandleInformation(rcontext);
@@ -61,7 +62,7 @@ void Object3D::Draw(RenderingContext rcontext) {
 	rcontext.PopModelMatrix();
 }
 
-// initialse object VBOs
+// Initialse object VBOs
 void Object3D::_InitVBOs()
 {
 	if (!vbos)
@@ -77,7 +78,7 @@ void Object3D::_InitVBOs()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, polygons, GL_STATIC_DRAW);
 }
 
-// pass current object amd context information to the shaders 
+// Pass current object amd context information to the shaders 
 void Object3D::_AssignHandleInformation(RenderingContext& rcontext) {
 
 
@@ -137,18 +138,19 @@ void Object3D::_AssignHandleInformation(RenderingContext& rcontext) {
 	glUniformMatrix4fv(rcontext.vphandle, 1, false, glm::value_ptr(rcontext.vpmatrix));
 }
 
-// handle VBO information for drawing
+// Handle VBO information for drawing
 void Object3D::_HandleVBOs(RenderingContext& rcontext) {
 
 	_HandleVertVBO(rcontext);
 	_HandlePolyVBO(rcontext);
 }
 
-// handle the vertex VBO data
+// Handle the vertex VBO data
 void Object3D::_HandleVertVBO(RenderingContext& rcontext) {
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbos[0]);
-	// Attributes
+
+	// attributes
 	if (incuv)
 	{
 		glVertexAttribPointer(rcontext.verthandles[0], 3, GL_FLOAT, false, 4 * 8, (void*)0);
@@ -193,6 +195,7 @@ void Object3D::AddChild(Object3D* newChild) {
 
 // ======================================
 
+// Assign vertex data to the Object
 void Object3D::SetVertexData(byte* buffer, int noofverts, int bufferlen)
 {
 	incuv = (bufferlen == 4 * (noofverts * 8));
@@ -201,6 +204,7 @@ void Object3D::SetVertexData(byte* buffer, int noofverts, int bufferlen)
 	this->noofverts = noofverts;
 }
 
+// Assign vertex data to the Object
 void Object3D::SetVertexData(float* newVertData, int noofverts, bool uv) {
 
 	incuv = uv;
@@ -215,6 +219,7 @@ void Object3D::SetVertexData(float* newVertData, int noofverts, bool uv) {
 
 // ======================================
 
+// Assign polygon data to the Object
 void Object3D::SetTriangles(byte* buffer, int noofpolys) {
 
 	const int size = 3 * noofpolys * sizeof(unsigned short);
@@ -225,6 +230,7 @@ void Object3D::SetTriangles(byte* buffer, int noofpolys) {
 	elementcount = 3 * noofpolys;
 }
 
+// Assign polygon data to the Object
 void Object3D::SetTriangles(unsigned short* newPolyData, int noofElements) {
 
 	const int size = noofElements * sizeof(unsigned short);
@@ -240,6 +246,7 @@ void Object3D::SetTriangles(unsigned short* newPolyData, int noofElements) {
 
 // ======================================
 
+// Assign texture handle
 void Object3D::SetTexture(unsigned int newTextureID) {
 
 	hasTexture = true;

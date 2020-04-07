@@ -3,6 +3,8 @@
 #include "Primitive.h"
 #include <stdio.h>
 
+// A collection of Object3D elements to be rendered together, usually
+// loaded from a precalculated object file
 class Model3D
 {
 public:

@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include "Color.h"
 
+// Inherit from this class to include simple material properties
 class Material 
 {
 public:
@@ -13,14 +14,17 @@ public:
 	void SetMaterial(byte* buffer);
 
 	void SetAmbient(float r, float g, float b, float a);
+	void SetAmbient(color4 color);
 	void SetAmbient(byte* buffer);
 	const color4 GetAmbient();
 
 	void SetDiffuse(float r, float g, float b, float a);
+	void SetDiffuse(color4 color);
 	void SetDiffuse(byte* buffer);
 	const color4 GetDiffuse();
 
 	void SetSpecular(float r, float g, float b, float a);
+	void SetSpecular(color4 color);
 	void SetSpecular(byte* buffer);
 	const color4 GetSpecular();
 

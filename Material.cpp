@@ -15,10 +15,6 @@ Material::Material() {
 
 Material::Material(Material* copy) {
 
-	/*memcpy(ambient, copy->ambient, sizeof(ambient));
-	memcpy(diffuse, copy->diffuse, sizeof(diffuse));
-	memcpy(specular, copy->specular, sizeof(specular));*/
-
 	ambient = color4(copy->ambient);
 	diffuse = color4(copy->diffuse);
 	specular = color4(copy->specular);
@@ -77,6 +73,11 @@ void Material::SetAmbient(float r, float g, float b, float a) {
 	ambient = color4(r, g, b, a);
 }
 
+void Material::SetAmbient(color4 color) {
+
+	ambient = color;
+}
+
 void Material::SetAmbient(byte* buffer) {
 
 	ambient = color4(
@@ -94,6 +95,11 @@ void Material::SetDiffuse(float r, float g, float b, float a) {
 	diffuse = color4(r, g, b, a);
 }
 
+void Material::SetDiffuse(color4 color) {
+
+	diffuse = color;
+}
+
 void Material::SetDiffuse(byte* buffer) {
 
 	diffuse = color4(
@@ -109,6 +115,11 @@ void Material::SetDiffuse(byte* buffer) {
 void Material::SetSpecular(float r, float g, float b, float a) {
 
 	specular = color4(r, g, b, a);
+}
+
+void Material::SetSpecular(color4 color) {
+
+	specular = color;
 }
 
 void Material::SetSpecular(byte* buffer) {

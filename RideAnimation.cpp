@@ -262,7 +262,6 @@ void RideAnimation::_MoveTilt(Change change) {
 		scaledState[2]
 	};
 
-	// MyMatrix::Scale(scaledState, 6.0f);
 	s = glm::normalize(s) * 6.0f;
 
 	if (up && currentTilt < TILT_MAX)

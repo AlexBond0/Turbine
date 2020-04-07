@@ -32,12 +32,7 @@ void Particle::_SetupParticle(int max, int perms) {
 
 	_GenerateParticleInstance();
 
-	SetAmbient(
-		profile.colour[0], 
-		profile.colour[1], 
-		profile.colour[2],
-		profile.colour[3]
-	);
+	SetAmbient(profile.colour);
 
 	// create memory space for tree instances
 	int particleDataSize = sizeof(float) * 3 * max;
@@ -79,19 +74,6 @@ void Particle::BlendDraw(RenderingContext rcontext) {
 
 // overriden handle info method from Object3D to get matrix info & set billboard data
 void Particle::_AssignHandleInformation(RenderingContext& rcontext) {
-
-	// calculate the inverted view matrix
-	//MyMatrix::InvertMat4(rcontext.viewmatrix, inverseView);
-
-	//// get up dimention from the inverseView
-	//billboard_u[0] = inverseView[4];
-	//billboard_u[1] = inverseView[5];
-	//billboard_u[2] = inverseView[6];
-
-	//// get right dimention from the inverseView
-	//billboard_r[0] = inverseView[0];
-	//billboard_r[1] = inverseView[1];
-	//billboard_r[2] = inverseView[2];
 
 	// calculate the inverted view matrix
 	inverseView = glm::inverse(rcontext.viewmatrix);
@@ -181,11 +163,9 @@ ParticleProfile Particle::_CreateParticle() {
 	newParticle.speed[2] += (float)((rand() % profile.spread) - halfSpread) / 100.0f;
 
 	// rotate the direction of speed correctly
-	// MyMatrix::MultiplyVecByMatrix(newParticle.speed, modelView);
 	newParticle.speed = *modelView * newParticle.speed;
 
 	// position the new particle correctlyl
-	// MyMatrix::MultiplyVecByMatrix(newParticle.position, modelView);
 	newParticle.position = *modelView * newParticle.position;
 
 	// assign life offset
@@ -217,17 +197,12 @@ void Particle::_UpdateParticles(long step) {
 
 		// do gravity physics
 		p->speed.y += -9.81f * timeStep * p->weight;
-
-		/*p->position[0] += p->speed[0] * timeStep;
-		p->position[1] += p->speed[1] * timeStep;
-		p->position[2] += p->speed[2] * timeStep;*/
 		p->position += p->speed * timeStep;
 
 		// save particle to a vertex struct
 		v.x = p->position.x;
 		v.y = p->position.y;
 		v.z = p->position.z;
-		// v.dist = MyMatrix::distance(camera, p->position);
 		v.dist = glm::distance(camera, p->position);
 
 		// save point
@@ -257,19 +232,11 @@ void Particle::_UpdateParticles(long step) {
 // create the default ParticleProfile
 void Particle::_SetupDefaultProfile() {
 
-	profile.position[0] = 0.0f;
-	profile.position[1] = 0.0f;
-	profile.position[2] = 0.0f;
-	profile.position[3] = 1.0f;
+	profile.position = glm::vec4(0.0, 0.0, 0.0, 1.0);
 
-	profile.speed[0] = 1.0f;
-	profile.speed[1] = 1.0f;
-	profile.speed[2] = 1.0f;
+	profile.speed = glm::vec4(1.0, 1.0, 1.0, 0.0);
 
-	profile.colour[0] = 1.0f;
-	profile.colour[1] = 1.0f;
-	profile.colour[2] = 1.0f;
-	profile.colour[3] = 0.2f;
+	profile.colour = color4(1.0, 1.0, 1.0, 0.2);
 
 	profile.weight = 1.0f;
 	profile.life = 2000;
@@ -298,10 +265,7 @@ void Particle::_SetupDefaultProfile(ParticleType type) {
 
 		_SetupDefaultProfile();
 
-		profile.colour[0] = 0.0f;
-		profile.colour[1] = 0.0f;
-		profile.colour[2] = 0.0f;
-		profile.colour[3] = 0.2f;
+		profile.colour = color4(0.0, 0.0, 0.0, 0.2);
 
 		profile.weight = -0.6f;
 		profile.life = 2500;
@@ -316,10 +280,7 @@ void Particle::_SetupDefaultProfile(ParticleType type) {
 
 		_SetupDefaultProfile();
 
-		profile.colour[0] = 1.0f;
-		profile.colour[1] = 0.25f;
-		profile.colour[2] = 0.0f;
-		profile.colour[3] = 0.4f;
+		profile.colour = color4(1.0, 0.25, 0.0, 0.4);
 
 		profile.weight = -3.0f;
 		profile.life = 700;

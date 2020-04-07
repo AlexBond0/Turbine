@@ -1,5 +1,6 @@
 #pragma once
 
+// Lightweight color container
 struct color4 {
 
 public:
