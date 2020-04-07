@@ -12,6 +12,7 @@
 #include "InstancedObject.h"
 #include "Particle.h"
 
+// The Rendering enviroment
 class Scene
 {
 public:
