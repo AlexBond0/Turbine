@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="Camera.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
@@ -38,11 +37,33 @@
     <ClCompile Include="Material.cpp">
       <Filter>Object\Base</Filter>
     </ClCompile>
+    <ClCompile Include="RideAnimation.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="imgui_impl_opengl3.cpp">
+      <Filter>Tools\ImGui\OpenGL and GLEW</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>Tools\ImGui\Include files</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_demo.cpp">
+      <Filter>Tools\ImGui\Include files</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>Tools\ImGui\Include files</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>Tools\ImGui\Include files</Filter>
+    </ClCompile>
     <ClCompile Include="GLSetup.cpp">
       <Filter>Tools</Filter>
     </ClCompile>
-    <ClCompile Include="RideAnimation.cpp">
-      <Filter>Scene</Filter>
+    <ClCompile Include="imgui_setup.cpp">
+      <Filter>Tools\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_glfw.cpp">
+      <Filter>Tools\ImGui\OpenGL and GLEW</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -88,9 +109,6 @@
     <ClInclude Include="Utils.h">
       <Filter>Tools</Filter>
     </ClInclude>
-    <ClInclude Include="GLSetup.h">
-      <Filter>Tools</Filter>
-    </ClInclude>
     <ClInclude Include="RideAnimation.h">
       <Filter>Scene</Filter>
     </ClInclude>
@@ -99,6 +117,36 @@
     </ClInclude>
     <ClInclude Include="Matrix.h">
       <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_opengl3.h">
+      <Filter>Tools\ImGui\OpenGL and GLEW</Filter>
+    </ClInclude>
+    <ClInclude Include="imconfig.h">
+      <Filter>Tools\ImGui\Include files</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>Tools\ImGui\Include files</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_internal.h">
+      <Filter>Tools\ImGui\Include files</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_rectpack.h">
+      <Filter>Tools\ImGui\Include files</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_textedit.h">
+      <Filter>Tools\ImGui\Include files</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_truetype.h">
+      <Filter>Tools\ImGui\Include files</Filter>
+    </ClInclude>
+    <ClInclude Include="GLSetup.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_setup.h">
+      <Filter>Tools\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_glfw.h">
+      <Filter>Tools\ImGui\OpenGL and GLEW</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +175,15 @@
     </Filter>
     <Filter Include="Tools">
       <UniqueIdentifier>{70a82410-67a1-426b-bfef-86362c3c54e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools\ImGui">
+      <UniqueIdentifier>{03a6f0b4-8b1e-4167-a1ba-4b140034e9d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools\ImGui\OpenGL and GLEW">
+      <UniqueIdentifier>{a04e5229-dcc7-495d-9424-9bc4d4b7a2d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools\ImGui\Include files">
+      <UniqueIdentifier>{deb87a39-b384-4efa-9465-19ac7b5e02b0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

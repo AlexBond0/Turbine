@@ -67,6 +67,8 @@ void Scene::Render(RenderingContext rcontext) {
 	for (Particle* particle : particleSystems)
 		particle->BlendDraw(rcontext);
 
+	// TestImGui();
+
 	// finish drawing and swap buffers
 	glFinish();
 	SwapBuffers(wglGetCurrentDC());
@@ -127,6 +129,16 @@ void Scene::Setup() {
 
 	// load animator
 	animator = RideAnimation(&objects);
+
+	//// Setup Dear ImGui context
+	//IMGUI_CHECKVERSION();
+	//ImGui::CreateContext();
+	//ImGuiIO &io = ImGui::GetIO();
+	//// Setup Platform/Renderer bindings
+	//ImGui_ImplGlfw_InitForOpenGL(window, true);
+	//ImGui_ImplOpenGL3_Init(glsl_version);
+	//// Setup Dear ImGui style
+	//ImGui::StyleColorsDark();
 
 	sceneLoaded = true;
 }
@@ -308,3 +320,38 @@ void Scene::_UnpackObjects(Model3D* model) {
 		objects[model->GetObjects()[i]->GetName()] = model->GetObjects()[i];
 	}
 }
+
+//void Scene::TestImGui() {
+//
+//	bool my_tool_active = true;
+//	color4 red = color4(1.0, 0.0, 0.0, 0.0);
+//
+//	// Create a window called "My First Tool", with a menu bar.
+//	ImGui::Begin("My First Tool", &my_tool_active, ImGuiWindowFlags_MenuBar);
+//	if (ImGui::BeginMenuBar())
+//	{
+//		if (ImGui::BeginMenu("File"))
+//		{
+//			if (ImGui::MenuItem("Open..", "Ctrl+O")) { /* Do stuff */ }
+//			if (ImGui::MenuItem("Save", "Ctrl+S")) { /* Do stuff */ }
+//			if (ImGui::MenuItem("Close", "Ctrl+W")) { my_tool_active = false; }
+//			ImGui::EndMenu();
+//		}
+//		ImGui::EndMenuBar();
+//	}
+//
+//	// Edit a color (stored as ~4 floats)
+//	ImGui::ColorEdit4("Color", red.rgba);
+//
+//	// Plot some values
+//	const float my_values[] = { 0.2f, 0.1f, 1.0f, 0.5f, 0.9f, 2.2f };
+//	ImGui::PlotLines("Frame Times", my_values, IM_ARRAYSIZE(my_values));
+//
+//	// Display contents in a scrolling region
+//	ImGui::TextColored(ImVec4(1, 1, 0, 1), "Important Stuff");
+//	ImGui::BeginChild("Scrolling");
+//	for (int n = 0; n < 50; n++)
+//		ImGui::Text("%04d: Some text", n);
+//	ImGui::EndChild();
+//	ImGui::End();
+//}

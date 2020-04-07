@@ -11,6 +11,10 @@
 #include "RideAnimation.h"
 #include "InstancedObject.h"
 #include "Particle.h"
+//
+//#include "imgui.h"
+//#include "imgui_impl_glfw.h"
+//#include "imgui_impl_opengl3.h"
 
 // The Rendering enviroment
 class Scene
@@ -69,6 +73,8 @@ private:
 	void _GenerateSeats();
 	void _GenerateParticles();
 	void _UnpackObjects(Model3D* model);
+
+	// void TestImGui();
 };
 
 // toggle the simple animation state

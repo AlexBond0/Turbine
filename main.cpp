@@ -6,6 +6,7 @@
 #include "RenderingContext.h"
 #include "scene.h"
 
+
 static HWND hwnd;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -40,6 +41,8 @@ void OnMouseClick(UINT nFlags, int x, int y);
 void OnKey(UINT uMsg, WPARAM wParam);
 
 void CleanUp();
+
+void TestImGui();
 
 
 // ================================================================================================
@@ -284,15 +287,6 @@ void OnSize(DWORD type, UINT cx, UINT cy)
     float left = c->fAspect * bottom;
     float right = c->fAspect * top;
   
-    /*MyMatrix::SetFrustum(
-		glm::value_ptr(rcontext.projectionmatrix),
-		left, 
-		right, 
-		bottom, 
-		top, 
-		NEAR_CLIP, 
-		FAR_CLIP
-	);*/
 	rcontext.projectionmatrix = glm::frustum(
 		left,
 		right,
