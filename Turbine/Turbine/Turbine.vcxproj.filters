@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ImGui">
+      <UniqueIdentifier>{7bef1da0-1aab-4cbd-8d70-b6f2e4cedffc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Turbine Engine">
+      <UniqueIdentifier>{4eb20c9f-1bb2-482f-aeb0-d1734be23691}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Turbine Engine\Instancing">
+      <UniqueIdentifier>{689bd3c3-d038-4316-a77e-b97113deeba4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Turbine Engine\Object">
+      <UniqueIdentifier>{5224e612-49ca-48ce-af95-98d5286566ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Turbine Engine\Object\Base">
+      <UniqueIdentifier>{6beb9f27-f13b-45dd-9af7-e6d953a23328}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Turbine Engine\Scene">
+      <UniqueIdentifier>{910c8cae-0265-4157-89be-60eb5ab4be0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Turbine Engine\Shading">
+      <UniqueIdentifier>{16c1f824-4235-4380-9346-3333b583a789}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Turbine Engine\Tools">
+      <UniqueIdentifier>{d31a2fb4-5cd8-4680-b48a-5710e9689cdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Turbine Engine\Debug UI">
+      <UniqueIdentifier>{6d4fee59-e7bd-44d3-81cb-a07531d54bd8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ImGui\imgui_demo.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_draw.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_glfw.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_opengl3.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_widgets.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="OldMain.cpp">
+      <Filter>Turbine Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="InstancedObject.cpp">
+      <Filter>Turbine Engine\Instancing</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Turbine Engine\Instancing</Filter>
+    </ClCompile>
+    <ClCompile Include="Object3D.cpp">
+      <Filter>Turbine Engine\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Primitive.cpp">
+      <Filter>Turbine Engine\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Turbine Engine\Object\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Model3D.cpp">
+      <Filter>Turbine Engine\Object\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Moveable.cpp">
+      <Filter>Turbine Engine\Object\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>Turbine Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Turbine Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="RideAnimation.cpp">
+      <Filter>Turbine Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Turbine Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Turbine Engine\Shading</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Turbine Engine\Shading</Filter>
+    </ClCompile>
+    <ClCompile Include="GLSetup.cpp">
+      <Filter>Turbine Engine\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveableUI.cpp">
+      <Filter>Turbine Engine\Debug UI</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugUI.cpp">
+      <Filter>Turbine Engine\Debug UI</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ImGui\imgui_impl_glfw.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_opengl3.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_internal.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_rectpack.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_textedit.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_truetype.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imconfig.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="InstancedObject.h">
+      <Filter>Turbine Engine\Instancing</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Turbine Engine\Instancing</Filter>
+    </ClInclude>
+    <ClInclude Include="Object3D.h">
+      <Filter>Turbine Engine\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Primitive.h">
+      <Filter>Turbine Engine\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Turbine Engine\Object\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Model3D.h">
+      <Filter>Turbine Engine\Object\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Moveable.h">
+      <Filter>Turbine Engine\Object\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>Turbine Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Turbine Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="RideAnimation.h">
+      <Filter>Turbine Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Turbine Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Turbine Engine\Shading</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Turbine Engine\Shading</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Turbine Engine\Shading</Filter>
+    </ClInclude>
+    <ClInclude Include="GLSetup.h">
+      <Filter>Turbine Engine\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix.h">
+      <Filter>Turbine Engine\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingContext.h">
+      <Filter>Turbine Engine\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Turbine Engine\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveableUI.h">
+      <Filter>Turbine Engine\Debug UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugUI.h">
+      <Filter>Turbine Engine\Debug UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugUIContainer.h">
+      <Filter>Turbine Engine\Debug UI</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ImGui\imgui.ini">
+      <Filter>ImGui</Filter>
+    </None>
+    <None Include="Turbine_Objects.md">
+      <Filter>Turbine Engine\Object</Filter>
+    </None>
+    <None Include="..\..\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="shader.frag">
+      <Filter>Turbine Engine\Shading</Filter>
+    </Text>
+    <Text Include="shader.vert">
+      <Filter>Turbine Engine\Shading</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
