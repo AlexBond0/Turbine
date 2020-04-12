@@ -13,7 +13,8 @@ Primitive::~Primitive()
 // generate a cube primitive
 void Primitive::GenerateCube(float size, bool invertNormals) {
 
-	incuv = true;
+	// incuv = true;
+	vertices.SetUV(true);
 
 	_AssignGeomitoryData(_GenerateCube(size, invertNormals));
 }
@@ -24,7 +25,8 @@ void Primitive::GenerateTree(float radius, float height) {
 	float trunkWidth = radius / 6;
 	float deciHeight = height / 10;
 
-	incuv = true;
+	// incuv = true;
+	vertices.SetUV(true);
 
 	Geomitory branchA = _GenerateCone(radius, (deciHeight * 3), 8);
 	_TranslateGeomitory(branchA, 0.0f, (deciHeight * 7), 0.0f);

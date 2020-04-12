@@ -3,8 +3,8 @@
 Object3D::Object3D()
 {
 	vbos = NULL;
-	incuv = false;
-	vertexdata = NULL;
+	// incuv = false;
+	// vertexdata = NULL;
 	polygons = NULL;
 	SetName("NULL");
 
@@ -20,11 +20,12 @@ Object3D::Object3D(Object3D* copy, std::string newName)
 {
 
 	vbos = NULL;
-	incuv = copy->incuv;
+	// incuv = copy->incuv;
 	SetName((char*)newName.c_str());
 
 	// assign new vertex data
-	SetVertexData(copy->vertexdata, copy->noofverts, copy->incuv);
+	// SetVertexData(copy->vertexdata, copy->noofverts, copy->incuv);
+	vertices.SetData(copy->vertices);
 
 	// assign new polygon data
 	SetTriangles(copy->polygons, copy->elementcount);
@@ -40,7 +41,7 @@ Object3D::Object3D(Object3D* copy, std::string newName)
 Object3D::~Object3D()
 {
 	free(vbos);
-	free(vertexdata);
+	// free(vertexdata);
 	free(polygons);
 	free(name);
 }
@@ -69,11 +70,16 @@ void Object3D::_InitVBOs()
 		vbos = (unsigned int*)malloc(2 * sizeof(unsigned int));
 	glGenBuffers(2, vbos);
 
-	int size = 4 * noofverts*(incuv ? 8 : 6);
+	// int size = 4 * noofverts*(incuv ? 8 : 6);
 	glBindBuffer(GL_ARRAY_BUFFER, vbos[0]);
-	glBufferData(GL_ARRAY_BUFFER, size, vertexdata, GL_STATIC_DRAW);
+	glBufferData(
+		GL_ARRAY_BUFFER, 
+		vertices.DataSize(),
+		vertices.GetData(), 
+		GL_STATIC_DRAW
+	);
 
-	size = 2 * elementcount;
+	int size = 2 * elementcount;
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbos[1]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, polygons, GL_STATIC_DRAW);
 }
@@ -152,7 +158,7 @@ void Object3D::_HandleVertVBO(RenderingContext& rcontext) {
 	glBindBuffer(GL_ARRAY_BUFFER, vbos[0]);
 
 	// attributes
-	if (incuv)
+	if (vertices.HasUV())
 	{
 		glVertexAttribPointer(rcontext.verthandles[0], 3, GL_FLOAT, false, 4 * 8, (void*)0);
 		glVertexAttribPointer(rcontext.verthandles[1], 3, GL_FLOAT, false, 4 * 8, (void*)(4 * 3));
@@ -199,22 +205,24 @@ void Object3D::AddChild(Object3D* newChild) {
 // Assign vertex data to the Object
 void Object3D::SetVertexData(byte* buffer, int noofverts, int bufferlen)
 {
-	incuv = (bufferlen == 4 * (noofverts * 8));
-	vertexdata = (float*)malloc(bufferlen);
-	memcpy(vertexdata, buffer, bufferlen);
-	this->noofverts = noofverts;
+	//incuv = (bufferlen == 4 * (noofverts * 8));
+	//vertexdata = (float*)malloc(bufferlen);
+	//memcpy(vertexdata, buffer, bufferlen);
+	//this->noofverts = noofverts;
+	vertices.SetData(buffer, noofverts, bufferlen);
 }
 
 // Assign vertex data to the Object
 void Object3D::SetVertexData(float* newVertData, int noofverts, bool uv) {
 
-	incuv = uv;
-	int length = sizeof(float) * noofverts * (uv ? 8 : 6);
+	//incuv = uv;
+	//int length = sizeof(float) * noofverts * (uv ? 8 : 6);
 
-	free(vertexdata);
-	vertexdata = (float*)malloc(length);
-	memcpy(vertexdata, newVertData, length);
-	this->noofverts = noofverts;
+	//free(vertexdata);
+	//vertexdata = (float*)malloc(length);
+	//memcpy(vertexdata, newVertData, length);
+	//this->noofverts = noofverts;
+	vertices.SetData(newVertData, noofverts, uv);
 }
 
 

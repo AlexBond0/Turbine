@@ -30,12 +30,17 @@ void InstancedObject::_InitVBOs() {
 	glGenBuffers(3, vbos);
 
 	// vertexes
-	int size = 4 * noofverts*(incuv ? 8 : 6);
+	// int size = 4 * noofverts*(incuv ? 8 : 6);
 	glBindBuffer(GL_ARRAY_BUFFER, vbos[0]);
-	glBufferData(GL_ARRAY_BUFFER, size, vertexdata, GL_STATIC_DRAW);
+	glBufferData(
+		GL_ARRAY_BUFFER,
+		vertices.DataSize(),
+		vertices.GetData(),
+		GL_STATIC_DRAW
+	);
 
 	// polygons
-	size = 2 * elementcount;
+	int size = 2 * elementcount;
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbos[1]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, polygons, GL_STATIC_DRAW);
 

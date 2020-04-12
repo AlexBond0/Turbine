@@ -97,6 +97,9 @@
     <ClCompile Include="DebugUI.cpp">
       <Filter>Turbine Engine\Debug UI</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectDataHandlers.cpp">
+      <Filter>Turbine Engine\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGui\imgui_impl_glfw.h">
@@ -185,6 +188,9 @@
     </ClInclude>
     <ClInclude Include="DebugUIContainer.h">
       <Filter>Turbine Engine\Debug UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectDataHandlers.h">
+      <Filter>Turbine Engine\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

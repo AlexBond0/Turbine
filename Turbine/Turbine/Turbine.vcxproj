@@ -143,6 +143,7 @@
     <ClCompile Include="Moveable.cpp" />
     <ClCompile Include="MoveableUI.cpp" />
     <ClCompile Include="Object3D.cpp" />
+    <ClCompile Include="ObjectDataHandlers.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="RideAnimation.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="Moveable.h" />
     <ClInclude Include="MoveableUI.h" />
     <ClInclude Include="Object3D.h" />
+    <ClInclude Include="ObjectDataHandlers.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="RenderingContext.h" />
