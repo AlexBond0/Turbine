@@ -5,11 +5,11 @@ Object3D::Object3D()
 	vbos = NULL;
 	// incuv = false;
 	// vertexdata = NULL;
-	polygons = NULL;
+	//polygons = NULL;
 	SetName("NULL");
 
-	elementcount = 0;
-	elementtype = GL_TRIANGLES;
+	//elementcount = 0;
+	//elementtype = GL_TRIANGLES;
 
 	texturemap = -1;
 }
@@ -28,7 +28,8 @@ Object3D::Object3D(Object3D* copy, std::string newName)
 	vertices.SetData(copy->vertices);
 
 	// assign new polygon data
-	SetTriangles(copy->polygons, copy->elementcount);
+	// SetTriangles(copy->polygons, copy->elementcount);
+	polygons.SetData(copy->polygons);
 
 	texturemap = copy->texturemap;
 	hasTexture = copy->hasTexture;
@@ -42,7 +43,7 @@ Object3D::~Object3D()
 {
 	free(vbos);
 	// free(vertexdata);
-	free(polygons);
+	// free(polygons);
 	free(name);
 }
 
@@ -79,9 +80,14 @@ void Object3D::_InitVBOs()
 		GL_STATIC_DRAW
 	);
 
-	int size = 2 * elementcount;
+	// int size = 2 * elementcount;
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbos[1]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, polygons, GL_STATIC_DRAW);
+	glBufferData(
+		GL_ELEMENT_ARRAY_BUFFER, 
+		polygons.DataSize(),
+		polygons.GetData(),
+		GL_STATIC_DRAW
+	);
 }
 
 // Pass current object amd context information to the shaders 
@@ -181,7 +187,12 @@ void Object3D::_HandleVertVBO(RenderingContext& rcontext) {
 void Object3D::_HandlePolyVBO(RenderingContext& rcontext) {
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbos[1]);
-	glDrawElements(elementtype, elementcount, GL_UNSIGNED_SHORT, 0);
+	glDrawElements(
+		polygons.ElementType(),
+		polygons.Size(), 
+		GL_UNSIGNED_SHORT, 
+		0
+	);
 }
 
 // ===================================================
@@ -231,25 +242,27 @@ void Object3D::SetVertexData(float* newVertData, int noofverts, bool uv) {
 // Assign polygon data to the Object
 void Object3D::SetTriangles(byte* buffer, int noofpolys) {
 
-	const int size = 3 * noofpolys * sizeof(unsigned short);
-	polygons = (unsigned short*)malloc(size);
-	memcpy(polygons, buffer, size);
+	//const int size = 3 * noofpolys * sizeof(unsigned short);
+	//polygons = (unsigned short*)malloc(size);
+	//memcpy(polygons, buffer, size);
 
-	elementtype = GL_TRIANGLES;
-	elementcount = 3 * noofpolys;
+	//elementtype = GL_TRIANGLES;
+	//elementcount = 3 * noofpolys;
+	polygons.SetData(buffer, noofpolys);
 }
 
 // Assign polygon data to the Object
 void Object3D::SetTriangles(unsigned short* newPolyData, int noofElements) {
 
-	const int size = noofElements * sizeof(unsigned short);
+	//const int size = noofElements * sizeof(unsigned short);
 
-	free(polygons);
-	polygons = (unsigned short*)malloc(size);
-	memcpy(polygons, newPolyData, size);
+	//free(polygons);
+	//polygons = (unsigned short*)malloc(size);
+	//memcpy(polygons, newPolyData, size);
 
-	elementtype = GL_TRIANGLES;
-	elementcount = noofElements;
+	//elementtype = GL_TRIANGLES;
+	//elementcount = noofElements;
+	polygons.SetData(newPolyData, noofElements);
 }
 
 

@@ -10,9 +10,17 @@ PointData::PointData() {
 
 PointData::~PointData() {
 	
-	
 	if (!_pointDataSet)
 		free(_pointData);
+}
+
+void PointData::SetData(PointData pointData) {
+
+	SetData(
+		pointData.GetData(),
+		pointData.Size(),
+		pointData.HasUV()
+	);
 }
 
 void PointData::SetData(byte* buffer, int pointCount, int bufferlen) {
@@ -39,18 +47,18 @@ void PointData::SetData(byte* buffer, int pointCount, int bufferlen) {
 void PointData::SetData(float* newVertData, int pointCount, bool uv) {
 
 	_incuv = uv;
-	int length = sizeof(float) * pointCount * (uv ? 8 : 6);
+
+	_pointDataSize = sizeof(float) * pointCount * (uv ? 8 : 6);
 
 	// allocate memory
 	free(_pointData);
-	_pointData = (float*)malloc(length);
+	_pointData = (float*)malloc(_pointDataSize);
 	_pointDataSet = true;
 
 	// move data across
-	memcpy(_pointData, newVertData, length);
+	memcpy(_pointData, newVertData, _pointDataSize);
 	_pointCount = pointCount;
 
-	_pointDataSize = sizeof(float) * _pointCount * (_incuv ? 8 : 6);
 
 	if (_incuv)
 		_ConvertToPointUV();
@@ -130,15 +138,6 @@ void PointData::_ConvertToPointUV() {
 
 // ==============================================================================
 
-void PointData::SetData(PointData pointData) {
-
-	SetData(
-		pointData.GetData(),
-		pointData.Size(),
-		pointData.HasUV()
-	);
-}
-
 float* PointData::GetData() {
 
 	return _pointData;
@@ -162,4 +161,78 @@ bool PointData::HasUV() {
 void PointData::SetUV(bool hasuv) {
 
 	_incuv = hasuv;
+}
+
+// =============================================================================
+
+PolygonData::PolygonData() {
+
+	_polygonData = NULL;
+	_polygonCount = 0;
+	_polygonDataSet = false;
+	_polygonElementType = GL_TRIANGLES;
+}
+
+PolygonData::~PolygonData() {
+
+	if (!_polygonDataSet)
+		free(_polygonData);
+}
+
+
+void PolygonData::SetData(PolygonData polygonData) {
+
+	SetData(
+		polygonData.GetData(),
+		polygonData.Size()
+	);
+}
+
+void PolygonData::SetData(byte* buffer, int noofpolys) {
+
+	_polygonDataSize = 3 * noofpolys * sizeof(unsigned short);
+
+	_polygonData = (unsigned short*)malloc(_polygonDataSize);
+	memcpy(_polygonData, buffer, _polygonDataSize);
+	_polygonDataSet = true;
+
+	_polygonElementType = GL_TRIANGLES;
+	_polygonCount = 3 * noofpolys;
+}
+
+// Assign polygon data to the Object
+void PolygonData::SetData(unsigned short* newPolyData, int noofElements) {
+
+	_polygonDataSize = noofElements * sizeof(unsigned short);
+
+	free(_polygonData);
+	_polygonData = (unsigned short*)malloc(_polygonDataSize);
+	memcpy(_polygonData, newPolyData, _polygonDataSize);
+	_polygonDataSet = true;
+
+	_polygonElementType = GL_TRIANGLES;
+	_polygonCount = noofElements;
+}
+
+
+// =============================================================================
+
+unsigned short* PolygonData::GetData() {
+
+	return _polygonData;
+}
+
+int PolygonData::Size() {
+
+	return _polygonCount;
+}
+
+int PolygonData::DataSize() {
+
+	return _polygonDataSize;
+}
+
+int PolygonData::ElementType() {
+
+	return _polygonElementType;
 }

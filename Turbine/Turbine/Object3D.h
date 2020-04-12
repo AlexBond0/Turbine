@@ -57,9 +57,10 @@ protected:
 	PointData vertices;
 
 	// polygon data
-	unsigned short* polygons;
-	int elementtype;
-	int elementcount;
+	//unsigned short* polygons;
+	//int elementtype;
+	//int elementcount;
+	PolygonData polygons;
 
 	// texture data
 	bool hasTexture = false;

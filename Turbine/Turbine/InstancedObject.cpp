@@ -40,12 +40,16 @@ void InstancedObject::_InitVBOs() {
 	);
 
 	// polygons
-	int size = 2 * elementcount;
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbos[1]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, polygons, GL_STATIC_DRAW);
+	glBufferData(
+		GL_ELEMENT_ARRAY_BUFFER,
+		polygons.DataSize(),
+		polygons.GetData(),
+		GL_STATIC_DRAW
+	);
 
 	// instances
-	size = 4 * 3 * noofinstances;
+	int size = 4 * 3 * noofinstances;
 	glBindBuffer(GL_ARRAY_BUFFER, vbos[2]);
 	glBufferData(GL_ARRAY_BUFFER, size, instanceData, GL_DYNAMIC_DRAW);
 }
@@ -65,7 +69,13 @@ void InstancedObject::_HandleVBOs(RenderingContext& rcontext) {
 	// tell the polygon data to handle instancing correctly
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbos[1]);
 	glVertexAttribDivisor(rcontext.instancehandle, 1);
-	glDrawElementsInstanced(elementtype, elementcount, GL_UNSIGNED_SHORT, 0, noofinstances);
+	glDrawElementsInstanced(
+		polygons.ElementType(),
+		polygons.Size(),
+		GL_UNSIGNED_SHORT,
+		0,
+		noofinstances
+	);
 }
 
 // =====================================================================

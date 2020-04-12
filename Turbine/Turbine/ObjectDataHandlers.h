@@ -3,6 +3,7 @@
 #include "Matrix.h"
 #include <Windows.h>
 #include <vector>
+#include "GLSetup.h"
 
 // which part is being animated
 enum class DataType {
@@ -43,14 +44,12 @@ public:
 	void SetData(PointData pointData);
 	void SetData(byte* buffer, int noofverts, int bufferlen);
 	void SetData(float* newVertData, int noofverts, bool uv);
-	float* GetData();
+	void SetUV(bool hasuv);
 
+	float* GetData();
 	int Size();
 	int DataSize();
-
 	bool HasUV();
-
-	void SetUV(bool hasuv);
 
 
 private:
@@ -70,16 +69,29 @@ private:
 	bool _pointDataSet;
 };
 
-//class PolygonData
-//{
-//public:
-//	PolygonData();
-//	~PolygonData();
-//
-//private:
-//
-//	unsigned short* polygonData;
-//	int polygonCount;
-//	int elementcount;
-//};
+class PolygonData
+{
+public:
+	PolygonData();
+	~PolygonData();
+
+	void SetData(PolygonData pointData);
+	void SetData(byte* buffer, int noofpolys);
+	void SetData(unsigned short* polygons, int noofElements);
+
+	unsigned short* GetData();
+	int Size();
+	int DataSize();
+	int ElementType();
+
+private:
+
+	unsigned short* _polygonData;
+	int _polygonCount;
+	int _polygonDataSize;
+	int _polygonElementType;
+
+	bool _polygonDataSet;
+
+};
 
