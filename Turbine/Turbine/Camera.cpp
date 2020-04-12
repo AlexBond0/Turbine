@@ -49,35 +49,41 @@ void Camera::DefaultPOVCam() {
 	SetUp(glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
-//// calcualte a picking ray from the camrea
-//float* Camera::CalculatePickRay(float windX, float windY, float windH, float windV) {
-//
-//	float pickRay[3] = { 0.0f, 0.0f, 0.0f };
-//
-//	// normalise x and y dimentions between [-1 and 1]
-//	float normX = (windX / windH) * 2 - 1;
-//	float normY = (windY / windV) * 2 - 1;
-//
-//	// create view vector
-//	float view[3] = {
-//		target[0] - position[0],
-//		target[1] - position[1],
-//		target[2] - position[2],
-//	};
-//	MyMatrix::Normalise3(view);
-//
-//	// create horz vector
-//	float horz[3];
-//	MyMatrix::CrossProduct3(view, up, horz);
-//	MyMatrix::Normalise3(horz);
-//
-//	// create vert
-//	float vert[3];
-//	MyMatrix::CrossProduct3(horz, view, vert);
-//	MyMatrix::Normalise3(vert);
-//
-//	return pickRay;
-//}
+// given a mouse xy and view xy, calculate a direction vertex for a picking ray
+glm::vec3 Camera::CalculatePickRay(float mX, float mY, float vX, float vY) {
+
+	// calculate reuseable h anv v values from camera information
+	glm::vec3 h = glm::normalize(glm::cross(target, up));
+	glm::vec3 v = glm::normalize(glm::cross(h, target));
+
+	// use the near-clipping plane to get length values for h and v
+	float vLength = tan(fFovy / 2) * fZNear;
+	float hLength = vLength * (vX / vY);
+
+	// scale h and v
+	v *= vLength;
+	h *= hLength;
+
+	// calculate relative position of mouse on near clipping plane 
+	float horzFactor = (mX - vX / 2) / (vX / 2);
+	float vertFactor = (mY - vY / 2) / (vY / 2);
+
+	// calculate position of mouse click on the fZNear plane
+	glm::vec3 fZNearPos = position + (target * fZNear + h * horzFactor + v * vertFactor);
+
+	// calculate direction from camera to fZNearPos
+	return glm::normalize(fZNearPos - position);
+}
+
+// check if an object is picked with a given picking ray
+bool Camera::ObjectPicked(Object3D* object, glm::vec3 pickingRay) {
+
+	bool hasPicked = false;
+
+	// implement here :P
+
+	return hasPicked;
+}
 
 void Camera::RotateCam(int newX, int newY, bool arcballCam) {
 

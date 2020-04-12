@@ -305,10 +305,6 @@ void window_size_callback(GLFWwindow* window, int width, int height) {
 			c->fZNear,
 			c->fZFar
 		);
-
-		//glBindVertexArray(VAO);
-		//scene->Render(rcontext);
-		//glBindVertexArray(0);
 	}
 }
 

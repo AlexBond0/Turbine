@@ -146,7 +146,7 @@ void Object3D::_HandleVBOs(RenderingContext& rcontext) {
 	_HandlePolyVBO(rcontext);
 }
 
-// Handle the vertex VBO data
+// Handle the vertex VBO data layout 
 void Object3D::_HandleVertVBO(RenderingContext& rcontext) {
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbos[0]);
@@ -171,7 +171,7 @@ void Object3D::_HandleVertVBO(RenderingContext& rcontext) {
 	}
 }
 
-// handle the polygon VBO data
+// handle and draw the polygon VBO data
 void Object3D::_HandlePolyVBO(RenderingContext& rcontext) {
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbos[1]);

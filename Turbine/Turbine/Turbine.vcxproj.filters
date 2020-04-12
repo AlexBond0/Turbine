@@ -48,9 +48,6 @@
     <ClCompile Include="ImGui\imgui.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="OldMain.cpp">
-      <Filter>Turbine Engine</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="InstancedObject.cpp">
       <Filter>Turbine Engine\Instancing</Filter>
@@ -198,6 +195,9 @@
       <Filter>Turbine Engine\Object</Filter>
     </None>
     <None Include="..\..\README.md" />
+    <None Include="Turbine_DebugUI.md">
+      <Filter>Turbine Engine\Debug UI</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="shader.frag">

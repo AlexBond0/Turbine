@@ -143,7 +143,6 @@
     <ClCompile Include="Moveable.cpp" />
     <ClCompile Include="MoveableUI.cpp" />
     <ClCompile Include="Object3D.cpp" />
-    <ClCompile Include="OldMain.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="RideAnimation.cpp" />
@@ -184,6 +183,7 @@
   <ItemGroup>
     <None Include="..\..\README.md" />
     <None Include="ImGui\imgui.ini" />
+    <None Include="Turbine_DebugUI.md" />
     <None Include="Turbine_Objects.md" />
   </ItemGroup>
   <ItemGroup>

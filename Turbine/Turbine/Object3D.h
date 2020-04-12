@@ -7,6 +7,27 @@
 #include <vector>
 #include <map>
 
+
+
+// Contains the 3 Vertex ID's and normal to define a polygon
+
+struct Polygon {
+
+	int			point[3];
+};
+
+// contains vertex, normal and colour information about a point, along with Vertex ID's of all neighbor Points
+struct Point {
+
+	// KEEP LAYOUT FOR DATA ALLINGMENT
+	// ==================
+	glm::vec4	vertex;
+	glm::vec3	normal;
+	glm::vec3	colour;
+	
+	// ==================
+};
+
 // Defines an object in the scene, along with handeling its rendering 
 class Object3D :
 	public Material,
