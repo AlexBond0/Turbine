@@ -35,9 +35,7 @@ struct Point {
 	// ==================
 };
 
-
-class PointData
-{
+class PointData {
 public:
 	PointData();
 	~PointData();
@@ -51,12 +49,19 @@ public:
 	int DataSize();
 
 	bool HasUV();
+
 	void SetUV(bool hasuv);
+
 
 private:
 
+	void _ConvertToPoint();
+	void _ConvertToPointUV();
+
 	bool _incuv;	// does point data include uv coords
 
+	std::vector<Point> _point_vn_data;
+	std::vector<PointUV> _point_vnu_data;
 
 	float* _pointData;	// float* array of data ready for OpenGL
 	int _pointCount;	// ammount of points in data
