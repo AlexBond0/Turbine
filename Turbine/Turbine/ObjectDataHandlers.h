@@ -6,13 +6,13 @@
 #include "GLSetup.h"
 
 // which part is being animated
-enum class DataType {
-	VN,		// vertex and normal data
-	VNU,	// vertex, normal and uv data
-	POLY	// polygon data
-};
+//enum class DataType {
+//	VN,		// vertex and normal data
+//	VNU,	// vertex, normal and uv data
+//	POLY	// polygon data
+//};
 
-struct Polygon {
+struct Poly {
 
 	int	point[3];
 };
@@ -76,7 +76,7 @@ public:
 	~PolygonData();
 
 	void SetData(PolygonData pointData);
-	void SetData(byte* buffer, int noofpolys);
+	void SetData(byte* fileBuffer, int noofElements, int elementModifier);
 	void SetData(unsigned short* polygons, int noofElements);
 
 	unsigned short* GetData();
@@ -93,5 +93,9 @@ private:
 
 	bool _polygonDataSet;
 
+	std::vector<Poly> _polygon_struct_data;
+
+	void _SetData(unsigned short* polygons, int noofElements, int elementModifier);
+	void _ConvertToPolygon();
 };
 

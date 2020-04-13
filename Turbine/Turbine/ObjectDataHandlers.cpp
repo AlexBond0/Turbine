@@ -188,22 +188,39 @@ void PolygonData::SetData(PolygonData polygonData) {
 	);
 }
 
-void PolygonData::SetData(byte* buffer, int noofpolys) {
+void PolygonData::SetData(byte* fileBuffer, int noofElements, int elementModifier) {
 
-	_polygonDataSize = 3 * noofpolys * sizeof(unsigned short);
-
-	_polygonData = (unsigned short*)malloc(_polygonDataSize);
-	memcpy(_polygonData, buffer, _polygonDataSize);
-	_polygonDataSet = true;
-
-	_polygonElementType = GL_TRIANGLES;
-	_polygonCount = 3 * noofpolys;
+	_SetData((unsigned short*)fileBuffer, noofElements, elementModifier);
 }
 
 // Assign polygon data to the Object
 void PolygonData::SetData(unsigned short* newPolyData, int noofElements) {
 
-	_polygonDataSize = noofElements * sizeof(unsigned short);
+	_SetData(newPolyData, noofElements, 1);
+}
+
+void PolygonData::_ConvertToPolygon() {
+
+	int stride;
+	_polygon_struct_data.empty();
+
+	for (int point = 0; point < _polygonCount; point++) {
+
+		stride = point * 3;
+
+		Poly p;
+		p.point[0] = _polygonData[stride + 0];
+		p.point[1] = _polygonData[stride + 1];
+		p.point[2] = _polygonData[stride + 2];
+
+		_polygon_struct_data.push_back(p);
+	}
+}
+
+// Assign polygon data to the Object
+void PolygonData::_SetData(unsigned short* newPolyData, int noofElements, int elementModifier) {
+
+	_polygonDataSize = 3 * noofElements * sizeof(unsigned short);
 
 	free(_polygonData);
 	_polygonData = (unsigned short*)malloc(_polygonDataSize);
@@ -212,8 +229,13 @@ void PolygonData::SetData(unsigned short* newPolyData, int noofElements) {
 
 	_polygonElementType = GL_TRIANGLES;
 	_polygonCount = noofElements;
-}
 
+	_ConvertToPolygon();
+
+	_polygonCount *= elementModifier;
+
+	int x = 1;
+}
 
 // =============================================================================
 

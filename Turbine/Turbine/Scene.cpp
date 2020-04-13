@@ -36,13 +36,6 @@ void Scene::Render(RenderingContext rcontext) {
 	}
 	else {
 
-		/*MyMatrix::SetLookAtGLM(
-			rcontext.viewmatrix,
-			camera.position,
-			camera.target,
-			camera.up
-		);*/
-
 		rcontext.viewmatrix = glm::lookAt(
 			camera.position,
 			camera.target,
@@ -70,10 +63,6 @@ void Scene::Render(RenderingContext rcontext) {
 	for (Particle* particle : particleSystems)
 		particle->BlendDraw(rcontext);
 
-
-	// finish drawing and swap buffers
-	// glFlush();
-	// SwapBuffers(wglGetCurrentDC());
 }
 
 // setup the scene

@@ -240,7 +240,7 @@ void Object3D::SetVertexData(float* newVertData, int noofverts, bool uv) {
 // ======================================
 
 // Assign polygon data to the Object
-void Object3D::SetTriangles(byte* buffer, int noofpolys) {
+void Object3D::SetTriangles(byte* buffer, int noofpolys, int elementModifier) {
 
 	//const int size = 3 * noofpolys * sizeof(unsigned short);
 	//polygons = (unsigned short*)malloc(size);
@@ -248,7 +248,7 @@ void Object3D::SetTriangles(byte* buffer, int noofpolys) {
 
 	//elementtype = GL_TRIANGLES;
 	//elementcount = 3 * noofpolys;
-	polygons.SetData(buffer, noofpolys);
+	polygons.SetData(buffer, noofpolys, elementModifier);
 }
 
 // Assign polygon data to the Object

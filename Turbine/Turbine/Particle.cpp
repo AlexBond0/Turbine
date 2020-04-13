@@ -314,7 +314,7 @@ void Particle::_GenerateParticleInstance() {
 		{ 0, 1, 2 },
 		{ 3, 2, 1 }
 	};
-	SetTriangles(*polys, 6);
+	SetTriangles(*polys, 2);
 
 	SetDiffuse(0.0f, 0.0f, 0.0f, 0.0f);
 }

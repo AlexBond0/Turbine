@@ -34,7 +34,7 @@ public:
 	float* GetVertData();
 	int GetVertCount();
 
-	void SetTriangles(byte* buffer, int noofpolys);
+	void SetTriangles(byte* buffer, int noofpolys, int elementModifier);
 	void SetTriangles(unsigned short* polygons, int noofElements);
 
 	void SetTextureMap(int id);
