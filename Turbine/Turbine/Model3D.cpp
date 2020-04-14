@@ -99,7 +99,7 @@ void Model3D::Read3DSVersion4(FILE* file, Model3D* model)
 			if (read>0)
 				pos += read;
 		} while (read>0 && pos<reqsize);
-		object->SetTriangles(buffer, noofpolys, 3);
+		object->SetTriangles(buffer, noofpolys);
 
 		fread(buffer, 1, 12, file);
 		object->SetWorldPos(buffer);

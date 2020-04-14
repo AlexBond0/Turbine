@@ -34,8 +34,8 @@ void InstancedObject::_InitVBOs() {
 	glBindBuffer(GL_ARRAY_BUFFER, vbos[0]);
 	glBufferData(
 		GL_ARRAY_BUFFER,
-		vertices.DataSize(),
-		vertices.GetData(),
+		vertices.VectorDataSize(),
+		vertices.GetVectorData(),
 		GL_STATIC_DRAW
 	);
 
@@ -43,8 +43,8 @@ void InstancedObject::_InitVBOs() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbos[1]);
 	glBufferData(
 		GL_ELEMENT_ARRAY_BUFFER,
-		polygons.DataSize(),
-		polygons.GetData(),
+		polygons.VectorDataSize(),
+		polygons.GetVectorData(),
 		GL_STATIC_DRAW
 	);
 
@@ -71,7 +71,7 @@ void InstancedObject::_HandleVBOs(RenderingContext& rcontext) {
 	glVertexAttribDivisor(rcontext.instancehandle, 1);
 	glDrawElementsInstanced(
 		polygons.ElementType(),
-		polygons.Size(),
+		polygons.ElementCount(),
 		GL_UNSIGNED_SHORT,
 		0,
 		noofinstances

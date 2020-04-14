@@ -34,7 +34,7 @@ public:
 	float* GetVertData();
 	int GetVertCount();
 
-	void SetTriangles(byte* buffer, int noofpolys, int elementModifier);
+	void SetTriangles(byte* buffer, int noofpolys);
 	void SetTriangles(unsigned short* polygons, int noofElements);
 
 	void SetTextureMap(int id);
@@ -103,7 +103,7 @@ inline char* Object3D::GetName() {
 
 inline float* Object3D::GetVertData() {
 
-	return vertices.GetData(); // vertexdata;
+	return vertices.GetPointerArrayData(); // vertexdata;
 }
 
 inline int Object3D::GetVertCount() {

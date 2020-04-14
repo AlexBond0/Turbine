@@ -17,7 +17,7 @@ PointData::~PointData() {
 void PointData::SetData(PointData pointData) {
 
 	SetData(
-		pointData.GetData(),
+		pointData.GetPointerArrayData(),
 		pointData.Size(),
 		pointData.HasUV()
 	);
@@ -72,10 +72,12 @@ void PointData::_ConvertToPoint() {
 	glm::vec3	vertex;
 	glm::vec3	normal;
 	_point_vn_data.empty();
+	_point_vn_data.reserve(_pointCount);
 
 	for (int point = 0; point < _pointCount; point++) {
 
-		stride = point * 6;
+		// 6 floats define a Point
+		stride = (point * 6);
 
 		vertex = glm::vec3(
 			_pointData[stride + 0],
@@ -104,10 +106,13 @@ void PointData::_ConvertToPointUV() {
 	glm::vec3	normal;
 	glm::vec2	uv;
 	_point_vnu_data.empty();
+	_point_vnu_data.reserve(_pointCount);
 
 	for (int point = 0; point < _pointCount; point++) {
 
-		stride = point * 6;
+		
+
+		stride = (point * 8);
 
 		vertex = glm::vec3(
 			_pointData[stride + 0],
@@ -138,9 +143,18 @@ void PointData::_ConvertToPointUV() {
 
 // ==============================================================================
 
-float* PointData::GetData() {
+float* PointData::GetPointerArrayData() {
 
 	return _pointData;
+}
+
+void* PointData::GetVectorData() {
+
+	if (_incuv)
+		return &_point_vnu_data[0];
+
+	else
+		return &_point_vn_data[0];
 }
 
 int PointData::Size() {
@@ -148,10 +162,20 @@ int PointData::Size() {
 	return _pointCount;
 }
 
-int PointData::DataSize() {
+int PointData::VectorDataSize() {
 
 	return _pointDataSize;
 }
+
+int PointData::PointerArrayDataSize() {
+
+	if (_incuv)
+		return sizeof(PointUV) * _point_vnu_data.size();
+
+	else
+		return sizeof(Point) * _point_vn_data.size();
+}
+
 
 bool PointData::HasUV() {
 
@@ -183,22 +207,23 @@ PolygonData::~PolygonData() {
 void PolygonData::SetData(PolygonData polygonData) {
 
 	SetData(
-		polygonData.GetData(),
+		polygonData.GetPointerArrayData(),
 		polygonData.Size()
 	);
 }
 
-void PolygonData::SetData(byte* fileBuffer, int noofElements, int elementModifier) {
+void PolygonData::SetData(byte* fileBuffer, int noofElements) {
 
-	_SetData((unsigned short*)fileBuffer, noofElements, elementModifier);
+	_SetData((unsigned short*)fileBuffer, noofElements);
 }
 
 // Assign polygon data to the Object
 void PolygonData::SetData(unsigned short* newPolyData, int noofElements) {
 
-	_SetData(newPolyData, noofElements, 1);
+	_SetData(newPolyData, noofElements);
 }
 
+// convert the stored pointer array data to the struct storage
 void PolygonData::_ConvertToPolygon() {
 
 	int stride;
@@ -218,7 +243,7 @@ void PolygonData::_ConvertToPolygon() {
 }
 
 // Assign polygon data to the Object
-void PolygonData::_SetData(unsigned short* newPolyData, int noofElements, int elementModifier) {
+void PolygonData::_SetData(unsigned short* newPolyData, int noofElements) {
 
 	_polygonDataSize = 3 * noofElements * sizeof(unsigned short);
 
@@ -231,29 +256,45 @@ void PolygonData::_SetData(unsigned short* newPolyData, int noofElements, int el
 	_polygonCount = noofElements;
 
 	_ConvertToPolygon();
-
-	_polygonCount *= elementModifier;
-
-	int x = 1;
 }
 
 // =============================================================================
 
-unsigned short* PolygonData::GetData() {
+unsigned short* PolygonData::GetPointerArrayData() {
 
 	return _polygonData;
 }
 
+unsigned short* PolygonData::GetVectorData() {
+
+	return (unsigned short*)&_polygon_struct_data[0];
+}
+
+// ammount of polygon objects in the polygon buffer
 int PolygonData::Size() {
 
 	return _polygonCount;
 }
 
-int PolygonData::DataSize() {
+// ammount of unsigned short elements in the polygon buffer (required for glDrawElements)
+int PolygonData::ElementCount() {
+
+	return _polygonCount * 3;
+}
+
+// data size of the pointer array data buffer
+int PolygonData::PointerArrayDataSize() {
 
 	return _polygonDataSize;
 }
 
+// data size of the Poly vector data buffer
+int PolygonData::VectorDataSize() {
+
+	return sizeof(Poly) * _polygon_struct_data.size();
+}
+
+// render element type for OpenGL
 int PolygonData::ElementType() {
 
 	return _polygonElementType;

@@ -74,9 +74,9 @@ void Object3D::_InitVBOs()
 	// int size = 4 * noofverts*(incuv ? 8 : 6);
 	glBindBuffer(GL_ARRAY_BUFFER, vbos[0]);
 	glBufferData(
-		GL_ARRAY_BUFFER, 
-		vertices.DataSize(),
-		vertices.GetData(), 
+		GL_ARRAY_BUFFER,
+		vertices.VectorDataSize(),
+		vertices.GetVectorData(),
 		GL_STATIC_DRAW
 	);
 
@@ -84,8 +84,8 @@ void Object3D::_InitVBOs()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbos[1]);
 	glBufferData(
 		GL_ELEMENT_ARRAY_BUFFER, 
-		polygons.DataSize(),
-		polygons.GetData(),
+		polygons.VectorDataSize(),
+		polygons.GetVectorData(),
 		GL_STATIC_DRAW
 	);
 }
@@ -161,22 +161,29 @@ void Object3D::_HandleVBOs(RenderingContext& rcontext) {
 // Handle the vertex VBO data layout 
 void Object3D::_HandleVertVBO(RenderingContext& rcontext) {
 
+	//glVertexAttribPointer(rcontext.verthandles[0], 3, GL_FLOAT, false, 4 * 8, (void*)0);
+	//glVertexAttribPointer(rcontext.verthandles[1], 3, GL_FLOAT, false, 4 * 8, (void*)(4 * 3));
+	//glVertexAttribPointer(rcontext.verthandles[2], 2, GL_FLOAT, false, 4 * 8, (void*)(4 * 6));
+
+	//glVertexAttribPointer(rcontext.verthandles[0], 3, GL_FLOAT, false, 4 * 6, (void*)0);
+	//glVertexAttribPointer(rcontext.verthandles[1], 3, GL_FLOAT, false, 4 * 6, (void*)(4 * 3));
+
 	glBindBuffer(GL_ARRAY_BUFFER, vbos[0]);
 
 	// attributes
 	if (vertices.HasUV())
 	{
-		glVertexAttribPointer(rcontext.verthandles[0], 3, GL_FLOAT, false, 4 * 8, (void*)0);
-		glVertexAttribPointer(rcontext.verthandles[1], 3, GL_FLOAT, false, 4 * 8, (void*)(4 * 3));
-		glVertexAttribPointer(rcontext.verthandles[2], 2, GL_FLOAT, false, 4 * 8, (void*)(4 * 6));
+		glVertexAttribPointer(rcontext.verthandles[0], 3, GL_FLOAT, false, sizeof(PointUV), (void*)0);
+		glVertexAttribPointer(rcontext.verthandles[1], 3, GL_FLOAT, false, sizeof(PointUV), (void*)offsetof(PointUV, normal));
+		glVertexAttribPointer(rcontext.verthandles[2], 2, GL_FLOAT, false, sizeof(PointUV), (void*)offsetof(PointUV, uv));
 		glEnableVertexAttribArray(rcontext.verthandles[0]);
 		glEnableVertexAttribArray(rcontext.verthandles[1]);
 		glEnableVertexAttribArray(rcontext.verthandles[2]);
 	}
 	else
 	{
-		glVertexAttribPointer(rcontext.verthandles[0], 3, GL_FLOAT, false, 4 * 6, (void*)0);
-		glVertexAttribPointer(rcontext.verthandles[1], 3, GL_FLOAT, false, 4 * 6, (void*)(4 * 3));
+		glVertexAttribPointer(rcontext.verthandles[0], 3, GL_FLOAT, false, sizeof(Point), (void*)0);
+		glVertexAttribPointer(rcontext.verthandles[1], 3, GL_FLOAT, false, sizeof(Point), (void*)offsetof(Point, normal));
 		glEnableVertexAttribArray(rcontext.verthandles[0]);
 		glEnableVertexAttribArray(rcontext.verthandles[1]);
 		glDisableVertexAttribArray(rcontext.verthandles[2]);
@@ -189,7 +196,7 @@ void Object3D::_HandlePolyVBO(RenderingContext& rcontext) {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbos[1]);
 	glDrawElements(
 		polygons.ElementType(),
-		polygons.Size(), 
+		polygons.ElementCount(),
 		GL_UNSIGNED_SHORT, 
 		0
 	);
@@ -240,7 +247,7 @@ void Object3D::SetVertexData(float* newVertData, int noofverts, bool uv) {
 // ======================================
 
 // Assign polygon data to the Object
-void Object3D::SetTriangles(byte* buffer, int noofpolys, int elementModifier) {
+void Object3D::SetTriangles(byte* buffer, int noofpolys) {
 
 	//const int size = 3 * noofpolys * sizeof(unsigned short);
 	//polygons = (unsigned short*)malloc(size);
@@ -248,7 +255,7 @@ void Object3D::SetTriangles(byte* buffer, int noofpolys, int elementModifier) {
 
 	//elementtype = GL_TRIANGLES;
 	//elementcount = 3 * noofpolys;
-	polygons.SetData(buffer, noofpolys, elementModifier);
+	polygons.SetData(buffer, noofpolys);
 }
 
 // Assign polygon data to the Object

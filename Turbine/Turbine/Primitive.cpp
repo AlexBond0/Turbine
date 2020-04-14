@@ -258,14 +258,14 @@ void Primitive::_AssignGeomitoryData(const Geomitory& geomitory) {
 	// assign new vertex data
 	SetVertexData(
 		(float*)(geomitory.vecs.data()), 
-		(geomitory.vecs.size() / 8),
+		(geomitory.vecs.size() / 8), // 8 floats define a point
 		true
 	);
 
 	// assign new polygon data
 	SetTriangles(
 		(unsigned short*)(geomitory.polys.data()), 
-		(geomitory.polys.size())
+		(geomitory.polys.size() / 3) // 3 unsigned shorts define a polygon
 	);
 }
 

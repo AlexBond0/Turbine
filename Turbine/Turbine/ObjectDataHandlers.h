@@ -12,9 +12,13 @@
 //	POLY	// polygon data
 //};
 
+#define OFFSET_VERTEX 0
+#define OFFSET_NORMAL sizeof(glm::vec3)
+#define OFFSET_UV (OFFSET_NORMAL + sizeof(glm::vec3))
+
 struct Poly {
 
-	int	point[3];
+	unsigned short point[3];
 };
 
 struct PointUV {
@@ -46,12 +50,17 @@ public:
 	void SetData(float* newVertData, int noofverts, bool uv);
 	void SetUV(bool hasuv);
 
-	float* GetData();
+	float* GetPointerArrayData();
+	void* GetVectorData();
+
 	int Size();
-	int DataSize();
+
+	int VectorDataSize();
+	int PointerArrayDataSize();
 	bool HasUV();
 
-
+	std::vector<Point> _point_vn_data;
+	std::vector<PointUV> _point_vnu_data;
 private:
 
 	void _ConvertToPoint();
@@ -59,8 +68,7 @@ private:
 
 	bool _incuv;	// does point data include uv coords
 
-	std::vector<Point> _point_vn_data;
-	std::vector<PointUV> _point_vnu_data;
+	
 
 	float* _pointData;	// float* array of data ready for OpenGL
 	int _pointCount;	// ammount of points in data
@@ -76,12 +84,17 @@ public:
 	~PolygonData();
 
 	void SetData(PolygonData pointData);
-	void SetData(byte* fileBuffer, int noofElements, int elementModifier);
+	void SetData(byte* fileBuffer, int noofElements);
 	void SetData(unsigned short* polygons, int noofElements);
 
-	unsigned short* GetData();
+	unsigned short* GetPointerArrayData();
+	unsigned short* GetVectorData();
+
+
 	int Size();
-	int DataSize();
+	int ElementCount();
+	int VectorDataSize();
+	int PointerArrayDataSize();
 	int ElementType();
 
 private:
@@ -95,7 +108,7 @@ private:
 
 	std::vector<Poly> _polygon_struct_data;
 
-	void _SetData(unsigned short* polygons, int noofElements, int elementModifier);
+	void _SetData(unsigned short* polygons, int noofElements);
 	void _ConvertToPolygon();
 };
 
