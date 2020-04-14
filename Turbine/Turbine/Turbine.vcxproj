@@ -147,6 +147,7 @@
     <ClCompile Include="PointData.cpp" />
     <ClCompile Include="PolygonData.cpp" />
     <ClCompile Include="Primitive.cpp" />
+    <ClCompile Include="RenderingContext.cpp" />
     <ClCompile Include="RideAnimation.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Texture.cpp" />

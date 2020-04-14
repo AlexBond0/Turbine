@@ -52,7 +52,7 @@ void Scene::Render(RenderingContext rcontext) {
 	glUniform4fv(rcontext.lighthandles[4], 1, light.specular.rgba);
 
 	//// draw full models via their root object
-	for (Model3D* model : modelsToDraw)
+  	for (Model3D* model : modelsToDraw)
 		model->Draw(rcontext);
 
 	// draw individual objects

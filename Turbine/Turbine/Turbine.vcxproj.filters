@@ -103,6 +103,9 @@
     <ClCompile Include="PolygonData.cpp">
       <Filter>Turbine Engine\Object\Base</Filter>
     </ClCompile>
+    <ClCompile Include="RenderingContext.cpp">
+      <Filter>Turbine Engine\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGui\imgui_impl_glfw.h">

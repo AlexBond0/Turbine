@@ -5,6 +5,7 @@ Object3D::Object3D()
 	vbos = NULL;
 	SetName("NULL");
 	texturemap = -1;
+	parent = nullptr;
 }
 
 Object3D::Object3D(Object3D* copy, std::string newName) 
@@ -195,8 +196,14 @@ void Object3D::AddChild(Object3D* newChild) {
 	float dZ = childPosition.z - worldPos[2];
 
 	newChild->SetLocalPos(dX, dY, dZ);
+	newChild->SetParent(this);
 };
 
+// add a child to the object heirarchy
+void Object3D::SetParent(Object3D* newParent) {
+
+	parent = newParent;
+};
 
 // ======================================
 

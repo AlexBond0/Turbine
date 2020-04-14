@@ -43,13 +43,15 @@ public:
 
 	std::vector<Object3D*> GetChildren();
 	void AddChild(Object3D* newChild);
+	void SetParent(Object3D* newParent);
 
 protected:
 
 	char* name;					// object name
 	unsigned int* vbos;			// data vbos
 
-	std::vector<Object3D*> children; // children in object heirarchy
+	std::vector<Object3D*> children;	// children in object heirarchy
+	Object3D* parent;					// parent in object heirarchy
 
 	PointData vertices;			// vertex data
 	PolygonData polygons;		// polygon data
