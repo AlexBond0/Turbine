@@ -9,4 +9,8 @@
 #include "glm\gtc\matrix_transform.hpp"
 #include "glm\gtc\type_ptr.hpp"
 
+#define GLM_ENABLE_EXPERIMENTAL
+
+#include "glm\gtx\intersect.hpp"
+
 #define DEGSTORADS(x)     ((x*M_PI)/180.0f)

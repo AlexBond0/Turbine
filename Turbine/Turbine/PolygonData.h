@@ -22,6 +22,7 @@ public:
 	void SetData(byte* fileBuffer, int noofElements);
 	void SetData(unsigned short* polygons, int noofElements);
 
+	std::vector<Poly>* GetVector();
 	unsigned short* GetData();
 
 	int Size();

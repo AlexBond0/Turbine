@@ -60,21 +60,18 @@ void TranslationStack::Scale(const float x, const float y, const float z) {
 void TranslationStack::RotateX(const float degs) {
 
 	_modelmatrix[_depth] = glm::rotate(_modelmatrix[_depth], DEGS_TO_RADS(degs), glm::vec3(1, 0, 0));
-	// MyMatrix::RotateX(_modelmatrix+_depth, degs);
 }
 
 // Rotate the current model matrix around the Y axis
 void TranslationStack::RotateY(const float degs) {
 
 	_modelmatrix[_depth] = glm::rotate(_modelmatrix[_depth], DEGS_TO_RADS(degs), glm::vec3(0, 1, 0));
-	// MyMatrix::RotateY(_modelmatrix+_depth, degs);
 }
 
 // Rotate the current model matrix around the Z axis
 void TranslationStack::RotateZ(const float degs) {
 
 	_modelmatrix[_depth] = glm::rotate(_modelmatrix[_depth], DEGS_TO_RADS(degs), glm::vec3(0, 0, 1));
-	// MyMatrix::RotateZ(_modelmatrix+_depth, degs);
 }
 
 // Get a pointer to the current model matrix

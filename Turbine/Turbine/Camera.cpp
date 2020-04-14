@@ -76,13 +76,84 @@ glm::vec3 Camera::CalculatePickRay(float mX, float mY, float vX, float vY) {
 }
 
 // check if an object is picked with a given picking ray
-bool Camera::ObjectPicked(Object3D* object, glm::vec3 pickingRay) {
+PickObject Camera::ObjectPicked(Object3D* object, glm::vec3 pickingRay) {
 
-	bool hasPicked = false;
+	PickObject pickedObject;
+	pickedObject.object = object;
 
-	// implement here :P
+	TranslationStack objectTranlation = object->GetWorldTranslation();
 
-	return hasPicked;
+	glm::vec3 translatedPickRay = 
+		glm::inverse(*(objectTranlation.GetCurrentModelMatrix())) 
+		* glm::vec4(pickingRay, 0.0);
+
+	glm::vec3 translatedCameraPosition = 
+		glm::inverse(*(objectTranlation.GetCurrentModelMatrix()))
+		* glm::vec4(position, 1.0);
+
+	glm::vec3* v1;
+	glm::vec3* v2;
+	glm::vec3* v3;
+	glm::vec2 contact;
+	float length;
+
+	for (Poly& polygon : *(object->polygons.GetVector())) {
+
+		v1 = &object->vertices.GetPointUV(polygon.point[0])->vertex;
+		v2 = &object->vertices.GetPointUV(polygon.point[1])->vertex;
+		v3 = &object->vertices.GetPointUV(polygon.point[2])->vertex;
+
+		// if collision occurs
+		if (glm::intersectRayTriangle(
+			translatedCameraPosition, 
+			translatedPickRay, 
+			*v1, 
+			*v2, 
+			*v3, 
+			contact, 
+			length)
+		) {
+
+			if (length < pickedObject.distance) {
+
+				pickedObject.hasBeenPicked = true;
+				pickedObject.distance = length;
+			}
+
+			OutputDebugStringA("Cheese");
+		}
+	}
+
+	return pickedObject;
+
+	// translate the position to coincide with the object's world position
+	//glm::vec3 translatedPosition = glm::inverse(worldPosition) * glm::vec4(position, 1.0f);
+
+	//for (Poly& polygon : obj.polygons) {
+
+	//	v1 = glm::vec3(obj.vertices.at(polygon.point[0]).vertex);
+	//	v2 = glm::vec3(obj.vertices.at(polygon.point[1]).vertex);
+	//	v3 = glm::vec3(obj.vertices.at(polygon.point[2]).vertex);
+
+	//	// if culling faces is chosen, only accept polygons facing the camera
+	//	if (cullFaces && glm::dot(pickingRay, polygon.normal) > 0) {
+
+	//		// if collision occurs
+	//		if (glm::intersectRayTriangle(translatedPosition, pickingRay, v1, v2, v3, contact, length)) {
+
+	//			// save information about picked poly
+	//			cPoly.local_polygon = polygon;
+	//			cPoly.local_contact = (position + (pickingRay * length));
+
+	//			cPoly.global_polygon = polygon;
+	//			cPoly.global_contact = (position + (pickingRay * length));
+
+	//			clippedPolys.push_back(cPoly);
+	//		}
+	//	}
+	//}
+
+	//return clippedPolys;
 }
 
 void Camera::RotateCam(int newX, int newY, bool arcballCam) {

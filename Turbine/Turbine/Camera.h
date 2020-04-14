@@ -6,6 +6,14 @@
 
 #include <vector>
 
+// struct to return data from a picked object
+struct PickObject {
+
+	bool		hasBeenPicked = false;  // has the object been picked
+	Object3D*	object;					// reference to the object picked
+	float		distance = FLT_MAX;		// distacne along the pick ray the object was picked from
+};
+
 class Camera {
 
 public:
@@ -21,7 +29,7 @@ public:
 
 	// calcualte a picking ray from the scene
 	glm::vec3 CalculatePickRay(float mX, float mY, float vX, float vY);
-	bool ObjectPicked(Object3D* object, glm::vec3 pickingRay);
+	PickObject ObjectPicked(Object3D* object, glm::vec3 pickingRay);
 
 	void SetPosition(glm::vec3 newPosition);
 	void SetTarget(glm::vec3 newTarget);

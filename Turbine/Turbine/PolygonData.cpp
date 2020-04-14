@@ -65,6 +65,11 @@ void PolygonData::_SetData(unsigned short* newPolyData, int noofElements) {
 
 // =============================================================================
 
+// Get a reference to the _polygon_struct_data vector
+std::vector<Poly>* PolygonData::GetVector() {
+
+	return &_polygon_struct_data;
+}
 
 // Get the polygon data required for glBufferData
 unsigned short* PolygonData::GetData() {

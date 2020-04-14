@@ -214,3 +214,35 @@ void Object3D::SetTexture(unsigned int newTextureID) {
 	useTexture = true;
 	textureID = newTextureID;
 }
+
+// Get a TranslationStack representing translation of object for current world space
+TranslationStack Object3D::GetWorldTranslation() {
+
+	TranslationStack translations;
+	translations.InitModelMatrix(true);
+
+	_GetWorldTranslation(translations);
+
+	return(translations);
+}
+
+// Recursively build a TranslationStack from object parents
+void Object3D::_GetWorldTranslation(TranslationStack& translations) {
+
+	// do parent translation first
+	if (parent != nullptr)
+		parent->_GetWorldTranslation(translations);
+
+	// save current model matrix
+	translations.PushModelMatrix();
+
+	// as the current translation values are global and not local, preform the offset values instead
+	translations.Translate(localPos[0], localPos[1], localPos[2]);
+	translations.Translate(translation[0], translation[1], translation[2]);
+	translations.Scale(scale[0], scale[1], scale[2]);
+
+	// preform the rotation
+	translations.RotateX(rotation[0]);
+	translations.RotateY(rotation[1]);
+	translations.RotateZ(rotation[2]);
+}

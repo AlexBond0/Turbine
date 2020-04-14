@@ -22,6 +22,9 @@
 // Prototyping
 
 int OnCreate(const char* glsl_version);
+void OnMouseClickL(int winX, int winY, int mouseX, int mouseY);
+
+
 void window_size_callback(GLFWwindow* window, int width, int height);
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
@@ -51,6 +54,8 @@ bool isMDragging = false;
 bool isRDragging = false;
 bool isClicking = false;
 bool hasBeenDragged = false;
+
+int windowX, windowY;
 
 GLFWwindow* window;
 DebugUI* debugUI;
@@ -284,6 +289,9 @@ void window_size_callback(GLFWwindow* window, int width, int height) {
 
 	if (width > 0 && height > 0 && scene) {
 
+		windowX = width;
+		windowY = height;
+
 
 		glViewport(0, 0, width, height);
 
@@ -465,6 +473,11 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 	ImGuiIO& io = ImGui::GetIO();
 	bool validClick = (action == GLFW_PRESS && !io.WantCaptureMouse);
 
+	double xpos, ypos;
+	int winx, winy;
+	glfwGetCursorPos(window, &xpos, &ypos);
+	glfwGetWindowSize(window, &winx, &winy);
+
 	switch (button) {
 
 		case GLFW_MOUSE_BUTTON_LEFT: {
@@ -479,8 +492,16 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 				isClicking = false;
 				scene->camera.FinishMovement();
 				
-				//if (!hasBeenDragged)
-				//	OnMouseClick(nFlags, x, y);
+				if (!hasBeenDragged) {
+
+					std::string s;
+					s = "\nclick : " + std::to_string(xpos);
+					s += " - " + std::to_string(ypos);
+					OutputDebugStringA(s.c_str());
+
+					OnMouseClickL(winx, winy, xpos, ypos);
+				}
+				//	OnMouseClickL();
 				
 				hasBeenDragged = false;
 			}
@@ -529,4 +550,20 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
 
 	if (!scene->pov)
 		scene->camera.FocusCam(yoffset);
+}
+
+void OnMouseClickL(int winX, int winY, int mouseX, int mouseY) {
+
+	// get picked object
+	/*PICK_Poly selectedPoly = scene->camera.getClosestPickPoly(
+		scene.camera.calculatePickRay(mouseX, mouseY, windX, windY),
+		scene.objs.All(),
+		true
+	);*/
+
+	glm::vec3 pickRay = scene->camera.CalculatePickRay(winX, winY, mouseX, mouseY);
+
+	PickObject p = scene->camera.ObjectPicked(scene->objects["Platter"], pickRay);
+
+	int x = 0;
 }

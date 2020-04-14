@@ -45,6 +45,11 @@ public:
 	void AddChild(Object3D* newChild);
 	void SetParent(Object3D* newParent);
 
+	TranslationStack GetWorldTranslation();
+
+	PointData vertices;			// vertex data
+	PolygonData polygons;		// polygon data
+
 protected:
 
 	char* name;					// object name
@@ -52,9 +57,6 @@ protected:
 
 	std::vector<Object3D*> children;	// children in object heirarchy
 	Object3D* parent;					// parent in object heirarchy
-
-	PointData vertices;			// vertex data
-	PolygonData polygons;		// polygon data
 
 	// texture data
 	bool hasTexture = false;	// does the object have a texture
@@ -73,6 +75,8 @@ protected:
 	virtual void _HandleVBOs(RenderingContext& rcontext);
 	virtual void _HandleVertVBO(RenderingContext& rcontext);
 	virtual void _HandlePolyVBO(RenderingContext& rcontext);
+
+	void _GetWorldTranslation(TranslationStack& translations);
 };
 
 // Set the texturemap of the object via texturemap ID
