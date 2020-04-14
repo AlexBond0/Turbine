@@ -3,7 +3,8 @@
 #include "RenderingContext.h"
 #include "Material.h"
 #include "Moveable.h"
-#include "ObjectDataHandlers.h"
+#include "PointData.h"
+#include "PolygonData.h"
 
 #include <vector>
 #include <map>

@@ -97,8 +97,11 @@
     <ClCompile Include="DebugUI.cpp">
       <Filter>Turbine Engine\Debug UI</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectDataHandlers.cpp">
-      <Filter>Turbine Engine\Object</Filter>
+    <ClCompile Include="PointData.cpp">
+      <Filter>Turbine Engine\Object\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="PolygonData.cpp">
+      <Filter>Turbine Engine\Object\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -189,8 +192,11 @@
     <ClInclude Include="DebugUIContainer.h">
       <Filter>Turbine Engine\Debug UI</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectDataHandlers.h">
-      <Filter>Turbine Engine\Object</Filter>
+    <ClInclude Include="PointData.h">
+      <Filter>Turbine Engine\Object\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="PolygonData.h">
+      <Filter>Turbine Engine\Object\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
