@@ -39,12 +39,15 @@ public:
 
 	void GenerateCube(float size, bool invertNormals);
 	void GenerateTree(float radius, float height);
+	void GenerateIcoSphere(float radius, int recursions);
+	void GenerateDirector(float radius);
 
 private:
 
 	Geomitory _GenerateCylinder(float radius, float height, int segments);
 	Geomitory _GenerateCone(float radius, float height, int segments);
 	Geomitory _GenerateCube(float size, bool invertNormals);
+	Geomitory _GenerateBaseIcoSphere(float radius);
 
 	Geomitory _GenerateCircle(float radius, int segments, bool up);
 

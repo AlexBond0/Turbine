@@ -11,6 +11,8 @@
 
 #define GLM_ENABLE_EXPERIMENTAL
 
+#include "glm\gtx\vector_angle.hpp"
 #include "glm\gtx\intersect.hpp"
 
 #define DEGSTORADS(x)     ((x*M_PI)/180.0f)
+#define RADSTODEGS(x)     ((x/M_PI)*180.0f)

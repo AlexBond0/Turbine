@@ -52,9 +52,13 @@ void Camera::DefaultPOVCam() {
 // given a mouse xy and view xy, calculate a direction vertex for a picking ray
 glm::vec3 Camera::CalculatePickRay(float mX, float mY, float vX, float vY) {
 
+
+	glm::vec3 direction = glm::normalize(position - target);
+	// glm::vec3 direction = position - target;
+
 	// calculate reuseable h anv v values from camera information
-	glm::vec3 h = glm::normalize(glm::cross(target, up));
-	glm::vec3 v = glm::normalize(glm::cross(h, target));
+	glm::vec3 h = glm::normalize(glm::cross(direction, up));
+	glm::vec3 v = glm::normalize(glm::cross(h, direction));
 
 	// use the near-clipping plane to get length values for h and v
 	float vLength = tan(fFovy / 2) * fZNear;
@@ -64,7 +68,7 @@ glm::vec3 Camera::CalculatePickRay(float mX, float mY, float vX, float vY) {
 	v *= vLength;
 	h *= hLength;
 
-	// calculate relative position of mouse on near clipping plane 
+	// calculate relative position of mouse on near clipping plane
 	float horzFactor = (mX - vX / 2) / (vX / 2);
 	float vertFactor = (mY - vY / 2) / (vY / 2);
 

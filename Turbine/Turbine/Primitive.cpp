@@ -56,6 +56,37 @@ void Primitive::GenerateTree(float radius, float height) {
 	specular = color4(0.0, 0.0, 0.0, 1.0);
 }
 
+void Primitive::GenerateIcoSphere(float radius, int recursions) {
+
+	vertices.SetUV(true);
+
+	Geomitory sphere = _GenerateBaseIcoSphere(radius);
+	_AssignGeomitoryData(sphere);
+
+	ambient = color4(0.4, 0.4, 0.4, 1.0);
+	diffuse = color4(1.0, 1.0, 1.0, 1.0);
+	specular = color4(0.0, 0.0, 0.0, 1.0);
+}
+
+void Primitive::GenerateDirector(float radius) {
+
+	vertices.SetUV(true);
+
+	Geomitory sphere = _GenerateBaseIcoSphere(radius);
+
+	Geomitory pointer = _GenerateCylinder((radius / 3), (radius * 2), 3);
+	_TranslateGeomitory(pointer, 0.0f, radius, 0.0f);
+
+	Geomitory director = sphere + pointer;
+
+	_AssignGeomitoryData(director);
+
+	ambient = color4(0.4, 0.4, 0.4, 1.0);
+	diffuse = color4(1.0, 1.0, 1.0, 1.0);
+	specular = color4(0.0, 0.0, 0.0, 1.0);
+}
+
+
 // generate a cylinder primitive
 Geomitory Primitive::_GenerateCylinder(float radius, float height, int segments) {
 
@@ -174,6 +205,82 @@ Geomitory Primitive::_GenerateCube(float size, bool invertNormals) {
 		{ 13, 4, 5 }
 	};
 	for (int poly = 0; poly < 12; poly++)
+		for (int part = 0; part < 3; part++)
+			data.polys.push_back(polys[poly][part]);
+
+	return data;
+}
+
+Geomitory Primitive::_GenerateBaseIcoSphere(float radius) {
+
+	Geomitory data;
+
+	float t = (1.0 + sqrt(5.0)) / 2.0;
+	t *= radius;
+
+	/*
+		{ -radius, t, 0, radius, -t, -0, 0, 0 },
+		{ radius, t, 0, -radius, -t, -0, 0, 0 },
+		{ -radius, -t, -0, radius, t, 0, 0, 0 },
+		{ radius, -t, -0, -radius, t, 0, 0, 0 },
+		{ 0, -radius, t, -0, radius, -t, 0, 0 },
+		{ 0, radius, t, -0, -radius, -t, 0, 0 },
+		{ 0, -radius, -t, -0, radius, t, 0, 0 },
+		{ 0, radius, -t, -0, -radius, t, 0, 0 },
+		{ t, 0, -radius, -t, -0, radius, 0, 0 },
+		{ t, 0, radius, -t, -0, -radius, 0, 0 },
+		{ -t, 0, -radius, t, -0, radius, 0, 0 },
+		{ -t, 0, radius, t, -0, -radius, 0, 0 },
+	*/
+
+	float verts[12][8] = {
+		{ -radius, t, 0, -radius, t, 0, 0, 0 },
+		{ radius, t, 0, radius, t, 0, 0, 0 },
+		{ -radius, -t, -0, -radius, -t, -0, 0, 0 },
+		{ radius, -t, 0, radius, -t, 0, 0, 0 },
+		{ 0, -radius, t, 0, -radius, t, 0, 0 },
+		{ 0, radius, t, 0, radius, t, 0, 0 },
+		{ 0, -radius, -t, 0, -radius, -t, 0, 0 },
+		{ 0, radius, -t, 0, radius, -t, 0, 0 },
+		{ t, 0, -radius, t, 0, -radius, 0, 0 },
+		{ t, 0, radius, t, 0, radius, 0, 0 },
+		{ -t, 0, -radius, -t, 0, -radius, 0, 0 },
+		{ -t, 0, radius, -t, 0, radius, 0, 0 },
+
+	};
+	for (int vert = 0; vert < 12; vert++)
+		for (int part = 0; part < 8; part++)
+			data.vecs.push_back(verts[vert][part]);
+
+	unsigned short polys[20][3] = {
+		{11, 5, 0},
+		{5, 1, 0},
+		{1, 7, 0},
+		{7, 10, 0},
+		{10, 11, 0},
+
+		// 5 adjacent faces
+		{5, 9, 1},
+		{11, 4, 5},
+		{10, 2, 11},
+		{7, 6, 10},
+		{1, 8, 7},
+
+		// 5 faces around point 3
+		{9, 4, 3},
+		{4, 2, 3},
+		{2, 6, 3},
+		{6, 8, 3},
+		{8, 9, 3},
+
+		// 5 adjacent faces
+		{9, 5, 4},
+		{4, 11, 2},
+		{2, 10, 6},
+		{6, 7, 8},
+		{8, 1, 9}
+	};
+	for (int poly = 0; poly < 20; poly++)
 		for (int part = 0; part < 3; part++)
 			data.polys.push_back(polys[poly][part]);
 

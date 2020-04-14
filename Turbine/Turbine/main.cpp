@@ -563,6 +563,19 @@ void OnMouseClickL(int winX, int winY, int mouseX, int mouseY) {
 
 	glm::vec3 pickRay = scene->camera.CalculatePickRay(winX, winY, mouseX, mouseY);
 
+	Primitive* rayball = new Primitive();
+	rayball->GenerateDirector(0.05);
+	rayball->SetTranslation(scene->camera.position.x, scene->camera.position.y, scene->camera.position.z);
+	// rayball->SetRotation(pickRay.x, pickRay.y, pickRay.z);
+
+	rayball->PointAt(glm::vec3(0.0, 1.0, 0.0), glm::vec3(1.0, 1.0, 1.0));
+
+	scene->objects["rayball"] = rayball;
+	scene->objectsToDraw.push_back(rayball);
+
+
+
+
 	PickObject p = scene->camera.ObjectPicked(scene->objects["Platter"], pickRay);
 
 	int x = 0;

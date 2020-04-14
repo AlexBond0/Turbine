@@ -16,15 +16,18 @@ public:
 
 	void SetLocalPos(byte* buffer);
 	void SetLocalPos(float x, float y, float z);
+	void SetLocalPos(glm::vec3 pos);
 	glm::vec3 GetLocalPosVec();
 
 	void SetTranslation(byte* buffer);
 	void SetTranslation(float x, float y, float z);
+	void SetTranslation(glm::vec3 pos);
 	glm::vec3 GetTranlationVec();
 
 	void SetRotation(byte* buffer);
 	void SetRotation(float* rot);
 	void SetRotation(float x, float y, float z);
+	void SetRotation(glm::vec3 rot);
 	glm::vec3 GetRotationVec();
 
 	void ShiftRotation(float* rot);
@@ -32,7 +35,10 @@ public:
 
 	void SetScale(byte* buffer);
 	void SetScale(float x, float y, float z);
+	void SetScale(glm::vec3 newScale);
 	glm::vec3 GetScaleVec();
+
+	void PointAt(glm::vec3 objectDirection, glm::vec3 newDirection);
 
 protected:
 
