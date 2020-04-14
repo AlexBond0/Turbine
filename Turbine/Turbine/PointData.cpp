@@ -2,26 +2,30 @@
 
 PointData::PointData() {
 
-	_pointData = NULL;
-	_pointDataSet = false;
+	//_pointData = NULL;
+	//_pointDataSet = false;
 	_incuv = false;
 }
 
 
 PointData::~PointData() {
 
-	if (!_pointDataSet)
-		free(_pointData);
+	//if (!_pointDataSet)
+	//	free(_pointData);
 }
 
 // Set new point data from exiting PointData object
 void PointData::SetData(PointData pointData) {
 
-	SetData(
-		pointData.GetPointerArrayData(),
-		pointData.Size(),
-		pointData.HasUV()
-	);
+	//SetData(
+	//	pointData.GetData(),
+	//	pointData.Size(),
+	//	pointData.HasUV()
+	//);
+
+	_point_vn_data = pointData._point_vn_data;
+	_point_vnu_data = pointData._point_vnu_data;
+	_incuv = pointData._incuv;
 }
 
 // Set internal point memory from new byte* array
@@ -31,19 +35,21 @@ void PointData::SetData(byte* buffer, int pointCount, int bufferlen) {
 	_incuv = (bufferlen == 4 * (pointCount * 8));
 
 	// allocate memory
-	_pointData = (float*)malloc(bufferlen);
-	_pointDataSet = true;
+	float* pointData = (float*)malloc(bufferlen);
+	// _pointDataSet = true;
 
 	// move data across
-	memcpy(_pointData, buffer, bufferlen);
-	_pointCount = pointCount;
+	memcpy(pointData, buffer, bufferlen);
+	// _pointCount = pointCount;
 
-	_pointDataSize = sizeof(float) * _pointCount * (_incuv ? 8 : 6);
+	// _pointDataSize = sizeof(float) * _pointCount * (_incuv ? 8 : 6);
 
 	if (_incuv)
-		_ConvertToPointUV();
+		_ConvertToPointUV(pointData, pointCount);
 	else
-		_ConvertToPoint();
+		_ConvertToPoint(pointData, pointCount);
+
+	free(pointData);
 }
 
 // Set internal point memory from new float* array
@@ -51,48 +57,49 @@ void PointData::SetData(float* newVertData, int pointCount, bool uv) {
 
 	_incuv = uv;
 
-	_pointDataSize = sizeof(float) * pointCount * (uv ? 8 : 6);
+	int pointDataSize = sizeof(float) * pointCount * (uv ? 8 : 6);
 
 	// allocate memory
-	free(_pointData);
-	_pointData = (float*)malloc(_pointDataSize);
-	_pointDataSet = true;
+	// free(_pointData);
+	float* pointData = (float*)malloc(pointDataSize);
+	// _pointDataSet = true;
 
 	// move data across
-	memcpy(_pointData, newVertData, _pointDataSize);
-	_pointCount = pointCount;
-
+	memcpy(pointData, newVertData, pointDataSize);
+	// _pointCount = pointCount;
 
 	if (_incuv)
-		_ConvertToPointUV();
+		_ConvertToPointUV(pointData, pointCount);
 	else
-		_ConvertToPoint();
+		_ConvertToPoint(pointData, pointCount);
+
+	free(pointData);
 }
 
 // Convert current _pointData heap memeory into useable std::vector<Point>
-void PointData::_ConvertToPoint() {
+void PointData::_ConvertToPoint(float* pointData, int pointCount) {
 
 	int stride;
 	glm::vec3	vertex;
 	glm::vec3	normal;
 	_point_vn_data.empty();
-	_point_vn_data.reserve(_pointCount);
+	_point_vn_data.reserve(pointCount);
 
-	for (int point = 0; point < _pointCount; point++) {
+	for (int point = 0; point < pointCount; point++) {
 
 		// 6 floats define a Point
 		stride = (point * 6);
 
 		vertex = glm::vec3(
-			_pointData[stride + 0],
-			_pointData[stride + 1],
-			_pointData[stride + 2]
+			pointData[stride + 0],
+			pointData[stride + 1],
+			pointData[stride + 2]
 		);
 
 		normal = glm::vec3(
-			_pointData[stride + 3],
-			_pointData[stride + 4],
-			_pointData[stride + 5]
+			pointData[stride + 3],
+			pointData[stride + 4],
+			pointData[stride + 5]
 		);
 
 		Point p;
@@ -104,35 +111,35 @@ void PointData::_ConvertToPoint() {
 }
 
 // Convert current _pointData heap memeory into useable std::vector<PointUV>
-void PointData::_ConvertToPointUV() {
+void PointData::_ConvertToPointUV(float* pointData, int pointCount) {
 
 	int stride;
 	glm::vec3	vertex;
 	glm::vec3	normal;
 	glm::vec2	uv;
 	_point_vnu_data.empty();
-	_point_vnu_data.reserve(_pointCount);
+	_point_vnu_data.reserve(pointCount);
 
-	for (int point = 0; point < _pointCount; point++) {
+	for (int point = 0; point < pointCount; point++) {
 
 
 		stride = (point * 8);
 
 		vertex = glm::vec3(
-			_pointData[stride + 0],
-			_pointData[stride + 1],
-			_pointData[stride + 2]
+			pointData[stride + 0],
+			pointData[stride + 1],
+			pointData[stride + 2]
 		);
 
 		normal = glm::vec3(
-			_pointData[stride + 3],
-			_pointData[stride + 4],
-			_pointData[stride + 5]
+			pointData[stride + 3],
+			pointData[stride + 4],
+			pointData[stride + 5]
 		);
 
 		uv = glm::vec2(
-			_pointData[stride + 6],
-			_pointData[stride + 7]
+			pointData[stride + 6],
+			pointData[stride + 7]
 		);
 
 		PointUV p;
@@ -239,13 +246,13 @@ bool PointData::DeletePoint(int index) {
 
 // Get the polygon data required for glBufferData
 // NEEDS DEPRECIATING
-float* PointData::GetPointerArrayData() {
-
-	return _pointData;
-}
+//float* PointData::GetPointerArrayData() {
+//
+//	return _pointData;
+//}
 
 // Get the polygon data required for glBufferData
-void* PointData::GetVectorData() {
+void* PointData::GetData() {
 
 	if (_incuv)
 		return &_point_vnu_data[0];
@@ -257,18 +264,22 @@ void* PointData::GetVectorData() {
 // Ammount of point objects in the point buffer
 int PointData::Size() {
 
-	return _pointCount;
+	if (_incuv)
+		return _point_vnu_data.size();
+
+	else
+		return _point_vn_data.size();
 }
 
 // Data length of the _pointData heap memeory
 // NEEDS DEPRECIATING
-int PointData::VectorDataSize() {
-
-	return _pointDataSize;
-}
+//int PointData::VectorDataSize() {
+//
+//	return _pointDataSize;
+//}
 
 // Data length of the point vector
-int PointData::PointerArrayDataSize() {
+int PointData::DataSize() {
 
 	if (_incuv)
 		return sizeof(PointUV) * _point_vnu_data.size();

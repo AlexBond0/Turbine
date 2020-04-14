@@ -32,7 +32,7 @@ public:
 	void SetVertexData(byte* buffer, int noofverts, int bufferlen);
 	void SetVertexData(float* newVertData, int noofverts, bool uv);
 
-	float* GetVertData();
+	void* GetVertData();
 	int GetVertCount();
 
 	void SetTriangles(byte* buffer, int noofpolys);
@@ -95,9 +95,9 @@ inline char* Object3D::GetName() {
 
 // Get Vertex Data in the form of a float* array
 // NEEDS DEPRECIATING
-inline float* Object3D::GetVertData() {
+inline void* Object3D::GetVertData() {
 
-	return vertices.GetPointerArrayData(); // vertexdata;
+	return vertices.GetData(); // vertexdata;
 }
 
 // Get amount of verticies defining the object

@@ -197,7 +197,7 @@ void Scene::_GenerateTrees() {
 	// get vert data
 	Object3D* plane = objects["Plane"];
 	int size = plane->GetVertCount() * 8;
-	float* verts = plane->GetVertData();
+	float* verts = (float*)plane->GetVertData();
 
 	// create memory space for tree instances
 	int noofTrees = plane->GetVertCount();

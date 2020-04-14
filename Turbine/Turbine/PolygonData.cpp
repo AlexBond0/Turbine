@@ -3,16 +3,11 @@
 
 PolygonData::PolygonData() {
 
-	// _polygonData = NULL;
-	// _polygonCount = 0;
-	// _polygonDataSet = false;
 	_polygonElementType = GL_TRIANGLES;
 }
 
 PolygonData::~PolygonData() {
 
-	//if (!_polygonDataSet)
-	//	free(_polygonData);
 }
 
 // Assign polygon data from an existing PolygonData object
@@ -59,15 +54,12 @@ void PolygonData::_ConvertToPolygon(unsigned short* polygonData, int polygonCoun
 void PolygonData::_SetData(unsigned short* newPolyData, int noofElements) {
 
 	int polygonDataSize = 3 * noofElements * sizeof(unsigned short);
-
-	// free(_polygonData);
 	unsigned short* polygonData;
+
 	polygonData = (unsigned short*)malloc(polygonDataSize);
 	memcpy(polygonData, newPolyData, polygonDataSize);
-	// _polygonDataSet = true;
 
 	_polygonElementType = GL_TRIANGLES;
-	// _polygonCount = noofElements;
 
 	_ConvertToPolygon(polygonData, noofElements);
 	free(polygonData);
@@ -75,12 +67,6 @@ void PolygonData::_SetData(unsigned short* newPolyData, int noofElements) {
 
 // =============================================================================
 
-// Get the polygon data required for glBufferData
-// NEEDS DEPRECIATING
-//unsigned short* PolygonData::GetPointerArrayData() {
-//
-//	return _polygonData;
-//}
 
 // Get the polygon data required for glBufferData
 unsigned short* PolygonData::GetData() {
@@ -101,11 +87,6 @@ int PolygonData::ElementCount() {
 	return _polygon_struct_data.size() * 3;
 }
 
-// Data size of the pointer array data buffer
-//int PolygonData::PointerArrayDataSize() {
-//
-//	return _polygonDataSize;
-//}
 
 // Data size of the Poly vector data buffer
 int PolygonData::DataSize() {

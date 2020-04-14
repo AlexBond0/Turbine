@@ -61,8 +61,8 @@ void Object3D::_InitVBOs()
 	glBindBuffer(GL_ARRAY_BUFFER, vbos[0]);
 	glBufferData(
 		GL_ARRAY_BUFFER,
-		vertices.VectorDataSize(),
-		vertices.GetVectorData(),
+		vertices.DataSize(),
+		vertices.GetData(),
 		GL_STATIC_DRAW
 	);
 
