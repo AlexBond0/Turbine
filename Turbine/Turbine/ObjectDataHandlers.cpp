@@ -14,6 +14,7 @@ PointData::~PointData() {
 		free(_pointData);
 }
 
+// Set new point data from exiting PointData object
 void PointData::SetData(PointData pointData) {
 
 	SetData(
@@ -23,6 +24,7 @@ void PointData::SetData(PointData pointData) {
 	);
 }
 
+// Set internal point memory from new byte* array
 void PointData::SetData(byte* buffer, int pointCount, int bufferlen) {
 
 	// does buffer have uv data
@@ -44,6 +46,7 @@ void PointData::SetData(byte* buffer, int pointCount, int bufferlen) {
 		_ConvertToPoint();
 }
 
+// Set internal point memory from new float* array
 void PointData::SetData(float* newVertData, int pointCount, bool uv) {
 
 	_incuv = uv;
@@ -66,6 +69,7 @@ void PointData::SetData(float* newVertData, int pointCount, bool uv) {
 		_ConvertToPoint();
 }
 
+// Convert current _pointData heap memeory into useable std::vector<Point>
 void PointData::_ConvertToPoint() {
 
 	int stride;
@@ -99,6 +103,7 @@ void PointData::_ConvertToPoint() {
 	}
 }
 
+// Convert current _pointData heap memeory into useable std::vector<PointUV>
 void PointData::_ConvertToPointUV() {
 
 	int stride;
@@ -140,14 +145,107 @@ void PointData::_ConvertToPointUV() {
 	}
 }
 
+// Add new point, returns false if Point was modified to PointUV to be added correctly
+bool PointData::AddPoint(Point newPoint) {
+
+	// incoming newPoint needs no modification
+	if (!_incuv) {	
+
+		_point_vn_data.push_back(newPoint);
+		return true;
+	}
+
+	// newPoint needs converting
+	else {
+		
+		PointUV p;
+		p.vertex = newPoint.vertex;
+		p.normal = newPoint.normal;
+		p.uv = glm::vec2(1.0);
+
+		_point_vnu_data.push_back(p);
+		return false;
+	}
+}
+
+// Add new point, returns false if PointUV was modified to Point to be added correctly
+bool PointData::AddPoint(PointUV newPoint) {
+
+	// incoming newPoint needs no modification
+	if (_incuv) {
+
+		_point_vnu_data.push_back(newPoint);
+		return true;
+	}
+
+	// newPoint needs converting
+	else {
+
+		Point p;
+		p.vertex = newPoint.vertex;
+		p.normal = newPoint.normal;
+
+		_point_vn_data.push_back(p);
+		return false;
+	}
+}
+
+// Gets PointUV at given index (may return nullptr if wrong datatype is requested)
+PointUV* PointData::GetPointUV(int index) {
+
+	// if index is in range and has uv coords
+	if (_incuv && index >= 0 && index < _point_vnu_data.size())
+		return &_point_vnu_data[index];
+
+	else
+		return nullptr;
+}
+
+// Gets Point at given index (may return nullptr if wrong datatype is requested)
+Point* PointData::GetPoint(int index) {
+
+	// if index is in range and has no uv coords
+	if (!_incuv && index >= 0 && index < _point_vn_data.size())
+		return &_point_vn_data[index];
+
+	else
+		return nullptr;
+}
+
+// Delete point at index, returns true if completed correctly
+bool PointData::DeletePoint(int index) {
+
+	if (_incuv) {
+
+		if (index >= 0 && index < _point_vnu_data.size()) {
+
+			_point_vnu_data.erase(_point_vnu_data.begin() + index);
+			return true;
+		}
+		return false;
+	}
+	else {
+
+		if (index >= 0 && index < _point_vn_data.size()) {
+
+			_point_vn_data.erase(_point_vn_data.begin() + index);
+			return true;
+		}
+		return false;
+	}
+}
+
 
 // ==============================================================================
 
+// Get the polygon data required for glBufferData
+// NEEDS DEPRECIATING
 float* PointData::GetPointerArrayData() {
 
 	return _pointData;
 }
 
+// Get the polygon data required for glBufferData
 void* PointData::GetVectorData() {
 
 	if (_incuv)
@@ -157,16 +255,20 @@ void* PointData::GetVectorData() {
 		return &_point_vn_data[0];
 }
 
+// Ammount of point objects in the point buffer
 int PointData::Size() {
 	
 	return _pointCount;
 }
 
+// Data length of the _pointData heap memeory
+// NEEDS DEPRECIATING
 int PointData::VectorDataSize() {
 
 	return _pointDataSize;
 }
 
+// Data length of the point vector
 int PointData::PointerArrayDataSize() {
 
 	if (_incuv)
@@ -176,12 +278,14 @@ int PointData::PointerArrayDataSize() {
 		return sizeof(Point) * _point_vn_data.size();
 }
 
-
+// Does the point data have uv coordinates
 bool PointData::HasUV() {
 
 	return _incuv;
 }
 
+// Define if point data has UV coordinates
+// NOT RECCOMENDED TO SET UNLESS NEW DATA IS BEING ASSIGNED
 void PointData::SetUV(bool hasuv) {
 
 	_incuv = hasuv;
@@ -203,7 +307,7 @@ PolygonData::~PolygonData() {
 		free(_polygonData);
 }
 
-
+// Assign polygon data from an existing PolygonData object
 void PolygonData::SetData(PolygonData polygonData) {
 
 	SetData(
@@ -212,6 +316,7 @@ void PolygonData::SetData(PolygonData polygonData) {
 	);
 }
 
+// Assign polygon data to the Object, from file load
 void PolygonData::SetData(byte* fileBuffer, int noofElements) {
 
 	_SetData((unsigned short*)fileBuffer, noofElements);
@@ -260,41 +365,44 @@ void PolygonData::_SetData(unsigned short* newPolyData, int noofElements) {
 
 // =============================================================================
 
+// Get the polygon data required for glBufferData
+// NEEDS DEPRECIATING
 unsigned short* PolygonData::GetPointerArrayData() {
 
 	return _polygonData;
 }
 
+// Get the polygon data required for glBufferData
 unsigned short* PolygonData::GetVectorData() {
 
 	return (unsigned short*)&_polygon_struct_data[0];
 }
 
-// ammount of polygon objects in the polygon buffer
+// Ammount of polygon objects in the polygon buffer
 int PolygonData::Size() {
 
 	return _polygonCount;
 }
 
-// ammount of unsigned short elements in the polygon buffer (required for glDrawElements)
+// Ammount of unsigned short elements in the polygon buffer (required for glDrawElements)
 int PolygonData::ElementCount() {
 
 	return _polygonCount * 3;
 }
 
-// data size of the pointer array data buffer
+// Data size of the pointer array data buffer
 int PolygonData::PointerArrayDataSize() {
 
 	return _polygonDataSize;
 }
 
-// data size of the Poly vector data buffer
+// Data size of the Poly vector data buffer
 int PolygonData::VectorDataSize() {
 
 	return sizeof(Poly) * _polygon_struct_data.size();
 }
 
-// render element type for OpenGL
+// Render element type for OpenGL
 int PolygonData::ElementType() {
 
 	return _polygonElementType;

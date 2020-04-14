@@ -45,50 +45,40 @@ public:
 
 protected:
 
-	char* name;	// object name
+	char* name;					// object name
+	unsigned int* vbos;			// data vbos
 
 	std::vector<Object3D*> children; // children in object heirarchy
 
-	// bool incuv;	// include uv values when sending to shader
-
-	// vertex data
-	//float* vertexdata;
-	//int noofverts;
-	PointData vertices;
-
-	// polygon data
-	//unsigned short* polygons;
-	//int elementtype;
-	//int elementcount;
-	PolygonData polygons;
+	PointData vertices;			// vertex data
+	PolygonData polygons;		// polygon data
 
 	// texture data
-	bool hasTexture = false;
-	unsigned int textureID;
+	bool hasTexture = false;	// does the object have a texture
+	unsigned int textureID;		// textureid for the object
+	int texturemap;				// texturemap for the object?
 
-	bool isInstanced = false;
-	bool isBillboarded = false;
+	// rendering flags
+	bool isInstanced = false;	// is the object instanced
+	bool isBillboarded = false;	// is the object billboarded
 
-	// data vbos
-	unsigned int* vbos;
 
-	int texturemap;
 
 	virtual void _InitVBOs();
 
 	virtual void _AssignHandleInformation(RenderingContext& rcontext);
-
 	virtual void _HandleVBOs(RenderingContext& rcontext);
 	virtual void _HandleVertVBO(RenderingContext& rcontext);
 	virtual void _HandlePolyVBO(RenderingContext& rcontext);
-
 };
 
+// Set the texturemap of the object via texturemap ID
 inline void Object3D::SetTextureMap(int id)
 {
 	texturemap = id;
 }
 
+// Set the name of the object
 inline void Object3D::SetName(const char* name)
 {
 	const int len = strlen(name) + 1;
@@ -96,22 +86,53 @@ inline void Object3D::SetName(const char* name)
 	strcpy_s(this->name, len, name);
 }
 
+// Get name of object
 inline char* Object3D::GetName() {
 
 	return name;
 }
 
+// Get Vertex Data in the form of a float* array
+// NEEDS DEPRECIATING
 inline float* Object3D::GetVertData() {
 
 	return vertices.GetPointerArrayData(); // vertexdata;
 }
 
+// Get amount of verticies defining the object
 inline int Object3D::GetVertCount() {
 
 	return vertices.Size(); //noofverts;
 }
 
+// Get vector of child objects 
 inline std::vector<Object3D*> Object3D::GetChildren() {
 
 	return children;
+}
+
+// ======================================
+
+// Assign vertex data to the Object
+inline void Object3D::SetVertexData(byte* buffer, int noofverts, int bufferlen)
+{
+	vertices.SetData(buffer, noofverts, bufferlen);
+}
+
+// Assign vertex data to the Object
+inline void Object3D::SetVertexData(float* newVertData, int noofverts, bool uv) {
+
+	vertices.SetData(newVertData, noofverts, uv);
+}
+
+// Assign polygon data to the Object
+inline void Object3D::SetTriangles(byte* buffer, int noofpolys) {
+
+	polygons.SetData(buffer, noofpolys);
+}
+
+// Assign polygon data to the Object
+inline void Object3D::SetTriangles(unsigned short* newPolyData, int noofElements) {
+
+	polygons.SetData(newPolyData, noofElements);
 }

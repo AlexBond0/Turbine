@@ -30,7 +30,6 @@ void InstancedObject::_InitVBOs() {
 	glGenBuffers(3, vbos);
 
 	// vertexes
-	// int size = 4 * noofverts*(incuv ? 8 : 6);
 	glBindBuffer(GL_ARRAY_BUFFER, vbos[0]);
 	glBufferData(
 		GL_ARRAY_BUFFER,
