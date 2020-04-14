@@ -2,26 +2,16 @@
 
 PointData::PointData() {
 
-	//_pointData = NULL;
-	//_pointDataSet = false;
 	_incuv = false;
 }
 
 
 PointData::~PointData() {
 
-	//if (!_pointDataSet)
-	//	free(_pointData);
 }
 
 // Set new point data from exiting PointData object
 void PointData::SetData(PointData pointData) {
-
-	//SetData(
-	//	pointData.GetData(),
-	//	pointData.Size(),
-	//	pointData.HasUV()
-	//);
 
 	_point_vn_data = pointData._point_vn_data;
 	_point_vnu_data = pointData._point_vnu_data;
@@ -34,15 +24,9 @@ void PointData::SetData(byte* buffer, int pointCount, int bufferlen) {
 	// does buffer have uv data
 	_incuv = (bufferlen == 4 * (pointCount * 8));
 
-	// allocate memory
 	float* pointData = (float*)malloc(bufferlen);
-	// _pointDataSet = true;
 
-	// move data across
 	memcpy(pointData, buffer, bufferlen);
-	// _pointCount = pointCount;
-
-	// _pointDataSize = sizeof(float) * _pointCount * (_incuv ? 8 : 6);
 
 	if (_incuv)
 		_ConvertToPointUV(pointData, pointCount);
@@ -58,15 +42,10 @@ void PointData::SetData(float* newVertData, int pointCount, bool uv) {
 	_incuv = uv;
 
 	int pointDataSize = sizeof(float) * pointCount * (uv ? 8 : 6);
-
-	// allocate memory
-	// free(_pointData);
 	float* pointData = (float*)malloc(pointDataSize);
-	// _pointDataSet = true;
 
-	// move data across
 	memcpy(pointData, newVertData, pointDataSize);
-	// _pointCount = pointCount;
+
 
 	if (_incuv)
 		_ConvertToPointUV(pointData, pointCount);
@@ -244,12 +223,6 @@ bool PointData::DeletePoint(int index) {
 
 // ==============================================================================
 
-// Get the polygon data required for glBufferData
-// NEEDS DEPRECIATING
-//float* PointData::GetPointerArrayData() {
-//
-//	return _pointData;
-//}
 
 // Get the polygon data required for glBufferData
 void* PointData::GetData() {
@@ -270,13 +243,6 @@ int PointData::Size() {
 	else
 		return _point_vn_data.size();
 }
-
-// Data length of the _pointData heap memeory
-// NEEDS DEPRECIATING
-//int PointData::VectorDataSize() {
-//
-//	return _pointDataSize;
-//}
 
 // Data length of the point vector
 int PointData::DataSize() {

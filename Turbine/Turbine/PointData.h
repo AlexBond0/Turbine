@@ -36,7 +36,6 @@ public:
 	void SetData(float* newVertData, int noofverts, bool uv);
 	void SetUV(bool hasuv);
 
-	// float* GetPointerArrayData();
 	void* GetData();
 
 	int Size();
@@ -49,7 +48,6 @@ public:
 
 	bool DeletePoint(int index);
 
-	// int VectorDataSize();
 	int DataSize();
 	bool HasUV();
 
@@ -60,15 +58,7 @@ private:
 
 	bool _incuv;	// does point data include uv coords
 
-	// only one of these will be active at any time, and the PointData class
-	// manages data in and out of these vectors, keeping them private
 
 	std::vector<Point> _point_vn_data;		// Storage of Point elements defining the object
 	std::vector<PointUV> _point_vnu_data;	// Storage of PointUV elements defining the object
-
-	// float* _pointData;	// float* array of data ready for OpenGL
-	// int _pointCount;	// ammount of points in data
-	// int _pointDataSize;	// size of the _pointData array
-
-	// bool _pointDataSet;	// Has the _pointData pointer been set | NEEDS DEPRECIATING
 };

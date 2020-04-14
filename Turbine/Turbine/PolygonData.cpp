@@ -13,10 +13,8 @@ PolygonData::~PolygonData() {
 // Assign polygon data from an existing PolygonData object
 void PolygonData::SetData(PolygonData polygonData) {
 
-	SetData(
-		polygonData.GetData(),
-		polygonData.Size()
-	);
+	_polygonElementType = polygonData._polygonElementType;
+	_polygon_struct_data = polygonData._polygon_struct_data;
 }
 
 // Assign polygon data to the Object, from file load
