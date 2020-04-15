@@ -31,6 +31,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+void SetupDebugUI();
 
 GLuint shaderProgram;
 GLuint VBO, VAO;
@@ -43,6 +44,8 @@ const GLuint WIDTH = 800, HEIGHT = 600;
 
 RenderingContext rcontext;
 Scene* scene;
+
+PickObject pickedObj;
 
 const static int REDRAW_TIMER = 10;
 
@@ -59,7 +62,8 @@ int windowX, windowY;
 
 GLFWwindow* window;
 DebugUI* debugUI;
-
+MoveableUI* moveUI;
+CameraUI* camUI;
 
 // The MAIN function, from here we start the application and run the game loop
 int main()
@@ -90,13 +94,7 @@ int main()
 	// OnCreate
 	if (OnCreate(glsl_version) == EXIT_SUCCESS) {
 
-		MoveableUI* moveUI = new MoveableUI();
-		moveUI->object = scene->objects["Seats"];
-		debugUI->AddComponent(moveUI);
-
-		CameraUI* camUI = new CameraUI();
-		camUI->camera = &scene->camera;
-		debugUI->AddComponent(camUI);
+		SetupDebugUI();
 
 		double timepassed = glfwGetTime();
 		double timeDiff;
@@ -119,7 +117,7 @@ int main()
 
 			// get time passed
 			timeDiff = glfwGetTime() - timepassed;
-			moveUI->timePassed = timeDiff;
+			camUI->timePassed = timeDiff;
 			timepassed = glfwGetTime();
 
 			// if time passed, apply time change to scene
@@ -288,6 +286,20 @@ int OnCreate(const char* glsl_version) {
 
 	return EXIT_SUCCESS;
 }
+
+void SetupDebugUI() {
+
+	moveUI = new MoveableUI();
+	moveUI->object = scene->objects["Seats"];
+	debugUI->AddComponent(moveUI);
+
+	camUI = new CameraUI();
+	camUI->camera = &scene->camera;
+	debugUI->AddComponent(camUI);
+}
+
+
+// ============================================================================================================
 
 void window_size_callback(GLFWwindow* window, int width, int height) {
 
@@ -499,14 +511,8 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 				
 				if (!hasBeenDragged && validRelease) {
 
-					std::string s;
-					s = "\nclick : " + std::to_string(xpos);
-					s += " - " + std::to_string(ypos);
-					OutputDebugStringA(s.c_str());
-
 					OnMouseClickL(winx, winy, xpos, ypos);
 				}
-				//	OnMouseClickL();
 				
 				hasBeenDragged = false;
 			}
@@ -559,18 +565,18 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
 
 void OnMouseClickL(int winX, int winY, int mouseX, int mouseY) {
 
+	if (pickedObj.hasBeenPicked)
+		pickedObj.object->IsHighlighted(false);
+
 	// calculate picking ray
 	glm::vec3 pickRay = scene->camera.CalculatePickRay(mouseX, mouseY, winX, winY);
 
 	// get picked object from scene
-	PickObject pickedObj = scene->camera.GetPickedObject(&scene->objects, pickRay);
+	pickedObj = scene->camera.GetPickedObject(&scene->objects, pickRay);
 
-	// debug logging
-	std::string	str = "\nNo object picked";
 	if (pickedObj.hasBeenPicked) {
-
-		str = "\n Picked : " + std::string(pickedObj.object->GetName());
-		str += (" | distance : " + std::to_string(pickedObj.distance));
+		
+		moveUI->object = pickedObj.object;
+		pickedObj.object->IsHighlighted(true);
 	}
-	OutputDebugStringA(str.c_str());
 }

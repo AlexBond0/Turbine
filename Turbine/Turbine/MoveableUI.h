@@ -16,7 +16,6 @@ public:
 	void Render();
 
 	Object3D* object;
-	double timePassed;
 };
 
 class FramesUI

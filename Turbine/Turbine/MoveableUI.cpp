@@ -13,9 +13,12 @@ MoveableUI::~MoveableUI()
 
 void MoveableUI::Render() {
 
-	std::string title = "Object : " + std::string(object->GetName());
-	ImGui::Begin(title.c_str());
-	ImGui::Text("FPS : (%f)", (float)(1 / timePassed));
+	std::string id = "ID : NULL";
+	if (object->GetName())
+		id = "ID : " + std::string(object->GetName());
+
+	ImGui::Begin("Object");
+	ImGui::Text(id.c_str());
 	ImGui::Separator();
 	ImGui::SliderFloat3("world position", &object->GetWorldPosVec()[0], -1.0, 1.0);
 	ImGui::SliderFloat3("local position", &object->GetLocalPosVec()[0], -1.0, 1.0);

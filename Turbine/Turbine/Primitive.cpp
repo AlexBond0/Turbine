@@ -55,9 +55,9 @@ void Primitive::GenerateTree(float radius, float height) {
 	_AssignGeomitoryData(tree);
 
 
-	ambient = color4(0.4, 0.4, 0.4, 1.0);
-	diffuse = color4(1.0, 1.0, 1.0, 1.0);
-	specular = color4(0.0, 0.0, 0.0, 1.0);
+	SetAmbient(color4(0.4, 0.4, 0.4, 1.0));
+	SetDiffuse(color4(1.0, 1.0, 1.0, 1.0));
+	SetSpecular(color4(0.0, 0.0, 0.0, 1.0));
 }
 
 void Primitive::GenerateIcoSphere(float radius, int recursions) {
@@ -69,9 +69,9 @@ void Primitive::GenerateIcoSphere(float radius, int recursions) {
 	Geomitory sphere = _GenerateBaseIcoSphere(radius);
 	_AssignGeomitoryData(sphere);
 
-	ambient = color4(0.4, 0.4, 0.4, 1.0);
-	diffuse = color4(1.0, 1.0, 1.0, 1.0);
-	specular = color4(0.0, 0.0, 0.0, 1.0);
+	SetAmbient(color4(0.4, 0.4, 0.4, 1.0));
+	SetDiffuse(color4(1.0, 1.0, 1.0, 1.0));
+	SetSpecular(color4(0.0, 0.0, 0.0, 1.0));
 }
 
 void Primitive::GenerateDirector(float radius) {
@@ -89,9 +89,9 @@ void Primitive::GenerateDirector(float radius) {
 
 	_AssignGeomitoryData(director);
 
-	ambient = color4(0.4, 0.4, 0.4, 1.0);
-	diffuse = color4(1.0, 1.0, 1.0, 1.0);
-	specular = color4(0.0, 0.0, 0.0, 1.0);
+	SetAmbient(color4(0.4, 0.4, 0.4, 1.0));
+	SetDiffuse(color4(1.0, 1.0, 1.0, 1.0));
+	SetSpecular(color4(0.0, 0.0, 0.0, 1.0));
 }
 
 

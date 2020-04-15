@@ -34,25 +34,39 @@ public:
 	void SetSpecLevel(float s);
 	const float GetSpecLevel();
 
+	// will be implemented better later
+	void IsHighlighted(bool highlighted);
+
 protected:
 
 	float glossiness, speclevel;
-	color4 ambient, diffuse, specular;
+
+private:
+
+	color4 _ambient, _diffuse, _specular;
+	color4	_highlight;
+	bool	_isHighlighted;
 };
 
 inline const color4 Material::GetAmbient() {
 
-	return ambient;
+	if (_isHighlighted)
+		return _highlight;
+	else
+		return _ambient;
 }
 
 inline const color4 Material::GetDiffuse() {
 
-	return diffuse;
+	if (_isHighlighted)
+		return _highlight;
+	else
+		return _diffuse;
 }
 
 inline const color4 Material::GetSpecular() {
 
-	return specular;
+	return _specular;
 }
 
 inline const float Material::GetGlossiness() {
