@@ -220,43 +220,8 @@ void Moveable::SetScale(glm::vec3 newScale) {
 // point towards a vector from a given starting vector direction
 void Moveable::PointAt(glm::vec3 newVector) {
 
-	/*glm::vec3 normStart = glm::normalize(objectDirection);
-	glm::vec3 normEnd = glm::normalize(newDirection);
-
-	glm::mat4 lookat = glm::lookAt(
-		translation,
-		newDirection,
-		glm::vec3(0.0f, 1.0f, 0.0f)
-	);
-
-	glm::quat toRotation = glm::toQuat(lookat);
-	*/
-
-	//glm::vec3 direction = glm::normalize(objectDirection);
-	//SetOrientation(
-	//	RADSTODEGS(direction.x),
-	//	RADSTODEGS(direction.y),
-	//	RADSTODEGS(direction.z)
-	//);
-
-	// rotation = newDirection;
-
 	newVector = glm::normalize(newVector);
 	orientation = _RotationBetweenVectors(up, newVector);
-
-	//glm::mat4 rotMatrix = glm::lookAt(glm::vec3(0), newVector, up);
-	//
-	//orientation = glm::quat(glm::vec3(0.0));
-	//orientation *= rotMatrix;
-
-	// glm::mat4 transform = glm::eulerAngleYXZ(newVector);
-	//glm::mat4 rotMatrix = glm::lookAt(glm::vec3(0), newVector, up);
-	//orientation = glm::quat_cast(rotMatrix);
-	//orientation = glm::quat(glm::vec3(
-	//	DEGSTORADS((newVector.x + 1) * 180),
-	//	DEGSTORADS((newVector.y + 1) * 180),
-	//	DEGSTORADS((newVector.z + 1) * 180)
-	//));
 }
 
 // Returns a quaternion such that q*start = dest
@@ -268,6 +233,7 @@ glm::quat Moveable::_RotationBetweenVectors(glm::vec3 start, glm::vec3 dest) {
 	glm::vec3 rotationAxis;
 
 	if (cosTheta < -1 + 0.001f) {
+
 		// special case when vectors in opposite directions :
 		// there is no "ideal" rotation axis
 		// So guess one; any will do as long as it's perpendicular to start

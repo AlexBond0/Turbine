@@ -131,35 +131,6 @@ PickObject Camera::ObjectPicked(Object3D* object, glm::vec3 pickingRay) {
 	}
 
 	return pickedObject;
-
-	// translate the position to coincide with the object's world position
-	//glm::vec3 translatedPosition = glm::inverse(worldPosition) * glm::vec4(position, 1.0f);
-
-	//for (Poly& polygon : obj.polygons) {
-
-	//	v1 = glm::vec3(obj.vertices.at(polygon.point[0]).vertex);
-	//	v2 = glm::vec3(obj.vertices.at(polygon.point[1]).vertex);
-	//	v3 = glm::vec3(obj.vertices.at(polygon.point[2]).vertex);
-
-	//	// if culling faces is chosen, only accept polygons facing the camera
-	//	if (cullFaces && glm::dot(pickingRay, polygon.normal) > 0) {
-
-	//		// if collision occurs
-	//		if (glm::intersectRayTriangle(translatedPosition, pickingRay, v1, v2, v3, contact, length)) {
-
-	//			// save information about picked poly
-	//			cPoly.local_polygon = polygon;
-	//			cPoly.local_contact = (position + (pickingRay * length));
-
-	//			cPoly.global_polygon = polygon;
-	//			cPoly.global_contact = (position + (pickingRay * length));
-
-	//			clippedPolys.push_back(cPoly);
-	//		}
-	//	}
-	//}
-
-	//return clippedPolys;
 }
 
 PickObject Camera::GetPickedObject(std::map<std::string, Object3D*>* objects, glm::vec3 pickingRay) {
@@ -173,12 +144,6 @@ PickObject Camera::GetPickedObject(std::map<std::string, Object3D*>* objects, gl
 			picked = newPick;
 	}
 
-	/*for (PickObject& obj : p) {
-
-		std::string	str = "\n Picked : " + std::string(obj.object->GetName());
-		str += (" | distance : " + std::to_string(obj.distance));
-		OutputDebugStringA(str.c_str());
-	}*/
 	return picked;
 }
 
@@ -343,7 +308,6 @@ void CameraPositioner::PositionCamera(RenderingContext& rcontext, Camera cam) {
 	relPosition[2] = offsetMatrix[3][2];
 
 	// transform the camera's target matrix so the camera can still look around
-	// float direction[3] = { cam.target.x, cam.target.y, cam.target.z };
 	glm::vec4 direction = glm::vec4(cam.target, 1);
 
 	// MyMatrix::MultiplyVecByMatrix(direction, offsetMatrix);

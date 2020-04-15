@@ -127,9 +127,6 @@ void Object3D::_AssignHandleInformation(RenderingContext& rcontext) {
 	rcontext.Scale(scale[0], scale[1], scale[2]);
 
 	// preform the rotation
-	//rcontext.RotateX(rotation[0]);
-	//rcontext.RotateY(rotation[1]);
-	//rcontext.RotateZ(rotation[2]);
 	rcontext.Rotate(GetOrientationMatrix());
 	rcontext.Rotate(GetRotationMatrix());
 
@@ -244,8 +241,6 @@ void Object3D::_GetWorldTranslation(TranslationStack& translations) {
 	translations.Scale(scale[0], scale[1], scale[2]);
 
 	// preform the rotation
-	//translations.RotateX(rotation[0]);
-	//translations.RotateY(rotation[1]);
-	//translations.RotateZ(rotation[2]);
 	translations.Rotate(GetOrientationMatrix());
+	translations.Rotate(GetRotationMatrix());
 }
