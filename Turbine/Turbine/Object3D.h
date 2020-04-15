@@ -41,6 +41,8 @@ public:
 	void SetTextureMap(int id);
 	void SetTexture(unsigned int newTextureID);
 
+	bool IsInstanced();
+
 	std::vector<Object3D*> GetChildren();
 	void AddChild(Object3D* newChild);
 	void SetParent(Object3D* newParent);
@@ -142,4 +144,9 @@ inline void Object3D::SetTriangles(byte* buffer, int noofpolys) {
 inline void Object3D::SetTriangles(unsigned short* newPolyData, int noofElements) {
 
 	polygons.SetData(newPolyData, noofElements);
+}
+
+inline bool Object3D::IsInstanced() {
+
+	return isInstanced;
 }

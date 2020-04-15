@@ -13,6 +13,8 @@ Primitive::~Primitive()
 // generate a cube primitive
 void Primitive::GenerateCube(float size, bool invertNormals) {
 
+	SetName("CUBE_PRIMITIVE");
+
 	// incuv = true;
 	vertices.SetUV(true);
 
@@ -21,6 +23,8 @@ void Primitive::GenerateCube(float size, bool invertNormals) {
 
 // generate a tree primitive
 void Primitive::GenerateTree(float radius, float height) {
+
+	SetName("TREE_PRIMITIVE");
 
 	float trunkWidth = radius / 6;
 	float deciHeight = height / 10;
@@ -58,6 +62,8 @@ void Primitive::GenerateTree(float radius, float height) {
 
 void Primitive::GenerateIcoSphere(float radius, int recursions) {
 
+	SetName("ICOSPHERE_PRIMITIVE");
+
 	vertices.SetUV(true);
 
 	Geomitory sphere = _GenerateBaseIcoSphere(radius);
@@ -69,6 +75,8 @@ void Primitive::GenerateIcoSphere(float radius, int recursions) {
 }
 
 void Primitive::GenerateDirector(float radius) {
+
+	SetName("DIRECTOR_PRIMITIVE");
 
 	vertices.SetUV(true);
 

@@ -52,43 +52,23 @@ void Camera::DefaultPOVCam() {
 // given a mouse xy and view xy, calculate a direction vertex for a picking ray
 glm::vec3 Camera::CalculatePickRay(float mouseX, float mouseY, float windW, float windH) {
 
-	//glm::vec3 direction = position - target;
-	//// glm::vec3 direction = position - target;
-
-	//// calculate reuseable h anv v values from camera information
-	//glm::vec3 h = glm::normalize(glm::cross(direction, up));
-	//glm::vec3 v = glm::normalize(glm::cross(h, direction));
-
-	//// use the near-clipping plane to get length values for h and v
-	//float vLength = tan(fFovy / 2) * fZNear;
-	//float hLength = vLength * (vX / vY);
-
-	//// scale h and v
-	//v *= vLength;
-	//h *= hLength;
-
-	//// calculate relative position of mouse on near clipping plane
-	//float horzFactor = (mX - vX / 2) / (vX / 2);
-	//float vertFactor = (mY - vY / 2) / (vY / 2);
-
-	//// calculate position of mouse click on the fZNear plane
-	//glm::vec3 fZNearPos = position + (target * fZNear + h * horzFactor + v * vertFactor);
-
-	//// calculate direction from camera to fZNearPos
-	//return glm::normalize(fZNearPos - position);
-
+	// positions need to be between -1 and 1
 	float clickPosX = mouseX / (windW  * 0.5f) - 1.0f;
 	float clickPosY = mouseY / (windH * 0.5f) - 1.0f;
 
+	// get diection of camera
 	glm::vec3 direction = position - target;
 
+	// calculate projection and view matrix for the camera
 	glm::mat4 proj = glm::perspective(fFovy, fAspect, fZNear, fZFar);
 	glm::mat4 view = glm::lookAt(glm::vec3(0.0f), -direction, up);
 
+	// use matrices to calculate point clicked in sreen space
 	glm::mat4 invVP = glm::inverse(proj * view);
 	glm::vec4 screenPos = glm::vec4(clickPosX, -clickPosY, 1.0f, 1.0f);
+	
+	// get direction of ray
 	glm::vec4 worldPos = invVP * screenPos;
-
 	glm::vec3 dir = glm::normalize(glm::vec3(worldPos));
 
 	return dir;
@@ -100,6 +80,11 @@ PickObject Camera::ObjectPicked(Object3D* object, glm::vec3 pickingRay) {
 	PickObject pickedObject;
 	pickedObject.object = object;
 
+	// object instancing needs sorting out at a later date
+	if (object->IsInstanced())
+		return pickedObject;
+
+	// get the current translations of the object to refer to
 	TranslationStack objectTranlation = object->GetWorldTranslation();
 
 	glm::vec3 translatedPickRay = 
@@ -116,6 +101,8 @@ PickObject Camera::ObjectPicked(Object3D* object, glm::vec3 pickingRay) {
 	glm::vec2 contact;
 	float length;
 
+	// check each polygon of object
+	// will be replaced with maybe collision box instead
 	for (Poly& polygon : *(object->polygons.GetVector())) {
 
 		v1 = &object->vertices.GetPointUV(polygon.point[0])->vertex;
@@ -133,13 +120,13 @@ PickObject Camera::ObjectPicked(Object3D* object, glm::vec3 pickingRay) {
 			length)
 		) {
 
-			if (length < pickedObject.distance) {
+			// can be modified later to save individual polygons, but for now
+			// save only if picked in front of ray
+			if (length < pickedObject.distance && length > 0) {
 
 				pickedObject.hasBeenPicked = true;
 				pickedObject.distance = length;
 			}
-
-			OutputDebugStringA("Cheese");
 		}
 	}
 
@@ -173,6 +160,26 @@ PickObject Camera::ObjectPicked(Object3D* object, glm::vec3 pickingRay) {
 	//}
 
 	//return clippedPolys;
+}
+
+PickObject Camera::GetPickedObject(std::map<std::string, Object3D*>* objects, glm::vec3 pickingRay) {
+
+	PickObject picked;
+	for (auto const& objRef : *objects) {
+
+		PickObject newPick = ObjectPicked(objRef.second, pickingRay);
+
+		if (newPick.distance < picked.distance)
+			picked = newPick;
+	}
+
+	/*for (PickObject& obj : p) {
+
+		std::string	str = "\n Picked : " + std::string(obj.object->GetName());
+		str += (" | distance : " + std::to_string(obj.distance));
+		OutputDebugStringA(str.c_str());
+	}*/
+	return picked;
 }
 
 void Camera::RotateCam(int newX, int newY, bool arcballCam) {

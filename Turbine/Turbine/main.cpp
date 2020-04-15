@@ -567,18 +567,41 @@ void OnMouseClickL(int winX, int winY, int mouseX, int mouseY) {
 	);*/
 
 	glm::vec3 pickRay = scene->camera.CalculatePickRay(mouseX, mouseY, winX, winY);
-
-	Primitive* rayball = new Primitive();
-	rayball->GenerateDirector(0.05);
-	rayball->SetTranslation(scene->camera.position.x, scene->camera.position.y, scene->camera.position.z);
-
-	rayball->PointAt(pickRay);
-
-	scene->objects["rayball"] = rayball;
-	scene->objectsToDraw.push_back(rayball);
+	PickObject pickedObj = scene->camera.GetPickedObject(&scene->objects, pickRay);
 
 
-	PickObject p = scene->camera.ObjectPicked(scene->objects["Platter"], pickRay);
+	std::string	str = "\nNo object picked";
+	if (pickedObj.hasBeenPicked) {
 
-	int x = 0;
+		str = "\n Picked : " + std::string(pickedObj.object->GetName());
+		str += (" | distance : " + std::to_string(pickedObj.distance));
+	}
+	OutputDebugStringA(str.c_str());
+
+
+	//Primitive* rayball = new Primitive();
+	//rayball->GenerateDirector(0.05);
+	//rayball->SetTranslation(scene->camera.position.x, scene->camera.position.y, scene->camera.position.z);
+
+	//rayball->PointAt(pickRay);
+
+	//scene->objects["rayball"] = rayball;
+	//scene->objectsToDraw.push_back(rayball);
+
+	//std::vector<PickObject> p;
+	//for (auto const& objRef : scene->objects) {
+
+	//	PickObject newP = scene->camera.ObjectPicked(objRef.second, pickRay);
+
+	//	if (newP.hasBeenPicked)
+	//		p.push_back(newP);
+	//}
+
+	//for (PickObject& obj : p) {
+
+	//	std::string	str = "\n Picked : " + std::string(obj.object->GetName());
+	//	str += (" | distance : " + std::to_string(obj.distance));
+	//	OutputDebugStringA(str.c_str());
+	//}
+	
 }
