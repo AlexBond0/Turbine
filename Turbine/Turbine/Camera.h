@@ -28,7 +28,7 @@ public:
 	~Camera();
 
 	// calcualte a picking ray from the scene
-	glm::vec3 CalculatePickRay(float mX, float mY, float vX, float vY);
+	glm::vec3 CalculatePickRay(float mouseX, float mouseY, float windW, float windH);
 	PickObject ObjectPicked(Object3D* object, glm::vec3 pickingRay);
 
 	void SetPosition(glm::vec3 newPosition);

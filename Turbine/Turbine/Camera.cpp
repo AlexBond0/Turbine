@@ -50,33 +50,48 @@ void Camera::DefaultPOVCam() {
 }
 
 // given a mouse xy and view xy, calculate a direction vertex for a picking ray
-glm::vec3 Camera::CalculatePickRay(float mX, float mY, float vX, float vY) {
+glm::vec3 Camera::CalculatePickRay(float mouseX, float mouseY, float windW, float windH) {
 
+	//glm::vec3 direction = position - target;
+	//// glm::vec3 direction = position - target;
 
-	glm::vec3 direction = glm::normalize(position - target);
-	// glm::vec3 direction = position - target;
+	//// calculate reuseable h anv v values from camera information
+	//glm::vec3 h = glm::normalize(glm::cross(direction, up));
+	//glm::vec3 v = glm::normalize(glm::cross(h, direction));
 
-	// calculate reuseable h anv v values from camera information
-	glm::vec3 h = glm::normalize(glm::cross(direction, up));
-	glm::vec3 v = glm::normalize(glm::cross(h, direction));
+	//// use the near-clipping plane to get length values for h and v
+	//float vLength = tan(fFovy / 2) * fZNear;
+	//float hLength = vLength * (vX / vY);
 
-	// use the near-clipping plane to get length values for h and v
-	float vLength = tan(fFovy / 2) * fZNear;
-	float hLength = vLength * (vX / vY);
+	//// scale h and v
+	//v *= vLength;
+	//h *= hLength;
 
-	// scale h and v
-	v *= vLength;
-	h *= hLength;
+	//// calculate relative position of mouse on near clipping plane
+	//float horzFactor = (mX - vX / 2) / (vX / 2);
+	//float vertFactor = (mY - vY / 2) / (vY / 2);
 
-	// calculate relative position of mouse on near clipping plane
-	float horzFactor = (mX - vX / 2) / (vX / 2);
-	float vertFactor = (mY - vY / 2) / (vY / 2);
+	//// calculate position of mouse click on the fZNear plane
+	//glm::vec3 fZNearPos = position + (target * fZNear + h * horzFactor + v * vertFactor);
 
-	// calculate position of mouse click on the fZNear plane
-	glm::vec3 fZNearPos = position + (target * fZNear + h * horzFactor + v * vertFactor);
+	//// calculate direction from camera to fZNearPos
+	//return glm::normalize(fZNearPos - position);
 
-	// calculate direction from camera to fZNearPos
-	return glm::normalize(fZNearPos - position);
+	float clickPosX = mouseX / (windW  * 0.5f) - 1.0f;
+	float clickPosY = mouseY / (windH * 0.5f) - 1.0f;
+
+	glm::vec3 direction = position - target;
+
+	glm::mat4 proj = glm::perspective(fFovy, fAspect, fZNear, fZFar);
+	glm::mat4 view = glm::lookAt(glm::vec3(0.0f), -direction, up);
+
+	glm::mat4 invVP = glm::inverse(proj * view);
+	glm::vec4 screenPos = glm::vec4(clickPosX, -clickPosY, 1.0f, 1.0f);
+	glm::vec4 worldPos = invVP * screenPos;
+
+	glm::vec3 dir = glm::normalize(glm::vec3(worldPos));
+
+	return dir;
 }
 
 // check if an object is picked with a given picking ray

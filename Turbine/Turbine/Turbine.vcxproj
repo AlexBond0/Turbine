@@ -127,6 +127,7 @@
   <ItemGroup>
     <ClCompile Include="Animator.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CameraUI.cpp" />
     <ClCompile Include="DebugUI.cpp" />
     <ClCompile Include="GLSetup.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />
@@ -155,6 +156,7 @@
   <ItemGroup>
     <ClInclude Include="Animator.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraUI.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="DebugUI.h" />
     <ClInclude Include="DebugUIContainer.h" />

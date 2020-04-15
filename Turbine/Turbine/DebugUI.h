@@ -5,6 +5,7 @@
 #include "ImGui//imgui_impl_opengl3.h"
 
 #include "MoveableUI.h"
+#include "CameraUI.h"
 
 #include "DebugUIContainer.h"
 #include <vector>

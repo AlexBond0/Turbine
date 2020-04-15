@@ -45,9 +45,11 @@ public:
 	void SetScale(glm::vec3 newScale);
 	glm::vec3 GetScaleVec();
 
-	void PointAt(glm::vec3 objectDirection, glm::vec3 newDirection);
+	void PointAt(glm::vec3 newVector);
 
 protected:
+
+	glm::quat _RotationBetweenVectors(glm::vec3 start, glm::vec3 dest);
 
 	glm::vec3 worldPos;
 	glm::vec3 localPos;
@@ -55,9 +57,10 @@ protected:
 	glm::vec3 translation;
 	glm::vec3 scale;
 
-	// glm::vec3 rotation;			// saved as euler angles
-	glm::quat rotation;
-	glm::quat orientation;		// saved as quaternion
+	glm::vec3 up;
+
+	glm::quat rotation;		// the rotation applied to the object
+	glm::quat orientation;	// the base orientation of the object
 };
 
 

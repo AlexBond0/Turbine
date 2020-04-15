@@ -94,6 +94,10 @@ int main()
 		moveUI->object = scene->objects["Seats"];
 		debugUI->AddComponent(moveUI);
 
+		CameraUI* camUI = new CameraUI();
+		camUI->camera = &scene->camera;
+		debugUI->AddComponent(camUI);
+
 		double timepassed = glfwGetTime();
 		double timeDiff;
 
@@ -472,6 +476,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 	// don't click things behind ImGui windows
 	ImGuiIO& io = ImGui::GetIO();
 	bool validClick = (action == GLFW_PRESS && !io.WantCaptureMouse);
+	bool validRelease = (action == GLFW_RELEASE && !io.WantCaptureMouse);
 
 	double xpos, ypos;
 	int winx, winy;
@@ -492,7 +497,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 				isClicking = false;
 				scene->camera.FinishMovement();
 				
-				if (!hasBeenDragged) {
+				if (!hasBeenDragged && validRelease) {
 
 					std::string s;
 					s = "\nclick : " + std::to_string(xpos);
@@ -561,19 +566,16 @@ void OnMouseClickL(int winX, int winY, int mouseX, int mouseY) {
 		true
 	);*/
 
-	glm::vec3 pickRay = scene->camera.CalculatePickRay(winX, winY, mouseX, mouseY);
+	glm::vec3 pickRay = scene->camera.CalculatePickRay(mouseX, mouseY, winX, winY);
 
 	Primitive* rayball = new Primitive();
 	rayball->GenerateDirector(0.05);
 	rayball->SetTranslation(scene->camera.position.x, scene->camera.position.y, scene->camera.position.z);
-	// rayball->SetRotation(pickRay.x, pickRay.y, pickRay.z);
 
-	rayball->PointAt(glm::vec3(0.0, 1.0, 0.0), glm::vec3(1.0, 1.0, 1.0));
+	rayball->PointAt(pickRay);
 
 	scene->objects["rayball"] = rayball;
 	scene->objectsToDraw.push_back(rayball);
-
-
 
 
 	PickObject p = scene->camera.ObjectPicked(scene->objects["Platter"], pickRay);

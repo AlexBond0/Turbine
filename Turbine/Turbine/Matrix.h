@@ -13,6 +13,9 @@
 
 #include "glm\gtx\vector_angle.hpp"
 #include "glm\gtx\intersect.hpp"
+#include "glm\gtx\euler_angles.hpp"
+#include "glm\gtx\quaternion.hpp"
 
 #define DEGSTORADS(x)     ((x*M_PI)/180.0f)
 #define RADSTODEGS(x)     ((x/M_PI)*180.0f)
+
