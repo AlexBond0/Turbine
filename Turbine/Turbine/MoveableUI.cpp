@@ -13,12 +13,14 @@ MoveableUI::~MoveableUI()
 
 void MoveableUI::Render() {
 
-	ImGui::Begin("Light");
-	ImGui::SliderFloat("Dir X", &light->direction.x, -1.0f, 1.0f);
-	ImGui::SliderFloat("Dir Y", &light->direction.y, -1.0f, 1.0f);
-	ImGui::SliderFloat("Dir Z", &light->direction.z, -1.0f, 1.0f);
-	ImGui::Separator();
+	std::string title = "Object : " + std::string(object->GetName());
+	ImGui::Begin(title.c_str());
 	ImGui::Text("FPS : (%f)", (float)(1 / timePassed));
+	ImGui::Separator();
+	ImGui::SliderFloat3("world position", &object->GetWorldPosVec()[0], -1.0, 1.0);
+	ImGui::SliderFloat3("local position", &object->GetLocalPosVec()[0], -1.0, 1.0);
+	ImGui::SliderFloat4("orientation", &object->GetOrientationQuat()[0], -1.0, 1.0);
+	ImGui::SliderFloat4("rotation", &object->GetRotationQuat()[0], -1.0, 1.0);
 	ImGui::End();
 }
 

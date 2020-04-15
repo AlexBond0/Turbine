@@ -91,7 +91,7 @@ int main()
 	if (OnCreate(glsl_version) == EXIT_SUCCESS) {
 
 		MoveableUI* moveUI = new MoveableUI();
-		moveUI->light = &scene->light;
+		moveUI->object = scene->objects["Seats"];
 		debugUI->AddComponent(moveUI);
 
 		double timepassed = glfwGetTime();

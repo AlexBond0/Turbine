@@ -193,7 +193,7 @@ void Moveable::ShiftRotation(float x, float y, float z)
 		DEGSTORADS(z)
 	));
 
-	rotation += quatRot;
+	rotation = glm::normalize(rotation * quatRot);
 }
 
 // ======================================

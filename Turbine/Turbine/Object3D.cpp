@@ -131,7 +131,7 @@ void Object3D::_AssignHandleInformation(RenderingContext& rcontext) {
 	//rcontext.RotateY(rotation[1]);
 	//rcontext.RotateZ(rotation[2]);
 	rcontext.Rotate(GetOrientationMatrix());
-	// rcontext.Rotate(GetRotationMatrix());
+	rcontext.Rotate(GetRotationMatrix());
 
 
 	rcontext.UpdateMVPs();

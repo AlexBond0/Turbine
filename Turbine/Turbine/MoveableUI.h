@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ImGui//imgui.h"
-#include "Light.h"
+#include "Object3D.h"
 #include <string>
 
 #include "DebugUIContainer.h"
@@ -15,7 +15,7 @@ public:
 
 	void Render();
 
-	Light* light;
+	Object3D* object;
 	double timePassed;
 };
 
