@@ -24,6 +24,7 @@ public:
 	void RotateX(const float degs);
 	void RotateY(const float degs);
 	void RotateZ(const float degs);
+	void Rotate(glm::mat4 rotationMat);
 
 	glm::mat4* GetCurrentModelMatrix();
 

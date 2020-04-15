@@ -240,7 +240,7 @@ void RideAnimation::MovePart(Part part, Change change) {
 // set all rotations to 0
 void RideAnimation::ResetRotations() {
 
-	float noRotation[3] = { 0.0f, 0.0f, 0.0f };
+	glm::vec3 noRotation(0.0f, 0.0f, 0.0f);
 
 	s_platter.object->SetRotation(noRotation);
 	s_arm.object->SetRotation(noRotation);
@@ -251,7 +251,7 @@ void RideAnimation::ResetRotations() {
 // move the tilt with respect to limits
 void RideAnimation::_MoveTilt(Change change) {
 
-	float currentTilt = -s_tilt.object->GetRotationVec().x;
+	float currentTilt = -s_tilt.object->GetOrientationEuler().x;
 
 	bool up = (change == Change::TILT_UP);
 

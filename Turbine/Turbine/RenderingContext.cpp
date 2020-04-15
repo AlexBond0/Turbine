@@ -74,6 +74,11 @@ void TranslationStack::RotateZ(const float degs) {
 	_modelmatrix[_depth] = glm::rotate(_modelmatrix[_depth], DEGS_TO_RADS(degs), glm::vec3(0, 0, 1));
 }
 
+void TranslationStack::Rotate(glm::mat4 rotationMat) {
+
+	_modelmatrix[_depth] *= rotationMat;
+}
+
 // Get a pointer to the current model matrix
 glm::mat4* TranslationStack::GetCurrentModelMatrix() {
 

@@ -288,17 +288,17 @@ void CameraPositioner::PositionCamera(RenderingContext& rcontext, Camera cam) {
 
 		offsetMatrix = glm::rotate(
 			offsetMatrix, 
-			DEGS_TO_RADS(-objList[objIndex]->GetRotationVec().x), 
+			DEGS_TO_RADS(-objList[objIndex]->GetOrientationEuler().x),
 			glm::vec3(1, 0, 0)
 		);
 		offsetMatrix = glm::rotate(
 			offsetMatrix,
-			DEGS_TO_RADS(-objList[objIndex]->GetRotationVec().y),
+			DEGS_TO_RADS(-objList[objIndex]->GetOrientationEuler().y),
 			glm::vec3(0, 1, 0)
 		);
 		offsetMatrix = glm::rotate(
 			offsetMatrix,
-			DEGS_TO_RADS(-objList[objIndex]->GetRotationVec().z),
+			DEGS_TO_RADS(-objList[objIndex]->GetOrientationEuler().z),
 			glm::vec3(0, 0, 1)
 		);
 

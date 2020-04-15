@@ -8,7 +8,9 @@ Moveable::Moveable() {
 	localPos = glm::vec3(0.0);
 
 	translation = glm::vec3(0.0);
-	rotation = glm::vec3(0.0);
+	// rotation = glm::vec3(0.0);
+	orientation = glm::quat(glm::vec3(0.0));
+	rotation = orientation;
 	scale = glm::vec3(1.0);
 }
 
@@ -16,7 +18,9 @@ Moveable::Moveable(Moveable* copy) {
 
 	worldPos = glm::vec3(copy->GetWorldPosVec());
 	translation = glm::vec3(copy->GetTranlationVec());
-	rotation = glm::vec3(copy->GetRotationVec());
+	// rotation = glm::vec3(copy->GetRotationEuler());
+	orientation = copy->orientation;
+	rotation = copy->rotation;
 	scale = glm::vec3(copy->GetScaleVec());
 
 	localPos = glm::vec3(0.0);
@@ -63,50 +67,133 @@ void Moveable::SetTranslation(glm::vec3 pos) {
 // ======================================
 
 // Set the rotation of the element
-void Moveable::SetRotation(byte* buffer)
+void Moveable::SetOrientation(byte* buffer)
 {
-	rotation.x = *(float*)buffer;
-	rotation.y = *(float*)(buffer + 4);
-	rotation.z = *(float*)(buffer + 8);
+	//rotation.x = *(float*)buffer;
+	//rotation.y = *(float*)(buffer + 4);
+	//rotation.z = *(float*)(buffer + 8);
+
+	orientation = glm::quat(glm::vec3(
+		*(float*)buffer,
+		*(float*)(buffer + 4),
+		*(float*)(buffer + 8)
+	));
 }
 
 // Set the rotation of the element
-void Moveable::SetRotation(float* rot)
+void Moveable::SetOrientation(float* rot)
 {
-	rotation.x = rot[0];
-	rotation.y = rot[1];
-	rotation.z = rot[2];
+	//rotation.x = rot[0];
+	//rotation.y = rot[1];
+	//rotation.z = rot[2];
+
+	orientation = glm::quat(glm::vec3(
+		rot[0],
+		rot[1],
+		rot[2]
+	));
 }
 
 // Set the rotation of the element
-void Moveable::SetRotation(float x, float y, float z)
+void Moveable::SetOrientation(float x, float y, float z, bool usingRads)
 {
-	rotation.x = x;
-	rotation.y = y;
-	rotation.z = z;
+	//rotation.x = x;
+	//rotation.y = y;
+	//rotation.z = z;
+
+	if (usingRads) {
+
+		orientation = glm::quat(glm::vec3(
+			x,
+			y,
+			z
+		));
+	}
+	else {
+
+		orientation = glm::quat(glm::vec3(
+			DEGSTORADS(x),
+			DEGSTORADS(y),
+			DEGSTORADS(z)
+		));
+	}
+	
 }
 
+// Set the rotation of the element
+void Moveable::SetOrientation(glm::vec3 rot) {
+
+	// rotation = rot;
+
+	orientation = glm::quat(rot);
+}
+
+// ======================================
+
+// Set the rotation of the element
+void Moveable::SetRotation(float x, float y, float z, bool usingRads)
+{
+	//rotation.x = x;
+	//rotation.y = y;
+	//rotation.z = z;
+
+	if (usingRads) {
+
+		rotation = glm::quat(glm::vec3(
+			x,
+			y,
+			z
+		));
+	}
+	else {
+
+		rotation = glm::quat(glm::vec3(
+			DEGSTORADS(x),
+			DEGSTORADS(y),
+			DEGSTORADS(z)
+		));
+	}
+}
 
 // Set the rotation of the element
 void Moveable::SetRotation(glm::vec3 rot) {
 
-	rotation = rot;
+
+	rotation = glm::quat(rot);
 }
+
+// ======================================
 
 // Rotate the current rotation of the element
 void Moveable::ShiftRotation(float* rot)
 {
-	rotation.x += rot[0];
-	rotation.y += rot[1];
-	rotation.z += rot[2];
+	//rotation.x += rot[0];
+	//rotation.y += rot[1];
+	//rotation.z += rot[2];
+
+	glm::quat quatRot = glm::quat(glm::vec3(
+		DEGSTORADS(rot[0]),
+		DEGSTORADS(rot[1]),
+		DEGSTORADS(rot[2])
+	));
+
+	rotation += quatRot;
 }
 
 // Rotate the current rotation of the element
 void Moveable::ShiftRotation(float x, float y, float z)
 {
-	rotation.x += x;
-	rotation.y += y;
-	rotation.z += z;
+	//rotation.x += x;
+	//rotation.y += y;
+	//rotation.z += z;
+
+	glm::quat quatRot = glm::quat(glm::vec3(
+		DEGSTORADS(x),
+		DEGSTORADS(y),
+		DEGSTORADS(z)
+	));
+
+	rotation += quatRot;
 }
 
 // ======================================
@@ -173,7 +260,7 @@ void Moveable::PointAt(glm::vec3 objectDirection, glm::vec3 newDirection) {
 	*/
 
 	glm::vec3 direction = glm::normalize(objectDirection);
-	SetRotation(
+	SetOrientation(
 		RADSTODEGS(direction.x),
 		RADSTODEGS(direction.y),
 		RADSTODEGS(direction.z)

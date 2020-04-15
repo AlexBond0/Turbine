@@ -94,7 +94,7 @@ void Scene::Setup() {
 	// create skybox
 	Primitive* skybox = new Primitive();
 	skybox->GenerateCube(20.0f, true);
-	skybox->SetRotation(0.0f, -90.0f, 0.0f);
+	skybox->SetOrientation(0.0f, -90.0f, 0.0f);
 	skybox->SetTexture(textures.id["skybox"]);
 	skybox->useLight = false;
 	objects["skybox"] = skybox;
@@ -149,7 +149,7 @@ void Scene::_LoadRide() {
 
 	// Base
 	objects["Base"]->SetTexture(textures.id["wood-base"]);					// set texture
-	objects["Base"]->SetRotation(0.0f, 0.0f, 3.3f);							// adjust angle
+	objects["Base"]->SetOrientation(0.0f, 0.0f, 3.3f);							// adjust angle
 	objects["Base"]->AddChild(objects["Platter"]);							// add child
 
 	// Platter
@@ -237,27 +237,27 @@ void Scene::_GenerateSeats() {
 
 	objRef = CreateObject(objects["Seats"], "seats-1");
 	objRef->SetTranslation(-0.16f, 0.0f, 0.095f);
-	objRef->SetRotation(0.0f, 60.0f, 0.0f);
+	objRef->SetOrientation(0.0f, 60.0f, 0.0f);
 	objects["Spinner"]->AddChild(objRef);
 
 	objRef = CreateObject(objects["Seats"], "seats-2");
 	objRef->SetTranslation(-0.16f, 0.0f, 0.280f);
-	objRef->SetRotation(0.0f, 120.0f, 0.0f);
+	objRef->SetOrientation(0.0f, 120.0f, 0.0f);
 	objects["Spinner"]->AddChild(objRef);
 
 	objRef = CreateObject(objects["Seats"], "seats-3");
 	objRef->SetTranslation(0.0f, 0.0f, 0.372f);
-	objRef->SetRotation(0.0f, 180.0f, 0.0f);
+	objRef->SetOrientation(0.0f, 180.0f, 0.0f);
 	objects["Spinner"]->AddChild(objRef);
 
 	objRef = CreateObject(objects["Seats"], "seats-4");
 	objRef->SetTranslation(0.16f, 0.0f, 0.095f);
-	objRef->SetRotation(0.0f, -60.0f, 0.0f);
+	objRef->SetOrientation(0.0f, -60.0f, 0.0f);
 	objects["Spinner"]->AddChild(objRef);
 
 	objRef = CreateObject(objects["Seats"], "seats-5");
 	objRef->SetTranslation(0.16f, 0.0f, 0.280f);
-	objRef->SetRotation(0.0f, -120.0f, 0.0f);
+	objRef->SetOrientation(0.0f, -120.0f, 0.0f);
 	objects["Spinner"]->AddChild(objRef);
 }
 
