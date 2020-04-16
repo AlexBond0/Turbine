@@ -30,18 +30,13 @@ void Scene::Render(RenderingContext rcontext) {
 	rcontext.InitModelMatrix(true);
 
 	// calculate camera properties
-	if (pov) {
-
+	if (pov) 
 		camPOV.PositionCamera(rcontext, camera);
-	}
-	else {
+	
+	else 
+		camera.LookThrough(rcontext);
+	
 
-		rcontext.viewmatrix = glm::lookAt(
-			camera.position,
-			camera.target,
-			camera.up
-		);
-	}
 	light.CalculateHalfPlane(camera.position);
 
 	// assign light handles

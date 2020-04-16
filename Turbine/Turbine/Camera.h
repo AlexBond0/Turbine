@@ -3,6 +3,7 @@
 #include "Matrix.h"
 #include "RenderingContext.h"
 #include "Object3D.h"
+#include "RenderingContext.h"
 
 #include <vector>
 
@@ -43,6 +44,8 @@ public:
 	void RotateCam(int newX, int newY, bool arcballCam);
 	void FinishMovement();
 	void FocusCam(int focusDelta);
+
+	void LookThrough(RenderingContext& rcontext);
 
 	// our FOV is 60 degrees 
 	float		fFovy	= (60.0f*(float)M_PI / 180.0f);

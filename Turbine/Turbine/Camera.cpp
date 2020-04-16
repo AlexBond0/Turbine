@@ -329,3 +329,12 @@ void CameraPositioner::PositionCamera(RenderingContext& rcontext, Camera cam) {
 		glm::vec3(relUp)
 	);
 }
+
+void Camera::LookThrough(RenderingContext& rcontext) {
+
+	rcontext.viewmatrix = glm::lookAt(
+		position,
+		target,
+		up
+	);
+}

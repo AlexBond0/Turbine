@@ -2,7 +2,7 @@
 #include "GLSetup.h"
 #include "RenderingContext.h"
 #include "Material.h"
-#include "Moveable.h"
+#include "Entity.h"
 #include "PointData.h"
 #include "PolygonData.h"
 
@@ -25,7 +25,7 @@ struct Object3DHandles {
 // Defines an object in the scene, along with handeling its rendering 
 class Object3D :
 	public Material,
-	public Moveable
+	public Entity
 {
 public:
 
@@ -55,11 +55,11 @@ public:
 
 	bool IsInstanced();
 
-	std::vector<Object3D*> GetChildren();
-	void AddChild(Object3D* newChild);
-	void SetParent(Object3D* newParent);
+	//std::vector<Object3D*> GetChildren();
+	//void AddChild(Object3D* newChild);
+	//void SetParent(Object3D* newParent);
 
-	TranslationStack GetWorldTranslation();
+	// TranslationStack GetWorldTranslation();
 
 	PointData vertices;			// vertex data
 	PolygonData polygons;		// polygon data
@@ -69,8 +69,8 @@ protected:
 	char* name;					// object name
 	Object3DHandles handles;	// object handles
 
-	std::vector<Object3D*> children;	// children in object heirarchy
-	Object3D* parent;					// parent in object heirarchy
+	//std::vector<Object3D*> children;	// children in object heirarchy
+	//Object3D* parent;					// parent in object heirarchy
 
 	// texture data
 	bool hasTexture = false;	// does the object have a texture
@@ -90,7 +90,7 @@ protected:
 	virtual void _HandleVertVBO(RenderingContext& rcontext);
 	virtual void _Draw(RenderingContext& rcontext);
 
-	void _GetWorldTranslation(TranslationStack& translations);
+	// void _GetWorldTranslation(TranslationStack& translations);
 };
 
 // Set the texturemap of the object via texturemap ID
@@ -127,10 +127,10 @@ inline int Object3D::GetVertCount() {
 }
 
 // Get vector of child objects 
-inline std::vector<Object3D*> Object3D::GetChildren() {
-
-	return children;
-}
+//inline std::vector<Object3D*> Object3D::GetChildren() {
+//
+//	return children;
+//}
 
 // ======================================
 
