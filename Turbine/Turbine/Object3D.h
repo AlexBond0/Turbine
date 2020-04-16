@@ -67,7 +67,6 @@ public:
 protected:
 
 	char* name;					// object name
-	// unsigned int* vbos;			// data vbos
 	Object3DHandles handles;	// object handles
 
 	std::vector<Object3D*> children;	// children in object heirarchy
@@ -89,7 +88,6 @@ protected:
 	virtual void _AssignHandleInformation(RenderingContext& rcontext);
 	virtual void _HandleVBOs(RenderingContext& rcontext);
 	virtual void _HandleVertVBO(RenderingContext& rcontext);
-	// virtual void _HandlePolyVBO(RenderingContext& rcontext);
 
 	virtual void _Draw(RenderingContext& rcontext);
 
@@ -120,13 +118,13 @@ inline char* Object3D::GetName() {
 // NEEDS DEPRECIATING
 inline void* Object3D::GetVertData() {
 
-	return vertices.GetData(); // vertexdata;
+	return vertices.GetData();
 }
 
 // Get amount of verticies defining the object
 inline int Object3D::GetVertCount() {
 
-	return vertices.Size(); //noofverts;
+	return vertices.Size();
 }
 
 // Get vector of child objects 

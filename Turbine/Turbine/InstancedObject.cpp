@@ -5,8 +5,6 @@
 InstancedObject::InstancedObject() {
 
 	isInstanced = true;
-
-	// _GenerateSomeParticles();
 }
 
 InstancedObject::InstancedObject(Object3D* copy, std::string newName) 
@@ -106,17 +104,6 @@ void InstancedObject::_HandleVBOs(RenderingContext& rcontext) {
 
 		handles.dirty = false;
 	}
-
-	//// tell the polygon data to handle instancing correctly
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handles.polygon_vbo);
-	//glVertexAttribDivisor(rcontext.instancehandle, 1);
-	//glDrawElementsInstanced(
-	//	polygons.ElementType(),
-	//	polygons.ElementCount(),
-	//	GL_UNSIGNED_SHORT,
-	//	0,
-	//	noofinstances
-	//);
 }
 
 // =====================================================================

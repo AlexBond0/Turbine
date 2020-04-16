@@ -90,23 +90,22 @@ int main()
 	HWND hwnd = GetConsoleWindow();
 	ShowWindow(hwnd, 0);
 
-	// TestRender
-	// OnCreate
+	// create the scene
 	if (OnCreate(glsl_version) == EXIT_SUCCESS) {
 
+		// setup debug ui
 		SetupDebugUI();
 
 		double timepassed = glfwGetTime();
 		double timeDiff;
 
+		// render loop
 		while (!glfwWindowShouldClose(window)) {
 
-			// glUseProgram(rcontext.glprogram);
-			// glBindVertexArray(VAO);
+			// Render scene
 			scene->Render(rcontext);
-			// glBindVertexArray(0);
 
-			// Test ImGui components
+			// Render UI
 			debugUI->Render();
 
 			// Swap the screen buffers
@@ -278,12 +277,6 @@ int OnCreate(const char* glsl_version) {
 	// Setup camera frustrum based on window size 
 	window_size_callback(window, screenWidth, screenHeight);
 
-	// Bind the Vertex Array Object first, then bind and set vertex buffer(s) and attribute pointer(s).
-	// at least one VAO needs defining to get OpenGL to be happy
-	//glGenVertexArrays(1, &VAO);
-	//glBindVertexArray(VAO);
-	//glBindVertexArray(0);
-
 	return EXIT_SUCCESS;
 }
 
@@ -297,7 +290,6 @@ void SetupDebugUI() {
 	camUI->camera = &scene->camera;
 	debugUI->AddComponent(camUI);
 }
-
 
 // ============================================================================================================
 

@@ -31,6 +31,8 @@ Object3D::~Object3D()
 	// delete handles
 	if (handles.initialised) {
 
+		glDeleteVertexArrays(1, &handles.object_vao);
+
 		glDeleteBuffers(1, &handles.polygon_vbo);
 		glDeleteBuffers(1, &handles.instance_vbo);
 	}
@@ -203,18 +205,6 @@ void Object3D::_HandleVertVBO(RenderingContext& rcontext) {
 
 	glBindVertexArray(0);
 }
-
-// handle and draw the polygon VBO data
-//void Object3D::_HandlePolyVBO(RenderingContext& rcontext) {
-//
-//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handles.polygon_vbo);
-//	glDrawElements(
-//		polygons.ElementType(),
-//		polygons.ElementCount(),
-//		GL_UNSIGNED_SHORT, 
-//		0
-//	);
-//}
 
 // ===================================================
 
