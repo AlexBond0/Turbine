@@ -88,7 +88,6 @@ protected:
 	virtual void _AssignHandleInformation(RenderingContext& rcontext);
 	virtual void _HandleVBOs(RenderingContext& rcontext);
 	virtual void _HandleVertVBO(RenderingContext& rcontext);
-
 	virtual void _Draw(RenderingContext& rcontext);
 
 	void _GetWorldTranslation(TranslationStack& translations);
