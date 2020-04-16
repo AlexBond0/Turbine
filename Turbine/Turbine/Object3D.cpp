@@ -5,6 +5,7 @@ Object3D::Object3D()
 	SetName("NULL");
 	texturemap = -1;
 	parent = nullptr;
+	isRenderable = true;
 }
 
 Object3D::Object3D(Object3D* copy, std::string newName) 
@@ -24,6 +25,8 @@ Object3D::Object3D(Object3D* copy, std::string newName)
 
 	useLight = copy->useLight;
 	useTexture = copy->useTexture;
+
+	isRenderable = true;
 }
 
 Object3D::~Object3D()
@@ -54,10 +57,10 @@ void Object3D::Draw(RenderingContext rcontext) {
 	// draw the children objects
 	for (Entity* child : children) {
 
-		if (static_cast<Object3D*>(child) != nullptr) {
-
+		// only draw object entities
+		if (child->isRenderable) 
 			(static_cast<Object3D*>(child))->Draw(rcontext);
-		}
+		
 	}
 
 	// remove rotation added in _AssignHandleInformation
@@ -211,29 +214,6 @@ void Object3D::_HandleVertVBO(RenderingContext& rcontext) {
 	glBindVertexArray(0);
 }
 
-// ===================================================
-
-// add a child to the object heirarchy
-//void Object3D::AddChild(Object3D* newChild) {
-//
-//	children.push_back(newChild);
-//
-//	glm::vec3 childPosition = newChild->GetWorldPosVec();
-//
-//	float dX = childPosition.x - worldPos[0];
-//	float dY = childPosition.y - worldPos[1];
-//	float dZ = childPosition.z - worldPos[2];
-//
-//	newChild->SetLocalPos(dX, dY, dZ);
-//	newChild->SetParent(this);
-//};
-//
-//// add a child to the object heirarchy
-//void Object3D::SetParent(Object3D* newParent) {
-//
-//	parent = newParent;
-//};
-
 // ======================================
 
 // Assign texture handle
@@ -243,34 +223,3 @@ void Object3D::SetTexture(unsigned int newTextureID) {
 	useTexture = true;
 	textureID = newTextureID;
 }
-
-// Get a TranslationStack representing translation of object for current world space
-//TranslationStack Object3D::GetWorldTranslation() {
-//
-//	TranslationStack translations;
-//	translations.InitModelMatrix(true);
-//
-//	_GetWorldTranslation(translations);
-//
-//	return(translations);
-//}
-//
-//// Recursively build a TranslationStack from object parents
-//void Object3D::_GetWorldTranslation(TranslationStack& translations) {
-//
-//	// do parent translation first
-//	if (parent != nullptr)
-//		((Object3D*)parent)->_GetWorldTranslation(translations);
-//
-//	// save current model matrix
-//	translations.PushModelMatrix();
-//
-//	// as the current translation values are global and not local, preform the offset values instead
-//	translations.Translate(localPos[0], localPos[1], localPos[2]);
-//	translations.Translate(translation[0], translation[1], translation[2]);
-//	translations.Scale(scale[0], scale[1], scale[2]);
-//
-//	// preform the rotation
-//	translations.Rotate(GetOrientationMatrix());
-//	translations.Rotate(GetRotationMatrix());
-//}

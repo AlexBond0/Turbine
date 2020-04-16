@@ -166,7 +166,7 @@ ParticleProfile Particle::_CreateParticle() {
 	newParticle.speed = *modelView * newParticle.speed;
 
 	// position the new particle correctlyl
-	newParticle.position = *modelView * newParticle.position;
+	newParticle.camPosition = *modelView * newParticle.camPosition;
 
 	// assign life offset
 	newParticle.life += time_ms;
@@ -197,13 +197,13 @@ void Particle::_UpdateParticles(double step_seconds) {
 
 		// do gravity physics
 		p->speed.y += -9.81f * timeStep * p->weight;
-		p->position += p->speed * timeStep;
+		p->camPosition += p->speed * timeStep;
 
 		// save particle to a vertex struct
-		v.x = p->position.x;
-		v.y = p->position.y;
-		v.z = p->position.z;
-		v.dist = glm::distance(camera, p->position);
+		v.x = p->camPosition.x;
+		v.y = p->camPosition.y;
+		v.z = p->camPosition.z;
+		v.dist = glm::distance(camera, p->camPosition);
 
 		// save point
 		points.push_back(v);
@@ -232,7 +232,7 @@ void Particle::_UpdateParticles(double step_seconds) {
 // create the default ParticleProfile
 void Particle::_SetupDefaultProfile() {
 
-	profile.position = glm::vec4(0.0, 0.0, 0.0, 1.0);
+	profile.camPosition = glm::vec4(0.0, 0.0, 0.0, 1.0);
 
 	profile.speed = glm::vec4(1.0, 1.0, 1.0, 0.0);
 

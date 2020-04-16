@@ -296,7 +296,7 @@ Geomitory Primitive::_GenerateBaseIcoSphere(float radius) {
 }
 
 // generate a circle primitive
-Geomitory Primitive::_GenerateCircle(float radius, int segments, bool up) {
+Geomitory Primitive::_GenerateCircle(float radius, int segments, bool camUp) {
 
 	Geomitory data;
 
@@ -328,8 +328,8 @@ Geomitory Primitive::_GenerateCircle(float radius, int segments, bool up) {
 	// link vertexes with polygons
 	for (int vertID = 1; vertID <= segments; vertID++) {
 
-		data.polys.push_back(up ? vertID : 0);
-		data.polys.push_back(up ? 0 : vertID);
+		data.polys.push_back(camUp ? vertID : 0);
+		data.polys.push_back(camUp ? 0 : vertID);
 		data.polys.push_back((vertID == segments ? 0 : vertID) + 1);
 	}
 

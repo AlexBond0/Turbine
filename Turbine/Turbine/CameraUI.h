@@ -24,5 +24,7 @@ private:
 
 	float _currentfps;
 	std::vector<float> _frames;
+
+	const float range = 0.1f;
 };
 

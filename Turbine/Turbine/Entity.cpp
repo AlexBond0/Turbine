@@ -26,10 +26,6 @@ void Entity::AddChild(Entity* newChild) {
 
 	glm::vec3 childPosition = newChild->GetWorldPosVec();
 
-	// float dX = childPosition.x - worldPos[0];
-	// float dY = childPosition.y - worldPos[1];
-	// float dZ = childPosition.z - worldPos[2];
-	// 	newChild->SetLocalPos(dX, dY, dZ);
 	newChild->SetLocalPos(newChild->GetWorldPosVec() - worldPos);
 
 	newChild->SetParent(this);

@@ -32,7 +32,7 @@ public:
 	bool rideCam = false;						// flag denoting if POV cam is in use
 
 	Camera camera;								// the main curveball camera
-	CameraPositioner camPOV;					// the POV camera positioner
+	Camera camPOV;								// the POV camera 
 
 	Light light;								// Light object for the sun
 

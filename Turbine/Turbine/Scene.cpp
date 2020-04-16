@@ -31,13 +31,13 @@ void Scene::Render(RenderingContext rcontext) {
 
 	// calculate camera properties
 	if (pov) 
-		camPOV.PositionCamera(rcontext, camera);
+		camPOV.LookThrough(rcontext);
 	
 	else 
 		camera.LookThrough(rcontext);
 	
 
-	light.CalculateHalfPlane(camera.position);
+	light.CalculateHalfPlane(camera.camPosition);
 
 	// assign light handles
 	glUniform3fv(rcontext.lighthandles[0], 1, light.GetDirection());
@@ -74,18 +74,22 @@ void Scene::Setup() {
 	_LoadRide();
 
 	// set up the POV camera heirarchy
-	camPOV.objList.push_back(objects["Base"]);
-	camPOV.objList.push_back(objects["Platter"]);
-	camPOV.objList.push_back(objects["Pivot"]);
-	camPOV.objList.push_back(objects["Arm"]);
-	camPOV.objList.push_back(objects["Spinner"]);
-	camPOV.objList.push_back(objects["Seats"]);
+	//camPOV.objList.push_back(objects["Base"]);
+	//camPOV.objList.push_back(objects["Platter"]);
+	//camPOV.objList.push_back(objects["Pivot"]);
+	//camPOV.objList.push_back(objects["Arm"]);
+	//camPOV.objList.push_back(objects["Spinner"]);
+	//camPOV.objList.push_back(objects["Seats"]);
 
-	// set the POV cam looking from where a rider would see
-	camPOV.offset[0] = 0.0f;
-	camPOV.offset[1] = -0.1f;
-	camPOV.offset[2] = 0.0f;
-
+	//// set the POV cam looking from where a rider would see
+	//camPOV.offset[0] = 0.0f;
+	//camPOV.offset[1] = -0.1f;
+	//camPOV.offset[2] = 0.0f;
+	camPOV.SetPosition(glm::vec3(0.044f, 0.031f, -0.1f));
+	camPOV.SetTarget(glm::vec3(0.039f, 0.069f, 1.0f));
+	camPOV.SetUp(glm::vec3(0.0f, 1.0f, 0.0f));
+	objects["Seats"]->AddChild(&camPOV);
+	
 	// create skybox
 	Primitive* skybox = new Primitive();
 	skybox->GenerateCube(20.0f, true);

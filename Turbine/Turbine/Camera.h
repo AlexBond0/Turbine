@@ -15,13 +15,16 @@ struct PickObject {
 	float		distance = FLT_MAX;		// distacne along the pick ray the object was picked from
 };
 
-class Camera {
+class Camera
+	: public Entity
+{
 
 public:
 
-	glm::vec3 position;	// XYZ of camera position
-	glm::vec3 target;	// XYZ of camera target
-	glm::vec3 up;		// XYZ of camera up
+	// seperate from element position
+	glm::vec3 camPosition;	// XYZ of camera position
+	glm::vec3 camTarget;	// XYZ of camera target
+	glm::vec3 camUp;		// XYZ of camera up
 
 	bool moveable	= true;
 

@@ -34,8 +34,8 @@ void CameraUI::Render() {
 	);
 
 	ImGui::Separator();
-	ImGui::SliderFloat3("position", &camera->position[0], -10.0, 10.0);
-	ImGui::SliderFloat3("target", &camera->target[0], -7.0, 7.0);
-	ImGui::SliderFloat3("up", &camera->up[0], -7.0, 7.0);
+	ImGui::SliderFloat3("position", &camera->camPosition[0], -range, range);
+	ImGui::SliderFloat3("target", &camera->camTarget[0], -range, range);
+	ImGui::SliderFloat3("up", &camera->camUp[0], -range, range);
 	ImGui::End();
 }

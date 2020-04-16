@@ -55,12 +55,6 @@ public:
 
 	bool IsInstanced();
 
-	//std::vector<Object3D*> GetChildren();
-	//void AddChild(Object3D* newChild);
-	//void SetParent(Object3D* newParent);
-
-	// TranslationStack GetWorldTranslation();
-
 	PointData vertices;			// vertex data
 	PolygonData polygons;		// polygon data
 
@@ -68,9 +62,6 @@ protected:
 
 	char* name;					// object name
 	Object3DHandles handles;	// object handles
-
-	//std::vector<Object3D*> children;	// children in object heirarchy
-	//Object3D* parent;					// parent in object heirarchy
 
 	// texture data
 	bool hasTexture = false;	// does the object have a texture
@@ -89,8 +80,6 @@ protected:
 	virtual void _HandleVBOs(RenderingContext& rcontext);
 	virtual void _HandleVertVBO(RenderingContext& rcontext);
 	virtual void _Draw(RenderingContext& rcontext);
-
-	// void _GetWorldTranslation(TranslationStack& translations);
 };
 
 // Set the texturemap of the object via texturemap ID
@@ -125,12 +114,6 @@ inline int Object3D::GetVertCount() {
 
 	return vertices.Size();
 }
-
-// Get vector of child objects 
-//inline std::vector<Object3D*> Object3D::GetChildren() {
-//
-//	return children;
-//}
 
 // ======================================
 

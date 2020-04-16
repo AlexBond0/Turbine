@@ -17,7 +17,7 @@ enum class ParticleType {
 // the profile of the generation of particles
 struct ParticleProfile {
 
-	glm::vec4 position;		// current particle position
+	glm::vec4 camPosition;		// current particle position
 	glm::vec4 speed;		// current particle speed vector
 
 	color4 colour;		// particle colour
@@ -102,9 +102,9 @@ private:
 
 inline void Particle::SetProfilePosition(float x, float y, float z) {
 
-	profile.position[0] = x;
-	profile.position[1] = y;
-	profile.position[2] = z;
+	profile.camPosition[0] = x;
+	profile.camPosition[1] = y;
+	profile.camPosition[2] = z;
 }
 
 inline void Particle::SetProfileSpeed(float x, float y, float z) {

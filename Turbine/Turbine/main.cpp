@@ -287,7 +287,7 @@ void SetupDebugUI() {
 	debugUI->AddComponent(moveUI);
 
 	camUI = new CameraUI();
-	camUI->camera = &scene->camera;
+	camUI->camera = &scene->camPOV;
 	debugUI->AddComponent(camUI);
 }
 
