@@ -91,7 +91,7 @@ protected:
 	virtual void _HandleVertVBO(RenderingContext& rcontext);
 	virtual void _HandlePolyVBO(RenderingContext& rcontext);
 
-	virtual void _Draw();
+	virtual void _Draw(RenderingContext& rcontext);
 
 	void _GetWorldTranslation(TranslationStack& translations);
 };

@@ -22,11 +22,32 @@ InstancedObject::~InstancedObject() {
 	free(instanceData);
 }
 
+void InstancedObject::_Draw(RenderingContext& rcontext) {
+
+	glBindVertexArray(handles.object_vao);
+
+	// tell the polygon data to handle instancing correctly
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handles.polygon_vbo);
+	glVertexAttribDivisor(rcontext.instancehandle, 1);
+	glDrawElementsInstanced(
+		polygons.ElementType(),
+		polygons.ElementCount(),
+		GL_UNSIGNED_SHORT,
+		0,
+		noofinstances
+	);
+
+	glBindVertexArray(0);
+}
+
 // overriden function from Object3D so instance VBO is created correctly
 void InstancedObject::_InitVBOs() {
 
-	//if (!vbos)
-	//	vbos = (unsigned int*)malloc(3 * sizeof(unsigned int));
+	// generate VAO
+	glGenVertexArrays(1, &handles.object_vao);
+	glBindVertexArray(handles.object_vao);
+
+	// generate VBOs
 	glGenBuffers(1, &handles.point_vbo);
 	glGenBuffers(1, &handles.polygon_vbo);
 	glGenBuffers(1, &handles.instance_vbo);
@@ -55,30 +76,42 @@ void InstancedObject::_InitVBOs() {
 	glBufferData(GL_ARRAY_BUFFER, size, instanceData, GL_DYNAMIC_DRAW);
 
 	handles.initialised = true;
+
+	glBindVertexArray(0);
 }
 
 // overriden function from Object3D so instance VBO is handled correctly
 void InstancedObject::_HandleVBOs(RenderingContext& rcontext) {
 
-	// select the instance VBO
-	glBindBuffer(GL_ARRAY_BUFFER, handles.instance_vbo);
+	if (handles.dirty) {
 
-	// pass instance data to the shader
-	glVertexAttribPointer(rcontext.instancehandle, 3, GL_FLOAT, false, (4 * 3), (void*)0);
-	glEnableVertexAttribArray(rcontext.instancehandle);
+		glBindVertexArray(handles.object_vao);
 
-	Object3D::_HandleVertVBO(rcontext);
+		// select the instance VBO
+		glBindBuffer(GL_ARRAY_BUFFER, handles.instance_vbo);
 
-	// tell the polygon data to handle instancing correctly
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handles.polygon_vbo);
-	glVertexAttribDivisor(rcontext.instancehandle, 1);
-	glDrawElementsInstanced(
-		polygons.ElementType(),
-		polygons.ElementCount(),
-		GL_UNSIGNED_SHORT,
-		0,
-		noofinstances
-	);
+		// pass instance data to the shader
+		glVertexAttribPointer(rcontext.instancehandle, 3, GL_FLOAT, false, (4 * 3), (void*)0);
+		glEnableVertexAttribArray(rcontext.instancehandle);
+
+		glBindVertexArray(0);
+
+
+		Object3D::_HandleVertVBO(rcontext);
+
+		handles.dirty = false;
+	}
+
+	//// tell the polygon data to handle instancing correctly
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handles.polygon_vbo);
+	//glVertexAttribDivisor(rcontext.instancehandle, 1);
+	//glDrawElementsInstanced(
+	//	polygons.ElementType(),
+	//	polygons.ElementCount(),
+	//	GL_UNSIGNED_SHORT,
+	//	0,
+	//	noofinstances
+	//);
 }
 
 // =====================================================================

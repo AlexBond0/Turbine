@@ -23,6 +23,8 @@ protected:
 
 	void _InitVBOs();
 
+	void _Draw(RenderingContext& rcontext);
+
 	void _HandleVBOs(RenderingContext& rcontext);
 };
 

@@ -40,7 +40,7 @@ void Object3D::Draw(RenderingContext rcontext) {
 
 	_HandleVBOs(rcontext);
 
-	_Draw();
+	_Draw(rcontext);
 
 	// draw the children objects
 	for (Object3D* child : children)
@@ -50,7 +50,7 @@ void Object3D::Draw(RenderingContext rcontext) {
 	rcontext.PopModelMatrix();
 }
 
-void Object3D::_Draw() {
+void Object3D::_Draw(RenderingContext& rcontext) {
 
 	glBindVertexArray(handles.object_vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handles.polygon_vbo);
