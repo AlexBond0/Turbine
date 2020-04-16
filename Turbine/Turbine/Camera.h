@@ -64,24 +64,3 @@ private:
 
 	void	_MoveCam(glm::vec3 movement);
 };
-
-// small class for positioning a camera according to a list of object transformations
-// very broken, will be replaced with entity based systam
-class CameraPositioner {
-
-public:
-
-	std::vector<Object3D*> objList;
-
-	float offset[3];
-
-	void PositionCamera(RenderingContext& rcontext, Camera cam);
-
-private:
-
-	glm::mat4 offsetMatrix;
-
-	glm::vec4 relPosition;
-	glm::vec4 relTarget;
-	glm::vec4 relUp;
-};

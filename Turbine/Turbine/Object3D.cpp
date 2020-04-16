@@ -214,8 +214,6 @@ void Object3D::_HandleVertVBO(RenderingContext& rcontext) {
 	glBindVertexArray(0);
 }
 
-// ======================================
-
 // Assign texture handle
 void Object3D::SetTexture(unsigned int newTextureID) {
 

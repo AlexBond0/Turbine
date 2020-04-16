@@ -7,9 +7,6 @@
     <Filter Include="Turbine Engine">
       <UniqueIdentifier>{4eb20c9f-1bb2-482f-aeb0-d1734be23691}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Turbine Engine\Instancing">
-      <UniqueIdentifier>{689bd3c3-d038-4316-a77e-b97113deeba4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Turbine Engine\Object">
       <UniqueIdentifier>{5224e612-49ca-48ce-af95-98d5286566ba}</UniqueIdentifier>
     </Filter>
@@ -27,6 +24,9 @@
     </Filter>
     <Filter Include="Turbine Engine\Debug UI">
       <UniqueIdentifier>{6d4fee59-e7bd-44d3-81cb-a07531d54bd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Turbine Engine\Object\Instancing">
+      <UniqueIdentifier>{689bd3c3-d038-4316-a77e-b97113deeba4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -50,10 +50,10 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="InstancedObject.cpp">
-      <Filter>Turbine Engine\Instancing</Filter>
+      <Filter>Turbine Engine\Object\Instancing</Filter>
     </ClCompile>
     <ClCompile Include="Particle.cpp">
-      <Filter>Turbine Engine\Instancing</Filter>
+      <Filter>Turbine Engine\Object\Instancing</Filter>
     </ClCompile>
     <ClCompile Include="Object3D.cpp">
       <Filter>Turbine Engine\Object</Filter>
@@ -109,7 +109,9 @@
     <ClCompile Include="CameraUI.cpp">
       <Filter>Turbine Engine\Debug UI</Filter>
     </ClCompile>
-    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="Entity.cpp">
+      <Filter>Turbine Engine\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGui\imgui_impl_glfw.h">
@@ -137,10 +139,10 @@
       <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="InstancedObject.h">
-      <Filter>Turbine Engine\Instancing</Filter>
+      <Filter>Turbine Engine\Object\Instancing</Filter>
     </ClInclude>
     <ClInclude Include="Particle.h">
-      <Filter>Turbine Engine\Instancing</Filter>
+      <Filter>Turbine Engine\Object\Instancing</Filter>
     </ClInclude>
     <ClInclude Include="Object3D.h">
       <Filter>Turbine Engine\Object</Filter>
@@ -208,7 +210,9 @@
     <ClInclude Include="CameraUI.h">
       <Filter>Turbine Engine\Debug UI</Filter>
     </ClInclude>
-    <ClInclude Include="Entity.h" />
+    <ClInclude Include="Entity.h">
+      <Filter>Turbine Engine\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ImGui\imgui.ini">

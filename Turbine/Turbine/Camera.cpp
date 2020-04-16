@@ -255,81 +255,7 @@ void Camera::FocusCam(int zoomDelta) {
 	}
 }
 
-// move cameras position and target in space
-void Camera::_MoveCam(glm::vec3 movement) {
-
-	camPosition += movement;
-	camTarget += movement;
-}
-
-// position the camera through a set of object transformations
-void CameraPositioner::PositionCamera(RenderingContext& rcontext, Camera cam) {
-
-	// reset relposition
-	offsetMatrix = glm::mat4(1.0);
-
-	// position the camera through all object relations
-	for (int objIndex = 0; objIndex < objList.size(); objIndex++) {
-
-		offsetMatrix = glm::translate(offsetMatrix, objList[objIndex]->GetLocalPosVec());
-
-		offsetMatrix = glm::rotate(
-			offsetMatrix, 
-			DEGS_TO_RADS(-objList[objIndex]->GetOrientationEuler().x),
-			glm::vec3(1, 0, 0)
-		);
-		offsetMatrix = glm::rotate(
-			offsetMatrix,
-			DEGS_TO_RADS(-objList[objIndex]->GetOrientationEuler().y),
-			glm::vec3(0, 1, 0)
-		);
-		offsetMatrix = glm::rotate(
-			offsetMatrix,
-			DEGS_TO_RADS(-objList[objIndex]->GetOrientationEuler().z),
-			glm::vec3(0, 0, 1)
-		);
-
-	}
-
-	// preform the last offset
-	offsetMatrix = glm::translate(
-		offsetMatrix,
-		glm::vec3(
-			offset[0],
-			offset[1],
-			offset[2]
-		)
-	);
-
-	 
-	// set position using last column of the offsetMatrix
-	relPosition[0] = offsetMatrix[3][0];
-	relPosition[1] = offsetMatrix[3][1];
-	relPosition[2] = offsetMatrix[3][2];
-
-	// transform the camera's target matrix so the camera can still look around
-	glm::vec4 direction = glm::vec4(cam.camTarget, 1);
-
-	// MyMatrix::MultiplyVecByMatrix(direction, offsetMatrix);
-	direction = direction * offsetMatrix;
-
-
-	relTarget = glm::normalize(direction);
-
-
-	// set up using y column of the offsetMatrix
-	relUp[0] = offsetMatrix[1][0];
-	relUp[1] = offsetMatrix[1][1];
-	relUp[2] = offsetMatrix[1][2];
-
-	// set the rcontex matricies
-	rcontext.viewmatrix = glm::lookAt(
-		glm::vec3(relPosition),
-		glm::vec3(relTarget),
-		glm::vec3(relUp)
-	);
-}
-
+// Produce a viewmatrix in rcontext for the camera
 void Camera::LookThrough(RenderingContext& rcontext) {
 
 	// calcuate camera lookat atrix
@@ -347,3 +273,11 @@ void Camera::LookThrough(RenderingContext& rcontext) {
 		rcontext.viewmatrix *= glm::inverse(*camTranslation.GetCurrentModelMatrix());
 	}
 }
+
+// move cameras position and target in space
+void Camera::_MoveCam(glm::vec3 movement) {
+
+	camPosition += movement;
+	camTarget += movement;
+}
+

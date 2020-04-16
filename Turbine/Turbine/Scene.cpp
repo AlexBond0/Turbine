@@ -73,18 +73,7 @@ void Scene::Setup() {
 	// load the ride
 	_LoadRide();
 
-	// set up the POV camera heirarchy
-	//camPOV.objList.push_back(objects["Base"]);
-	//camPOV.objList.push_back(objects["Platter"]);
-	//camPOV.objList.push_back(objects["Pivot"]);
-	//camPOV.objList.push_back(objects["Arm"]);
-	//camPOV.objList.push_back(objects["Spinner"]);
-	//camPOV.objList.push_back(objects["Seats"]);
-
-	//// set the POV cam looking from where a rider would see
-	//camPOV.offset[0] = 0.0f;
-	//camPOV.offset[1] = -0.1f;
-	//camPOV.offset[2] = 0.0f;
+	// set up the POV camera
 	camPOV.SetPosition(glm::vec3(0.044f, 0.031f, -0.1f));
 	camPOV.SetTarget(glm::vec3(0.039f, 0.069f, 1.0f));
 	camPOV.SetUp(glm::vec3(0.0f, 1.0f, 0.0f));
