@@ -19,9 +19,10 @@ Material::Material() {
 
 Material::Material(Material* copy) {
 
-	_ambient = color4(copy->_ambient);
-	_diffuse = color4(copy->_diffuse);
-	_specular = color4(copy->_specular);
+	_ambient = copy->_ambient;
+	_diffuse = copy->_diffuse;
+	_specular = copy->_specular;
+	_highlight = copy->_highlight;
 
 	speclevel = copy->speclevel;
 	glossiness = copy->glossiness;

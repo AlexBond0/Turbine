@@ -2,7 +2,7 @@
 
 Object3D::Object3D()
 {
-	vbos = NULL;
+	// vbos = NULL;
 	SetName("NULL");
 	texturemap = -1;
 	parent = nullptr;
@@ -13,7 +13,7 @@ Object3D::Object3D(Object3D* copy, std::string newName)
 	, Moveable((Moveable)copy)
 {
 
-	vbos = NULL;
+	// vbos = NULL;
 	SetName((char*)newName.c_str());
 
 	// assign vertices and polygons
@@ -30,7 +30,7 @@ Object3D::Object3D(Object3D* copy, std::string newName)
 
 Object3D::~Object3D()
 {
-	free(vbos);
+	// free(vbos);
 	free(name);
 }
 
@@ -54,12 +54,14 @@ void Object3D::Draw(RenderingContext rcontext) {
 // Initialse object VBOs
 void Object3D::_InitVBOs()
 {
-	if (!vbos)
-		vbos = (unsigned int*)malloc(2 * sizeof(unsigned int));
-	glGenBuffers(2, vbos);
+
+	//if (!vbos)
+	//	vbos = (unsigned int*)malloc(2 * sizeof(unsigned int));
+	glGenBuffers(1, &handles.point_vbo);
+	glGenBuffers(1, &handles.polygon_vbo);
 
 	// bind the verticies
-	glBindBuffer(GL_ARRAY_BUFFER, vbos[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, handles.point_vbo);
 	glBufferData(
 		GL_ARRAY_BUFFER,
 		vertices.DataSize(),
@@ -68,13 +70,15 @@ void Object3D::_InitVBOs()
 	);
 
 	// bind the polygons
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbos[1]);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handles.polygon_vbo);
 	glBufferData(
 		GL_ELEMENT_ARRAY_BUFFER, 
 		polygons.DataSize(),
 		polygons.GetData(),
 		GL_STATIC_DRAW
 	);
+
+	handles.initialised = true;
 }
 
 // Pass current object amd context information to the shaders 
@@ -113,7 +117,7 @@ void Object3D::_AssignHandleInformation(RenderingContext& rcontext) {
 		glDisable(GL_TEXTURE_2D);
 	}
 
-	if (!vbos)
+	if (!handles.initialised)
 		_InitVBOs();
 
 	// save current model matrix
@@ -147,7 +151,7 @@ void Object3D::_HandleVBOs(RenderingContext& rcontext) {
 // Handle the vertex VBO data layout 
 void Object3D::_HandleVertVBO(RenderingContext& rcontext) {
 
-	glBindBuffer(GL_ARRAY_BUFFER, vbos[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, handles.point_vbo);
 
 	// attributes
 	if (vertices.HasUV())
@@ -172,7 +176,7 @@ void Object3D::_HandleVertVBO(RenderingContext& rcontext) {
 // handle and draw the polygon VBO data
 void Object3D::_HandlePolyVBO(RenderingContext& rcontext) {
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbos[1]);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handles.polygon_vbo);
 	glDrawElements(
 		polygons.ElementType(),
 		polygons.ElementCount(),

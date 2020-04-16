@@ -9,6 +9,17 @@
 #include <vector>
 #include <map>
 
+struct Object3DHandles {
+
+	unsigned int point_vbo;		// vbo hadle for the Object3Ds point data
+	unsigned int polygon_vbo;	// vbo hanle for the Object3Ds polygon data
+	unsigned int instance_vbo;	// vbo hanle for the Object3Ds instance data
+
+	unsigned int object_vao;	// vao handle for the Object3D
+
+	bool initialised = false;
+};
+
 
 // Defines an object in the scene, along with handeling its rendering 
 class Object3D :
@@ -55,7 +66,8 @@ public:
 protected:
 
 	char* name;					// object name
-	unsigned int* vbos;			// data vbos
+	// unsigned int* vbos;			// data vbos
+	Object3DHandles handles;	// object handles
 
 	std::vector<Object3D*> children;	// children in object heirarchy
 	Object3D* parent;					// parent in object heirarchy

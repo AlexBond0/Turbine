@@ -25,12 +25,14 @@ InstancedObject::~InstancedObject() {
 // overriden function from Object3D so instance VBO is created correctly
 void InstancedObject::_InitVBOs() {
 
-	if (!vbos)
-		vbos = (unsigned int*)malloc(3 * sizeof(unsigned int));
-	glGenBuffers(3, vbos);
+	//if (!vbos)
+	//	vbos = (unsigned int*)malloc(3 * sizeof(unsigned int));
+	glGenBuffers(1, &handles.point_vbo);
+	glGenBuffers(1, &handles.polygon_vbo);
+	glGenBuffers(1, &handles.instance_vbo);
 
 	// vertexes
-	glBindBuffer(GL_ARRAY_BUFFER, vbos[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, handles.point_vbo);
 	glBufferData(
 		GL_ARRAY_BUFFER,
 		vertices.DataSize(),
@@ -39,7 +41,7 @@ void InstancedObject::_InitVBOs() {
 	);
 
 	// polygons
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbos[1]);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handles.polygon_vbo);
 	glBufferData(
 		GL_ELEMENT_ARRAY_BUFFER,
 		polygons.DataSize(),
@@ -49,15 +51,17 @@ void InstancedObject::_InitVBOs() {
 
 	// instances
 	int size = 4 * 3 * noofinstances;
-	glBindBuffer(GL_ARRAY_BUFFER, vbos[2]);
+	glBindBuffer(GL_ARRAY_BUFFER, handles.instance_vbo);
 	glBufferData(GL_ARRAY_BUFFER, size, instanceData, GL_DYNAMIC_DRAW);
+
+	handles.initialised = true;
 }
 
 // overriden function from Object3D so instance VBO is handled correctly
 void InstancedObject::_HandleVBOs(RenderingContext& rcontext) {
 
 	// select the instance VBO
-	glBindBuffer(GL_ARRAY_BUFFER, vbos[2]);
+	glBindBuffer(GL_ARRAY_BUFFER, handles.instance_vbo);
 
 	// pass instance data to the shader
 	glVertexAttribPointer(rcontext.instancehandle, 3, GL_FLOAT, false, (4 * 3), (void*)0);
@@ -66,7 +70,7 @@ void InstancedObject::_HandleVBOs(RenderingContext& rcontext) {
 	Object3D::_HandleVertVBO(rcontext);
 
 	// tell the polygon data to handle instancing correctly
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbos[1]);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handles.polygon_vbo);
 	glVertexAttribDivisor(rcontext.instancehandle, 1);
 	glDrawElementsInstanced(
 		polygons.ElementType(),
@@ -89,9 +93,9 @@ void InstancedObject::SetInstanceData(float* newInstanceData, int noofnewinstanc
 	memcpy(instanceData, newInstanceData, length);
 	noofinstances = noofnewinstances;
 
-	if (vbos && noofinstances > 0) {
+	if (handles.initialised && noofinstances > 0) {
 
-		glBindBuffer(GL_ARRAY_BUFFER, vbos[2]);
+		glBindBuffer(GL_ARRAY_BUFFER, handles.instance_vbo);
 		glBufferData(GL_ARRAY_BUFFER, length, instanceData, GL_DYNAMIC_DRAW);
 	}
 }
