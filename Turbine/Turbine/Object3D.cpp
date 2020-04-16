@@ -28,6 +28,13 @@ Object3D::Object3D(Object3D* copy, std::string newName)
 
 Object3D::~Object3D()
 {
+	// delete handles
+	if (handles.initialised) {
+
+		glDeleteBuffers(1, &handles.polygon_vbo);
+		glDeleteBuffers(1, &handles.instance_vbo);
+	}
+
 	free(name);
 }
 
@@ -50,6 +57,7 @@ void Object3D::Draw(RenderingContext rcontext) {
 	rcontext.PopModelMatrix();
 }
 
+// Bind the VAO and draw the object
 void Object3D::_Draw(RenderingContext& rcontext) {
 
 	glBindVertexArray(handles.object_vao);
@@ -166,7 +174,6 @@ void Object3D::_HandleVBOs(RenderingContext& rcontext) {
 		_HandleVertVBO(rcontext);
 		handles.dirty = false;
 	}
-	// _HandlePolyVBO(rcontext);
 }
 
 // Handle the vertex VBO data layout 
@@ -198,16 +205,16 @@ void Object3D::_HandleVertVBO(RenderingContext& rcontext) {
 }
 
 // handle and draw the polygon VBO data
-void Object3D::_HandlePolyVBO(RenderingContext& rcontext) {
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handles.polygon_vbo);
-	glDrawElements(
-		polygons.ElementType(),
-		polygons.ElementCount(),
-		GL_UNSIGNED_SHORT, 
-		0
-	);
-}
+//void Object3D::_HandlePolyVBO(RenderingContext& rcontext) {
+//
+//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handles.polygon_vbo);
+//	glDrawElements(
+//		polygons.ElementType(),
+//		polygons.ElementCount(),
+//		GL_UNSIGNED_SHORT, 
+//		0
+//	);
+//}
 
 // ===================================================
 

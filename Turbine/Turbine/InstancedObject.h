@@ -2,6 +2,7 @@
 #include "Object3D.h"
 
 
+
 // An Object3D but using instancing to replicate many of the same Object3D data
 // efficiently on the GPU
 class InstancedObject 

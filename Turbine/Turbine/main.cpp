@@ -102,9 +102,9 @@ int main()
 		while (!glfwWindowShouldClose(window)) {
 
 			// glUseProgram(rcontext.glprogram);
-			glBindVertexArray(VAO);
+			// glBindVertexArray(VAO);
 			scene->Render(rcontext);
-			glBindVertexArray(0);
+			// glBindVertexArray(0);
 
 			// Test ImGui components
 			debugUI->Render();
@@ -280,9 +280,9 @@ int OnCreate(const char* glsl_version) {
 
 	// Bind the Vertex Array Object first, then bind and set vertex buffer(s) and attribute pointer(s).
 	// at least one VAO needs defining to get OpenGL to be happy
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-	glBindVertexArray(0);
+	//glGenVertexArrays(1, &VAO);
+	//glBindVertexArray(VAO);
+	//glBindVertexArray(0);
 
 	return EXIT_SUCCESS;
 }

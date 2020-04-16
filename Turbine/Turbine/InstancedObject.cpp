@@ -19,9 +19,14 @@ InstancedObject::InstancedObject(Object3D* copy, std::string newName)
 
 InstancedObject::~InstancedObject() {
 
+	// delete instance handle, the other handles are managed by the base Object3D class
+	if (handles.initialised)
+		glDeleteBuffers(1, &handles.instance_vbo);
+
 	free(instanceData);
 }
 
+// Bind the VAO and draw the object
 void InstancedObject::_Draw(RenderingContext& rcontext) {
 
 	glBindVertexArray(handles.object_vao);

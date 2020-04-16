@@ -17,8 +17,8 @@ struct Object3DHandles {
 
 	unsigned int object_vao;	// vao handle for the Object3D
 
-	bool initialised = false;
-	bool dirty = true;
+	bool initialised = false;	// are the handles initialised
+	bool dirty = true;			// do handles need reassigning
 };
 
 
@@ -89,7 +89,7 @@ protected:
 	virtual void _AssignHandleInformation(RenderingContext& rcontext);
 	virtual void _HandleVBOs(RenderingContext& rcontext);
 	virtual void _HandleVertVBO(RenderingContext& rcontext);
-	virtual void _HandlePolyVBO(RenderingContext& rcontext);
+	// virtual void _HandlePolyVBO(RenderingContext& rcontext);
 
 	virtual void _Draw(RenderingContext& rcontext);
 
