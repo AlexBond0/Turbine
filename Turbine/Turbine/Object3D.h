@@ -18,6 +18,7 @@ struct Object3DHandles {
 	unsigned int object_vao;	// vao handle for the Object3D
 
 	bool initialised = false;
+	bool dirty = true;
 };
 
 
@@ -89,6 +90,8 @@ protected:
 	virtual void _HandleVBOs(RenderingContext& rcontext);
 	virtual void _HandleVertVBO(RenderingContext& rcontext);
 	virtual void _HandlePolyVBO(RenderingContext& rcontext);
+
+	virtual void _Draw();
 
 	void _GetWorldTranslation(TranslationStack& translations);
 };

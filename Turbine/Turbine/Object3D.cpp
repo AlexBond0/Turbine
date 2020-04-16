@@ -2,7 +2,6 @@
 
 Object3D::Object3D()
 {
-	// vbos = NULL;
 	SetName("NULL");
 	texturemap = -1;
 	parent = nullptr;
@@ -13,7 +12,6 @@ Object3D::Object3D(Object3D* copy, std::string newName)
 	, Moveable((Moveable)copy)
 {
 
-	// vbos = NULL;
 	SetName((char*)newName.c_str());
 
 	// assign vertices and polygons
@@ -30,7 +28,6 @@ Object3D::Object3D(Object3D* copy, std::string newName)
 
 Object3D::~Object3D()
 {
-	// free(vbos);
 	free(name);
 }
 
@@ -43,6 +40,8 @@ void Object3D::Draw(RenderingContext rcontext) {
 
 	_HandleVBOs(rcontext);
 
+	_Draw();
+
 	// draw the children objects
 	for (Object3D* child : children)
 		child->Draw(rcontext);
@@ -51,12 +50,28 @@ void Object3D::Draw(RenderingContext rcontext) {
 	rcontext.PopModelMatrix();
 }
 
-// Initialse object VBOs
-void Object3D::_InitVBOs()
-{
+void Object3D::_Draw() {
 
-	//if (!vbos)
-	//	vbos = (unsigned int*)malloc(2 * sizeof(unsigned int));
+	glBindVertexArray(handles.object_vao);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handles.polygon_vbo);
+
+	glDrawElements(
+		polygons.ElementType(),
+		polygons.ElementCount(),
+		GL_UNSIGNED_SHORT,
+		0
+	);
+	glBindVertexArray(0);
+}
+
+// Initialse object VBOs
+void Object3D::_InitVBOs() {
+
+	// generate VAO
+	glGenVertexArrays(1, &handles.object_vao);
+	glBindVertexArray(handles.object_vao);
+
+	// generate VBOs
 	glGenBuffers(1, &handles.point_vbo);
 	glGenBuffers(1, &handles.polygon_vbo);
 
@@ -79,6 +94,8 @@ void Object3D::_InitVBOs()
 	);
 
 	handles.initialised = true;
+
+	glBindVertexArray(0);
 }
 
 // Pass current object amd context information to the shaders 
@@ -144,13 +161,18 @@ void Object3D::_AssignHandleInformation(RenderingContext& rcontext) {
 // Handle VBO information for drawing
 void Object3D::_HandleVBOs(RenderingContext& rcontext) {
 
-	_HandleVertVBO(rcontext);
-	_HandlePolyVBO(rcontext);
+	if (handles.dirty) {
+
+		_HandleVertVBO(rcontext);
+		handles.dirty = false;
+	}
+	// _HandlePolyVBO(rcontext);
 }
 
 // Handle the vertex VBO data layout 
 void Object3D::_HandleVertVBO(RenderingContext& rcontext) {
 
+	glBindVertexArray(handles.object_vao);
 	glBindBuffer(GL_ARRAY_BUFFER, handles.point_vbo);
 
 	// attributes
@@ -171,6 +193,8 @@ void Object3D::_HandleVertVBO(RenderingContext& rcontext) {
 		glEnableVertexAttribArray(rcontext.verthandles[1]);
 		glDisableVertexAttribArray(rcontext.verthandles[2]);
 	}
+
+	glBindVertexArray(0);
 }
 
 // handle and draw the polygon VBO data
