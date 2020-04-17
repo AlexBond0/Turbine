@@ -94,9 +94,6 @@
     <ClCompile Include="GLSetup.cpp">
       <Filter>Turbine Engine\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="MoveableUI.cpp">
-      <Filter>Turbine Engine\Debug UI</Filter>
-    </ClCompile>
     <ClCompile Include="DebugUI.cpp">
       <Filter>Turbine Engine\Debug UI</Filter>
     </ClCompile>
@@ -117,6 +114,9 @@
     </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>Turbine Engine\Shading\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Object3DUI.cpp">
+      <Filter>Turbine Engine\Debug UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -195,9 +195,6 @@
     <ClInclude Include="Utils.h">
       <Filter>Turbine Engine\Tools</Filter>
     </ClInclude>
-    <ClInclude Include="MoveableUI.h">
-      <Filter>Turbine Engine\Debug UI</Filter>
-    </ClInclude>
     <ClInclude Include="DebugUI.h">
       <Filter>Turbine Engine\Debug UI</Filter>
     </ClInclude>
@@ -221,6 +218,9 @@
     </ClInclude>
     <ClInclude Include="Shader.h">
       <Filter>Turbine Engine\Shading\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Object3DUI.h">
+      <Filter>Turbine Engine\Debug UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

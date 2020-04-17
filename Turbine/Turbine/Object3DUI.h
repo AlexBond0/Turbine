@@ -6,12 +6,12 @@
 
 #include "DebugUIContainer.h"
 
-class MoveableUI 
+class Object3DUI 
 	: public DebugUIContainer
 {
 public:
-	MoveableUI();
-	~MoveableUI();
+	Object3DUI();
+	~Object3DUI();
 
 	void Render();
 

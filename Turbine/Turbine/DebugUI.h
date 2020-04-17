@@ -4,7 +4,7 @@
 #include "ImGui//imgui_impl_glfw.h"
 #include "ImGui//imgui_impl_opengl3.h"
 
-#include "MoveableUI.h"
+#include "Object3DUI.h"
 #include "CameraUI.h"
 
 #include "DebugUIContainer.h"

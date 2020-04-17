@@ -55,14 +55,12 @@ void Object3D::Draw(RenderingContext& rcontext) {
 
 	_HandleVBOs(rcontext);
 
-	_Draw(rcontext);
+	if (isActive)
+		_Draw(rcontext);
 
 	// draw the children objects
 	for (Entity* child : children) {
 
-		// only draw object entities
-		//if (child->isRenderable) 
-		//	(static_cast<Object3D*>(child))->Draw(rcontext);
 		child->OnRender(rcontext);
 	}
 

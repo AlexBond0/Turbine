@@ -1,17 +1,17 @@
-#include "MoveableUI.h"
+#include "Object3DUI.h"
 
 
 
-MoveableUI::MoveableUI()
+Object3DUI::Object3DUI()
 {
 }
 
 
-MoveableUI::~MoveableUI()
+Object3DUI::~Object3DUI()
 {
 }
 
-void MoveableUI::Render() {
+void Object3DUI::Render() {
 
 	std::string id = "ID : NULL";
 	if (object->GetName())
@@ -25,6 +25,7 @@ void MoveableUI::Render() {
 	ImGui::SliderFloat4("orientation", &object->GetOrientationQuat()[0], -1.0, 1.0);
 	ImGui::SliderFloat4("rotation", &object->GetRotationQuat()[0], -1.0, 1.0);
 	ImGui::Separator();
+	ImGui::Checkbox("is Active", &object->isActive);
 	ImGui::Checkbox("Use Texture", &object->useTexture);
 	ImGui::Checkbox("Use Lighing", &object->useLight);
 	ImGui::Separator();

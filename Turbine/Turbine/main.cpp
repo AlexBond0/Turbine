@@ -62,7 +62,7 @@ int windowX, windowY;
 
 GLFWwindow* window;
 DebugUI* debugUI;
-MoveableUI* moveUI;
+Object3DUI* moveUI;
 CameraUI* camUI;
 
 // The MAIN function, from here we start the application and run the game loop
@@ -235,7 +235,7 @@ int OnCreate(const char* glsl_version) {
 
 void SetupDebugUI() {
 
-	moveUI = new MoveableUI();
+	moveUI = new Object3DUI();
 	moveUI->object = scene->objects["Seats"];
 	debugUI->AddComponent(moveUI);
 

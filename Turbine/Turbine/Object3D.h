@@ -31,6 +31,7 @@ public:
 
 	bool useLight = true;		// does the object use light information when shading
 	bool useTexture = false;	// does the object use texture information when shading
+	bool isActive = true;		// does the object get rendered
 
 	Object3D();
 	Object3D(Object3D* copy, std::string newName);
@@ -73,7 +74,6 @@ protected:
 	// rendering flags
 	bool isInstanced = false;	// is the object instanced
 	bool isBillboarded = false;	// is the object billboarded
-
 
 
 	virtual void _InitVBOs();
