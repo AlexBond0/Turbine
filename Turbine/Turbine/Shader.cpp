@@ -7,7 +7,6 @@ Shader::Shader(const wchar_t* vertshader, const wchar_t* fragshader) {
 	ID = LoadShaders(L"shader.vert", L"shader.frag");
 }
 
-
 Shader::~Shader() {
 
 	glDeleteProgram(ID);
@@ -19,63 +18,39 @@ void Shader::Use() {
 	glUseProgram(ID);
 }
 
+void Shader::SetupObjectShader() {
 
-void Shader::SetBool(const std::string &name, bool value) {
+	// Light
+	_LinkUniformHandle("u_l_direction");
+	_LinkUniformHandle("u_l_halfplane");
+	_LinkUniformHandle("u_l_ambient");
+	_LinkUniformHandle("u_l_diffuse");
+	_LinkUniformHandle("u_l_specular");
 
-	glUniform1i(_GetHandle(name), (int)value);
-}
+	// Material
+	_LinkUniformHandle("u_m_ambient");
+	_LinkUniformHandle("u_m_diffuse");
+	_LinkUniformHandle("u_m_specular");
+	_LinkUniformHandle("u_m_shininess");
 
-void Shader::SetInt(const std::string &name, int value) {
+	// texture
+	_LinkUniformHandle("u_texture");
 
-	glUniform1i(_GetHandle(name), value);
-}
+	// Matrices
+	_LinkUniformHandle("u_normalmatrix");
+	_LinkUniformHandle("u_mvpmatrix");
+	_LinkUniformHandle("u_vpmatrix");
 
-void Shader::SetFloat(const std::string &name, float value) {
+	// Flags
+	_LinkUniformHandle("u_usesLight");
+	_LinkUniformHandle("u_usesTexture");
 
-	glUniform1f(_GetHandle(name), value);
-}
 
-void Shader::SetColor(const std::string &name, float* value) {
+	// instancing
+	_LinkUniformHandle("u_instancing");
 
-	glUniform4fv(_GetHandle(name), 1, value);
-}
-
-void Shader::SetVector(const std::string &name, glm::vec3& value) {
-
-	glUniform3fv(_GetHandle(name), 1, glm::value_ptr(value));
-}
-
-void Shader::SetMatrix(const std::string &name, glm::mat4& value) {
-
-	glUniformMatrix4fv(_GetHandle(name), 1, false, glm::value_ptr(value));
-}
-
-unsigned int Shader::_GetHandle(const std::string &name) {
-
-	// handle provided doesnt exist, needs defining
-	assert(handles.find(name) != handles.end());
-
-	return handles[name];
-}
-
-// helper function to link a shader uniform and log the result
-void Shader::_LinkUniformHandle(const std::string &name) {
-
-	// get handle
-	unsigned int attribHandle = glGetUniformLocation(ID, name.c_str());
-
-	// correct handle found?
-	std::string message;
-	if (attribHandle == -1)
-		message = "SHADER LINK ERROR : " + name + " linked unsuccessfully\n";
-
-	else if (attribHandle > 100)
-		message = "SHADER LINK WARN : " + name + " may have been compiled away\n";
-
-	else
-		message = "SHADER LINK OK : " + name + " linked successfully\n";
-
-	OutputDebugStringA(message.c_str());
-
-	handles[name] = attribHandle;
+	// billboarding
+	_LinkUniformHandle("u_billboarding");
+	_LinkUniformHandle("a_b_up");
+	_LinkUniformHandle("a_b_right");
 }

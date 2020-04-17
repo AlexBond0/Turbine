@@ -214,57 +214,7 @@ int OnCreate(const char* glsl_version) {
 	// Setup Dear ImGui context
 	debugUI = new DebugUI(glsl_version, window);
 
-	// ======================================================================================
-	// Setup fragment and Vertex shaders
-	//int prog
-	//	= rcontext.glprogram
-	//	= LoadShaders(L"shader.vert", L"shader.frag");
-
-	//// ======================================================================================
-	//// link attributes in rcontext to the shaders
-	//OutputDebugStringA("\n\nLINKING SHADERS...\n");
-
-	//// Light
-	//LinkUniformHandle(rcontext.lighthandles[0], "u_l_direction", prog);
-	//LinkUniformHandle(rcontext.lighthandles[1], "u_l_halfplane", prog);
-	//LinkUniformHandle(rcontext.lighthandles[2], "u_l_ambient", prog);
-	//LinkUniformHandle(rcontext.lighthandles[3], "u_l_diffuse", prog);
-	//LinkUniformHandle(rcontext.lighthandles[4], "u_l_specular", prog);
-
-	//// Material
-	//LinkUniformHandle(rcontext.mathandles[0], "u_m_ambient", prog);
-	//LinkUniformHandle(rcontext.mathandles[1], "u_m_diffuse", prog);
-	//LinkUniformHandle(rcontext.mathandles[2], "u_m_specular", prog);
-	//LinkUniformHandle(rcontext.mathandles[3], "u_m_shininess", prog);
-
-	//// texture
-	//LinkUniformHandle(rcontext.texturehandle, "u_texture", prog);
-
-	//// Matrices
-	//LinkUniformHandle(rcontext.nmathandle, "u_normalmatrix", prog);
-	//LinkUniformHandle(rcontext.mvphandle, "u_mvpmatrix", prog);
-	//LinkUniformHandle(rcontext.vphandle, "u_vpmatrix", prog);
-
-	//// Flags
-	//LinkUniformHandle(rcontext.useslighthandle, "u_usesLight", prog);
-	//LinkUniformHandle(rcontext.usestexturehandle, "u_usesTexture", prog);
-
-	//// Attributes
-	//LinkAttribHandle(rcontext.verthandles[0], "a_position", prog);
-	//LinkAttribHandle(rcontext.verthandles[1], "a_normal", prog);
-	//LinkAttribHandle(rcontext.verthandles[2], "a_uvcoord", prog);
-
-	//// instancing
-	//LinkUniformHandle(rcontext.usesinstancing, "u_instancing", prog);
-	//LinkAttribHandle(rcontext.instancehandle, "a_offset", prog);
-
-	//// billboarding
-	//LinkUniformHandle(rcontext.usesbillboarding, "u_billboarding", prog);
-	//LinkUniformHandle(rcontext.billboardhandles[0], "a_b_up", prog);
-	//LinkUniformHandle(rcontext.billboardhandles[1], "a_b_right", prog);
-
-	// glUseProgram(prog);
-
+	// setup shaders in renderingcontext;
 	rcontext = new RenderingContext();
 
 	glClearColor(0.0f, 1.0f, 0.0f, 1.0f);

@@ -31,7 +31,6 @@ void InstancedObject::_Draw(RenderingContext& rcontext) {
 
 	// tell the polygon data to handle instancing correctly
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handles.polygon_vbo);
-	// rcontext.instancehandle
 	glVertexAttribDivisor(3, 1);
 	glDrawElementsInstanced(
 		polygons.ElementType(),

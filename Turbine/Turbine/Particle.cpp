@@ -93,8 +93,6 @@ void Particle::_AssignHandleInformation(RenderingContext& rcontext) {
 	);
 
 	// assign billboard information
-	// glUniform3fv(rcontext.billboardhandles[0], 1, glm::value_ptr(billboard_u));
-	// glUniform3fv(rcontext.billboardhandles[1], 1, glm::value_ptr(billboard_r));
 	rcontext.objectShader->SetVector("a_b_up", billboard_u);
 	rcontext.objectShader->SetVector("a_b_right", billboard_r);
 
