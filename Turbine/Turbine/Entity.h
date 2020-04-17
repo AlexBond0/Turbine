@@ -15,8 +15,9 @@ public:
 
 	std::vector<Entity*> children;	// children in Entity heirarchy
 	Entity* parent;					// parent in Entity heirarchy
-	bool isRenderable = false;		// can the elemebt be rendered (Needs a better implementation)
 
+	// implement in child classes to define functionality of entity when called to render
+	virtual void OnRender(RenderingContext& rcontext) = 0;
 
 	void AddChild(Entity* newChild);
 	void SetParent(Entity* newParent);

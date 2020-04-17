@@ -1,7 +1,7 @@
 #pragma once
 #include <assert.h>
 #include "Matrix.h"
-#include "ObjectShader.h"
+#include "Shader.h"
 
 // #define MAX_DEPTH   (32*16)
 #define MAX_DEPTH   32
@@ -35,7 +35,7 @@ public:
 	glm::mat4 normalmatrix;
 
 	// combined matricies
-	glm::mat4 mvmatrix;;
+	glm::mat4 mvmatrix;
 	glm::mat4 mvpmatrix;
 	glm::mat4 vpmatrix;
 
@@ -53,28 +53,6 @@ public:
 	RenderingContext();
 	~RenderingContext();
 
-	Shader* objectShader;
+	std::map<std::string, Shader*> shaders;
 	bool createdShaders = false;
-
-	//// shaders & program
-	//int glprogram;
-	//int nmathandle, mvphandle, vphandle;
-
-	//// attributes
-	//int lighthandles[5];  // direction; halfplane; ambient; diffuse; specular
-	//int mathandles[4];    // ambient, diffuse, specular, shininess
-	//int verthandles[2];   // position, normal, UV
-
-	//// texturing
-	//int texturehandle;
-	//int useslighthandle;
-	//int usestexturehandle;
-
-	//// instancing
-	//int usesinstancing;
-	//int instancehandle;
-
-	//// billboarding
-	//int usesbillboarding;
-	//int billboardhandles[2];	// up, right
 };

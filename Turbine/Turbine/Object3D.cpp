@@ -5,12 +5,11 @@ Object3D::Object3D()
 	SetName("NULL");
 	texturemap = -1;
 	parent = nullptr;
-	isRenderable = true;
 }
 
 Object3D::Object3D(Object3D* copy, std::string newName) 
 	: Material((Material)copy)
-	, Entity((Entity)copy)
+	, Entity(copy)
 {
 
 	SetName((char*)newName.c_str());
@@ -25,8 +24,6 @@ Object3D::Object3D(Object3D* copy, std::string newName)
 
 	useLight = copy->useLight;
 	useTexture = copy->useTexture;
-
-	isRenderable = true;
 }
 
 Object3D::~Object3D()
@@ -45,6 +42,12 @@ Object3D::~Object3D()
 
 // ======================================
 
+// Handle action taken by Object3D when called form entity heirarcy
+void Object3D::OnRender(RenderingContext& rcontext) {
+
+	Draw(rcontext);
+}
+
 // Draw the object using the given rendering contect
 void Object3D::Draw(RenderingContext& rcontext) {
 	
@@ -58,9 +61,9 @@ void Object3D::Draw(RenderingContext& rcontext) {
 	for (Entity* child : children) {
 
 		// only draw object entities
-		if (child->isRenderable) 
-			(static_cast<Object3D*>(child))->Draw(rcontext);
-		
+		//if (child->isRenderable) 
+		//	(static_cast<Object3D*>(child))->Draw(rcontext);
+		child->OnRender(rcontext);
 	}
 
 	// remove rotation added in _AssignHandleInformation
@@ -120,16 +123,16 @@ void Object3D::_InitVBOs() {
 void Object3D::_AssignHandleInformation(RenderingContext& rcontext) {
 
 	// Material
-	rcontext.objectShader->SetColor("u_m_ambient", GetAmbient()->rgba);
-	rcontext.objectShader->SetColor("u_m_diffuse", GetDiffuse()->rgba);
-	rcontext.objectShader->SetColor("u_m_specular", GetSpecular()->rgba); //u_m_shininess
-	rcontext.objectShader->SetFloat("u_m_shininess", glossiness);
+	rcontext.shaders["object"]->SetColor("u_m_ambient", GetAmbient()->rgba);
+	rcontext.shaders["object"]->SetColor("u_m_diffuse", GetDiffuse()->rgba);
+	rcontext.shaders["object"]->SetColor("u_m_specular", GetSpecular()->rgba); //u_m_shininess
+	rcontext.shaders["object"]->SetFloat("u_m_shininess", glossiness);
 
 	// flags
-	rcontext.objectShader->SetBool("u_usesLight", useLight);
-	rcontext.objectShader->SetBool("u_usesTexture", useTexture);
-	rcontext.objectShader->SetBool("u_instancing", isInstanced);
-	rcontext.objectShader->SetBool("u_billboarding", isBillboarded);
+	rcontext.shaders["object"]->SetBool("u_usesLight", useLight);
+	rcontext.shaders["object"]->SetBool("u_usesTexture", useTexture);
+	rcontext.shaders["object"]->SetBool("u_instancing", isInstanced);
+	rcontext.shaders["object"]->SetBool("u_billboarding", isBillboarded);
 
 	// bind info in textureID to the textureHandle
 	if (hasTexture) {
@@ -137,7 +140,7 @@ void Object3D::_AssignHandleInformation(RenderingContext& rcontext) {
 		glEnable(GL_TEXTURE_2D);
 
 		// glUniform1i(rcontext.texturehandle, 0);
-		rcontext.objectShader->SetInt("u_texture", 0);
+		rcontext.shaders["object"]->SetInt("u_texture", 0);
 		glActiveTexture(GL_TEXTURE0);
 
 		glBindTexture(GL_TEXTURE_2D, textureID);
@@ -172,9 +175,9 @@ void Object3D::_AssignHandleInformation(RenderingContext& rcontext) {
 
 
 	rcontext.UpdateMVPs();
-	rcontext.objectShader->SetMatrix("u_normalmatrix", rcontext.normalmatrix);
-	rcontext.objectShader->SetMatrix("u_mvpmatrix", rcontext.mvpmatrix);
-	rcontext.objectShader->SetMatrix("u_vpmatrix", rcontext.vpmatrix);
+	rcontext.shaders["object"]->SetMatrix("u_normalmatrix", rcontext.normalmatrix);
+	rcontext.shaders["object"]->SetMatrix("u_mvpmatrix", rcontext.mvpmatrix);
+	rcontext.shaders["object"]->SetMatrix("u_vpmatrix", rcontext.vpmatrix);
 }
 
 // Handle VBO information for drawing

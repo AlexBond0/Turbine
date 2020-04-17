@@ -93,8 +93,8 @@ void Particle::_AssignHandleInformation(RenderingContext& rcontext) {
 	);
 
 	// assign billboard information
-	rcontext.objectShader->SetVector("a_b_up", billboard_u);
-	rcontext.objectShader->SetVector("a_b_right", billboard_r);
+	rcontext.shaders["object"]->SetVector("a_b_up", billboard_u);
+	rcontext.shaders["object"]->SetVector("a_b_right", billboard_r);
 
 	// continue handle assignment
 	InstancedObject::_AssignHandleInformation(rcontext);

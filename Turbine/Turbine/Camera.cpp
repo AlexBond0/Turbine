@@ -12,6 +12,13 @@ Camera::~Camera() {
 
 }
 
+// Handle action taken by Object3D when called form entity heirarcy
+void Camera::OnRender(RenderingContext& rcontext) {
+
+	// nothing for now...
+	// Draw(rcontext);
+}
+
 // ================================================================
 
 // set position of camera

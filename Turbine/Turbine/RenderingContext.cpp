@@ -87,14 +87,18 @@ glm::mat4* TranslationStack::GetCurrentModelMatrix() {
 
 RenderingContext::RenderingContext() {
 
-	objectShader = new Shader(L"shader.vert", L"shader.frag");
-	objectShader->SetupObjectShader();
+	shaders["object"] = new Shader(L"shader.vert", L"shader.frag");
+	shaders["object"]->SetupObjectShader();
 
 	createdShaders = true;
 }
 
 RenderingContext::~RenderingContext() {
 
-	if (createdShaders)
-		delete objectShader;
+	if (createdShaders) {
+
+		// delete all saved shaders in the hashmap
+		for (auto const& shader : shaders)
+			delete shader.second;
+	}
 }

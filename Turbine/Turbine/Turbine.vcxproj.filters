@@ -118,9 +118,6 @@
     <ClCompile Include="Shader.cpp">
       <Filter>Turbine Engine\Shading\Shaders</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectShader.cpp">
-      <Filter>Turbine Engine\Shading\Shaders</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGui\imgui_impl_glfw.h">
@@ -223,9 +220,6 @@
       <Filter>Turbine Engine\Shading</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
-      <Filter>Turbine Engine\Shading\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectShader.h">
       <Filter>Turbine Engine\Shading\Shaders</Filter>
     </ClInclude>
   </ItemGroup>

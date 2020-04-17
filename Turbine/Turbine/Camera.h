@@ -36,6 +36,8 @@ public:
 	PickObject ObjectPicked(Object3D* object, glm::vec3 pickingRay);
 	PickObject GetPickedObject(std::map<std::string, Object3D*>* objects, glm::vec3 pickingRay);
 
+	void OnRender(RenderingContext& rcontext);
+
 	void SetPosition(glm::vec3 newPosition);
 	void SetTarget(glm::vec3 newTarget);
 	void SetUp(glm::vec3 newUp);
