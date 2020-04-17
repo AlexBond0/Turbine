@@ -1,6 +1,7 @@
 #pragma once
 #include <assert.h>
 #include "Matrix.h"
+#include "Shader.h"
 
 // #define MAX_DEPTH   (32*16)
 #define MAX_DEPTH   32
@@ -49,25 +50,31 @@ class RenderingContext
 
 public:
 
-	// shaders & program
-	int glprogram;
-	int nmathandle, mvphandle, vphandle;
+	RenderingContext();
+	~RenderingContext();
 
-	// attributes
-	int lighthandles[5];  // direction; halfplane; ambient; diffuse; specular
-	int mathandles[4];    // ambient, diffuse, specular, shininess
-	int verthandles[2];   // position, normal, UV
+	Shader* objectShader;
+	bool createdShaders = false;
 
-	// texturing
-	int texturehandle;
-	int useslighthandle;
-	int usestexturehandle;
+	//// shaders & program
+	//int glprogram;
+	//int nmathandle, mvphandle, vphandle;
 
-	// instancing
-	int usesinstancing;
-	int instancehandle;
+	//// attributes
+	//int lighthandles[5];  // direction; halfplane; ambient; diffuse; specular
+	//int mathandles[4];    // ambient, diffuse, specular, shininess
+	//int verthandles[2];   // position, normal, UV
 
-	// billboarding
-	int usesbillboarding;
-	int billboardhandles[2];	// up, right
+	//// texturing
+	//int texturehandle;
+	//int useslighthandle;
+	//int usestexturehandle;
+
+	//// instancing
+	//int usesinstancing;
+	//int instancehandle;
+
+	//// billboarding
+	//int usesbillboarding;
+	//int billboardhandles[2];	// up, right
 };

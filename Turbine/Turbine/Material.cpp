@@ -11,7 +11,7 @@ Material::Material() {
 
 	_highlight = color4(1.0, 0.6, 0.0, 1.0);
 
-	_isHighlighted = false;
+	isHighlighted = false;
 
 	speclevel = 5;
 	glossiness = 25;
@@ -149,10 +149,4 @@ void Material::SetGlossiness(float g) {
 void Material::SetSpecLevel(float s) {
 
 	speclevel = s;
-}
-
-// will be implemented better later
-void Material::IsHighlighted(bool highlighted) {
-	
-	_isHighlighted = highlighted;
 }

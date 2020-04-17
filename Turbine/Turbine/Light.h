@@ -22,7 +22,7 @@ public:
 	void CreateSun();
 	void CreateMoon();
 
-	float* GetDirection();
-	float* GetHalfplane();
+	glm::vec3* GetDirection();
+	glm::vec3* GetHalfplane();
 };
 

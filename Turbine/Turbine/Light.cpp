@@ -13,16 +13,16 @@ Light::~Light()
 
 // Return handle-friendly direction information
 // might be replaced with a glm::value_ptr()
-float* Light::GetDirection() {
+glm::vec3* Light::GetDirection() {
 
-	return &direction.x;
+	return &direction;
 }
 
 // Return handle-friendly halfplane information
 // might be replaced with a glm::value_ptr()
-float* Light::GetHalfplane() {
+glm::vec3* Light::GetHalfplane() {
 
-	return &halfplane.x;
+	return &halfplane;
 }
 
 // Calculate the half plane for sending to the GLSL shaders

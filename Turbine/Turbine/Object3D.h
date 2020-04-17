@@ -36,7 +36,7 @@ public:
 	Object3D(Object3D* copy, std::string newName);
 	virtual ~Object3D();
 
-	virtual void Draw(RenderingContext rcontext);
+	virtual void Draw(RenderingContext& rcontext);
 
 	char* GetName();
 	void SetName(const char* name);

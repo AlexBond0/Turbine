@@ -50,7 +50,7 @@ Particle::~Particle() {
 // =================================================================================
 
 // overriden draw method from Object3D to take transparency into account
-void Particle::Draw(RenderingContext rcontext) {
+void Particle::Draw(RenderingContext& rcontext) {
 
 	modelView = rcontext.GetCurrentModelMatrix();
 
@@ -61,7 +61,7 @@ void Particle::Draw(RenderingContext rcontext) {
 }
 
 // blend-sepciffic draw function called after all other opaque draw methods
-void Particle::BlendDraw(RenderingContext rcontext) {
+void Particle::BlendDraw(RenderingContext& rcontext) {
 
 	if (isTransparent) {
 
@@ -93,8 +93,10 @@ void Particle::_AssignHandleInformation(RenderingContext& rcontext) {
 	);
 
 	// assign billboard information
-	glUniform3fv(rcontext.billboardhandles[0], 1, glm::value_ptr(billboard_u));
-	glUniform3fv(rcontext.billboardhandles[1], 1, glm::value_ptr(billboard_r));
+	// glUniform3fv(rcontext.billboardhandles[0], 1, glm::value_ptr(billboard_u));
+	// glUniform3fv(rcontext.billboardhandles[1], 1, glm::value_ptr(billboard_r));
+	rcontext.objectShader->SetVector("a_b_up", billboard_u);
+	rcontext.objectShader->SetVector("a_b_right", billboard_r);
 
 	// continue handle assignment
 	InstancedObject::_AssignHandleInformation(rcontext);

@@ -1,4 +1,4 @@
-#version 130 
+#version 330 core 
 
 // =============================================================================
 //		--= IN =--
@@ -23,13 +23,13 @@ uniform mat4 u_mvpmatrix;
 uniform mat4 u_vpmatrix; 
 
 // Attributes 
-in vec4 a_position; 
-in vec3 a_normal;
-in vec2 a_uvcoord;
+layout (location = 0) in vec3 a_position; 
+layout (location = 1) in vec3 a_normal;
+layout (location = 2) in vec2 a_uvcoord;
 
 // instancing
 uniform bool u_instancing; 
-in vec3 a_offset; 
+layout (location = 3) in vec3 a_offset; 
 
 // billboarding
 uniform bool u_billboarding; 
@@ -95,7 +95,7 @@ void main() {
 	}
 	else {
 	
-		position = a_position;
+		position = vec4(a_position, 1.0);
 	}
 
 

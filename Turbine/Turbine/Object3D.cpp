@@ -46,7 +46,7 @@ Object3D::~Object3D()
 // ======================================
 
 // Draw the object using the given rendering contect
-void Object3D::Draw(RenderingContext rcontext) {
+void Object3D::Draw(RenderingContext& rcontext) {
 	
 	_AssignHandleInformation(rcontext);
 
@@ -120,23 +120,32 @@ void Object3D::_InitVBOs() {
 void Object3D::_AssignHandleInformation(RenderingContext& rcontext) {
 
 	// Material
-	glUniform4fv(rcontext.mathandles[0], 1, GetAmbient().rgba);
-	glUniform4fv(rcontext.mathandles[1], 1, GetDiffuse().rgba);
-	glUniform4fv(rcontext.mathandles[2], 1, GetSpecular().rgba);
-	glUniform1f(rcontext.mathandles[3], glossiness);
+	/*glUniform4fv(rcontext.mathandles[0], 1, GetAmbient()->rgba);
+	glUniform4fv(rcontext.mathandles[1], 1, GetDiffuse()->rgba);
+	glUniform4fv(rcontext.mathandles[2], 1, GetSpecular()->rgba);
+	glUniform1f(rcontext.mathandles[3], glossiness);*/
+	rcontext.objectShader->SetColor("u_m_ambient", GetAmbient()->rgba);
+	rcontext.objectShader->SetColor("u_m_diffuse", GetDiffuse()->rgba);
+	rcontext.objectShader->SetColor("u_m_specular", GetSpecular()->rgba); //u_m_shininess
+	rcontext.objectShader->SetFloat("u_m_shininess", glossiness);
 
 	// flags
-	glUniform1i(rcontext.useslighthandle, useLight);
+	/*glUniform1i(rcontext.useslighthandle, useLight);
 	glUniform1i(rcontext.usestexturehandle, useTexture);
 	glUniform1i(rcontext.usesinstancing, isInstanced);
-	glUniform1i(rcontext.usesbillboarding, isBillboarded);
+	glUniform1i(rcontext.usesbillboarding, isBillboarded);*/
+	rcontext.objectShader->SetBool("u_usesLight", useLight);
+	rcontext.objectShader->SetBool("u_usesTexture", useTexture);
+	rcontext.objectShader->SetBool("u_instancing", isInstanced);
+	rcontext.objectShader->SetBool("u_billboarding", isBillboarded);
 
 	// bind info in textureID to the textureHandle
 	if (hasTexture) {
 
 		glEnable(GL_TEXTURE_2D);
 
-		glUniform1i(rcontext.texturehandle, 0);
+		// glUniform1i(rcontext.texturehandle, 0);
+		rcontext.objectShader->SetInt("u_texture", 0);
 		glActiveTexture(GL_TEXTURE0);
 
 		glBindTexture(GL_TEXTURE_2D, textureID);
@@ -171,9 +180,12 @@ void Object3D::_AssignHandleInformation(RenderingContext& rcontext) {
 
 
 	rcontext.UpdateMVPs();
-	glUniformMatrix4fv(rcontext.nmathandle, 1, false, glm::value_ptr(rcontext.normalmatrix));
+	/*glUniformMatrix4fv(rcontext.nmathandle, 1, false, glm::value_ptr(rcontext.normalmatrix));
 	glUniformMatrix4fv(rcontext.mvphandle, 1, false, glm::value_ptr(rcontext.mvpmatrix));
-	glUniformMatrix4fv(rcontext.vphandle, 1, false, glm::value_ptr(rcontext.vpmatrix));
+	glUniformMatrix4fv(rcontext.vphandle, 1, false, glm::value_ptr(rcontext.vpmatrix));*/
+	rcontext.objectShader->SetMatrix("u_normalmatrix", rcontext.normalmatrix);
+	rcontext.objectShader->SetMatrix("u_mvpmatrix", rcontext.mvpmatrix);
+	rcontext.objectShader->SetMatrix("u_vpmatrix", rcontext.vpmatrix);
 }
 
 // Handle VBO information for drawing
@@ -195,20 +207,21 @@ void Object3D::_HandleVertVBO(RenderingContext& rcontext) {
 	// attributes
 	if (vertices.HasUV())
 	{
-		glVertexAttribPointer(rcontext.verthandles[0], 3, GL_FLOAT, false, sizeof(PointUV), (void*)0);
-		glVertexAttribPointer(rcontext.verthandles[1], 3, GL_FLOAT, false, sizeof(PointUV), (void*)offsetof(PointUV, normal));
-		glVertexAttribPointer(rcontext.verthandles[2], 2, GL_FLOAT, false, sizeof(PointUV), (void*)offsetof(PointUV, uv));
-		glEnableVertexAttribArray(rcontext.verthandles[0]);
-		glEnableVertexAttribArray(rcontext.verthandles[1]);
-		glEnableVertexAttribArray(rcontext.verthandles[2]);
+		// rcontext.verthandles[0]
+		glVertexAttribPointer(0, 3, GL_FLOAT, false, sizeof(PointUV), (void*)0);
+		glVertexAttribPointer(1, 3, GL_FLOAT, false, sizeof(PointUV), (void*)offsetof(PointUV, normal));
+		glVertexAttribPointer(2, 2, GL_FLOAT, false, sizeof(PointUV), (void*)offsetof(PointUV, uv));
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+		glEnableVertexAttribArray(2);
 	}
 	else
 	{
-		glVertexAttribPointer(rcontext.verthandles[0], 3, GL_FLOAT, false, sizeof(Point), (void*)0);
-		glVertexAttribPointer(rcontext.verthandles[1], 3, GL_FLOAT, false, sizeof(Point), (void*)offsetof(Point, normal));
-		glEnableVertexAttribArray(rcontext.verthandles[0]);
-		glEnableVertexAttribArray(rcontext.verthandles[1]);
-		glDisableVertexAttribArray(rcontext.verthandles[2]);
+		glVertexAttribPointer(0, 3, GL_FLOAT, false, sizeof(Point), (void*)0);
+		glVertexAttribPointer(1, 3, GL_FLOAT, false, sizeof(Point), (void*)offsetof(Point, normal));
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+		glDisableVertexAttribArray(2);
 	}
 
 	glBindVertexArray(0);

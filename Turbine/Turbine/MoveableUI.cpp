@@ -24,6 +24,14 @@ void MoveableUI::Render() {
 	ImGui::SliderFloat3("local position", &object->GetLocalPosVec()[0], -1.0, 1.0);
 	ImGui::SliderFloat4("orientation", &object->GetOrientationQuat()[0], -1.0, 1.0);
 	ImGui::SliderFloat4("rotation", &object->GetRotationQuat()[0], -1.0, 1.0);
+	ImGui::Separator();
+	ImGui::Checkbox("Use Texture", &object->useTexture);
+	ImGui::Checkbox("Use Lighing", &object->useLight);
+	ImGui::Separator();
+	ImGui::Checkbox("Show Highlighted", &object->isHighlighted);
+	ImGui::ColorEdit4("Ambient", (&object->GetAmbient()->rgba)[0]);
+	ImGui::ColorEdit4("Diffuse", (&object->GetDiffuse()->rgba)[0]);
+	ImGui::ColorEdit4("Specular", (&object->GetSpecular()->rgba)[0]);
 	ImGui::End();
 }
 

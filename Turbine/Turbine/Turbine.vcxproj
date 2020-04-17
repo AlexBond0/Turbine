@@ -152,6 +152,7 @@
     <ClCompile Include="RenderingContext.cpp" />
     <ClCompile Include="RideAnimation.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -186,6 +187,7 @@
     <ClInclude Include="RenderingContext.h" />
     <ClInclude Include="RideAnimation.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>

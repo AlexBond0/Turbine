@@ -58,8 +58,8 @@ public:
 
 	~Particle();
 
-	void Draw(RenderingContext rcontext);
-	void BlendDraw(RenderingContext rcontext);
+	void Draw(RenderingContext& rcontext);
+	void BlendDraw(RenderingContext& rcontext);
 
 	void SetProfilePosition(float x, float y, float z);
 	void SetProfileSpeed(float x, float y, float z);

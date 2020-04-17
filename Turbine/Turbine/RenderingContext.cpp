@@ -84,3 +84,15 @@ glm::mat4* TranslationStack::GetCurrentModelMatrix() {
 
 	return &_modelmatrix[_depth];
 }
+
+RenderingContext::RenderingContext() {
+
+	objectShader = new Shader(L"shader.vert", L"shader.frag");
+	createdShaders = true;
+}
+
+RenderingContext::~RenderingContext() {
+
+	if (createdShaders)
+		delete objectShader;
+}

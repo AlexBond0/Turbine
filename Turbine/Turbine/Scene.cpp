@@ -19,13 +19,14 @@ Scene::~Scene() {
 }
 
 // render the current scene
-void Scene::Render(RenderingContext rcontext) {
+void Scene::Render(RenderingContext& rcontext) {
 
 	// setup opengl environment with rcontext
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
-	glUseProgram(rcontext.glprogram);
+	// glUseProgram(rcontext.glprogram);
+	glUseProgram(rcontext.objectShader->ID);
 
 	rcontext.InitModelMatrix(true);
 
@@ -40,24 +41,44 @@ void Scene::Render(RenderingContext rcontext) {
 	light.CalculateHalfPlane(camera.camPosition);
 
 	// assign light handles
-	glUniform3fv(rcontext.lighthandles[0], 1, light.GetDirection());
-	glUniform3fv(rcontext.lighthandles[1], 1, light.GetHalfplane());
-	glUniform4fv(rcontext.lighthandles[2], 1, light.ambient.rgba);
-	glUniform4fv(rcontext.lighthandles[3], 1, light.diffuse.rgba);
-	glUniform4fv(rcontext.lighthandles[4], 1, light.specular.rgba);
+	//glUniform3fv(rcontext.lighthandles[0], 1, light.GetDirection());
+	//glUniform3fv(rcontext.lighthandles[1], 1, light.GetHalfplane());
+	//glUniform4fv(rcontext.lighthandles[2], 1, light.ambient.rgba);
+	//glUniform4fv(rcontext.lighthandles[3], 1, light.diffuse.rgba);
+	//glUniform4fv(rcontext.lighthandles[4], 1, light.specular.rgba);
+	rcontext.objectShader->SetVector("u_l_direction", *light.GetDirection());
+	rcontext.objectShader->SetVector("u_l_halfplane", *light.GetHalfplane());
+	rcontext.objectShader->SetColor("u_l_ambient", light.ambient.rgba);
+	rcontext.objectShader->SetColor("u_l_diffuse", light.diffuse.rgba);
+	rcontext.objectShader->SetColor("u_l_specular", light.specular.rgba);
 
-	//// draw full models via their root object
-  	for (Model3D* model : modelsToDraw)
+	_ObjectPass(rcontext);
+
+	_TransparencyPass(rcontext);
+
+}
+
+void Scene::_ShadowPass(RenderingContext& rcontext) {
+
+
+}
+
+void Scene::_ObjectPass(RenderingContext& rcontext) {
+
+	// draw full models via their root object
+	for (Model3D* model : modelsToDraw)
 		model->Draw(rcontext);
 
 	// draw individual objects
 	for (Object3D* obj : objectsToDraw)
 		obj->Draw(rcontext);
+}
+
+void Scene::_TransparencyPass(RenderingContext& rcontext) {
 
 	// drawparticle objects (if transparent)
 	for (Particle* particle : particleSystems)
 		particle->BlendDraw(rcontext);
-
 }
 
 // setup the scene
@@ -113,7 +134,7 @@ void Scene::Setup() {
 }
 
 // handle the event timer firing
-void Scene::OnTimer(RenderingContext rcontext, double timePassed) {
+void Scene::OnTimer(RenderingContext& rcontext, double timePassed) {
 
 	if (sceneLoaded) {
 

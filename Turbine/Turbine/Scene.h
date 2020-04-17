@@ -47,10 +47,10 @@ public:
 	Scene();
 	~Scene();
 
-	void Render(RenderingContext rcontext);
+	void Render(RenderingContext& rcontext);
 	void Setup();
 
-	void OnTimer(RenderingContext rcontext, double timePassed);
+	void OnTimer(RenderingContext& rcontext, double timePassed);
 
 	void ToggleAnimation();
 	void ToggleCamera();
@@ -67,6 +67,10 @@ private:
 
 	bool isDoingStandardAnimation = false;	// has the standard animation been called
 	bool isDay = true;						// the current day/night status
+
+	void _ShadowPass(RenderingContext& rcontext);
+	void _ObjectPass(RenderingContext& rcontext);
+	void _TransparencyPass(RenderingContext& rcontext);
 
 	void _LoadRide();
 	void _GenerateTrees();

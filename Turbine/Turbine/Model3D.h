@@ -13,7 +13,7 @@ public:
 
 	static Model3D* LoadModel(const wchar_t* filename);
 
-	void Draw(RenderingContext rcontext);
+	void Draw(RenderingContext& rcontext);
 
 	int GetNoOfObjects();
 	Object3D** GetObjects();
@@ -37,7 +37,7 @@ inline Object3D** Model3D::GetObjects()
 	return objects;
 }
 
-inline void Model3D::Draw(RenderingContext rcontext)
+inline void Model3D::Draw(RenderingContext& rcontext)
 {
 	if (rootObject == nullptr) {
 

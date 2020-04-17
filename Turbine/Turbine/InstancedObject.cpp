@@ -31,7 +31,8 @@ void InstancedObject::_Draw(RenderingContext& rcontext) {
 
 	// tell the polygon data to handle instancing correctly
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handles.polygon_vbo);
-	glVertexAttribDivisor(rcontext.instancehandle, 1);
+	// rcontext.instancehandle
+	glVertexAttribDivisor(3, 1);
 	glDrawElementsInstanced(
 		polygons.ElementType(),
 		polygons.ElementCount(),
@@ -93,9 +94,9 @@ void InstancedObject::_HandleVBOs(RenderingContext& rcontext) {
 		// select the instance VBO
 		glBindBuffer(GL_ARRAY_BUFFER, handles.instance_vbo);
 
-		// pass instance data to the shader
-		glVertexAttribPointer(rcontext.instancehandle, 3, GL_FLOAT, false, (4 * 3), (void*)0);
-		glEnableVertexAttribArray(rcontext.instancehandle);
+		// pass instance data to the shader || rcontext.instancehandle
+		glVertexAttribPointer(3, 3, GL_FLOAT, false, (4 * 3), (void*)0);
+		glEnableVertexAttribArray(3);
 
 		glBindVertexArray(0);
 
