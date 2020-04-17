@@ -1,7 +1,7 @@
 #pragma once
 #include <assert.h>
 #include "Matrix.h"
-#include "Shader.h"
+#include "ObjectShader.h"
 
 // #define MAX_DEPTH   (32*16)
 #define MAX_DEPTH   32

@@ -87,7 +87,7 @@ glm::mat4* TranslationStack::GetCurrentModelMatrix() {
 
 RenderingContext::RenderingContext() {
 
-	objectShader = new Shader(L"shader.vert", L"shader.frag");
+	objectShader = new ObjectShader(L"shader.vert", L"shader.frag");
 	createdShaders = true;
 }
 

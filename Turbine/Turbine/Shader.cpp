@@ -20,32 +20,62 @@ void Shader::Use() {
 }
 
 
-void Shader::SetBool(const std::string &name, bool value) const {
+void Shader::SetBool(const std::string &name, bool value) {
 
-	glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value);
+	glUniform1i(_GetHandle(name), (int)value);
 }
 
-void Shader::SetInt(const std::string &name, int value) const {
+void Shader::SetInt(const std::string &name, int value) {
 
-	glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
+	glUniform1i(_GetHandle(name), value);
 }
 
-void Shader::SetFloat(const std::string &name, float value) const {
+void Shader::SetFloat(const std::string &name, float value) {
 
-	glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
+	glUniform1f(_GetHandle(name), value);
 }
 
-void Shader::SetColor(const std::string &name, float* value) const {
+void Shader::SetColor(const std::string &name, float* value) {
 
-	glUniform4fv(glGetUniformLocation(ID, name.c_str()), 1, value);
+	glUniform4fv(_GetHandle(name), 1, value);
 }
 
-void Shader::SetVector(const std::string &name, glm::vec3& value) const {
+void Shader::SetVector(const std::string &name, glm::vec3& value) {
 
-	glUniform3fv(glGetUniformLocation(ID, name.c_str()), 1, glm::value_ptr(value));
+	glUniform3fv(_GetHandle(name), 1, glm::value_ptr(value));
 }
 
-void Shader::SetMatrix(const std::string &name, glm::mat4& value) const {
+void Shader::SetMatrix(const std::string &name, glm::mat4& value) {
 
-	glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, false, glm::value_ptr(value));
+	glUniformMatrix4fv(_GetHandle(name), 1, false, glm::value_ptr(value));
+}
+
+unsigned int Shader::_GetHandle(const std::string &name) {
+
+	// handle provided doesnt exist, needs defining
+	assert(handles.find(name) != handles.end());
+
+	return handles[name];
+}
+
+// helper function to link a shader uniform and log the result
+void Shader::_LinkUniformHandle(const std::string &name) {
+
+	// get handle
+	unsigned int attribHandle = glGetUniformLocation(ID, name.c_str());
+
+	// correct handle found?
+	std::string message;
+	if (attribHandle == -1)
+		message = "SHADER LINK ERROR : " + name + " linked unsuccessfully\n";
+
+	else if (attribHandle > 100)
+		message = "SHADER LINK WARN : " + name + " may have been compiled away\n";
+
+	else
+		message = "SHADER LINK OK : " + name + " linked successfully\n";
+
+	OutputDebugStringA(message.c_str());
+
+	handles[name] = attribHandle;
 }

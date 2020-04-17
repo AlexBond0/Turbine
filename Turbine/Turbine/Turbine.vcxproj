@@ -145,6 +145,7 @@
     <ClCompile Include="Moveable.cpp" />
     <ClCompile Include="MoveableUI.cpp" />
     <ClCompile Include="Object3D.cpp" />
+    <ClCompile Include="ObjectShader.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="PointData.cpp" />
     <ClCompile Include="PolygonData.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="Moveable.h" />
     <ClInclude Include="MoveableUI.h" />
     <ClInclude Include="Object3D.h" />
+    <ClInclude Include="ObjectShader.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="PointData.h" />
     <ClInclude Include="PolygonData.h" />
