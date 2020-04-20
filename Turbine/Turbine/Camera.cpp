@@ -3,7 +3,7 @@
 
 
 Camera::Camera(std::string name)
-	: Entity(name)
+	: Entity(name, EntityType::CAMERA)
 {
 
 	DefaultSceneCam();

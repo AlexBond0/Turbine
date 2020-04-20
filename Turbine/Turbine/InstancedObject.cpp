@@ -5,6 +5,7 @@
 InstancedObject::InstancedObject(std::string name)
 	: Object3D(name)
 {
+	SetEntityType(EntityType::OBJ_INSTANCED);
 
 	isInstanced = true;
 }

@@ -121,6 +121,9 @@
     <ClCompile Include="Entity.cpp">
       <Filter>Turbine Engine\Scene\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Turbine Engine\Scene\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGui\imgui_impl_glfw.h">
@@ -223,6 +226,9 @@
       <Filter>Turbine Engine\Debug UI</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
+      <Filter>Turbine Engine\Scene\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
       <Filter>Turbine Engine\Scene\Entity</Filter>
     </ClInclude>
   </ItemGroup>

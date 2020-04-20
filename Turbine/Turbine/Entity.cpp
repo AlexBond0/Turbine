@@ -2,9 +2,10 @@
 
 
 
-Entity::Entity(std::string name) {
+Entity::Entity(std::string name, EntityType type) {
 
 	_name = name;
+	_type = type;
 }
 
 
@@ -14,6 +15,7 @@ Entity::Entity(Entity* copy)
 	children = copy->children;
 	parent = copy->parent;
 	_name = copy->_name;
+	_type = copy->_type;
 }
 
 
@@ -78,10 +80,6 @@ void Entity::_GetWorldTranslation(TranslationStack& translations) {
 
 // Set the name of the entity
 void Entity::SetName(const char* name) {
-//{
-//	const int len = strlen(name) + 1;
-//	this->name = (char*)realloc(this->name, len);
-//	strcpy_s(this->name, len, name);
 
 	_name = std::string(name);
 }
@@ -96,4 +94,17 @@ void Entity::SetName(std::string name) {
 std::string Entity::GetName() {
 
 	return _name;
+}
+
+// Get the type of entity
+EntityType Entity::GetEntityType() {
+
+	return _type;
+}
+
+// Set the entity type, can result in unexpected
+// results when not used safely
+void Entity::SetEntityType(EntityType type) {
+
+	_type = type;
 }

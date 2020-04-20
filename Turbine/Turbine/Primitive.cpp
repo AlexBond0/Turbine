@@ -4,6 +4,7 @@
 Primitive::Primitive()
 	: Object3D("PRIMITIVE")
 {
+	SetEntityType(EntityType::OBJ_PRIMITIVE);
 }
 
 

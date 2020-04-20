@@ -29,6 +29,8 @@ Particle::Particle(std::string name, ParticleProfile profile, int max, int perms
 
 // setup the particle class
 void Particle::_SetupParticle(int max, int perms) {
+
+	SetEntityType(EntityType::OBJ_PARTICLE_SYS);
 	
 	maxParticles = max;
 	particlesPerms = perms;

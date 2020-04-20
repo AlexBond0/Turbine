@@ -1,7 +1,7 @@
 #include "Object3D.h"
 
 Object3D::Object3D(std::string name)
-	: Entity(name)
+	: Entity(name, EntityType::OBJ)
 {
 	// SetName("NULL");
 	texturemap = -1;

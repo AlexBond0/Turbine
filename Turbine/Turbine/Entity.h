@@ -4,12 +4,23 @@
 #include "Moveable.h"
 #include "RenderingContext.h"
 
+// type of entity
+enum class EntityType {
+
+	OBJ,				// Basic Object3D
+	OBJ_PRIMITIVE,		// Primitive object
+	OBJ_INSTANCED,		// Insanced Object3D
+	OBJ_PARTICLE_SYS,	// Object Particle system
+	LIGHT,				// Light
+	CAMERA				// Camera
+};
+
 // Manages positional heirarchy of elements in a scene
 class Entity
 	: public Moveable
 {
 public:
-	Entity(std::string name);
+	Entity(std::string name, EntityType type);
 	Entity(Entity* copy);
 	~Entity();
 
@@ -29,11 +40,17 @@ public:
 
 	TranslationStack GetWorldTranslation();
 
+	EntityType GetEntityType();
+	void SetEntityType(EntityType type);
+
 protected:
 
 	void _GetWorldTranslation(TranslationStack& translations);
 
 	std::string _name;					// object name
+	
+private:
 
+	EntityType _type;	// type of entity
 };
 
