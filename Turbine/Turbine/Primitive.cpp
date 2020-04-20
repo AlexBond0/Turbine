@@ -2,6 +2,7 @@
 
 
 Primitive::Primitive()
+	: Object3D("PRIMITIVE")
 {
 }
 

@@ -30,7 +30,7 @@ public:
 	bool moveable	= true;
 	bool showUI = false;
 
-	Camera();
+	Camera(std::string name);
 	~Camera();
 
 	// calcualte a picking ray from the scene

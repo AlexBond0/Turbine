@@ -52,9 +52,9 @@ public:
 
 	bool isTransparent;			// are the particles transparrent
 
-	Particle(int max, int perms);
-	Particle(ParticleType type, int max, int perms);
-	Particle(ParticleProfile profile, int max, int perms);
+	Particle(std::string name, int max, int perms);
+	Particle(std::string name, ParticleType type, int max, int perms);
+	Particle(std::string name, ParticleProfile profile, int max, int perms);
 
 	~Particle();
 

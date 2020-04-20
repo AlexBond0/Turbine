@@ -51,7 +51,7 @@ void Model3D::Read3DSVersion4(FILE* file, Model3D* model)
 
 	for (int i = 0; i<model->noofobjects; i++)
 	{
-		Object3D* object = model->objects[i] = new Object3D();
+		Object3D* object = model->objects[i] = new Object3D("OBJ_FROM_FILE");
 		fread(buffer, 1, 4, file);
 		int len = *(int*)buffer;
 		fread(buffer, 1, len, file);

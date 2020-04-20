@@ -31,6 +31,9 @@
     <Filter Include="Turbine Engine\Shading\Shaders">
       <UniqueIdentifier>{b7d4c5af-134b-4290-8482-c74412ee6e23}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Turbine Engine\Scene\Entity">
+      <UniqueIdentifier>{c9ba30fc-981b-4bed-b0ef-90e4c71ad952}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui_demo.cpp">
@@ -106,9 +109,6 @@
     <ClCompile Include="CameraUI.cpp">
       <Filter>Turbine Engine\Debug UI</Filter>
     </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Turbine Engine\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="RenderingContext.cpp">
       <Filter>Turbine Engine\Shading</Filter>
     </ClCompile>
@@ -117,6 +117,9 @@
     </ClCompile>
     <ClCompile Include="Object3DUI.cpp">
       <Filter>Turbine Engine\Debug UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Turbine Engine\Scene\Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -210,9 +213,6 @@
     <ClInclude Include="CameraUI.h">
       <Filter>Turbine Engine\Debug UI</Filter>
     </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Turbine Engine\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="RenderingContext.h">
       <Filter>Turbine Engine\Shading</Filter>
     </ClInclude>
@@ -221,6 +221,9 @@
     </ClInclude>
     <ClInclude Include="Object3DUI.h">
       <Filter>Turbine Engine\Debug UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Turbine Engine\Scene\Entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

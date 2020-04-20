@@ -2,8 +2,9 @@
 
 
 
-Entity::Entity()
-{
+Entity::Entity(std::string name) {
+
+	_name = name;
 }
 
 
@@ -12,6 +13,7 @@ Entity::Entity(Entity* copy)
 {
 	children = copy->children;
 	parent = copy->parent;
+	_name = copy->_name;
 }
 
 
@@ -72,4 +74,26 @@ void Entity::_GetWorldTranslation(TranslationStack& translations) {
 	// preform the rotation
 	translations.Rotate(GetOrientationMatrix());
 	translations.Rotate(GetRotationMatrix());
+}
+
+// Set the name of the entity
+void Entity::SetName(const char* name) {
+//{
+//	const int len = strlen(name) + 1;
+//	this->name = (char*)realloc(this->name, len);
+//	strcpy_s(this->name, len, name);
+
+	_name = std::string(name);
+}
+
+// Set the name of the entity
+void Entity::SetName(std::string name) {
+
+	_name = name;
+}
+
+// Get name of entity
+std::string Entity::GetName() {
+
+	return _name;
 }

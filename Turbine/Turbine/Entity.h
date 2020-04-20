@@ -9,7 +9,7 @@ class Entity
 	: public Moveable
 {
 public:
-	Entity();
+	Entity(std::string name);
 	Entity(Entity* copy);
 	~Entity();
 
@@ -23,10 +23,17 @@ public:
 	void SetParent(Entity* newParent);
 	std::vector<Entity*> GetChildren();
 
+	std::string GetName();
+	void SetName(const char* name);
+	void SetName(std::string name);
+
 	TranslationStack GetWorldTranslation();
 
 protected:
+
 	void _GetWorldTranslation(TranslationStack& translations);
+
+	std::string _name;					// object name
 
 };
 

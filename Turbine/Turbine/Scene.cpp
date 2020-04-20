@@ -4,6 +4,9 @@
 Scene::Scene() {
 
 	sceneLoaded = false;
+
+	camera = new Camera("Default Camera");
+	camPOV = new Camera("POV Camera");
 }
 
 
@@ -16,6 +19,9 @@ Scene::~Scene() {
 	// delete all saved models in the hashmap
 	for (auto const& modelRef : models)
 		delete modelRef.second;
+
+	delete camera;
+	delete camPOV;
 }
 
 // render the current scene
@@ -31,13 +37,13 @@ void Scene::Render(RenderingContext& rcontext) {
 
 	// calculate camera properties
 	if (pov) 
-		camPOV.LookThrough(rcontext);
+		camPOV->LookThrough(rcontext);
 	
 	else 
-		camera.LookThrough(rcontext);
+		camera->LookThrough(rcontext);
 	
 
-	light.CalculateHalfPlane(camera.camPosition);
+	light.CalculateHalfPlane(camera->camPosition);
 
 	// assign light handles
 	rcontext.shaders["object"]->SetVector("u_l_direction", *light.GetDirection());
@@ -89,10 +95,10 @@ void Scene::Setup() {
 	_LoadRide();
 
 	// set up the POV camera
-	camPOV.SetPosition(glm::vec3(0.0f, -0.083f, 0.0f));
-	camPOV.SetTarget(glm::vec3(0.039f, -0.1f, 1.0f));
-	camPOV.SetUp(glm::vec3(0.0f, 1.0f, 0.0f));
-	objects["Seats"]->AddChild(&camPOV);
+	camPOV->SetPosition(glm::vec3(0.0f, -0.083f, 0.0f));
+	camPOV->SetTarget(glm::vec3(0.039f, -0.1f, 1.0f));
+	camPOV->SetUp(glm::vec3(0.0f, 1.0f, 0.0f));
+	objects["Seats"]->AddChild(camPOV);
 	
 	// create skybox
 	Primitive* skybox = new Primitive();
@@ -268,28 +274,28 @@ void Scene::_GenerateSeats() {
 void Scene::_GenerateParticles() {
 
 	// create left dry ice smoke effect
-	Particle* dryIce = new Particle(ParticleType::SMOKE_WHITE, 10000, 800);
+	Particle* dryIce = new Particle("DryIce", ParticleType::SMOKE_WHITE, 10000, 800);
 	dryIce->SetProfilePosition(0.04f, 0.04f, 0.08f);
 	dryIce->SetProfileSpeed(1.0f, -1.5f, 4.0f);
 	objects["DryIce"] = dryIce;				// as we've inherated all Object3D properties, we can simply
 	particleSystems.push_back(dryIce);		// add particle generators to all existing systems
 
 	// create right dry ice smoke effect
-	Particle* dryIce2 = new Particle(ParticleType::SMOKE_WHITE, 10000, 800);
+	Particle* dryIce2 = new Particle("DryIce2", ParticleType::SMOKE_WHITE, 10000, 800);
 	dryIce2->SetProfilePosition(-0.04f, 0.04f, 0.08f);
 	dryIce2->SetProfileSpeed(-1.0f, -1.5f, 4.0f);
 	objects["DryIce2"] = dryIce2;
 	particleSystems.push_back(dryIce2);
 
 	// create fire effect
-	Particle* fire = new Particle(ParticleType::FIRE, 10000, 800);
+	Particle* fire = new Particle("Fire", ParticleType::FIRE, 10000, 800);
 	fire->SetProfilePosition(0.0f, 0.0f, 0.0f);
 	fire->SetProfileSpeed(0.0f, -3.0f, 0.0f);
 	objects["Fire"] = fire;
 	particleSystems.push_back(fire);
 
 	// create dark fire smoke effect
-	Particle* firesmoke = new Particle(ParticleType::SMOKE_BLACK, 10000, 800);
+	Particle* firesmoke = new Particle("FireSmoke", ParticleType::SMOKE_BLACK, 10000, 800);
 	firesmoke->SetProfilePosition(0.0f, 0.0f, 0.0f);
 	firesmoke->SetProfileSpeed(0.0f, -1.0f, 0.0f);
 	objects["FireSmoke"] = firesmoke;

@@ -240,7 +240,7 @@ void SetupDebugUI() {
 	debugUI->AddComponent(moveUI);
 
 	camUI = new CameraUI();
-	camUI->camera = &scene->camPOV;
+	camUI->camera = scene->camPOV;
 	debugUI->AddComponent(camUI);
 }
 
@@ -256,7 +256,7 @@ void window_size_callback(GLFWwindow* window, int width, int height) {
 
 		glViewport(0, 0, width, height);
 
-		Camera* c = &scene->camera;
+		Camera* c = scene->camera;
 
 		c->fAspect = (float)width / height;
 
@@ -418,7 +418,7 @@ void cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
 		
 		hasBeenDragged = true;
 		
-		scene->camera.MoveCam(xpos, ypos);
+		scene->camera->MoveCam(xpos, ypos);
 	}
 	else if (isLDragging || isRDragging) {
 		
@@ -452,7 +452,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 
 				isLDragging = false;
 				isClicking = false;
-				scene->camera.FinishMovement();
+				scene->camera->FinishMovement();
 				
 				if (!hasBeenDragged && validRelease) {
 
@@ -474,7 +474,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 
 				isMDragging = false;
 				isClicking = false;
-				scene->camera.FinishMovement();
+				scene->camera->FinishMovement();
 				hasBeenDragged = false;
 			}
 			break;
@@ -490,7 +490,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 
 				isRDragging = false;
 				isClicking = false;
-				scene->camera.FinishMovement();
+				scene->camera->FinishMovement();
 				
 				//if (!hasBeenDragged)
 				//	OnMouseClick(nFlags, x, y);
@@ -505,7 +505,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
 
 	if (!scene->pov)
-		scene->camera.FocusCam(yoffset);
+		scene->camera->FocusCam(yoffset);
 }
 
 void OnMouseClickL(int winX, int winY, int mouseX, int mouseY) {
@@ -514,10 +514,10 @@ void OnMouseClickL(int winX, int winY, int mouseX, int mouseY) {
 		pickedObj.object->isHighlighted = false;
 
 	// calculate picking ray
-	glm::vec3 pickRay = scene->camera.CalculatePickRay(mouseX, mouseY, winX, winY);
+	glm::vec3 pickRay = scene->camera->CalculatePickRay(mouseX, mouseY, winX, winY);
 
 	// get picked object from scene
-	pickedObj = scene->camera.GetPickedObject(&scene->objects, pickRay);
+	pickedObj = scene->camera->GetPickedObject(&scene->objects, pickRay);
 
 	if (pickedObj.hasBeenPicked) {
 		

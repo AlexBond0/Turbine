@@ -2,7 +2,9 @@
 #include "Camera.h"
 
 
-Camera::Camera() {
+Camera::Camera(std::string name)
+	: Entity(name)
+{
 
 	DefaultSceneCam();
 

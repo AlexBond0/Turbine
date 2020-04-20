@@ -9,7 +9,7 @@ class InstancedObject
 	: public Object3D
 {
 public:
-	InstancedObject();
+	InstancedObject(std::string name);
 	InstancedObject(Object3D* copy, std::string newName);
 	virtual ~InstancedObject();
 

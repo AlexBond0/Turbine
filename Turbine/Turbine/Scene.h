@@ -31,8 +31,8 @@ public:
 
 	bool rideCam = false;						// flag denoting if POV cam is in use
 
-	Camera camera;								// the main curveball camera
-	Camera camPOV;								// the POV camera 
+	Camera* camera;								// the main curveball camera
+	Camera* camPOV;								// the POV camera 
 
 	Light light;								// Light object for the sun
 
@@ -98,10 +98,10 @@ inline void Scene::ToggleCamera() {
 	pov = !pov;
 
 	if (pov)
-		camera.DefaultPOVCam();
+		camera->DefaultPOVCam();
 
 	else
-		camera.DefaultSceneCam();
+		camera->DefaultSceneCam();
 }
 
 // toggle day/night
@@ -124,13 +124,13 @@ inline void Scene::ToggleDayNight() {
 // preform the camera rotation
 inline void Scene::RotateCamera(float x, float y, bool thispov) {
 
-	camera.RotateCam(x, y, thispov);
+	camera->RotateCam(x, y, thispov);
 }
 
 // create a new object and store the object in the objects[] map
 inline Object3D* Scene::CreateObject(std::string name) {
 
-	objects[name] = new Object3D();
+	objects[name] = new Object3D(name);
 	return objects[name];
 }
 

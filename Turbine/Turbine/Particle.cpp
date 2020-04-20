@@ -1,20 +1,26 @@
 #include "Particle.h"
 
-Particle::Particle(int max, int perms) {
+Particle::Particle(std::string name, int max, int perms)
+	: InstancedObject(name)
+{
 
 	_SetupDefaultProfile();
 
 	_SetupParticle(max, perms);
 }
 
-Particle::Particle(ParticleType type, int max, int perms) {
+Particle::Particle(std::string name, ParticleType type, int max, int perms)
+	: InstancedObject(name) 
+{
 
 	_SetupDefaultProfile(type);
 
 	_SetupParticle(max, perms);
 }
 
-Particle::Particle(ParticleProfile profile, int max, int perms) {
+Particle::Particle(std::string name, ParticleProfile profile, int max, int perms)
+	: InstancedObject(name) 
+{
 
 	this->profile = profile;
 

@@ -1,8 +1,9 @@
 #include "Object3D.h"
 
-Object3D::Object3D()
+Object3D::Object3D(std::string name)
+	: Entity(name)
 {
-	SetName("NULL");
+	// SetName("NULL");
 	texturemap = -1;
 	parent = nullptr;
 }
@@ -37,7 +38,7 @@ Object3D::~Object3D()
 		glDeleteBuffers(1, &handles.instance_vbo);
 	}
 
-	free(name);
+	// free(name);
 }
 
 // ======================================

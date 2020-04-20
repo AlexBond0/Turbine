@@ -33,7 +33,7 @@ public:
 	bool useTexture = false;	// does the object use texture information when shading
 	bool isActive = true;		// does the object get rendered
 
-	Object3D();
+	Object3D(std::string name);
 	Object3D(Object3D* copy, std::string newName);
 	virtual ~Object3D();
 
@@ -41,8 +41,8 @@ public:
 
 	virtual void Draw(RenderingContext& rcontext);
 
-	char* GetName();
-	void SetName(const char* name);
+	//char* GetName();
+	//void SetName(const char* name);
 
 	void SetVertexData(byte* buffer, int noofverts, int bufferlen);
 	void SetVertexData(float* newVertData, int noofverts, bool uv);
@@ -63,7 +63,7 @@ public:
 
 protected:
 
-	char* name;					// object name
+	// char* name;					// object name
 	Object3DHandles handles;	// object handles
 
 	// texture data
@@ -88,20 +88,6 @@ protected:
 inline void Object3D::SetTextureMap(int id)
 {
 	texturemap = id;
-}
-
-// Set the name of the object
-inline void Object3D::SetName(const char* name)
-{
-	const int len = strlen(name) + 1;
-	this->name = (char*)realloc(this->name, len);
-	strcpy_s(this->name, len, name);
-}
-
-// Get name of object
-inline char* Object3D::GetName() {
-
-	return name;
 }
 
 // Get Vertex Data in the form of a float* array
