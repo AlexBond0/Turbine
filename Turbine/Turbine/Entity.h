@@ -27,6 +27,8 @@ public:
 	std::vector<Entity*> children;	// children in Entity heirarchy
 	Entity* parent;					// parent in Entity heirarchy
 
+	bool isDirty = false;			// flag to tell world if entity needs evaluating
+
 	// implement in child classes to define functionality of entity when called to render
 	virtual void OnRender(RenderingContext& rcontext) = 0;
 
@@ -43,6 +45,9 @@ public:
 	EntityType GetEntityType();
 	void SetEntityType(EntityType type);
 
+	void RemoveFromWorld();
+	bool FlaggedForRemoval();
+
 protected:
 
 	void _GetWorldTranslation(TranslationStack& translations);
@@ -52,5 +57,6 @@ protected:
 private:
 
 	EntityType _type;	// type of entity
+	bool _removeFromWorld = false;
 };
 

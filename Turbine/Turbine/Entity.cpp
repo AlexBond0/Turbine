@@ -108,3 +108,15 @@ void Entity::SetEntityType(EntityType type) {
 
 	_type = type;
 }
+
+// Delete the entity & remove it from the world
+void Entity::RemoveFromWorld() {
+
+	_removeFromWorld = true;
+}
+
+// Is the entity flagged for removal from the world
+bool Entity::FlaggedForRemoval() {
+
+	return _removeFromWorld;
+}
