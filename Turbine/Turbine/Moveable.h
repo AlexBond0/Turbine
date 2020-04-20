@@ -12,6 +12,7 @@ public:
 	~Moveable();
 
 	void SetWorldPos(byte* buffer);
+	void SetWorldPos(glm::vec3 pos);
 	glm::vec3 GetWorldPosVec();
 
 	void SetLocalPos(byte* buffer);

@@ -40,6 +40,12 @@ void Moveable::SetWorldPos(byte* buffer)
 	worldPos.z = *(float*)(buffer + 8);
 }
 
+// Set the position of the element in world space
+void Moveable::SetWorldPos(glm::vec3 pos)
+{
+	worldPos = pos;
+}
+
 // ======================================
 
 // Set the translation of the element

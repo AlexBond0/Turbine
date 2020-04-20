@@ -89,8 +89,8 @@ void Scene::Setup() {
 	_LoadRide();
 
 	// set up the POV camera
-	camPOV.SetPosition(glm::vec3(0.044f, 0.031f, -0.1f));
-	camPOV.SetTarget(glm::vec3(0.039f, 0.069f, 1.0f));
+	camPOV.SetPosition(glm::vec3(0.0f, -0.083f, 0.0f));
+	camPOV.SetTarget(glm::vec3(0.039f, -0.1f, 1.0f));
 	camPOV.SetUp(glm::vec3(0.0f, 1.0f, 0.0f));
 	objects["Seats"]->AddChild(&camPOV);
 	

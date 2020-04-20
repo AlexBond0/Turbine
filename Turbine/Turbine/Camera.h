@@ -3,6 +3,7 @@
 #include "Matrix.h"
 #include "RenderingContext.h"
 #include "Object3D.h"
+#include "Primitive.h"
 #include "RenderingContext.h"
 
 #include <vector>
@@ -27,6 +28,7 @@ public:
 	glm::vec3 camUp;		// XYZ of camera up
 
 	bool moveable	= true;
+	bool showUI = false;
 
 	Camera();
 	~Camera();
@@ -65,4 +67,6 @@ private:
 	int		_prevY = -1;
 
 	void	_MoveCam(glm::vec3 movement);
+
+	Primitive* _camObject;
 };

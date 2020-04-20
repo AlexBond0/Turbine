@@ -5,6 +5,9 @@
 Camera::Camera() {
 
 	DefaultSceneCam();
+
+	_camObject = new Primitive();
+	_camObject->GenerateDirector(0.005f);
 }
 
 
@@ -15,8 +18,14 @@ Camera::~Camera() {
 // Handle action taken by Object3D when called form entity heirarcy
 void Camera::OnRender(RenderingContext& rcontext) {
 
-	// nothing for now...
-	// Draw(rcontext);
+	// position and render the camera UI object
+	if (showUI) {
+
+		_camObject->SetTranslation(camPosition);
+		_camObject->PointAt(camTarget);
+
+		_camObject->Draw(rcontext);
+	}
 }
 
 // ================================================================
@@ -275,7 +284,7 @@ void Camera::LookThrough(RenderingContext& rcontext) {
 	// translate matrix by entity position
 	if (parent != nullptr) {
 
-		TranslationStack camTranslation = GetWorldTranslation();
+		TranslationStack camTranslation = parent->GetWorldTranslation();
 
 		rcontext.viewmatrix *= glm::inverse(*camTranslation.GetCurrentModelMatrix());
 	}
