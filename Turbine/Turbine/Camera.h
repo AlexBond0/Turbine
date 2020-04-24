@@ -5,6 +5,7 @@
 #include "Object3D.h"
 #include "Primitive.h"
 #include "RenderingContext.h"
+#include "World.h"
 
 #include <vector>
 
@@ -15,6 +16,8 @@ struct PickObject {
 	Object3D*	object;					// reference to the object picked
 	float		distance = FLT_MAX;		// distacne along the pick ray the object was picked from
 };
+
+class World; // forward decleration
 
 class Camera
 	: public Entity
@@ -44,7 +47,7 @@ public:
 	// calcualte a picking ray from the scene
 	glm::vec3 CalculatePickRay(float mouseX, float mouseY, float windW, float windH);
 	PickObject ObjectPicked(Object3D* object, glm::vec3 pickingRay);
-	PickObject GetPickedObject(std::map<std::string, Object3D*>* objects, glm::vec3 pickingRay);
+	PickObject GetPickedObject(World* world, glm::vec3 pickingRay);
 
 
 	// ===================================================================

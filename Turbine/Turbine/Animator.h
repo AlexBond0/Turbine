@@ -2,6 +2,7 @@
 
 #include "Object3D.h"
 #include "Particle.h"
+#include "World.h"
 #include <queue>
 #include <tuple>
 
@@ -77,7 +78,8 @@ class Animator {
 public:
 
 	Animator();
-	Animator(std::map<std::string, Object3D*>* objectRefs);
+	// Animator(std::map<std::string, Object3D*>* objectRefs);
+	Animator(World* world);
 	~Animator();
 
 	void Animate(double step);
@@ -87,7 +89,8 @@ protected:
 	long time_ms = 0;	// current time of animation
 	long speed = 3;		// speed (adjust for smaller time spacing)
 
-	std::map<std::string, Object3D*>* objects;	// the map of all object pointers
+	// std::map<std::string, Object3D*>* objects;	// the map of all object pointers
+	World* world;	// pointer to world
 
 	RideState s_platter;	// the platter RideState
 	RideState s_arm;		// the arm RideState

@@ -6,29 +6,30 @@ Animator::Animator() {
 
 }
 
-Animator::Animator(std::map<std::string, Object3D*>* objectRefs) {
+// Animator::Animator(std::map<std::string, Object3D*>* objectRefs) {
+Animator::Animator(World* world) {
 
-	objects = objectRefs;
+	this->world = world;
 
 	s_platter.part = Part::PLATTER;
-	s_platter.object = (*objects)["Platter"];
+	s_platter.object = dynamic_cast<Object3D*>(world->GetEntity("Platter"));
 
 	s_arm.part = Part::ARM;
-	s_arm.object = (*objects)["Arm"];
+	s_arm.object = dynamic_cast<Object3D*>(world->GetEntity("Arm")); // (*objects)["Arm"];
 
 	s_seats.part = Part::SEATS;
-	s_seats.object = (*objects)["Spinner"];
+	s_seats.object = dynamic_cast<Object3D*>(world->GetEntity("Spinner")); // (*objects)["Spinner"];
 
 	s_tilt.part = Part::TILT;
-	s_tilt.object = (*objects)["Pivot"];
+	s_tilt.object = dynamic_cast<Object3D*>(world->GetEntity("Pivot")); // (*objects)["Pivot"];
 
 	e_smoke.part = Part::SMOKE;
-	e_smoke.particles.push_back(dynamic_cast<Particle*>((*objects)["DryIce"]));
-	e_smoke.particles.push_back(dynamic_cast<Particle*>((*objects)["DryIce2"]));
+	e_smoke.particles.push_back(dynamic_cast<Particle*>(world->GetEntity("DryIce"))); // (*objects)["DryIce"]));
+	e_smoke.particles.push_back(dynamic_cast<Particle*>(world->GetEntity("DryIce2"))); // (*objects)["DryIce2"]));
 
 	e_fire.part = Part::FIRE;
-	e_fire.particles.push_back(dynamic_cast<Particle*>((*objects)["Fire"]));
-	e_fire.particles.push_back(dynamic_cast<Particle*>((*objects)["FireSmoke"]));
+	e_fire.particles.push_back(dynamic_cast<Particle*>(world->GetEntity("Fire"))); // (*objects)["Fire"]));
+	e_fire.particles.push_back(dynamic_cast<Particle*>(world->GetEntity("FireSmoke"))); // (*objects)["FireSmoke"]));
 }
 
 

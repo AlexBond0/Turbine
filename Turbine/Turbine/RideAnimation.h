@@ -8,7 +8,8 @@ class RideAnimation :
 public:
 
 	RideAnimation();
-	RideAnimation(std::map<std::string, Object3D*>* objectRefs);
+	// RideAnimation(std::map<std::string, Object3D*>* objectRefs);
+	RideAnimation(World* world);
 	~RideAnimation();
 
 	void QueueSpinStart();
@@ -35,8 +36,13 @@ inline RideAnimation::RideAnimation()
 
 };
 
-inline RideAnimation::RideAnimation(std::map<std::string, Object3D*>* objectRefs)
-	: Animator(objectRefs) 
+//inline RideAnimation::RideAnimation(std::map<std::string, Object3D*>* objectRefs)
+//	: Animator(objectRefs) 
+//{
+//
+//};
+inline RideAnimation::RideAnimation(World* world)
+	: Animator(world) 
 {
 
 };

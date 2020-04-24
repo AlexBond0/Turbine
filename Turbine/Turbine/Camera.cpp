@@ -157,12 +157,16 @@ PickObject Camera::ObjectPicked(Object3D* object, glm::vec3 pickingRay) {
 	return pickedObject;
 }
 
-PickObject Camera::GetPickedObject(std::map<std::string, Object3D*>* objects, glm::vec3 pickingRay) {
+PickObject Camera::GetPickedObject(World* world, glm::vec3 pickingRay) {
 
 	PickObject picked;
-	for (auto const& objRef : *objects) {
+	Object3D* objRef;
 
-		PickObject newPick = ObjectPicked(objRef.second, pickingRay);
+	for (auto const& entityRef : world->GetAllEntities()) {
+
+		objRef = dynamic_cast<Object3D*>(entityRef.second);
+
+		PickObject newPick = ObjectPicked(objRef, pickingRay);
 
 		if (newPick.distance < picked.distance)
 			picked = newPick;

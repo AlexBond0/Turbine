@@ -236,7 +236,7 @@ int OnCreate(const char* glsl_version) {
 void SetupDebugUI() {
 
 	moveUI = new Object3DUI();
-	moveUI->object = scene->objects["Seats"];
+	moveUI->object = scene->world.GetObject3D("Seats");
 	debugUI->AddComponent(moveUI);
 
 	camUI = new CameraUI();
@@ -335,8 +335,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		// toggle dry ice | G
 		case GLFW_KEY_G: {
 
-			(dynamic_cast<Particle*>(scene->objects["DryIce"]))->active = keydown;
-			(dynamic_cast<Particle*>(scene->objects["DryIce2"]))->active = keydown;
+			(dynamic_cast<Particle*>(scene->world.GetEntity("DryIce")))->active = keydown;
+			(dynamic_cast<Particle*>(scene->world.GetEntity("DryIce2")))->active = keydown;
 
 			break;
 		}
@@ -344,8 +344,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		// toggle fire | F
 		case GLFW_KEY_F: {
 
-			(dynamic_cast<Particle*>(scene->objects["Fire"]))->active = keydown;
-			(dynamic_cast<Particle*>(scene->objects["FireSmoke"]))->active = keydown;
+			(dynamic_cast<Particle*>(scene->world.GetEntity("Fire")))->active = keydown;
+			(dynamic_cast<Particle*>(scene->world.GetEntity("FireSmoke")))->active = keydown;
 
 			break;
 		}
@@ -517,7 +517,7 @@ void OnMouseClickL(int winX, int winY, int mouseX, int mouseY) {
 	glm::vec3 pickRay = scene->camera->CalculatePickRay(mouseX, mouseY, winX, winY);
 
 	// get picked object from scene
-	pickedObj = scene->camera->GetPickedObject(&scene->objects, pickRay);
+	pickedObj = scene->camera->GetPickedObject(&scene->world, pickRay);
 
 	if (pickedObj.hasBeenPicked) {
 		
