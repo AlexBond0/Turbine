@@ -2,6 +2,7 @@
 
 #include "Entity.h"
 #include "Object3D.h"
+#include "Model3D.h"
 #include "Particle.h"
 #include "Primitive.h"
 #include "Camera.h"
@@ -24,7 +25,9 @@ public:
 	Object3D* DuplicateObject3D(std::string copyObjectName, std::string newObjectName);
 	Object3D* GetObject3D(std::string name);
 
-	void Update();
+	void UnpackModel3D(Model3D* model);
+
+	void Clean();
 	void Render(RenderingContext& rcontext);
 
 	bool SetActiveCamera(std::string cameraName);

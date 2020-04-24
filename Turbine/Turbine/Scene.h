@@ -18,8 +18,8 @@ class Scene
 {
 public:
 
-	std::map<std::string, Model3D*> models;		// the map of all model pointers
-	std::vector<Model3D*> modelsToDraw;			// the vector of models to be drawn
+	//std::map<std::string, Model3D*> models;		// the map of all model pointers
+	//std::vector<Model3D*> modelsToDraw;			// the vector of models to be drawn
 
 	// std::map<std::string, Object3D*> objects;	// the map of all object pointers
 	// std::vector<Object3D*> objectsToDraw;		// the vector of objects to be drawn
@@ -74,7 +74,7 @@ private:
 	void _GenerateTrees();
 	void _GenerateSeats();
 	void _GenerateParticles();
-	void _UnpackObjects(Model3D* model);
+	// void _UnpackObjects(Model3D* model);
 
 };
 

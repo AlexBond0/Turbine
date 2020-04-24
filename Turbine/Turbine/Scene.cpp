@@ -17,8 +17,8 @@ Scene::~Scene() {
 	//	delete objRef.second;
 	
 	// delete all saved models in the hashmap
-	for (auto const& modelRef : models)
-		delete modelRef.second;
+	//for (auto const& modelRef : models)
+	//	delete modelRef.second;
 
 	delete camera;
 	delete camPOV;
@@ -109,23 +109,17 @@ void Scene::Setup() {
 	skybox->SetOrientation(0.0f, -90.0f, 0.0f);
 	skybox->SetTexture(textures.id["skybox"]);
 	skybox->useLight = false;
-
-	// objects["skybox"] = skybox;
-	// objectsToDraw.push_back(objects["skybox"]);
 	world.AddEntity(skybox);
 
 	// load the ground model
-	models["ground"] = Model3D::LoadModel(L"GroundPlane2.3dm");
-	_UnpackObjects(models["ground"]);
-	modelsToDraw.push_back(models["ground"]);
+	//models["ground"] = Model3D::LoadModel(L"GroundPlane2.3dm");
+	//_UnpackObjects(models["ground"]);
+	//modelsToDraw.push_back(models["ground"]);
+	Model3D* ground = Model3D::LoadModel(L"GroundPlane2.3dm");
+	world.UnpackModel3D(ground);
 
 	// set property information for the ground plane
-	//objects["Plane"]->SetScale(30.0f, 30.0f, 30.0f);
-	//objects["Plane"]->SetAmbient(0.3f, 0.3f, 0.3f, 1.0f);
-	//objects["Plane"]->SetDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
-	//objects["Plane"]->SetTexture(textures.id["ground2"]);
-
-	Object3D* plane = static_cast<Object3D*>(world.GetEntity("Plane"));
+	Object3D* plane = world.GetObject3D("Plane");
 	plane->SetScale(30.0f, 30.0f, 30.0f);
 	plane->SetAmbient(0.3f, 0.3f, 0.3f, 1.0f);
 	plane->SetDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
@@ -141,7 +135,9 @@ void Scene::Setup() {
 	// load animator
 	animator = RideAnimation(&world);
 
-	world.Update();
+	// clean the world from processing and loading objects into the scene
+	world.Clean();
+
 	sceneLoaded = true;
 }
 
@@ -163,10 +159,13 @@ void Scene::OnTimer(RenderingContext& rcontext, double timePassed) {
 void Scene::_LoadRide() {
 
 	// load the ride model
-	models["ride"] = Model3D::LoadModel(L"uv-spinner.3dm");					// load all model information
-	_UnpackObjects(models["ride"]);											// unpack object information from model
-	models["ride"]->rootObject = world.GetObject3D("Base");					// assign the root object to draw from
-	modelsToDraw.push_back(models["ride"]);									// save the model
+	// models["ride"] = Model3D::LoadModel(L"uv-spinner.3dm");					// load all model information
+	// _UnpackObjects(models["ride"]);											// unpack object information from model
+	// models["ride"]->rootObject = world.GetObject3D("Base");					// assign the root object to draw from
+	// modelsToDraw.push_back(models["ride"]);									// save the model
+
+	Model3D* ride = Model3D::LoadModel(L"uv-spinner.3dm");
+	world.UnpackModel3D(ride);
 
 	// Base
 	world.GetObject3D("Base")->SetTexture(textures.id["wood-base"]);					// set texture
@@ -213,11 +212,9 @@ void Scene::_GenerateTrees() {
 
 	// create instance object
 	InstancedObject* trees = new InstancedObject(&tree, "trees");
-	// objects["trees"] = trees;
 	world.AddEntity(trees);
 
 	// get vert data
-	// Object3D* plane = objects["Plane"];
 	Object3D* plane = world.GetObject3D("Plane");
 	int size = plane->GetVertCount() * 8;
 	float* verts = (float*)plane->GetVertData();
@@ -244,7 +241,6 @@ void Scene::_GenerateTrees() {
 
 	// assign the new instance data
 	trees->SetInstanceData(treeInstances, noofTrees);
-	// objectsToDraw.push_back(trees);
 
 	// remove 
 	free(treeInstances);
@@ -257,14 +253,11 @@ void Scene::_GenerateSeats() {
 	// this shows the object copying capabillities
 
 	Object3D* objRef;
-	// Object3D* originalSeats = world.GetObject3D("Seats");
 	Object3D* spinner = world.GetObject3D("Spinner");
 
-	// objRef = CreateObject(originalSeats, "seats-1");
 	objRef = world.DuplicateObject3D("Seats", "seats-1");
 	objRef->SetTranslation(-0.16f, 0.0f, 0.095f);
 	objRef->SetOrientation(0.0f, 60.0f, 0.0f);
-	// objects["Spinner"]->AddChild(objRef);
 	spinner->AddChild(objRef);
 
 	objRef = world.DuplicateObject3D("Seats", "seats-2");
@@ -296,15 +289,13 @@ void Scene::_GenerateParticles() {
 	dryIce->SetProfilePosition(0.04f, 0.04f, 0.08f);
 	dryIce->SetProfileSpeed(1.0f, -1.5f, 4.0f);
 
-	// objects["DryIce"] = dryIce;				// as we've inherated all Object3D properties, we can simply
-	world.AddEntity(dryIce);
+	world.AddEntity(dryIce);				// as we've inherated all Object3D properties, we can simply
 	particleSystems.push_back(dryIce);		// add particle generators to all existing systems
 
 	// create right dry ice smoke effect
 	Particle* dryIce2 = new Particle("DryIce2", ParticleType::SMOKE_WHITE, 10000, 800);
 	dryIce2->SetProfilePosition(-0.04f, 0.04f, 0.08f);
 	dryIce2->SetProfileSpeed(-1.0f, -1.5f, 4.0f);
-	// objects["DryIce2"] = dryIce2;
 	world.AddEntity(dryIce2);
 	particleSystems.push_back(dryIce2);
 
@@ -312,7 +303,6 @@ void Scene::_GenerateParticles() {
 	Particle* fire = new Particle("Fire", ParticleType::FIRE, 10000, 800);
 	fire->SetProfilePosition(0.0f, 0.0f, 0.0f);
 	fire->SetProfileSpeed(0.0f, -3.0f, 0.0f);
-	// objects["Fire"] = fire;
 	world.AddEntity(fire);
 	particleSystems.push_back(fire);
 
@@ -320,17 +310,15 @@ void Scene::_GenerateParticles() {
 	Particle* firesmoke = new Particle("FireSmoke", ParticleType::SMOKE_BLACK, 10000, 800);
 	firesmoke->SetProfilePosition(0.0f, 0.0f, 0.0f);
 	firesmoke->SetProfileSpeed(0.0f, -1.0f, 0.0f);
-	// objects["FireSmoke"] = firesmoke;
 	world.AddEntity(firesmoke);
 	particleSystems.push_back(firesmoke);
 }
 
 // get all named objects from a model and store them in the objects map
-void Scene::_UnpackObjects(Model3D* model) {
-
-	for (int i = 0; i < model->GetNoOfObjects(); i++) {
-
-		// objects[model->GetObjects()[i]->GetName()] = model->GetObjects()[i];
-		world.AddEntity(model->GetObjects()[i]);
-	}
-}
+//void Scene::_UnpackObjects(Model3D* model) {
+//
+//	for (int i = 0; i < model->GetNoOfObjects(); i++) {
+//
+//		world.AddEntity(model->GetObjects()[i]);
+//	}
+//}

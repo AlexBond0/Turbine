@@ -123,7 +123,19 @@ Object3D* World::GetObject3D(std::string name) {
 	return dynamic_cast<Object3D*>(_entities[name]);
 }
 
-void World::Update() {
+// Unpack entites loaded from Model3D into the entity manager
+void World::UnpackModel3D(Model3D* model) {
+
+	for (int i = 0; i < model->GetNoOfObjects(); i++) {
+
+		AddEntity(model->GetObjects()[i]);
+	}
+
+	Clean();
+}
+
+// Check all entities and update as necessary
+void World::Clean() {
 
 	// check all saved entities
 	Entity* entity;
