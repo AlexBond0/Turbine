@@ -4,16 +4,11 @@
 Scene::Scene() {
 
 	sceneLoaded = false;
-
-	//camera = new Camera("Default Camera");
-	//camPOV = new Camera("POV Camera");
 }
 
 
 Scene::~Scene() {
 
-	//delete camera;
-	//delete camPOV;
 }
 
 // render the current scene
@@ -28,14 +23,9 @@ void Scene::Render(RenderingContext& rcontext) {
 	rcontext.InitModelMatrix(true);
 
 	// calculate camera properties
-	/*if (pov) 
-		camPOV->LookThrough(rcontext);
-	
-	else 
-		camera->LookThrough(rcontext);*/
 	world.GetActiveCamera()->LookThrough(rcontext);
-	
 
+	// calculate light half plane
 	light.CalculateHalfPlane(world.GetActiveCamera()->camPosition);
 
 	// assign light handles

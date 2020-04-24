@@ -22,9 +22,6 @@ public:
 
 	bool rideCam = false;						// flag denoting if POV cam is in use
 
-	//Camera* camera;								// the main curveball camera
-	//Camera* camPOV;								// the POV camera 
-
 	Light light;								// Light object for the sun
 
 	RideAnimation animator;						// the model animator
@@ -83,10 +80,10 @@ inline void Scene::ToggleCamera() {
 	pov = !pov;
 
 	if (pov)
-		world.SetActiveCamera("POV Camera"); // camera->DefaultPOVCam();
+		world.SetActiveCamera("POV Camera");
 
 	else
-		world.SetActiveCamera("Default Camera"); //camera->DefaultSceneCam();
+		world.SetActiveCamera("Default Camera");
 }
 
 // toggle day/night

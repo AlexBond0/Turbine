@@ -53,33 +53,9 @@ Particle::~Particle() {
 	free(rawParticleData);
 }
 
-
-
 // =================================================================================
 
-// overriden draw method from Object3D to take transparency into account
-//void Particle::Draw(RenderingContext& rcontext) {
-//
-//	modelView = rcontext.GetCurrentModelMatrix();
-//
-//	// as we want to have transparent textures, this
-//	// gets deferred to after all opaque objects have rendered
-//	if (!isTransparent)
-//		InstancedObject::Draw(rcontext);
-//}
-
-// blend-sepciffic draw function called after all other opaque draw methods
-//void Particle::BlendDraw(RenderingContext& rcontext) {
-//
-//	if (isTransparent) {
-//
-//		glEnable(GL_BLEND);
-//		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // GL_DST_COLOR
-//		InstancedObject::Draw(rcontext);
-//		glDisable(GL_BLEND);
-//	}
-//}
-
+// save the modelview for particle maths before proceeding with Object3D Draw method
 void Particle::Draw(RenderingContext& rcontext) {
 
 	// save current modelview for particle maths

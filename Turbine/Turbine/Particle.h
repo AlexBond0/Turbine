@@ -17,7 +17,7 @@ enum class ParticleType {
 // the profile of the generation of particles
 struct ParticleProfile {
 
-	glm::vec4 camPosition;		// current particle position
+	glm::vec4 camPosition;	// current particle position
 	glm::vec4 speed;		// current particle speed vector
 
 	color4 colour;		// particle colour
@@ -55,9 +55,6 @@ public:
 	Particle(std::string name, ParticleProfile profile, int max, int perms);
 
 	~Particle();
-
-	// void Draw(RenderingContext& rcontext);
-	// void BlendDraw(RenderingContext& rcontext);
 
 	void SetProfilePosition(float x, float y, float z);
 	void SetProfileSpeed(float x, float y, float z);

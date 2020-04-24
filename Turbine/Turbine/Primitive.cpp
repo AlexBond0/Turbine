@@ -228,21 +228,6 @@ Geomitory Primitive::_GenerateBaseIcoSphere(float radius) {
 	float t = (1.0 + sqrt(5.0)) / 2.0;
 	t *= radius;
 
-	/*
-		{ -radius, t, 0, radius, -t, -0, 0, 0 },
-		{ radius, t, 0, -radius, -t, -0, 0, 0 },
-		{ -radius, -t, -0, radius, t, 0, 0, 0 },
-		{ radius, -t, -0, -radius, t, 0, 0, 0 },
-		{ 0, -radius, t, -0, radius, -t, 0, 0 },
-		{ 0, radius, t, -0, -radius, -t, 0, 0 },
-		{ 0, -radius, -t, -0, radius, t, 0, 0 },
-		{ 0, radius, -t, -0, -radius, t, 0, 0 },
-		{ t, 0, -radius, -t, -0, radius, 0, 0 },
-		{ t, 0, radius, -t, -0, -radius, 0, 0 },
-		{ -t, 0, -radius, t, -0, radius, 0, 0 },
-		{ -t, 0, radius, t, -0, -radius, 0, 0 },
-	*/
-
 	float verts[12][8] = {
 		{ -radius, t, 0, -radius, t, 0, 0, 0 },
 		{ radius, t, 0, radius, t, 0, 0, 0 },
@@ -385,21 +370,3 @@ void Primitive::_AssignGeomitoryData(const Geomitory& geomitory) {
 		(geomitory.polys.size() / 3) // 3 unsigned shorts define a polygon
 	);
 }
-
-//// combine two sets of geometrical data together
-//Geomitory operator+ (Geomitory& lhs, Geomitory& rhs) {
-//
-//	// base first geomitory
-//	Geomitory data = lhs;
-//
-//	// shift poly values and add to data
-//	int maxVertIndex = (data.vecs.size() / 8);
-//	for (unsigned short& poly : rhs.polys)
-//		data.polys.push_back(poly + maxVertIndex);
-//
-//	// append vertex values to data
-//	for (float& vert : rhs.vecs)
-//		data.vecs.push_back(vert);
-//
-//	return data;
-//}

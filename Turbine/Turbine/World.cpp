@@ -22,6 +22,12 @@ void World::AddEntity(Entity* entity) {
 	// add entity to the managed entity pool
 	_entities[entity->GetName()] = entity;
 
+	// if the object has no parent
+	if (entity->parent == nullptr) {
+
+		_renderBase[entity->GetName()] = entity;
+	}
+
 	// manage entity type
 	switch (entity->GetEntityType()) {
 
@@ -30,11 +36,6 @@ void World::AddEntity(Entity* entity) {
 		case EntityType::OBJ_PRIMITIVE: 
 		{
 
-			// if the object has no parent
-			if (entity->parent == nullptr) {
-
-				_renderBase[entity->GetName()] = entity;
-			}
 
 			break;
 		}

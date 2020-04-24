@@ -165,7 +165,6 @@ PickObject Camera::GetPickedObject(World* world, glm::vec3 pickingRay) {
 	for (auto const& entityRef : world->GetAllEntities()) {
 
 		objRef = entityRef.second->OnPick();
-			//dynamic_cast<Object3D*>(entityRef.second);
 
 		PickObject newPick = ObjectPicked(objRef, pickingRay);
 

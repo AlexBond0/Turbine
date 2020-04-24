@@ -73,8 +73,7 @@ public:
 
 	void LookThrough(RenderingContext& rcontext);
 
-	// our FOV is 60 degrees 
-	float		fFovy	= (60.0f*(float)M_PI / 180.0f);
+	float		fFovy	= (60.0f*(float)M_PI / 180.0f); // feild of view
 
 	float		fZNear	= 0.01f;		// near clipping plane
 	float		fZFar	= 1000.0f;		// far clipping plane
