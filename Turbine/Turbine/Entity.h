@@ -58,7 +58,7 @@ protected:
 
 	void _GetWorldTranslation(TranslationStack& translations);
 
-	std::string _name;					// object name
+	std::string _name;	// entity name
 
 private:
 

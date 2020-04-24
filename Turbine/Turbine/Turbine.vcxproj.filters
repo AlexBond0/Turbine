@@ -79,9 +79,6 @@
     <ClCompile Include="Animator.cpp">
       <Filter>Turbine Engine\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Turbine Engine\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="RideAnimation.cpp">
       <Filter>Turbine Engine\Scene</Filter>
     </ClCompile>
@@ -122,6 +119,9 @@
       <Filter>Turbine Engine\Scene\Entity</Filter>
     </ClCompile>
     <ClCompile Include="World.cpp">
+      <Filter>Turbine Engine\Scene\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
       <Filter>Turbine Engine\Scene\Entity</Filter>
     </ClCompile>
   </ItemGroup>
@@ -172,9 +172,6 @@
       <Filter>Turbine Engine\Object\Base</Filter>
     </ClInclude>
     <ClInclude Include="Animator.h">
-      <Filter>Turbine Engine\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
       <Filter>Turbine Engine\Scene</Filter>
     </ClInclude>
     <ClInclude Include="RideAnimation.h">
@@ -229,6 +226,9 @@
       <Filter>Turbine Engine\Scene\Entity</Filter>
     </ClInclude>
     <ClInclude Include="World.h">
+      <Filter>Turbine Engine\Scene\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
       <Filter>Turbine Engine\Scene\Entity</Filter>
     </ClInclude>
   </ItemGroup>

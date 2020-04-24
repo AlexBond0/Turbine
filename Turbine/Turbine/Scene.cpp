@@ -12,14 +12,6 @@ Scene::Scene() {
 
 Scene::~Scene() {
 
-	// delete all saved objects in the hashmap
-	//for (auto const& objRef : objects) 
-	//	delete objRef.second;
-	
-	// delete all saved models in the hashmap
-	//for (auto const& modelRef : models)
-	//	delete modelRef.second;
-
 	delete camera;
 	delete camPOV;
 }
@@ -52,28 +44,27 @@ void Scene::Render(RenderingContext& rcontext) {
 	rcontext.shaders["object"]->SetColor("u_l_diffuse", light.diffuse.rgba);
 	rcontext.shaders["object"]->SetColor("u_l_specular", light.specular.rgba);
 
+	// render solid objects
 	_ObjectPass(rcontext);
 
+	// render transparent objects
 	_TransparencyPass(rcontext);
 
 }
 
 void Scene::_ShadowPass(RenderingContext& rcontext) {
 
-
 }
 
+// render objects in the scene
 void Scene::_ObjectPass(RenderingContext& rcontext) {
 
 	rcontext.renderPass = RenderPass::OBJECT;
 	world.Render(rcontext);
 }
 
+// render transparent objects in the scene
 void Scene::_TransparencyPass(RenderingContext& rcontext) {
-
-	// drawparticle objects (if transparent)
-	//for (Particle* particle : particleSystems)
-	//	particle->BlendDraw(rcontext);
 
 	rcontext.renderPass = RenderPass::BLEND;
 	world.Render(rcontext);
@@ -118,7 +109,6 @@ void Scene::Setup() {
 	plane->SetDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
 	plane->SetTexture(textures.id["ground2"]);
 
-
 	// generate trees
 	_GenerateTrees();
 
@@ -142,8 +132,6 @@ void Scene::OnTimer(RenderingContext& rcontext, double timePassed) {
 		animator.Animate(timePassed);
 
 		world.UpdateParticles(timePassed);
-
-		// Render(rcontext);
 	}
 }
 
@@ -275,28 +263,23 @@ void Scene::_GenerateParticles() {
 	Particle* dryIce = new Particle("DryIce", ParticleType::SMOKE_WHITE, 10000, 800);
 	dryIce->SetProfilePosition(0.04f, 0.04f, 0.08f);
 	dryIce->SetProfileSpeed(1.0f, -1.5f, 4.0f);
-
-	world.AddEntity(dryIce);				// as we've inherated all Object3D properties, we can simply
-	// particleSystems.push_back(dryIce);		// add particle generators to all existing systems
+	world.AddEntity(dryIce);
 
 	// create right dry ice smoke effect
 	Particle* dryIce2 = new Particle("DryIce2", ParticleType::SMOKE_WHITE, 10000, 800);
 	dryIce2->SetProfilePosition(-0.04f, 0.04f, 0.08f);
 	dryIce2->SetProfileSpeed(-1.0f, -1.5f, 4.0f);
 	world.AddEntity(dryIce2);
-	// particleSystems.push_back(dryIce2);
 
 	// create fire effect
 	Particle* fire = new Particle("Fire", ParticleType::FIRE, 10000, 800);
 	fire->SetProfilePosition(0.0f, 0.0f, 0.0f);
 	fire->SetProfileSpeed(0.0f, -3.0f, 0.0f);
 	world.AddEntity(fire);
-	// particleSystems.push_back(fire);
 
 	// create dark fire smoke effect
 	Particle* firesmoke = new Particle("FireSmoke", ParticleType::SMOKE_BLACK, 10000, 800);
 	firesmoke->SetProfilePosition(0.0f, 0.0f, 0.0f);
 	firesmoke->SetProfileSpeed(0.0f, -1.0f, 0.0f);
 	world.AddEntity(firesmoke);
-	// particleSystems.push_back(firesmoke);
 }

@@ -20,8 +20,6 @@ public:
 
 	World world;
 
-	// std::vector<Particle*> particleSystems;		// the vector of objects to be drawn
-
 	bool rideCam = false;						// flag denoting if POV cam is in use
 
 	Camera* camera;								// the main curveball camera
@@ -34,8 +32,6 @@ public:
 	Texture textures;							// the set of loaded textures
 
 	bool pov = false;							// is the POV camera enabled
-
-
 
 	Scene();
 	~Scene();

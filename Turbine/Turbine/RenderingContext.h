@@ -45,6 +45,7 @@ private:
 	glm::mat4 _modelmatrix[MAX_DEPTH];
 };
 
+// Type of render currently being preformed
 enum class RenderPass {
 	OBJECT,	// solid objects rendering
 	BLEND	// transparent objects rendering
@@ -60,7 +61,6 @@ public:
 
 	std::map<std::string, Shader*> shaders;
 
-	bool createdShaders = false;
-
-	RenderPass renderPass;
+	bool createdShaders = false;	// has the renderingcontext generated valid openGL shanders & handles
+	RenderPass renderPass;			// current type of rendering pass being preformed
 };

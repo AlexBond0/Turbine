@@ -30,8 +30,6 @@ void World::AddEntity(Entity* entity) {
 		case EntityType::OBJ_PRIMITIVE: 
 		{
 
-			// Object3D* object = static_cast<Object3D*>(entity);
-
 			// if the object has no parent
 			if (entity->parent == nullptr) {
 
