@@ -43,10 +43,16 @@ Object3D::~Object3D()
 
 // ======================================
 
-// Handle action taken by Object3D when called form entity heirarcy
+// Handle action taken by Object3D when called form entity heirarchy
 void Object3D::OnRender(RenderingContext& rcontext) {
 
 	Draw(rcontext);
+}
+
+// Handle action when sending data to the picking function
+Object3D* Object3D::OnPick() {
+
+	return this;
 }
 
 // Draw the object using the given rendering contect

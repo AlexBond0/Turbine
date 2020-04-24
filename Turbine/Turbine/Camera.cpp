@@ -30,6 +30,12 @@ void Camera::OnRender(RenderingContext& rcontext) {
 	}
 }
 
+// Handle action when sending data to the picking function
+Object3D* Camera::OnPick() {
+
+	return _camObject;
+}
+
 // ================================================================
 
 // set position of camera

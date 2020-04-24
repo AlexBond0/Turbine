@@ -32,6 +32,10 @@ public:
 	// implement in child classes to define functionality of entity when called to render
 	virtual void OnRender(RenderingContext& rcontext) = 0;
 
+	// implement in child classes to define the Object3D* data to pick against
+	virtual Entity* OnPick() = 0;
+
+
 	void AddChild(Entity* newChild);
 	void SetParent(Entity* newParent);
 	std::vector<Entity*> GetChildren();
@@ -53,7 +57,7 @@ protected:
 	void _GetWorldTranslation(TranslationStack& translations);
 
 	std::string _name;					// object name
-	
+
 private:
 
 	EntityType _type;	// type of entity

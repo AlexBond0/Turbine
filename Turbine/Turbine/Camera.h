@@ -22,6 +22,16 @@ class Camera
 
 public:
 
+	// ===================================================================
+	// Constructors and Destructors
+
+	Camera(std::string name);
+	~Camera();
+
+
+	// ===================================================================
+	// Variables
+
 	// seperate from element position
 	glm::vec3 camPosition;	// XYZ of camera position
 	glm::vec3 camTarget;	// XYZ of camera target
@@ -30,15 +40,21 @@ public:
 	bool moveable	= true;
 	bool showUI = false;
 
-	Camera(std::string name);
-	~Camera();
 
 	// calcualte a picking ray from the scene
 	glm::vec3 CalculatePickRay(float mouseX, float mouseY, float windW, float windH);
 	PickObject ObjectPicked(Object3D* object, glm::vec3 pickingRay);
 	PickObject GetPickedObject(std::map<std::string, Object3D*>* objects, glm::vec3 pickingRay);
 
+
+	// ===================================================================
+	// Implemented for Entity class
+
 	void OnRender(RenderingContext& rcontext);
+	Object3D* OnPick();
+
+	// ===================================================================
+	// Methods
 
 	void SetPosition(glm::vec3 newPosition);
 	void SetTarget(glm::vec3 newTarget);

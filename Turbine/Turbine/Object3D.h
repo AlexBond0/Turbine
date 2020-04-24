@@ -29,20 +29,33 @@ class Object3D :
 {
 public:
 
-	bool useLight = true;		// does the object use light information when shading
-	bool useTexture = false;	// does the object use texture information when shading
-	bool isActive = true;		// does the object get rendered
+	// ===================================================================
+	// Constructors and Destructors
 
 	Object3D(std::string name);
 	Object3D(Object3D* copy, std::string newName);
 	virtual ~Object3D();
 
+
+	// ===================================================================
+	// Render flags
+
+	bool useLight = true;		// does the object use light information when shading
+	bool useTexture = false;	// does the object use texture information when shading
+	bool isActive = true;		// does the object get rendered
+
+
+	// ===================================================================
+	// Implemented for Entity class
+
 	void OnRender(RenderingContext& rcontext);
+	Object3D* OnPick();
+
+
+	// ===================================================================
+	// Methods
 
 	virtual void Draw(RenderingContext& rcontext);
-
-	//char* GetName();
-	//void SetName(const char* name);
 
 	void SetVertexData(byte* buffer, int noofverts, int bufferlen);
 	void SetVertexData(float* newVertData, int noofverts, bool uv);
