@@ -229,34 +229,37 @@ void Camera::RotateCam(int newX, int newY, bool arcballCam) {
 // move camrea by a set value for x and y
 void Camera::MoveCam(int newX, int newY) {
 
-	// account for mouse moving when not dragging
-	if (!_prevValuesDirty) {
+	if (moveable) {
 
-		// get difference
-		float diffX = float(newX - _prevX) / 50.0f;
-		float diffY = float(newY - _prevY) / 50.0f;
+		// account for mouse moving when not dragging
+		if (!_prevValuesDirty) {
 
-		// get the direction vector
-		glm::vec3 direction = camPosition - camTarget;
+			// get difference
+			float diffX = float(newX - _prevX) / 50.0f;
+			float diffY = float(newY - _prevY) / 50.0f;
 
-		// calculate change horisontally
-		glm::vec3 horz = glm::normalize(glm::cross(direction, camUp));
+			// get the direction vector
+			glm::vec3 direction = camPosition - camTarget;
 
-		// calculate change vertically
-		glm::vec3 vert = glm::normalize(glm::cross(horz, direction));
+			// calculate change horisontally
+			glm::vec3 horz = glm::normalize(glm::cross(direction, camUp));
 
-		// scale the changes
-		horz *= diffX;
-		vert *= diffY;
+			// calculate change vertically
+			glm::vec3 vert = glm::normalize(glm::cross(horz, direction));
 
-		// apply the changes
-		_MoveCam(horz + vert);
+			// scale the changes
+			horz *= diffX;
+			vert *= diffY;
+
+			// apply the changes
+			_MoveCam(horz + vert);
+		}
+
+		// save previous values
+		_prevX = newX;
+		_prevY = newY;
+		_prevValuesDirty = false;
 	}
-
-	// save previous values
-	_prevX = newX;
-	_prevY = newY;
-	_prevValuesDirty = false;
 }
 
 void Camera::FinishMovement() {
@@ -268,19 +271,20 @@ void Camera::FinishMovement() {
 // change relationship between position & target
 void Camera::FocusCam(int zoomDelta) {
 
-	float focusDelta = 0.3;
+	if (moveable) {
 
-	glm::vec3 direction = camPosition - camTarget;
+		glm::vec3 direction = camPosition - camTarget;
 
-	float focus = (float)(zoomDelta > 0 ? focusDelta : -focusDelta);
+		float focus = (float)(zoomDelta > 0 ? focusDelta : -focusDelta);
 
-	if (glm::length(direction) > focusDelta || focus < 0) {
+		if (glm::length(direction) > focusDelta || focus < 0) {
 
-		direction = glm::normalize(direction);
+			direction = glm::normalize(direction);
 
-		direction *= focus;
+			direction *= focus;
 
-		camPosition -= direction;
+			camPosition -= direction;
+		}
 	}
 }
 

@@ -5,15 +5,15 @@ Scene::Scene() {
 
 	sceneLoaded = false;
 
-	camera = new Camera("Default Camera");
-	camPOV = new Camera("POV Camera");
+	//camera = new Camera("Default Camera");
+	//camPOV = new Camera("POV Camera");
 }
 
 
 Scene::~Scene() {
 
-	delete camera;
-	delete camPOV;
+	//delete camera;
+	//delete camPOV;
 }
 
 // render the current scene
@@ -28,14 +28,15 @@ void Scene::Render(RenderingContext& rcontext) {
 	rcontext.InitModelMatrix(true);
 
 	// calculate camera properties
-	if (pov) 
+	/*if (pov) 
 		camPOV->LookThrough(rcontext);
 	
 	else 
-		camera->LookThrough(rcontext);
+		camera->LookThrough(rcontext);*/
+	world.GetActiveCamera()->LookThrough(rcontext);
 	
 
-	light.CalculateHalfPlane(camera->camPosition);
+	light.CalculateHalfPlane(world.GetActiveCamera()->camPosition);
 
 	// assign light handles
 	rcontext.shaders["object"]->SetVector("u_l_direction", *light.GetDirection());
@@ -83,11 +84,16 @@ void Scene::Setup() {
 	// load the ride
 	_LoadRide();
 
+	// create the default camera
+	world.AddEntity(new Camera("Default Camera"));
+
 	// set up the POV camera
+	Camera* camPOV = new Camera("POV Camera");
+	world.AddEntity(camPOV);
+	camPOV->moveable = false;
 	camPOV->SetPosition(glm::vec3(0.0f, -0.083f, 0.0f));
 	camPOV->SetTarget(glm::vec3(0.039f, -0.1f, 1.0f));
 	camPOV->SetUp(glm::vec3(0.0f, 1.0f, 0.0f));
-	// objects["Seats"]->AddChild(camPOV);
 	world.GetEntity("Seats")->AddChild(camPOV);
 	
 	// create skybox

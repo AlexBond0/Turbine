@@ -40,7 +40,7 @@ public:
 	glm::vec3 camTarget;	// XYZ of camera target
 	glm::vec3 camUp;		// XYZ of camera up
 
-	bool moveable	= true;
+	bool moveable = true;
 	bool showUI = false;
 
 
@@ -79,6 +79,8 @@ public:
 	float		fZNear	= 0.01f;		// near clipping plane
 	float		fZFar	= 1000.0f;		// far clipping plane
 	float		fAspect;				// aspect ratio
+
+	float		focusDelta = 0.3;		// rate of camera focus
 
 private:
 	bool	_prevValuesDirty = true;

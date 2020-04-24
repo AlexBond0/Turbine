@@ -240,7 +240,7 @@ void SetupDebugUI() {
 	debugUI->AddComponent(moveUI);
 
 	camUI = new CameraUI();
-	camUI->camera = scene->camPOV;
+	camUI->camera = dynamic_cast<Camera*>(scene->world.GetEntity("POV Camera"));
 	debugUI->AddComponent(camUI);
 }
 
@@ -256,7 +256,7 @@ void window_size_callback(GLFWwindow* window, int width, int height) {
 
 		glViewport(0, 0, width, height);
 
-		Camera* c = scene->camera;
+		Camera* c = dynamic_cast<Camera*>(scene->world.GetEntity("Default Camera"));
 
 		c->fAspect = (float)width / height;
 
@@ -418,7 +418,7 @@ void cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
 		
 		hasBeenDragged = true;
 		
-		scene->camera->MoveCam(xpos, ypos);
+		scene->world.GetActiveCamera()->MoveCam(xpos, ypos);
 	}
 	else if (isLDragging || isRDragging) {
 		
@@ -452,7 +452,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 
 				isLDragging = false;
 				isClicking = false;
-				scene->camera->FinishMovement();
+				scene->world.GetActiveCamera()->FinishMovement();
 				
 				if (!hasBeenDragged && validRelease) {
 
@@ -474,7 +474,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 
 				isMDragging = false;
 				isClicking = false;
-				scene->camera->FinishMovement();
+				scene->world.GetActiveCamera()->FinishMovement();
 				hasBeenDragged = false;
 			}
 			break;
@@ -490,7 +490,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 
 				isRDragging = false;
 				isClicking = false;
-				scene->camera->FinishMovement();
+				scene->world.GetActiveCamera()->FinishMovement();
 				
 				//if (!hasBeenDragged)
 				//	OnMouseClick(nFlags, x, y);
@@ -504,8 +504,8 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
 
-	if (!scene->pov)
-		scene->camera->FocusCam(yoffset);
+	// if (!scene->pov)
+	scene->world.GetActiveCamera()->FocusCam(yoffset);
 }
 
 void OnMouseClickL(int winX, int winY, int mouseX, int mouseY) {
@@ -514,10 +514,10 @@ void OnMouseClickL(int winX, int winY, int mouseX, int mouseY) {
 		pickedObj.object->isHighlighted = false;
 
 	// calculate picking ray
-	glm::vec3 pickRay = scene->camera->CalculatePickRay(mouseX, mouseY, winX, winY);
+	glm::vec3 pickRay = scene->world.GetActiveCamera()->CalculatePickRay(mouseX, mouseY, winX, winY);
 
 	// get picked object from scene
-	pickedObj = scene->camera->GetPickedObject(&scene->world, pickRay);
+	pickedObj = scene->world.GetActiveCamera()->GetPickedObject(&scene->world, pickRay);
 
 	if (pickedObj.hasBeenPicked) {
 		

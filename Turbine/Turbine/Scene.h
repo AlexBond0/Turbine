@@ -22,8 +22,8 @@ public:
 
 	bool rideCam = false;						// flag denoting if POV cam is in use
 
-	Camera* camera;								// the main curveball camera
-	Camera* camPOV;								// the POV camera 
+	//Camera* camera;								// the main curveball camera
+	//Camera* camPOV;								// the POV camera 
 
 	Light light;								// Light object for the sun
 
@@ -83,10 +83,10 @@ inline void Scene::ToggleCamera() {
 	pov = !pov;
 
 	if (pov)
-		camera->DefaultPOVCam();
+		world.SetActiveCamera("POV Camera"); // camera->DefaultPOVCam();
 
 	else
-		camera->DefaultSceneCam();
+		world.SetActiveCamera("Default Camera"); //camera->DefaultSceneCam();
 }
 
 // toggle day/night
@@ -109,5 +109,5 @@ inline void Scene::ToggleDayNight() {
 // preform the camera rotation
 inline void Scene::RotateCamera(float x, float y, bool thispov) {
 
-	camera->RotateCam(x, y, thispov);
+	world.GetActiveCamera()->RotateCam(x, y, thispov);
 }
