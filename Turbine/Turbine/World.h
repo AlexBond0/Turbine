@@ -33,6 +33,7 @@ public:
 	bool SetActiveCamera(std::string cameraName);
 	Camera* GetActiveCamera();
 
+	void UpdateParticles(double timePassed);
 
 private:
 
@@ -42,6 +43,8 @@ private:
 	Camera* _currentActiveCamera = nullptr;		// currently active camera
 
 	std::map<std::string, Entity*> _renderBase;		// base render entites
+
+	std::map<std::string, Particle*> _particleSystems;	// particle systems in the scene
 };
 
 inline std::map<std::string, Entity*> World::GetAllEntities() {

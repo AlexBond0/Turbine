@@ -65,22 +65,18 @@ void Scene::_ShadowPass(RenderingContext& rcontext) {
 
 void Scene::_ObjectPass(RenderingContext& rcontext) {
 
-	// draw full models via their root object
-	//for (Model3D* model : modelsToDraw)
-	//	model->Draw(rcontext);
-
-	// draw individual objects
-	//for (Object3D* obj : objectsToDraw)
-	//	obj->Draw(rcontext);
-
+	rcontext.renderPass = RenderPass::OBJECT;
 	world.Render(rcontext);
 }
 
 void Scene::_TransparencyPass(RenderingContext& rcontext) {
 
 	// drawparticle objects (if transparent)
-	for (Particle* particle : particleSystems)
-		particle->BlendDraw(rcontext);
+	//for (Particle* particle : particleSystems)
+	//	particle->BlendDraw(rcontext);
+
+	rcontext.renderPass = RenderPass::BLEND;
+	world.Render(rcontext);
 }
 
 // setup the scene
@@ -112,9 +108,6 @@ void Scene::Setup() {
 	world.AddEntity(skybox);
 
 	// load the ground model
-	//models["ground"] = Model3D::LoadModel(L"GroundPlane2.3dm");
-	//_UnpackObjects(models["ground"]);
-	//modelsToDraw.push_back(models["ground"]);
 	Model3D* ground = Model3D::LoadModel(L"GroundPlane2.3dm");
 	world.UnpackModel3D(ground);
 
@@ -148,8 +141,7 @@ void Scene::OnTimer(RenderingContext& rcontext, double timePassed) {
 
 		animator.Animate(timePassed);
 
-		for (Particle* particle : particleSystems)
-			particle->Update(timePassed);
+		world.UpdateParticles(timePassed);
 
 		// Render(rcontext);
 	}
@@ -158,12 +150,7 @@ void Scene::OnTimer(RenderingContext& rcontext, double timePassed) {
 // load the ride model and setup the appropriate loaded data
 void Scene::_LoadRide() {
 
-	// load the ride model
-	// models["ride"] = Model3D::LoadModel(L"uv-spinner.3dm");					// load all model information
-	// _UnpackObjects(models["ride"]);											// unpack object information from model
-	// models["ride"]->rootObject = world.GetObject3D("Base");					// assign the root object to draw from
-	// modelsToDraw.push_back(models["ride"]);									// save the model
-
+	// load the ride and save it in the world
 	Model3D* ride = Model3D::LoadModel(L"uv-spinner.3dm");
 	world.UnpackModel3D(ride);
 
@@ -290,35 +277,26 @@ void Scene::_GenerateParticles() {
 	dryIce->SetProfileSpeed(1.0f, -1.5f, 4.0f);
 
 	world.AddEntity(dryIce);				// as we've inherated all Object3D properties, we can simply
-	particleSystems.push_back(dryIce);		// add particle generators to all existing systems
+	// particleSystems.push_back(dryIce);		// add particle generators to all existing systems
 
 	// create right dry ice smoke effect
 	Particle* dryIce2 = new Particle("DryIce2", ParticleType::SMOKE_WHITE, 10000, 800);
 	dryIce2->SetProfilePosition(-0.04f, 0.04f, 0.08f);
 	dryIce2->SetProfileSpeed(-1.0f, -1.5f, 4.0f);
 	world.AddEntity(dryIce2);
-	particleSystems.push_back(dryIce2);
+	// particleSystems.push_back(dryIce2);
 
 	// create fire effect
 	Particle* fire = new Particle("Fire", ParticleType::FIRE, 10000, 800);
 	fire->SetProfilePosition(0.0f, 0.0f, 0.0f);
 	fire->SetProfileSpeed(0.0f, -3.0f, 0.0f);
 	world.AddEntity(fire);
-	particleSystems.push_back(fire);
+	// particleSystems.push_back(fire);
 
 	// create dark fire smoke effect
 	Particle* firesmoke = new Particle("FireSmoke", ParticleType::SMOKE_BLACK, 10000, 800);
 	firesmoke->SetProfilePosition(0.0f, 0.0f, 0.0f);
 	firesmoke->SetProfileSpeed(0.0f, -1.0f, 0.0f);
 	world.AddEntity(firesmoke);
-	particleSystems.push_back(firesmoke);
+	// particleSystems.push_back(firesmoke);
 }
-
-// get all named objects from a model and store them in the objects map
-//void Scene::_UnpackObjects(Model3D* model) {
-//
-//	for (int i = 0; i < model->GetNoOfObjects(); i++) {
-//
-//		world.AddEntity(model->GetObjects()[i]);
-//	}
-//}

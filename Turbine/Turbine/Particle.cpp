@@ -58,26 +58,34 @@ Particle::~Particle() {
 // =================================================================================
 
 // overriden draw method from Object3D to take transparency into account
-void Particle::Draw(RenderingContext& rcontext) {
-
-	modelView = rcontext.GetCurrentModelMatrix();
-
-	// as we want to have transparent textures, this
-	// gets deferred to after all opaque objects have rendered
-	if (!isTransparent)
-		InstancedObject::Draw(rcontext);
-}
+//void Particle::Draw(RenderingContext& rcontext) {
+//
+//	modelView = rcontext.GetCurrentModelMatrix();
+//
+//	// as we want to have transparent textures, this
+//	// gets deferred to after all opaque objects have rendered
+//	if (!isTransparent)
+//		InstancedObject::Draw(rcontext);
+//}
 
 // blend-sepciffic draw function called after all other opaque draw methods
-void Particle::BlendDraw(RenderingContext& rcontext) {
+//void Particle::BlendDraw(RenderingContext& rcontext) {
+//
+//	if (isTransparent) {
+//
+//		glEnable(GL_BLEND);
+//		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // GL_DST_COLOR
+//		InstancedObject::Draw(rcontext);
+//		glDisable(GL_BLEND);
+//	}
+//}
 
-	if (isTransparent) {
+void Particle::Draw(RenderingContext& rcontext) {
 
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // GL_DST_COLOR
-		InstancedObject::Draw(rcontext);
-		glDisable(GL_BLEND);
-	}
+	// save current modelview for particle maths
+	modelView = rcontext.GetCurrentModelMatrix();
+
+	Object3D::Draw(rcontext);
 }
 
 // overriden handle info method from Object3D to get matrix info & set billboard data

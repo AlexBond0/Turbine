@@ -62,8 +62,21 @@ void Object3D::Draw(RenderingContext& rcontext) {
 
 	_HandleVBOs(rcontext);
 
-	if (isActive)
-		_Draw(rcontext);
+	// is the object active
+	if (isActive) {
+
+		// if current render is for solid objects and obj is not transparent
+		if (!isTransparent && (rcontext.renderPass == RenderPass::OBJECT)) {
+
+			_Draw(rcontext);
+		}
+
+		// if current render is for transparency and obj is transparent
+		if (isTransparent && (rcontext.renderPass == RenderPass::BLEND)) {
+
+			_BlendDraw(rcontext);
+		}
+	}
 
 	// draw the children objects
 	for (Entity* child : children) {
@@ -74,6 +87,7 @@ void Object3D::Draw(RenderingContext& rcontext) {
 	// remove rotation added in _AssignHandleInformation
 	rcontext.PopModelMatrix();
 }
+
 
 // Bind the VAO and draw the object
 void Object3D::_Draw(RenderingContext& rcontext) {
@@ -88,6 +102,17 @@ void Object3D::_Draw(RenderingContext& rcontext) {
 		0
 	);
 	glBindVertexArray(0);
+}
+
+// Draw the object using the given rendering contect
+void Object3D::_BlendDraw(RenderingContext& rcontext) {
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // GL_DST_COLOR
+	
+	_Draw(rcontext);
+
+	glDisable(GL_BLEND);
 }
 
 // Initialse object VBOs

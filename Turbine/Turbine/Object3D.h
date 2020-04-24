@@ -40,9 +40,10 @@ public:
 	// ===================================================================
 	// Render flags
 
-	bool useLight = true;		// does the object use light information when shading
-	bool useTexture = false;	// does the object use texture information when shading
-	bool isActive = true;		// does the object get rendered
+	bool useLight = true;			// does the object use light information when shading
+	bool useTexture = false;		// does the object use texture information when shading
+	bool isActive = true;			// does the object get rendered
+	bool isTransparent = false;		// does the object have transparency
 
 
 	// ===================================================================
@@ -94,7 +95,9 @@ protected:
 	virtual void _AssignHandleInformation(RenderingContext& rcontext);
 	virtual void _HandleVBOs(RenderingContext& rcontext);
 	virtual void _HandleVertVBO(RenderingContext& rcontext);
+
 	virtual void _Draw(RenderingContext& rcontext);
+	void _BlendDraw(RenderingContext& rcontext);
 };
 
 // Set the texturemap of the object via texturemap ID

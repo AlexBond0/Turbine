@@ -27,7 +27,6 @@ void World::AddEntity(Entity* entity) {
 
 		case EntityType::OBJ:
 		case EntityType::OBJ_INSTANCED:
-		case EntityType::OBJ_PARTICLE_SYS:
 		case EntityType::OBJ_PRIMITIVE: 
 		{
 
@@ -38,6 +37,15 @@ void World::AddEntity(Entity* entity) {
 
 				_renderBase[entity->GetName()] = entity;
 			}
+
+			break;
+		}
+
+		// save particle systems 
+		case EntityType::OBJ_PARTICLE_SYS: {
+
+			Particle* particle = static_cast<Particle*>(entity);
+			_particleSystems[particle->GetName()] = particle;
 
 			break;
 		}
@@ -194,4 +202,11 @@ bool World::SetActiveCamera(std::string cameraName) {
 Camera* World::GetActiveCamera() {
 
 	return _currentActiveCamera;
+}
+
+// Update all current particle systems in the world
+void World::UpdateParticles(double timePassed) {
+
+	for (auto const& particleSys : _particleSystems)
+		particleSys.second->Update(timePassed);
 }

@@ -45,6 +45,11 @@ private:
 	glm::mat4 _modelmatrix[MAX_DEPTH];
 };
 
+enum class RenderPass {
+	OBJECT,	// solid objects rendering
+	BLEND	// transparent objects rendering
+};
+
 class RenderingContext
  : public TranslationStack {
 
@@ -54,5 +59,8 @@ public:
 	~RenderingContext();
 
 	std::map<std::string, Shader*> shaders;
+
 	bool createdShaders = false;
+
+	RenderPass renderPass;
 };

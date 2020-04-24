@@ -50,16 +50,14 @@ public:
 	bool active;				// is the particle generator active
 	ParticleProfile profile;	// the particle generation profile
 
-	bool isTransparent;			// are the particles transparrent
-
 	Particle(std::string name, int max, int perms);
 	Particle(std::string name, ParticleType type, int max, int perms);
 	Particle(std::string name, ParticleProfile profile, int max, int perms);
 
 	~Particle();
 
-	void Draw(RenderingContext& rcontext);
-	void BlendDraw(RenderingContext& rcontext);
+	// void Draw(RenderingContext& rcontext);
+	// void BlendDraw(RenderingContext& rcontext);
 
 	void SetProfilePosition(float x, float y, float z);
 	void SetProfileSpeed(float x, float y, float z);
@@ -67,6 +65,8 @@ public:
 	void Update(double step);
 
 protected:
+
+	void Draw(RenderingContext& rcontext);
 
 	int maxParticles;		// maximum particles in generator at one time
 	int particlesPerms;		// particles generated per millisecond

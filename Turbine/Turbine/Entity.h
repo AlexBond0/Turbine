@@ -15,6 +15,8 @@ enum class EntityType {
 	CAMERA				// Camera
 };
 
+class Object3D; // forward decleration
+
 // Manages positional heirarchy of elements in a scene
 class Entity
 	: public Moveable
@@ -33,7 +35,7 @@ public:
 	virtual void OnRender(RenderingContext& rcontext) = 0;
 
 	// implement in child classes to define the Object3D* data to pick against
-	virtual Entity* OnPick() = 0;
+	virtual Object3D* OnPick() = 0;
 
 
 	void AddChild(Entity* newChild);
