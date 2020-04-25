@@ -18,15 +18,16 @@ public:
 	void Draw(RenderingContext& rcontext);
 
 	int GetNoOfObjects();
-	Object3D** GetObjects();
+	// Object3D** GetObjects();
+	std::vector<Object3D*> GetObjects();
 
 	Object3D* rootObject = nullptr;
 
-	std::vector<Object3D*> loadedObjs;
-
 private:
-	int noofobjects;
-	Object3D** objects;
+	// int noofobjects;
+	// Object3D** objects;
+
+	std::vector<Object3D*> _objects;
 
 	static void _Read3DSVersion4(FILE* file, Model3D* model);
 	static void _ReadOBJ(std::string filename, Model3D* model);
@@ -36,20 +37,20 @@ private:
 
 inline int Model3D::GetNoOfObjects()
 {
-	return noofobjects;
+	return _objects.size();
 }
 
-inline Object3D** Model3D::GetObjects()
+inline std::vector<Object3D*> Model3D::GetObjects()
 {
-	return objects;
+	return _objects;
 }
 
 inline void Model3D::Draw(RenderingContext& rcontext)
 {
 	if (rootObject == nullptr) {
 
-		for (int i = 0; i < noofobjects; i++)
-			objects[i]->Draw(rcontext);
+		for (int i = 0; i < _objects.size(); i++)
+			_objects[i]->Draw(rcontext);
 	}
 	else {
 

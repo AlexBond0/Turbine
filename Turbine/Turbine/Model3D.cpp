@@ -1,14 +1,11 @@
 #include "Model3D.h"
 
-Model3D::Model3D()
-{
-	noofobjects = 0;
-	objects = NULL;
+Model3D::Model3D() {
+
 }
 
-Model3D::~Model3D()
-{
-	free(objects);
+Model3D::~Model3D() {
+
 }
 
 // Load a 3dsMax model into the scene
@@ -57,16 +54,23 @@ void Model3D::_Read3DSVersion4(FILE* file, Model3D* model)
 	if (read == 4)
 		config = *(int*)buffer;
 
+	int noofobjects;
+
+	// Object3D** objs = NULL;
+
 	read = fread(buffer, 1, 4, file);
 	if (read == 4)
 	{
-		model->noofobjects = *(int*)buffer;
-		model->objects = (Object3D**)malloc(sizeof(Object3D*)*model->noofobjects);
+		noofobjects = *(int*)buffer;
+		// Object3D** objs = (Object3D**)malloc(sizeof(Object3D*)*model->noofobjects);
 	}
 
-	for (int i = 0; i<model->noofobjects; i++)
+	for (int i = 0; i<noofobjects; i++)
 	{
-		Object3D* object = model->objects[i] = new Object3D("OBJ_FROM_FILE");
+		// Object3D* object = objs[i] = new Object3D("OBJ_FROM_FILE");
+		Object3D* object = new Object3D("OBJ_FROM_FILE");
+		model->_objects.push_back(object);
+
 		fread(buffer, 1, 4, file);
 		int len = *(int*)buffer;
 		fread(buffer, 1, len, file);
@@ -123,6 +127,7 @@ void Model3D::_Read3DSVersion4(FILE* file, Model3D* model)
 		object->SetMaterial(buffer);
 	}
 
+	// save the objects to the obj vector
 	free(buffer);
 }
 
@@ -243,10 +248,12 @@ void Model3D::_ReadOBJ(std::string filename, Model3D* model) {
 					newobj->SetTriangles(polygons);
 
 					// save object
-					model->loadedObjs.push_back(newobj);
+					model->_objects.push_back(newobj);
 
 					//clear old datastructures
 					points = PointData();
+					points.SetUV(true);
+
 					polygons = PolygonData();
 					globalToLocalVerts.empty();
 				}
@@ -255,7 +262,6 @@ void Model3D::_ReadOBJ(std::string filename, Model3D* model) {
 			}
 
 		}
-
 
 
 		file.close();
