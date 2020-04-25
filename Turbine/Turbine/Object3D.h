@@ -60,12 +60,14 @@ public:
 
 	void SetVertexData(byte* buffer, int noofverts, int bufferlen);
 	void SetVertexData(float* newVertData, int noofverts, bool uv);
+	void SetVertexData(PointData data);
 
 	void* GetVertData();
 	int GetVertCount();
 
 	void SetTriangles(byte* buffer, int noofpolys);
 	void SetTriangles(unsigned short* polygons, int noofElements);
+	void SetTriangles(PolygonData data);
 
 	void SetTextureMap(int id);
 	void SetTexture(unsigned int newTextureID);
@@ -133,6 +135,11 @@ inline void Object3D::SetVertexData(float* newVertData, int noofverts, bool uv) 
 	vertices.SetData(newVertData, noofverts, uv);
 }
 
+inline void Object3D::SetVertexData(PointData data) {
+
+	vertices.SetData(data);
+}
+
 // Assign polygon data to the Object
 inline void Object3D::SetTriangles(byte* buffer, int noofpolys) {
 
@@ -143,6 +150,11 @@ inline void Object3D::SetTriangles(byte* buffer, int noofpolys) {
 inline void Object3D::SetTriangles(unsigned short* newPolyData, int noofElements) {
 
 	polygons.SetData(newPolyData, noofElements);
+}
+
+inline void Object3D::SetTriangles(PolygonData data) {
+
+	polygons.SetData(data);
 }
 
 inline bool Object3D::IsInstanced() {

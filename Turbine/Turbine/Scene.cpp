@@ -95,8 +95,12 @@ void Scene::Setup() {
 	world.AddEntity(skybox);
 
 	// load the ground model
-	Model3D* ground = Model3D::LoadModel(L"GroundPlane2.3dm");
+	Model3D* ground = Model3D::LoadModel("GroundPlane2.3dm");
 	world.UnpackModel3D(ground);
+
+	// load the bulb fly model
+	Model3D* bulbfly = Model3D::LoadModel("bulbFly.obj");
+	world.UnpackModel3D(bulbfly);
 
 	// set property information for the ground plane
 	Object3D* plane = world.GetObject3D("Plane");
@@ -135,7 +139,7 @@ void Scene::OnTimer(RenderingContext& rcontext, double timePassed) {
 void Scene::_LoadRide() {
 
 	// load the ride and save it in the world
-	Model3D* ride = Model3D::LoadModel(L"uv-spinner.3dm");
+	Model3D* ride = Model3D::LoadModel("uv-spinner.3dm");
 	world.UnpackModel3D(ride);
 
 	// Base

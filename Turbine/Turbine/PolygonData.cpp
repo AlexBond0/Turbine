@@ -29,6 +29,12 @@ void PolygonData::SetData(unsigned short* newPolyData, int noofElements) {
 	_SetData(newPolyData, noofElements);
 }
 
+// Add a new polygon to the Object
+void PolygonData::AddPolygon(Poly newPolygon) {
+
+	_polygon_struct_data.push_back(newPolygon);
+}
+
 // convert the stored pointer array data to the struct storage
 void PolygonData::_ConvertToPolygon(unsigned short* polygonData, int polygonCount) {
 

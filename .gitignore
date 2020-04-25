@@ -192,3 +192,9 @@ _Pvt_Extensions/
 ModelManifest.xml
 
 *.VC.db
+
+# Models
+*.3ds
+*.3dm
+*.obj
+*.dae
