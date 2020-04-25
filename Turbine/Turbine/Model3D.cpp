@@ -149,7 +149,8 @@ void Model3D::_ReadOBJ(std::string filename, Model3D* model) {
 
 	PolygonData polygons;
 
-	std::map<int, int> globalToLocalVerts;
+	std::map<std::string, int> globalToLocalVerts;
+
 	std::map<int, int> globalToLocalNormals;
 	std::map<int, int> globalToLocalUVs;
 
@@ -201,9 +202,29 @@ void Model3D::_ReadOBJ(std::string filename, Model3D* model) {
 					subTokens = _GetTokens(tokens[tokenID], '/');
 
 					// save global id's to local id's
-					if (globalToLocalVerts.find(std::stoi(subTokens[0])) == globalToLocalVerts.end())
-						globalToLocalVerts[std::stoi(subTokens[0])] 
-							= globalToLocalVerts.size();
+
+					// has vertex been located before
+					if (globalToLocalVerts.count(subTokens[0]) == 0) {
+
+						globalToLocalVerts[subTokens[0]] = globalToLocalVerts.size();
+
+						// make point
+						PointUV p;
+						int index = stoi(subTokens[0]) - 1;
+						p.vertex = vertices[index];
+						p.normal = glm::normalize(vertices[index]);
+
+						points.AddPoint(p);
+					}
+
+
+					//if (localVerts.in)
+					//	globalToLocalVerts[subTokens[0]] = globalToLocalVerts.size();
+
+					// save global id's to local id's
+					//if (globalToLocalNormals.find(std::stoi(subTokens[2])) == globalToLocalNormals.end())
+					//	globalToLocalNormals[std::stoi(subTokens[2])]
+					//	= globalToLocalNormals.size();
 				}
 
 				// construct polygons
@@ -211,15 +232,10 @@ void Model3D::_ReadOBJ(std::string filename, Model3D* model) {
 
 					Poly p;
 
-					// get global point ids
-					p.point[0] = stoi(_GetTokens(tokens[1], '/')[0]);
-					p.point[1] = stoi(_GetTokens(tokens[polygonID + 3], '/')[0]);
-					p.point[2] = stoi(_GetTokens(tokens[polygonID + 2], '/')[0]);
-
-					// convert global to local verts
-					p.point[0] = globalToLocalVerts[p.point[0]];
-					p.point[1] = globalToLocalVerts[p.point[1]];
-					p.point[2] = globalToLocalVerts[p.point[2]];
+					// get global point ids convert global to local verts
+					p.point[0] = globalToLocalVerts[_GetTokens(tokens[1], '/')[0]];
+					p.point[1] = globalToLocalVerts[_GetTokens(tokens[polygonID + 2], '/')[0]];
+					p.point[2] = globalToLocalVerts[_GetTokens(tokens[polygonID + 3], '/')[0]];
 
 					polygons.AddPolygon(p);
 				}
@@ -232,13 +248,14 @@ void Model3D::_ReadOBJ(std::string filename, Model3D* model) {
 				if (currentObj.compare("") != 0) {
 
 					// go through globalToLocalVerts and construct points
-					for (auto const& vertex : globalToLocalVerts) {
+					//for (auto const& vertex : globalToLocalVerts) {
 
-						PointUV p;
-						p.vertex = vertices[vertex.second];
+					//	/*PointUV p;
+					//	p.vertex = vertices[vertex.second];
+					//	p.normal = glm::normalize(vertices[vertex.second]);
 
-						points.AddPoint(p);
-					}
+					//	points.AddPoint(p);*/
+					//}
 
 					// create object
 					Object3D* newobj = new Object3D(currentObj);
@@ -263,6 +280,25 @@ void Model3D::_ReadOBJ(std::string filename, Model3D* model) {
 
 		}
 
+		// go through globalToLocalVerts and construct points
+		//for (auto const& vertex : globalToLocalVerts) {
+
+		//	PointUV p;
+		//	p.vertex = vertices[vertex.second];
+		//	p.normal = glm::normalize(vertices[vertex.second]);
+
+		//	points.AddPoint(p);
+		//}
+
+		// create object
+		Object3D* newobj = new Object3D(currentObj);
+
+		// assign point and polygon data
+		newobj->SetVertexData(points);
+		newobj->SetTriangles(polygons);
+
+		// save object
+		model->_objects.push_back(newobj);
 
 		file.close();
 	}
