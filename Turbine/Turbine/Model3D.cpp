@@ -272,7 +272,7 @@ void Model3D::_ReadOBJ(std::string filename, Model3D* model) {
 					points.SetUV(true);
 
 					polygons = PolygonData();
-					globalToLocalVerts.empty();
+					globalToLocalVerts.clear();
 				}
 
 				currentObj = tokens[1];
