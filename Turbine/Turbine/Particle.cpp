@@ -59,7 +59,7 @@ Particle::~Particle() {
 void Particle::Draw(RenderingContext& rcontext) {
 
 	// save current modelview for particle maths
-	modelView = rcontext.GetCurrentModelMatrix();
+	modelView = glm::mat4(*rcontext.GetCurrentModelMatrix());
 
 	Object3D::Draw(rcontext);
 }
@@ -155,10 +155,10 @@ ParticleProfile Particle::_CreateParticle() {
 	newParticle.speed[2] += (float)((rand() % profile.spread) - halfSpread) / 100.0f;
 
 	// rotate the direction of speed correctly
-	newParticle.speed = *modelView * newParticle.speed;
+	newParticle.speed = modelView * newParticle.speed;
 
 	// position the new particle correctlyl
-	newParticle.camPosition = *modelView * newParticle.camPosition;
+	newParticle.camPosition = modelView * newParticle.camPosition;
 
 	// assign life offset
 	newParticle.life += time_ms;

@@ -23,7 +23,15 @@ void WorldUI::Render() {
 	//ImGui::Separator();
 
 	ImGui::Columns(2);
+	ImGui::SetColumnWidth(0, ImGui::GetWindowWidth() - 80);
 	ImGui::SetColumnWidth(1, 80);
+
+	ImGui::Text("Entites");
+	ImGui::NextColumn();
+	ImGui::Text("Type");
+	ImGui::NextColumn();
+	ImGui::Separator();
+
 
 	// for each entity at base
 	for (auto const& base : world->GetAllBaseEntities()) {

@@ -78,7 +78,7 @@ private:
 	glm::vec3 billboard_r;	// billboard right vector
 
 	glm::mat4 inverseView;	// inverse view matrix
-	glm::mat4* modelView;	// model view matrix
+	glm::mat4 modelView;	// model view matrix
 
 	float* rawParticleData;	// raw partcile data passed to instance VBO
 
