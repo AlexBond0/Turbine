@@ -253,7 +253,7 @@ void RideAnimation::_MoveTilt(Change change) {
 
 	float currentTilt = -s_tilt.object->GetOrientationEuler().x;
 
-	bool camUp = (change == Change::TILT_UP);
+	bool up = (change == Change::TILT_UP);
 
 	float* scaledState = _NewState(Part::TILT, change);
 	glm::vec3 s = {
@@ -264,10 +264,10 @@ void RideAnimation::_MoveTilt(Change change) {
 
 	s = glm::normalize(s) * 6.0f;
 
-	if (camUp && currentTilt < TILT_MAX)
+	if (up && currentTilt < TILT_MAX)
 		s_tilt.object->ShiftRotation(glm::value_ptr(s));
 	
-	else if (!camUp && currentTilt > TILT_MIN)
+	else if (!up && currentTilt > TILT_MIN)
 		s_tilt.object->ShiftRotation(glm::value_ptr(s));
 
 }

@@ -53,7 +53,7 @@ void Camera::SetTarget(glm::vec3 newTarget) {
 // set the up direction of the camera
 void Camera::SetUp(glm::vec3 newUp) {
 
-	camUp = newUp;
+	up = newUp;
 }
 
 // ================================================================
@@ -85,7 +85,7 @@ glm::vec3 Camera::CalculatePickRay(float mouseX, float mouseY, float windW, floa
 
 	// calculate projection and view matrix for the camera
 	glm::mat4 proj = glm::perspective(fFovy, fAspect, fZNear, fZFar);
-	glm::mat4 view = glm::lookAt(glm::vec3(0.0f), -direction, camUp);
+	glm::mat4 view = glm::lookAt(glm::vec3(0.0f), -direction, up);
 
 	// use matrices to calculate point clicked in sreen space
 	glm::mat4 invVP = glm::inverse(proj * view);
@@ -166,10 +166,13 @@ PickObject Camera::GetPickedObject(World* world, glm::vec3 pickingRay) {
 
 		objRef = entityRef.second->OnPick();
 
-		PickObject newPick = ObjectPicked(objRef, pickingRay);
+		if (objRef != nullptr) {
 
-		if (newPick.distance < picked.distance)
-			picked = newPick;
+			PickObject newPick = ObjectPicked(objRef, pickingRay);
+
+			if (newPick.distance < picked.distance)
+				picked = newPick;
+		}
 	}
 
 	return picked;
@@ -193,10 +196,10 @@ void Camera::RotateCam(int newX, int newY, bool arcballCam) {
 			glm::vec3 direction = camPosition - camTarget;
 
 			// preform pitch rotation
-			glm::vec3 cross = glm::normalize(glm::cross(direction, camUp));
+			glm::vec3 cross = glm::normalize(glm::cross(direction, up));
 
 			// Rotate Mat4 By Vec3
-			cameraRotation = glm::rotate(cameraRotation, -diffY, glm::cross(direction, camUp));
+			cameraRotation = glm::rotate(cameraRotation, -diffY, glm::cross(direction, up));
 
 			// preform yaw rotation
 			cameraRotation = glm::rotate(cameraRotation, diffX, glm::vec3(0, 1, 0));
@@ -215,7 +218,7 @@ void Camera::RotateCam(int newX, int newY, bool arcballCam) {
 			}
 
 			// calculate up
-			camUp = camUp * glm::mat3(cameraRotation);
+			up = up * glm::mat3(cameraRotation);
 		}
 
 		// save previous values
@@ -241,7 +244,7 @@ void Camera::MoveCam(int newX, int newY) {
 			glm::vec3 direction = camPosition - camTarget;
 
 			// calculate change horisontally
-			glm::vec3 horz = glm::normalize(glm::cross(direction, camUp));
+			glm::vec3 horz = glm::normalize(glm::cross(direction, up));
 
 			// calculate change vertically
 			glm::vec3 vert = glm::normalize(glm::cross(horz, direction));
@@ -294,7 +297,7 @@ void Camera::LookThrough(RenderingContext& rcontext) {
 	rcontext.viewMatrix = glm::lookAt(
 		camPosition,
 		camTarget,
-		camUp
+		up
 	);
 
 	// translate matrix by entity position

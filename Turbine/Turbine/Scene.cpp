@@ -26,14 +26,15 @@ void Scene::Render(RenderingContext& rcontext) {
 	world.GetActiveCamera()->LookThrough(rcontext);
 
 	// calculate light half plane
-	light.CalculateHalfPlane(world.GetActiveCamera()->camPosition);
+	Light* sun = dynamic_cast<Light*>(world.GetEntity("sun"));
+	sun->CalculateHalfPlane(world.GetActiveCamera()->camPosition);
 
 	// assign light handles
-	rcontext.liveShader->SetVector("u_l_direction", *light.GetDirection());
-	rcontext.liveShader->SetVector("u_l_halfplane", *light.GetHalfplane());
-	rcontext.liveShader->SetColor("u_l_ambient", light.ambient.rgba);
-	rcontext.liveShader->SetColor("u_l_diffuse", light.diffuse.rgba);
-	rcontext.liveShader->SetColor("u_l_specular", light.specular.rgba);
+	rcontext.liveShader->SetVector("u_l_direction", sun->GetDirection());
+	rcontext.liveShader->SetVector("u_l_halfplane", sun->halfplane);
+	rcontext.liveShader->SetColor("u_l_ambient", sun->ambient.rgba);
+	rcontext.liveShader->SetColor("u_l_diffuse", sun->diffuse.rgba);
+	rcontext.liveShader->SetColor("u_l_specular", sun->specular.rgba);
 
 	// render solid objects
 	_ObjectPass(rcontext);
@@ -117,7 +118,9 @@ void Scene::Setup() {
 	_GenerateTrees();
 
 	// create sun light
-	light.CreateSun();
+	Light* sun = new Light("sun");
+	sun->CreateSun();
+	world.AddEntity(sun);
 
 	// load animator
 	animator = RideAnimation(&world);

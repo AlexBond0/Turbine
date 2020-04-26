@@ -12,7 +12,7 @@ Moveable::Moveable() {
 	rotation = orientation;
 	scale = glm::vec3(1.0);
 
-	camUp = glm::vec3(0.0, 1.0, 0.0);
+	up = glm::vec3(0.0, 1.0, 0.0);
 }
 
 Moveable::Moveable(Moveable* copy) {
@@ -227,7 +227,7 @@ void Moveable::SetScale(glm::vec3 newScale) {
 void Moveable::PointAt(glm::vec3 newVector) {
 
 	newVector = glm::normalize(newVector);
-	orientation = _RotationBetweenVectors(camUp, newVector);
+	orientation = _RotationBetweenVectors(up, newVector);
 }
 
 // Returns a quaternion such that q*start = dest

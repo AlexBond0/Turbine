@@ -533,6 +533,6 @@ void OnMouseClickL(int winX, int winY, int mouseX, int mouseY) {
 	if (pickedObj.hasBeenPicked) {
 		
 		moveUI->object = pickedObj.object;
-		pickedObj.object->isHighlighted = true;
+		// pickedObj.object->isHighlighted = true;
 	}
 }

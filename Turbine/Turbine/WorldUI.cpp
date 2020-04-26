@@ -125,7 +125,7 @@ void WorldUI::_RenderEntityRow(Entity* entity) {
 		}
 
 		case EntityType::LIGHT: {
-			color = ImVec4(0.0f, 1.0f, 1.0f, 1.0f);
+			color = lightCol;
 			name = "Light";
 			break;
 		}

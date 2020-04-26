@@ -22,7 +22,7 @@ public:
 
 	bool rideCam = false;						// flag denoting if POV cam is in use
 
-	Light light;								// Light object for the sun
+	// Light light;								// Light object for the sun
 
 	RideAnimation animator;						// the model animator
 
@@ -94,12 +94,12 @@ inline void Scene::ToggleDayNight() {
 	if (isDay) {
 
 		world.GetObject3D("skybox")->SetTexture(textures.id["skybox"]);
-		light.CreateSun();
+		dynamic_cast<Light*>(world.GetEntity("sun"))->CreateSun();
 	}
 	else {
 
 		world.GetObject3D("skybox")->SetTexture(textures.id["skybox-night"]);
-		light.CreateMoon();
+		dynamic_cast<Light*>(world.GetEntity("sun"))->CreateMoon();
 	}
 }
 

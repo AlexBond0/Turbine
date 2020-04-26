@@ -58,7 +58,7 @@ protected:
 	glm::vec3 translation;
 	glm::vec3 scale;
 
-	glm::vec3 camUp;
+	glm::vec3 up;
 
 	glm::quat rotation;		// the rotation applied to the object
 	glm::quat orientation;	// the base orientation of the object

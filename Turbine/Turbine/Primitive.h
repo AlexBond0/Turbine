@@ -49,7 +49,7 @@ private:
 	Geomitory _GenerateCube(float size, bool invertNormals);
 	Geomitory _GenerateBaseIcoSphere(float radius);
 
-	Geomitory _GenerateCircle(float radius, int segments, bool camUp);
+	Geomitory _GenerateCircle(float radius, int segments, bool up);
 
 	void _TranslateGeomitory(Geomitory& geomitory, float x, float y, float z);
 	void _TranslateUV(Geomitory& geomitory, float u, float v);

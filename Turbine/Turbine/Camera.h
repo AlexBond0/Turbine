@@ -38,7 +38,7 @@ public:
 	// seperate from element position
 	glm::vec3 camPosition;	// XYZ of camera position
 	glm::vec3 camTarget;	// XYZ of camera target
-	glm::vec3 camUp;		// XYZ of camera up
+	glm::vec3 up;		// XYZ of camera up
 
 	bool moveable = true;
 	bool showUI = false;
