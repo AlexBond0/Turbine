@@ -102,6 +102,8 @@ void Scene::Setup() {
 	Model3D* bulbfly = Model3D::LoadModel("bulbFly.obj");
 	world.UnpackModel3D(bulbfly);
 
+	world.GetObject3D("Lightbulb_Cylinder.006")->isTransparent = true;
+
 	// set property information for the ground plane
 	Object3D* plane = world.GetObject3D("Plane");
 	plane->SetScale(30.0f, 30.0f, 30.0f);

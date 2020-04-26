@@ -201,7 +201,8 @@ void Model3D::_ReadOBJ(std::string filename, Model3D* model) {
 
 					subTokens = _GetTokens(tokens[tokenID], '/');
 
-					// save global id's to local id's
+					int vertIndex = stoi(subTokens[0]) - 1;
+					int normalIndex = stoi(subTokens[2]) - 1;
 
 					// has vertex been located before
 					if (globalToLocalVerts.count(subTokens[0]) == 0) {
@@ -210,21 +211,20 @@ void Model3D::_ReadOBJ(std::string filename, Model3D* model) {
 
 						// make point
 						PointUV p;
-						int index = stoi(subTokens[0]) - 1;
-						p.vertex = vertices[index];
-						p.normal = glm::normalize(vertices[index]);
+						int vertIndex = stoi(subTokens[0]) - 1;
+
+						p.vertex = vertices[vertIndex];
+						p.normal = normals[normalIndex];
+
 
 						points.AddPoint(p);
 					}
+					else {
 
-
-					//if (localVerts.in)
-					//	globalToLocalVerts[subTokens[0]] = globalToLocalVerts.size();
-
-					// save global id's to local id's
-					//if (globalToLocalNormals.find(std::stoi(subTokens[2])) == globalToLocalNormals.end())
-					//	globalToLocalNormals[std::stoi(subTokens[2])]
-					//	= globalToLocalNormals.size();
+						// to convert from polygon to vertex normals, stack normals and normalise at end
+						points.GetPointUV(globalToLocalVerts[subTokens[0]])->normal =
+							points.GetPointUV(globalToLocalVerts[subTokens[0]])->normal + normals[normalIndex];
+					}
 				}
 
 				// construct polygons
@@ -247,15 +247,9 @@ void Model3D::_ReadOBJ(std::string filename, Model3D* model) {
 				// save current object
 				if (currentObj.compare("") != 0) {
 
-					// go through globalToLocalVerts and construct points
-					//for (auto const& vertex : globalToLocalVerts) {
-
-					//	/*PointUV p;
-					//	p.vertex = vertices[vertex.second];
-					//	p.normal = glm::normalize(vertices[vertex.second]);
-
-					//	points.AddPoint(p);*/
-					//}
+					// normalise normals
+					for (int x = 0; x < points.Size(); x++)
+						points.GetPointUV(x)->normal = glm::normalize(points.GetPointUV(x)->normal);
 
 					// create object
 					Object3D* newobj = new Object3D(currentObj);
@@ -280,15 +274,7 @@ void Model3D::_ReadOBJ(std::string filename, Model3D* model) {
 
 		}
 
-		// go through globalToLocalVerts and construct points
-		//for (auto const& vertex : globalToLocalVerts) {
-
-		//	PointUV p;
-		//	p.vertex = vertices[vertex.second];
-		//	p.normal = glm::normalize(vertices[vertex.second]);
-
-		//	points.AddPoint(p);
-		//}
+		// save last object
 
 		// create object
 		Object3D* newobj = new Object3D(currentObj);

@@ -18,14 +18,11 @@ public:
 	void Draw(RenderingContext& rcontext);
 
 	int GetNoOfObjects();
-	// Object3D** GetObjects();
 	std::vector<Object3D*> GetObjects();
 
 	Object3D* rootObject = nullptr;
 
 private:
-	// int noofobjects;
-	// Object3D** objects;
 
 	std::vector<Object3D*> _objects;
 
