@@ -5,6 +5,7 @@
 #include "DebugUIContainer.h"
 #include "World.h"
 
+
 class WorldUI
 	: public DebugUIContainer 
 {
@@ -17,12 +18,15 @@ public:
 	void Render();
 
 	World* world;
+	RenderingContext* rcontext;
 
 private:
 
 	void _RenderEntity(Entity* entity);
 
 	void _RenderEntityRow(Entity* entity);
+
+	int renderer = 0;
 
 	ImVec4 objCol		= ImVec4(0.0f, 0.7941f, 1.0f, 1.0f);
 	ImVec4 insanceCol	= ImVec4(0.42f, 0.67f, 0.70f, 1.0f);

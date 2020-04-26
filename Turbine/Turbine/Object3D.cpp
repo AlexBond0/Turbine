@@ -153,16 +153,16 @@ void Object3D::_InitVBOs() {
 void Object3D::_AssignHandleInformation(RenderingContext& rcontext) {
 
 	// Material
-	rcontext.shaders["object"]->SetColor("u_m_ambient", GetAmbient()->rgba);
-	rcontext.shaders["object"]->SetColor("u_m_diffuse", GetDiffuse()->rgba);
-	rcontext.shaders["object"]->SetColor("u_m_specular", GetSpecular()->rgba); //u_m_shininess
-	rcontext.shaders["object"]->SetFloat("u_m_shininess", glossiness);
+	rcontext.liveShader->SetColor("u_m_ambient", GetAmbient()->rgba);
+	rcontext.liveShader->SetColor("u_m_diffuse", GetDiffuse()->rgba);
+	rcontext.liveShader->SetColor("u_m_specular", GetSpecular()->rgba); //u_m_shininess
+	rcontext.liveShader->SetFloat("u_m_shininess", glossiness);
 
 	// flags
-	rcontext.shaders["object"]->SetBool("u_usesLight", useLight);
-	rcontext.shaders["object"]->SetBool("u_usesTexture", useTexture);
-	rcontext.shaders["object"]->SetBool("u_instancing", isInstanced);
-	rcontext.shaders["object"]->SetBool("u_billboarding", isBillboarded);
+	rcontext.liveShader->SetBool("u_usesLight", useLight);
+	rcontext.liveShader->SetBool("u_usesTexture", useTexture);
+	rcontext.liveShader->SetBool("u_instancing", isInstanced);
+	rcontext.liveShader->SetBool("u_billboarding", isBillboarded);
 
 	// bind info in textureID to the textureHandle
 	if (hasTexture) {
@@ -170,7 +170,7 @@ void Object3D::_AssignHandleInformation(RenderingContext& rcontext) {
 		glEnable(GL_TEXTURE_2D);
 
 		// glUniform1i(rcontext.texturehandle, 0);
-		rcontext.shaders["object"]->SetInt("u_texture", 0);
+		rcontext.liveShader->SetInt("u_texture", 0);
 		glActiveTexture(GL_TEXTURE0);
 
 		glBindTexture(GL_TEXTURE_2D, textureID);
@@ -205,10 +205,10 @@ void Object3D::_AssignHandleInformation(RenderingContext& rcontext) {
 
 
 	rcontext.UpdateMVPs();
-	rcontext.shaders["object"]->SetMatrix("u_normal_matrix", rcontext.normalMatrix);
-	rcontext.shaders["object"]->SetMatrix("u_model_matrix", *rcontext.GetCurrentModelMatrix());
-	rcontext.shaders["object"]->SetMatrix("u_view_matrix", rcontext.viewMatrix);
-	rcontext.shaders["object"]->SetMatrix("u_projection_matrix", rcontext.projectionMatrix);
+	rcontext.liveShader->SetMatrix("u_normal_matrix", rcontext.normalMatrix);
+	rcontext.liveShader->SetMatrix("u_model_matrix", *rcontext.GetCurrentModelMatrix());
+	rcontext.liveShader->SetMatrix("u_view_matrix", rcontext.viewMatrix);
+	rcontext.liveShader->SetMatrix("u_projection_matrix", rcontext.projectionMatrix);
 }
 
 // Handle VBO information for drawing

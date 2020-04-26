@@ -46,7 +46,6 @@ void Shader::SetupObjectShader() {
 	_LinkUniformHandle("u_usesLight");
 	_LinkUniformHandle("u_usesTexture");
 
-
 	// instancing
 	_LinkUniformHandle("u_instancing");
 

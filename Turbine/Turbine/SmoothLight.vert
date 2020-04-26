@@ -3,20 +3,6 @@
 // =============================================================================
 //		--= IN =--
 
-// Light 
-uniform vec3 u_l_direction; 
-uniform vec3 u_l_halfplane; 
-uniform vec4 u_l_ambient; 
-uniform vec4 u_l_diffuse; 
-uniform vec4 u_l_specular; 
-uniform bool u_usesLight; 
-
-// Material 
-uniform vec4 u_m_ambient; 
-uniform vec4 u_m_diffuse; 
-uniform vec4 u_m_specular; 
-uniform float u_m_shininess; 
-
 // Matrices 
 uniform mat4 u_normal_matrix; 
 uniform mat4 u_model_matrix; 
@@ -41,47 +27,18 @@ uniform vec3 a_b_right;
 //		--= OUT =--
 
 // Varyings 
-out vec4 v_colour; 
+out vec3 FragPos;
+out vec3 v_normal;
 out vec2 v_uvcoord;
 
  
 void main() { 
 
-	if (u_usesLight) {
-	
-		// Calculate and normalise eye space normal 
-		vec3 ecNormal=vec3(u_normal_matrix*vec4(a_normal, 0.0)); 
-		ecNormal=ecNormal/length(ecNormal); 
-
-		// Do light calculations 
-		float ndotl=max(0.0, dot(ecNormal, u_l_direction)); 
-		float ndoth=max(0.0, dot(ecNormal, u_l_halfplane));
-
-		// Ambient light 
-		vec4 ambientLight=u_l_ambient*u_m_ambient; 
-
-		// Diffuse light 
-		vec4 diffuseLight=ndotl*u_l_diffuse*u_m_diffuse; 
-
-		// Specular light 
-		vec4 specularLight=vec4(0.0); 
-
-		if (ndoth>0.0)  
-			specularLight=pow(ndoth, u_m_shininess)*u_l_specular*u_m_specular; 
-
-
-		// pass varying values to the fragment shader
-		v_colour=ambientLight+diffuseLight+specularLight; 
-	}
-	else {
-	
-		// pass only ambient colour to the fragment shader
-		v_colour=u_m_ambient; 
-	}
-
+	// uv coords
 	v_uvcoord = a_uvcoord;
 
-
+	FragPos = vec3(u_model_matrix * vec4(a_position, 1.0));
+    v_normal = mat3(transpose(inverse(u_model_matrix))) * a_normal;  
 
 	// handle instancing
 	vec4 position;
@@ -108,7 +65,7 @@ void main() {
 			+ a_b_right * a_position.x
 			+ a_b_up * a_position.y;
 
-		gl_Position = (u_projection_matrix * u_normal_matrix) * vec4(billboardpos, 1.0);
+		gl_Position = (u_projection_matrix * u_view_matrix) * vec4(billboardpos, 1.0);
 	}
 	else {
 	

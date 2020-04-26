@@ -18,7 +18,7 @@ void Scene::Render(RenderingContext& rcontext) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
-	glUseProgram(rcontext.shaders["object"]->ID);
+	glUseProgram(rcontext.liveShader->ID);
 
 	rcontext.InitModelMatrix(true);
 
@@ -29,11 +29,11 @@ void Scene::Render(RenderingContext& rcontext) {
 	light.CalculateHalfPlane(world.GetActiveCamera()->camPosition);
 
 	// assign light handles
-	rcontext.shaders["object"]->SetVector("u_l_direction", *light.GetDirection());
-	rcontext.shaders["object"]->SetVector("u_l_halfplane", *light.GetHalfplane());
-	rcontext.shaders["object"]->SetColor("u_l_ambient", light.ambient.rgba);
-	rcontext.shaders["object"]->SetColor("u_l_diffuse", light.diffuse.rgba);
-	rcontext.shaders["object"]->SetColor("u_l_specular", light.specular.rgba);
+	rcontext.liveShader->SetVector("u_l_direction", *light.GetDirection());
+	rcontext.liveShader->SetVector("u_l_halfplane", *light.GetHalfplane());
+	rcontext.liveShader->SetColor("u_l_ambient", light.ambient.rgba);
+	rcontext.liveShader->SetColor("u_l_diffuse", light.diffuse.rgba);
+	rcontext.liveShader->SetColor("u_l_specular", light.specular.rgba);
 
 	// render solid objects
 	_ObjectPass(rcontext);

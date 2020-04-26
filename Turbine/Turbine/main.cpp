@@ -247,6 +247,7 @@ void SetupDebugUI() {
 
 	worldUI = new WorldUI();
 	worldUI->world = &scene->world;
+	worldUI->rcontext = rcontext;
 	debugUI->AddComponent(worldUI);
 }
 

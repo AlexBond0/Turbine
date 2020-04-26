@@ -18,9 +18,10 @@ uniform vec4 u_m_specular;
 uniform float u_m_shininess; 
 
 // Matrices 
-uniform mat4 u_normalmatrix; 
-uniform mat4 u_mvpmatrix; 
-uniform mat4 u_vpmatrix; 
+uniform mat4 u_normal_matrix; 
+uniform mat4 u_model_matrix; 
+uniform mat4 u_view_matrix; 
+uniform mat4 u_projection_matrix; 
 
 // Attributes 
 layout (location = 0) in vec3 a_position; 
@@ -49,7 +50,7 @@ void main() {
 	if (u_usesLight) {
 	
 		// Calculate and normalise eye space normal 
-		vec3 ecNormal=vec3(u_normalmatrix*vec4(a_normal, 0.0)); 
+		vec3 ecNormal=vec3(u_normal_matrix*vec4(a_normal, 0.0)); 
 		ecNormal=ecNormal/length(ecNormal); 
 
 		// Do light calculations 
@@ -107,11 +108,11 @@ void main() {
 			+ a_b_right * a_position.x
 			+ a_b_up * a_position.y;
 
-		gl_Position = u_vpmatrix * vec4(billboardpos, 1.0);
+		gl_Position = (u_projection_matrix * u_view_matrix) * vec4(billboardpos, 1.0);
 	}
 	else {
 	
 		// assign position data
-		gl_Position = u_mvpmatrix*position;
+		gl_Position = (u_projection_matrix * u_view_matrix * u_model_matrix) * position;
 	}
 } 

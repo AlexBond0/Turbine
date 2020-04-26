@@ -22,6 +22,17 @@ void WorldUI::Render() {
 	//ImGui::ColorEdit4("cameraCol", &cameraCol.x);
 	//ImGui::Separator();
 
+	ImGui::Text("Rendering");
+	ImGui::RadioButton("Object", &renderer, 0); ImGui::SameLine();
+	ImGui::RadioButton("Smooth", &renderer, 1);
+
+	switch (renderer) {
+		case 0: rcontext->SetLiveShader("object"); break;
+		case 1: rcontext->SetLiveShader("smooth"); break;
+	}
+
+	ImGui::Separator();
+
 	ImGui::Columns(2);
 	ImGui::SetColumnWidth(0, ImGui::GetWindowWidth() - 80);
 	ImGui::SetColumnWidth(1, 80);
