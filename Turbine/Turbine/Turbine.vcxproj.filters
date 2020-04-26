@@ -245,6 +245,12 @@
     <None Include="Turbine_DebugUI.md">
       <Filter>Turbine Engine\Debug UI</Filter>
     </None>
+    <None Include="SmoothLight.vert">
+      <Filter>Turbine Engine\Shading\Shaders</Filter>
+    </None>
+    <None Include="SmoothLight.frag">
+      <Filter>Turbine Engine\Shading\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="shader.frag">

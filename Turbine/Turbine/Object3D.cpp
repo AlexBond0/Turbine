@@ -205,9 +205,10 @@ void Object3D::_AssignHandleInformation(RenderingContext& rcontext) {
 
 
 	rcontext.UpdateMVPs();
-	rcontext.shaders["object"]->SetMatrix("u_normalmatrix", rcontext.normalmatrix);
-	rcontext.shaders["object"]->SetMatrix("u_mvpmatrix", rcontext.mvpmatrix);
-	rcontext.shaders["object"]->SetMatrix("u_vpmatrix", rcontext.vpmatrix);
+	rcontext.shaders["object"]->SetMatrix("u_normal_matrix", rcontext.normalMatrix);
+	rcontext.shaders["object"]->SetMatrix("u_model_matrix", *rcontext.GetCurrentModelMatrix());
+	rcontext.shaders["object"]->SetMatrix("u_view_matrix", rcontext.viewMatrix);
+	rcontext.shaders["object"]->SetMatrix("u_projection_matrix", rcontext.projectionMatrix);
 }
 
 // Handle VBO information for drawing

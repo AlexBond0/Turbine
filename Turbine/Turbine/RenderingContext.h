@@ -30,14 +30,14 @@ public:
 	glm::mat4* GetCurrentModelMatrix();
 
 	// raw matricies
-	glm::mat4 viewmatrix;
-	glm::mat4 projectionmatrix;
-	glm::mat4 normalmatrix;
+	glm::mat4 viewMatrix;
+	glm::mat4 projectionMatrix;
+	glm::mat4 normalMatrix;
 
 	// combined matricies
-	glm::mat4 mvmatrix;
-	glm::mat4 mvpmatrix;
-	glm::mat4 vpmatrix;
+	//glm::mat4 mvmatrix;
+	//glm::mat4 mvpmatrix;
+	//glm::mat4 vpmatrix;
 
 private:
 

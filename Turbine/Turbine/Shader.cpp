@@ -4,7 +4,7 @@
 
 Shader::Shader(const wchar_t* vertshader, const wchar_t* fragshader) {
 
-	ID = LoadShaders(L"shader.vert", L"shader.frag");
+	ID = LoadShaders(vertshader, fragshader);
 }
 
 Shader::~Shader() {
@@ -37,9 +37,10 @@ void Shader::SetupObjectShader() {
 	_LinkUniformHandle("u_texture");
 
 	// Matrices
-	_LinkUniformHandle("u_normalmatrix");
-	_LinkUniformHandle("u_mvpmatrix");
-	_LinkUniformHandle("u_vpmatrix");
+	_LinkUniformHandle("u_normal_matrix");
+	_LinkUniformHandle("u_model_matrix");
+	_LinkUniformHandle("u_view_matrix");
+	_LinkUniformHandle("u_projection_matrix");
 
 	// Flags
 	_LinkUniformHandle("u_usesLight");

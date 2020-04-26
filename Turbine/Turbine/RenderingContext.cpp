@@ -4,9 +4,9 @@
 TranslationStack::TranslationStack() {
 
 	_depth = 0;
-	viewmatrix = glm::mat4(1.0);
-	projectionmatrix = glm::mat4(1.0);
-	normalmatrix = glm::mat4(1.0);
+	viewMatrix = glm::mat4(1.0);
+	projectionMatrix = glm::mat4(1.0);
+	normalMatrix = glm::mat4(1.0);
 }
 
 // Initialise the model matrix, and optionally reset the _depth to 0
@@ -36,12 +36,12 @@ void TranslationStack::PopModelMatrix() {
 // Update model, view and projection matrices
 void TranslationStack::UpdateMVPs() {
 
-	mvmatrix = viewmatrix * _modelmatrix[_depth];
-	mvpmatrix = projectionmatrix * mvmatrix;
-	vpmatrix = projectionmatrix * viewmatrix;
+	//mvmatrix = viewmatrix * _modelmatrix[_depth];
+	//mvpmatrix = projectionmatrix * mvmatrix;
+	//vpmatrix = projectionmatrix * viewmatrix;
 
 	// swap to mv matrix to have lighing  info follow view matrix too
-	normalmatrix = glm::transpose(glm::inverse(_modelmatrix[_depth]));
+	normalMatrix = glm::transpose(glm::inverse(_modelmatrix[_depth]));
 }
 
 // Translate the current model matrix
@@ -87,7 +87,7 @@ glm::mat4* TranslationStack::GetCurrentModelMatrix() {
 
 RenderingContext::RenderingContext() {
 
-	shaders["object"] = new Shader(L"shader.vert", L"shader.frag");
+	shaders["object"] = new Shader(L"SmoothLight.vert", L"SmoothLight.frag");
 	shaders["object"]->SetupObjectShader();
 
 	createdShaders = true;

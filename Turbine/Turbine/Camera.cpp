@@ -291,7 +291,7 @@ void Camera::FocusCam(int zoomDelta) {
 void Camera::LookThrough(RenderingContext& rcontext) {
 
 	// calcuate camera lookat atrix
-	rcontext.viewmatrix = glm::lookAt(
+	rcontext.viewMatrix = glm::lookAt(
 		camPosition,
 		camTarget,
 		camUp
@@ -302,7 +302,7 @@ void Camera::LookThrough(RenderingContext& rcontext) {
 
 		TranslationStack camTranslation = parent->GetWorldTranslation();
 
-		rcontext.viewmatrix *= glm::inverse(*camTranslation.GetCurrentModelMatrix());
+		rcontext.viewMatrix *= glm::inverse(*camTranslation.GetCurrentModelMatrix());
 	}
 }
 

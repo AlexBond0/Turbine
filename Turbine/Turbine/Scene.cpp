@@ -50,7 +50,6 @@ void Scene::_ShadowPass(RenderingContext& rcontext) {
 // render objects in the scene
 void Scene::_ObjectPass(RenderingContext& rcontext) {
 
-
 	rcontext.renderPass = RenderPass::OBJECT;
 	world.Render(rcontext);
 }
@@ -58,7 +57,6 @@ void Scene::_ObjectPass(RenderingContext& rcontext) {
 // render transparent objects in the scene
 void Scene::_TransparencyPass(RenderingContext& rcontext) {
 
-	world.GetActiveCamera()->LookThrough(rcontext);
 	rcontext.renderPass = RenderPass::BLEND;
 	world.Render(rcontext);
 }

@@ -58,7 +58,7 @@ Particle::~Particle() {
 // save the modelview for particle maths before proceeding with Object3D Draw method
 void Particle::Draw(RenderingContext& rcontext) {
 
-	// save current modelview for particle maths
+	// savea copy of the current modelview for particle maths
 	modelView = glm::mat4(*rcontext.GetCurrentModelMatrix());
 
 	Object3D::Draw(rcontext);
@@ -68,7 +68,7 @@ void Particle::Draw(RenderingContext& rcontext) {
 void Particle::_AssignHandleInformation(RenderingContext& rcontext) {
 
 	// calculate the inverted view matrix
-	inverseView = glm::inverse(rcontext.viewmatrix);
+	inverseView = glm::inverse(rcontext.viewMatrix);
 
 	// get up dimention from the inverseView
 	billboard_u = glm::vec3(

@@ -272,7 +272,7 @@ void window_size_callback(GLFWwindow* window, int width, int height) {
 		float left = c->fAspect * bottom;
 		float right = c->fAspect * top;
 
-		rcontext->projectionmatrix = glm::frustum(
+		rcontext->projectionMatrix = glm::frustum(
 			left,
 			right,
 			bottom,
