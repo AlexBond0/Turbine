@@ -19,6 +19,7 @@ public:
 	void AddEntity(Entity* entity);
 	Entity* GetEntity(std::string name);
 	std::map<std::string, Entity*> GetAllEntities();
+	std::map<std::string, Entity*> GetAllBaseEntities();
 	bool DeleteEntity(std::string name);
 
 	Object3D* CreateObject3D(std::string name);
@@ -50,4 +51,9 @@ private:
 inline std::map<std::string, Entity*> World::GetAllEntities() {
 
 	return _entities;
+}
+
+inline std::map<std::string, Entity*> World::GetAllBaseEntities() {
+
+	return _renderBase;
 }

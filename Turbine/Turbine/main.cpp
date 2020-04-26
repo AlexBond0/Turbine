@@ -61,9 +61,11 @@ bool hasBeenDragged = false;
 int windowX, windowY;
 
 GLFWwindow* window;
+
 DebugUI* debugUI;
 Object3DUI* moveUI;
 CameraUI* camUI;
+WorldUI* worldUI;
 
 // The MAIN function, from here we start the application and run the game loop
 int main()
@@ -242,6 +244,10 @@ void SetupDebugUI() {
 	camUI = new CameraUI();
 	camUI->camera = dynamic_cast<Camera*>(scene->world.GetEntity("POV Camera"));
 	debugUI->AddComponent(camUI);
+
+	worldUI = new WorldUI();
+	worldUI->world = &scene->world;
+	debugUI->AddComponent(worldUI);
 }
 
 // ============================================================================================================
@@ -504,7 +510,12 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
 
-	scene->world.GetActiveCamera()->FocusCam(yoffset);
+	// check mouse scroll isnt in UI
+	ImGuiIO& io = ImGui::GetIO();
+	if (!io.WantCaptureMouse) {
+
+		scene->world.GetActiveCamera()->FocusCam(yoffset);
+	}
 }
 
 void OnMouseClickL(int winX, int winY, int mouseX, int mouseY) {

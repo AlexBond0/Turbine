@@ -6,14 +6,13 @@ InstancedObject::InstancedObject(std::string name)
 	: Object3D(name)
 {
 	SetEntityType(EntityType::OBJ_INSTANCED);
-
 	isInstanced = true;
 }
 
 InstancedObject::InstancedObject(Object3D* copy, std::string newName) 
 	: Object3D(copy, newName)
 {
-
+	SetEntityType(EntityType::OBJ_INSTANCED);
 	isInstanced = true;
 }
 

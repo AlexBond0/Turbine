@@ -155,6 +155,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="World.cpp" />
+    <ClCompile Include="WorldUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animator.h" />
@@ -192,6 +193,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="World.h" />
+    <ClInclude Include="WorldUI.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\README.md" />

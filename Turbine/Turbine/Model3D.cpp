@@ -150,9 +150,11 @@ void Model3D::_ReadOBJ(std::string filename, Model3D* model) {
 	PolygonData polygons;
 
 	std::map<std::string, int> globalToLocalVerts;
-
 	std::map<int, int> globalToLocalNormals;
 	std::map<int, int> globalToLocalUVs;
+
+	std::vector<std::tuple<std::string, std::string>> relations;
+	std::map<std::string, Object3D*> objectMap;
 
 	if (file.is_open())
 	{
@@ -160,119 +162,129 @@ void Model3D::_ReadOBJ(std::string filename, Model3D* model) {
 
 			// get tokens
 			tokens = _GetTokens(line, ' ');
+			if (tokens.size() > 0) {
 
+				// vertices
+				if (tokens[0].compare("v") == 0) {
 
-			// vertices
-			if (tokens[0].compare("v") == 0) {
+					vertices.push_back(glm::vec3(
+						std::stof(tokens[1]),
+						std::stof(tokens[2]),
+						std::stof(tokens[3])
+					));
+				}
 
-				vertices.push_back(glm::vec3(
-					std::stof(tokens[1]),
-					std::stof(tokens[2]),
-					std::stof(tokens[3])
-				));
-			}
+				// normals
+				else if (tokens[0].compare("vn") == 0) {
 
-			// normals
-			else if (tokens[0].compare("vn") == 0) {
+					normals.push_back(glm::vec3(
+						std::stof(tokens[1]),
+						std::stof(tokens[2]),
+						std::stof(tokens[3])
+					));
+				}
 
-				normals.push_back(glm::vec3(
-					std::stof(tokens[1]),
-					std::stof(tokens[2]),
-					std::stof(tokens[3])
-				));
-			}
+				// UV coords
+				else if (tokens[0].compare("vt") == 0) {
 
-			// UV coords
-			else if (tokens[0].compare("vt") == 0) {
+					uvs.push_back(glm::vec2(
+						std::stof(tokens[1]),
+						std::stof(tokens[2])
+					));
+				}
 
-				uvs.push_back(glm::vec2(
-					std::stof(tokens[1]),
-					std::stof(tokens[2])
-				));
-			}
+				// polygons
+				else if (tokens[0].compare("f") == 0) {
 
-			// polygons
-			else if (tokens[0].compare("f") == 0) {
+					int numOfPolygons = tokens.size() - 3;
 
-				int numOfPolygons = tokens.size() - 3;
+					// save each polygon point
+					for (int tokenID = 1; tokenID < tokens.size(); tokenID++) {
 
-				// save each polygon point
-				for (int tokenID = 1; tokenID < tokens.size(); tokenID++) {
+						subTokens = _GetTokens(tokens[tokenID], '/');
 
-					subTokens = _GetTokens(tokens[tokenID], '/');
-
-					int vertIndex = stoi(subTokens[0]) - 1;
-					int normalIndex = stoi(subTokens[2]) - 1;
-
-					// has vertex been located before
-					if (globalToLocalVerts.count(subTokens[0]) == 0) {
-
-						globalToLocalVerts[subTokens[0]] = globalToLocalVerts.size();
-
-						// make point
-						PointUV p;
 						int vertIndex = stoi(subTokens[0]) - 1;
+						int normalIndex = stoi(subTokens[2]) - 1;
 
-						p.vertex = vertices[vertIndex];
-						p.normal = normals[normalIndex];
+						// has vertex been located before
+						if (globalToLocalVerts.count(subTokens[0]) == 0) {
+
+							globalToLocalVerts[subTokens[0]] = globalToLocalVerts.size();
+
+							// make point
+							PointUV p;
+							int vertIndex = stoi(subTokens[0]) - 1;
+
+							p.vertex = vertices[vertIndex];
+							p.normal = normals[normalIndex];
 
 
-						points.AddPoint(p);
+							points.AddPoint(p);
+						}
+						else {
+
+							// to convert from polygon to vertex normals, stack normals and normalise at end
+							points.GetPointUV(globalToLocalVerts[subTokens[0]])->normal =
+								points.GetPointUV(globalToLocalVerts[subTokens[0]])->normal + normals[normalIndex];
+						}
 					}
-					else {
 
-						// to convert from polygon to vertex normals, stack normals and normalise at end
-						points.GetPointUV(globalToLocalVerts[subTokens[0]])->normal =
-							points.GetPointUV(globalToLocalVerts[subTokens[0]])->normal + normals[normalIndex];
+					// construct polygons
+					for (int polygonID = 0; polygonID < numOfPolygons; polygonID++) {
+
+						Poly p;
+
+						// get global point ids convert global to local verts
+						p.point[0] = globalToLocalVerts[_GetTokens(tokens[1], '/')[0]];
+						p.point[1] = globalToLocalVerts[_GetTokens(tokens[polygonID + 2], '/')[0]];
+						p.point[2] = globalToLocalVerts[_GetTokens(tokens[polygonID + 3], '/')[0]];
+
+						polygons.AddPolygon(p);
 					}
 				}
 
-				// construct polygons
-				for (int polygonID = 0; polygonID < numOfPolygons; polygonID++) {
+				// object name
+				if (tokens[0].compare("o") == 0) {
 
-					Poly p;
+					// save current object
+					if (currentObj.compare("") != 0) {
 
-					// get global point ids convert global to local verts
-					p.point[0] = globalToLocalVerts[_GetTokens(tokens[1], '/')[0]];
-					p.point[1] = globalToLocalVerts[_GetTokens(tokens[polygonID + 2], '/')[0]];
-					p.point[2] = globalToLocalVerts[_GetTokens(tokens[polygonID + 3], '/')[0]];
+						// normalise normals
+						for (int x = 0; x < points.Size(); x++)
+							points.GetPointUV(x)->normal = glm::normalize(points.GetPointUV(x)->normal);
 
-					polygons.AddPolygon(p);
+						// create object
+						Object3D* newobj = new Object3D(currentObj);
+
+						// assign point and polygon data
+						newobj->SetVertexData(points);
+						newobj->SetTriangles(polygons);
+
+						// save object
+						model->_objects.push_back(newobj);
+						objectMap[newobj->GetName()] = newobj;
+
+						//clear old datastructures
+						points = PointData();
+						points.SetUV(true);
+
+						polygons = PolygonData();
+						globalToLocalVerts.clear();
+					}
+
+					currentObj = tokens[1];
+				}
+
+				// object relations
+				if (tokens[0].compare("rel") == 0) {
+
+					relations.push_back(std::make_tuple(tokens[1], tokens[2]));
 				}
 			}
-
-			// object name
-			if (tokens[0].compare("o") == 0) {
-
-				// save current object
-				if (currentObj.compare("") != 0) {
-
-					// normalise normals
-					for (int x = 0; x < points.Size(); x++)
-						points.GetPointUV(x)->normal = glm::normalize(points.GetPointUV(x)->normal);
-
-					// create object
-					Object3D* newobj = new Object3D(currentObj);
-
-					// assign point and polygon data
-					newobj->SetVertexData(points);
-					newobj->SetTriangles(polygons);
-
-					// save object
-					model->_objects.push_back(newobj);
-
-					//clear old datastructures
-					points = PointData();
-					points.SetUV(true);
-
-					polygons = PolygonData();
-					globalToLocalVerts.clear();
-				}
-
-				currentObj = tokens[1];
-			}
-
 		}
+
+		// ==========================================================
+		// end of file
 
 		// save last object
 
@@ -285,6 +297,19 @@ void Model3D::_ReadOBJ(std::string filename, Model3D* model) {
 
 		// save object
 		model->_objects.push_back(newobj);
+		objectMap[newobj->GetName()] = newobj;
+
+		// construct object heirarchy if defined
+		Object3D* parent;
+		Object3D* child;
+		for (auto relation : relations) {
+
+			parent = objectMap[std::get<0>(relation)];
+			child = objectMap[std::get<1>(relation)];
+
+			if (parent != nullptr && child != nullptr)
+				parent->AddChild(child);
+		}
 
 		file.close();
 	}

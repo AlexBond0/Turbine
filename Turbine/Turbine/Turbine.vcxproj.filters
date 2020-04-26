@@ -124,6 +124,7 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Turbine Engine\Scene\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="WorldUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGui\imgui_impl_glfw.h">
@@ -231,6 +232,7 @@
     <ClInclude Include="Camera.h">
       <Filter>Turbine Engine\Scene\Entity</Filter>
     </ClInclude>
+    <ClInclude Include="WorldUI.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ImGui\imgui.ini">
