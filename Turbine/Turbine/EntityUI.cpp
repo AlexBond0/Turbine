@@ -125,14 +125,13 @@ void EntityUI::_RenderParticle() {
 
 	Particle* particle = dynamic_cast<Particle*>(currentEntity);
 
-	ImGui::Checkbox("Is Active", &particle->active);
+	ImGui::Checkbox("Is Particle Active", &particle->active);
 	ImGui::DragFloat("Partcle weight", &particle->profile.weight);
 	ImGui::DragInt("Particle spread", &particle->profile.spread);
 	ImGui::DragFloat("Partile life", (float*)(&particle->profile.life));
 
 	ImGui::DragFloat4("Emitter position", &particle->profile.camPosition[0], 0.1);
 	ImGui::DragFloat4("Emitter speed", &particle->profile.speed[0], 0.1);
-
 }
 
 void EntityUI::_renderPrimitive() {
