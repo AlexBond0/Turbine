@@ -34,8 +34,8 @@ void WorldUI::Render() {
 	ImGui::Separator();
 
 	ImGui::Columns(2);
-	ImGui::SetColumnWidth(0, ImGui::GetWindowWidth() - 80);
-	ImGui::SetColumnWidth(1, 80);
+	ImGui::SetColumnWidth(0, ImGui::GetWindowWidth() - 90);
+	ImGui::SetColumnWidth(1, 90);
 
 	ImGui::Text("Entites");
 	ImGui::NextColumn();
@@ -59,6 +59,9 @@ void WorldUI::_RenderEntity(Entity* entity) {
 	// if there are children entites
 	if (entity->GetChildren().size() > 0) {
 
+		// render selector button for entity
+		_RenderSelectorButton(entity);
+
 		// create treenode
 		if (ImGui::TreeNode(entity->GetName().c_str())) {
 
@@ -76,6 +79,8 @@ void WorldUI::_RenderEntity(Entity* entity) {
 
 	}
 	else {
+
+		_RenderSelectorButton(entity);
 
 		ImGui::Text(entity->GetName().c_str());
 		
@@ -132,6 +137,15 @@ void WorldUI::_RenderEntityRow(Entity* entity) {
 	}
 	ImGui::TextColored(color, name.c_str());
 
-
 	ImGui::NextColumn();
+}
+
+void WorldUI::_RenderSelectorButton(Entity* entity) {
+
+	if (ImGui::Button("")) {
+
+		world->currentSelectedEntity = entity;
+	}
+
+	ImGui::SameLine();
 }

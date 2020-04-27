@@ -35,11 +35,16 @@ public:
 
 protected:
 
+	void _StartLinking(bool verbose);
 	void _LinkUniformHandle(const std::string &name);
+	void _EndLinking();
 
 private:
 
 	unsigned int _GetHandle(const std::string &name);
+
+	bool _handleLinkError = false; // has one of the uniform links failed
+	bool _verbose = false; // show all messages
 };
 
 // ================================================================================
@@ -82,25 +87,54 @@ inline unsigned int Shader::_GetHandle(const std::string &name) {
 	return handles[name];
 }
 
+inline void Shader::_StartLinking(bool vebose = false) {
+
+	_verbose = vebose;
+	_handleLinkError = false;
+}
+
 // helper function to link a shader uniform and log the result
 inline void Shader::_LinkUniformHandle(const std::string &name) {
 
 	// get handle
 	unsigned int attribHandle = glGetUniformLocation(ID, name.c_str());
 
-	// correct handle found?
-	std::string message;
-	if (attribHandle == -1)
-		message = "SHADER LINK ERROR : " + name + " linked unsuccessfully\n";
+	if (_verbose) {
 
-	else if (attribHandle > 100)
-		message = "SHADER LINK WARN : " + name + " may have been compiled away\n";
+		// correct handle found?
+		std::string message;
+		if (attribHandle == -1) {
 
-	else
-		message = "SHADER LINK OK : " + name + " linked successfully\n";
+			message = "SHADER LINK ERROR : " + name + " linked unsuccessfully\n";
+			_handleLinkError = true;
+		}
 
-	OutputDebugStringA(message.c_str());
+		else if (attribHandle > 100)
+			message = "SHADER LINK WARN : " + name + " may have been compiled away\n";
+
+		else
+			message = "SHADER LINK OK : " + name + " linked successfully\n";
+
+		OutputDebugStringA(message.c_str());
+	}
+	else {
+
+		if (attribHandle == -1)
+			_handleLinkError = true;
+	}
 
 	handles[name] = attribHandle;
 }
 
+inline void Shader::_EndLinking() {
+
+	std::string message;
+
+	if (_handleLinkError)
+		message = "SHADER LINKING UNSUCCESSFUL!\n";
+
+	else 
+		message = "SHADER LINKING SUCCESSFUL\n";
+
+	OutputDebugStringA(message.c_str());
+}

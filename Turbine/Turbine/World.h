@@ -36,6 +36,8 @@ public:
 
 	void UpdateParticles(double timePassed);
 
+	Entity* currentSelectedEntity; // for object focus in world
+
 private:
 
 	std::map<std::string, Entity*> _entities;	// entity pool managed by the world

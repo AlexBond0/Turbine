@@ -20,6 +20,8 @@ void Shader::Use() {
 
 void Shader::SetupObjectShader() {
 
+	_StartLinking();
+
 	// Light
 	_LinkUniformHandle("u_l_direction");
 	_LinkUniformHandle("u_l_halfplane");
@@ -53,4 +55,6 @@ void Shader::SetupObjectShader() {
 	_LinkUniformHandle("u_billboarding");
 	_LinkUniformHandle("a_b_up");
 	_LinkUniformHandle("a_b_right");
+
+	_EndLinking();
 }
