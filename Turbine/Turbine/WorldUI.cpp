@@ -33,13 +33,16 @@ void WorldUI::Render() {
 
 	ImGui::Separator();
 
-	ImGui::Columns(2);
-	ImGui::SetColumnWidth(0, ImGui::GetWindowWidth() - 90);
-	ImGui::SetColumnWidth(1, 90);
+	ImGui::Columns(3);
+	ImGui::SetColumnWidth(0, ImGui::GetWindowWidth() - 140);
+	ImGui::SetColumnWidth(1, 80);
+	ImGui::SetColumnWidth(2, 60);
 
 	ImGui::Text("Entites");
 	ImGui::NextColumn();
 	ImGui::Text("Type");
+	ImGui::NextColumn();
+	ImGui::Text("Select");
 	ImGui::NextColumn();
 	ImGui::Separator();
 
@@ -59,13 +62,13 @@ void WorldUI::_RenderEntity(Entity* entity) {
 	// if there are children entites
 	if (entity->GetChildren().size() > 0) {
 
-		// render selector button for entity
-		_RenderSelectorButton(entity);
-
 		// create treenode
 		if (ImGui::TreeNode(entity->GetName().c_str())) {
 
 			_RenderEntityRow(entity);
+
+			// render selector button for entity
+			_RenderSelectorButton(entity);
 
 			for (Entity* e : entity->GetChildren())
 				_RenderEntity(e);
@@ -75,16 +78,19 @@ void WorldUI::_RenderEntity(Entity* entity) {
 		else {
 
 			_RenderEntityRow(entity);
+
+			// render selector button for entity
+			_RenderSelectorButton(entity);
 		}
 
 	}
 	else {
 
-		_RenderSelectorButton(entity);
-
 		ImGui::Text(entity->GetName().c_str());
 		
 		_RenderEntityRow(entity);
+
+		_RenderSelectorButton(entity);
 	}
 
 }
@@ -142,10 +148,12 @@ void WorldUI::_RenderEntityRow(Entity* entity) {
 
 void WorldUI::_RenderSelectorButton(Entity* entity) {
 
-	if (ImGui::Button("")) {
+	// ImGui seems to use unique naming for access, so construct named button
+	if (ImGui::SmallButton(("       " + entity->GetName() + "btn").c_str())) {
 
 		world->currentSelectedEntity = entity;
 	}
 
-	ImGui::SameLine();
+	// ImGui::SameLine();
+	ImGui::NextColumn();
 }

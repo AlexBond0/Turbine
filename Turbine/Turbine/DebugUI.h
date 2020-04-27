@@ -7,6 +7,7 @@
 #include "Object3DUI.h"
 #include "CameraUI.h"
 #include "WorldUI.h"
+#include "EntityUI.h"
 
 #include "DebugUIContainer.h"
 #include <vector>

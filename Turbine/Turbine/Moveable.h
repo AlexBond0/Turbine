@@ -25,16 +25,21 @@ public:
 	void SetTranslation(glm::vec3 pos);
 	glm::vec3 GetTranlationVec();
 
+	void SetUp(glm::vec3 direction);
+	glm::vec3 GetUp();
+
 	void SetOrientation(byte* buffer);
 	void SetOrientation(float* rot);
 	void SetOrientation(float x, float y, float z, bool usingRads = false);
 	void SetOrientation(glm::vec3 rot);
+	void SetOrientation(glm::quat rot);
 	glm::vec3 GetOrientationEuler();
 	glm::quat GetOrientationQuat();
 	glm::mat4 GetOrientationMatrix();
 
 	void SetRotation(float x, float y, float z, bool usingRads = false);
 	void SetRotation(glm::vec3 rot);
+	void SetRotation(glm::quat rot);
 	void ShiftRotation(float* rot);
 	void ShiftRotation(float x, float y, float z);
 	glm::quat GetRotationQuat();

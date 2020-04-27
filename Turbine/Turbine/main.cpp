@@ -66,6 +66,8 @@ DebugUI* debugUI;
 Object3DUI* moveUI;
 CameraUI* camUI;
 WorldUI* worldUI;
+EntityUI* entityUI;
+
 
 // The MAIN function, from here we start the application and run the game loop
 int main()
@@ -249,6 +251,10 @@ void SetupDebugUI() {
 	worldUI->world = &scene->world;
 	worldUI->rcontext = rcontext;
 	debugUI->AddComponent(worldUI);
+
+	entityUI = new EntityUI();
+	entityUI->world = &scene->world;
+	debugUI->AddComponent(entityUI);
 }
 
 // ============================================================================================================

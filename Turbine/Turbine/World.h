@@ -36,7 +36,7 @@ public:
 
 	void UpdateParticles(double timePassed);
 
-	Entity* currentSelectedEntity; // for object focus in world
+	Entity* currentSelectedEntity = nullptr; // for object focus in world
 
 private:
 

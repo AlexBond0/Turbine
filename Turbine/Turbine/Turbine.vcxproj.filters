@@ -130,6 +130,7 @@
     <ClCompile Include="TranslationStack.cpp">
       <Filter>Turbine Engine\Shading</Filter>
     </ClCompile>
+    <ClCompile Include="EntityUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGui\imgui_impl_glfw.h">
@@ -243,6 +244,7 @@
     <ClInclude Include="TranslationStack.h">
       <Filter>Turbine Engine\Shading</Filter>
     </ClInclude>
+    <ClInclude Include="EntityUI.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ImGui\imgui.ini">

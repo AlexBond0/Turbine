@@ -1,10 +1,10 @@
 #pragma once
 
 #include "ImGui//imgui.h"
+#include "DebugUIContainer.h"
+
 #include "Object3D.h"
 #include <string>
-
-#include "DebugUIContainer.h"
 
 class Object3DUI 
 	: public DebugUIContainer

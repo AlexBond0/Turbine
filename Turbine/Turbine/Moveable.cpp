@@ -72,6 +72,18 @@ void Moveable::SetTranslation(glm::vec3 pos) {
 
 // ======================================
 
+void Moveable::SetUp(glm::vec3 direction) {
+
+	up = direction;
+}
+
+glm::vec3 Moveable::GetUp() {
+
+	return up;
+}
+
+// ======================================
+
 // Set the rotation of the element
 void Moveable::SetOrientation(byte* buffer) {
 
@@ -120,6 +132,12 @@ void Moveable::SetOrientation(glm::vec3 rot) {
 	orientation = glm::quat(rot);
 }
 
+// Set the rotation of the element
+void Moveable::SetOrientation(glm::quat rot) {
+
+	orientation = rot;
+}
+
 // ======================================
 
 // Set the rotation of the element
@@ -147,6 +165,12 @@ void Moveable::SetRotation(float x, float y, float z, bool usingRads) {
 void Moveable::SetRotation(glm::vec3 rot) {
 
 	rotation = glm::quat(rot);
+}
+
+// Set the rotation of the element
+void Moveable::SetRotation(glm::quat rot) {
+
+	rotation = rot;
 }
 
 // ======================================
