@@ -166,12 +166,17 @@ PickObject Camera::GetPickedObject(World* world, glm::vec3 pickingRay) {
 
 		objRef = entityRef.second->OnPick();
 
+		// does entity have pickable geometory
 		if (objRef != nullptr) {
 
-			PickObject newPick = ObjectPicked(objRef, pickingRay);
+			// is the geometory active
+			if (objRef->isLocallyActive && objRef->IsGloballyActive()) {
 
-			if (newPick.distance < picked.distance)
-				picked = newPick;
+				PickObject newPick = ObjectPicked(objRef, pickingRay);
+
+				if (newPick.distance < picked.distance)
+					picked = newPick;
+			}
 		}
 	}
 

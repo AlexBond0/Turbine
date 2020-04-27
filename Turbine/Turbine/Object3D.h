@@ -46,7 +46,7 @@ public:
 
 	bool isActive = true;			// does the object and object children get rendered
 	bool isLocallyActive = true;	// does the object get rendered
-
+	bool IsGloballyActive();		// is the object globally active in the scene
 
 	// ===================================================================
 	// Implemented for Entity class
@@ -162,4 +162,13 @@ inline void Object3D::SetTriangles(PolygonData data) {
 inline bool Object3D::IsInstanced() {
 
 	return isInstanced;
+}
+
+inline bool Object3D::IsGloballyActive() {
+
+	if (parent != nullptr)
+		return (isActive && dynamic_cast<Object3D*>(parent)->IsGloballyActive());
+
+	else
+		return isActive;
 }

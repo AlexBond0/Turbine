@@ -103,17 +103,11 @@
     <ClCompile Include="PolygonData.cpp">
       <Filter>Turbine Engine\Object\Base</Filter>
     </ClCompile>
-    <ClCompile Include="CameraUI.cpp">
-      <Filter>Turbine Engine\Debug UI</Filter>
-    </ClCompile>
     <ClCompile Include="RenderingContext.cpp">
       <Filter>Turbine Engine\Shading</Filter>
     </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>Turbine Engine\Shading\Shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="Object3DUI.cpp">
-      <Filter>Turbine Engine\Debug UI</Filter>
     </ClCompile>
     <ClCompile Include="Entity.cpp">
       <Filter>Turbine Engine\Scene\Entity</Filter>
@@ -130,7 +124,9 @@
     <ClCompile Include="TranslationStack.cpp">
       <Filter>Turbine Engine\Shading</Filter>
     </ClCompile>
-    <ClCompile Include="EntityUI.cpp" />
+    <ClCompile Include="EntityUI.cpp">
+      <Filter>Turbine Engine\Debug UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGui\imgui_impl_glfw.h">
@@ -217,17 +213,11 @@
     <ClInclude Include="PolygonData.h">
       <Filter>Turbine Engine\Object\Base</Filter>
     </ClInclude>
-    <ClInclude Include="CameraUI.h">
-      <Filter>Turbine Engine\Debug UI</Filter>
-    </ClInclude>
     <ClInclude Include="RenderingContext.h">
       <Filter>Turbine Engine\Shading</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
       <Filter>Turbine Engine\Shading\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Object3DUI.h">
-      <Filter>Turbine Engine\Debug UI</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
       <Filter>Turbine Engine\Scene\Entity</Filter>
@@ -244,7 +234,9 @@
     <ClInclude Include="TranslationStack.h">
       <Filter>Turbine Engine\Shading</Filter>
     </ClInclude>
-    <ClInclude Include="EntityUI.h" />
+    <ClInclude Include="EntityUI.h">
+      <Filter>Turbine Engine\Debug UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ImGui\imgui.ini">

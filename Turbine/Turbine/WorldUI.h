@@ -18,13 +18,27 @@ public:
 	World* world;
 	RenderingContext* rcontext;
 
+	double timePassed = 1.0f;
+
 private:
 
 	void _RenderEntity(Entity* entity);
 
+	void _ColourActive(Entity* entity);
+	void _ColourFinish();
+
+	void _ShowSelectedEntity(Entity* entity);
+
 	void _RenderEntityRow(Entity* entity);
 	void _RenderSelectorButton(Entity* entity);
 
+	void _RenderFPS();
+
 	int renderer = 0;
+
+	float _currentfps;
+	std::vector<float> _frames;
+
+	const float range = 0.1f;
 };
 

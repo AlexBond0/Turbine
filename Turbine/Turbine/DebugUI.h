@@ -4,8 +4,6 @@
 #include "ImGui//imgui_impl_glfw.h"
 #include "ImGui//imgui_impl_opengl3.h"
 
-#include "Object3DUI.h"
-#include "CameraUI.h"
 #include "WorldUI.h"
 #include "EntityUI.h"
 

@@ -2,8 +2,9 @@
 
 
 
-WorldUI::WorldUI()
-{
+WorldUI::WorldUI() {
+
+	_frames = std::vector<float>(100, 0.0f);
 }
 
 
@@ -15,12 +16,7 @@ void WorldUI::Render() {
 
 	ImGui::Begin("World");
 
-	//ImGui::ColorEdit4("objCol", &objCol.x);
-	//ImGui::ColorEdit4("insanceCol", &insanceCol.x);
-	//ImGui::ColorEdit4("particleCol", &particleCol.x);
-	//ImGui::ColorEdit4("primitiveCol", &primitiveCol.x);
-	//ImGui::ColorEdit4("cameraCol", &cameraCol.x);
-	//ImGui::Separator();
+	_RenderFPS();
 
 	ImGui::Text("Rendering");
 	ImGui::RadioButton("Object", &renderer, 0); ImGui::SameLine();
@@ -59,40 +55,54 @@ void WorldUI::Render() {
 
 void WorldUI::_RenderEntity(Entity* entity) {
 
+	// show entity activity
+	_ColourActive(entity);
+
 	// if there are children entites
 	if (entity->GetChildren().size() > 0) {
 
-		// create treenode
-		if (ImGui::TreeNode(entity->GetName().c_str())) {
+		ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_DefaultOpen;
+		bool treeOpen = ImGui::TreeNodeEx(entity->GetName().c_str(), node_flags);
+		_ColourFinish();
 
-			_RenderEntityRow(entity);
+		_ShowSelectedEntity(entity);
 
-			// render selector button for entity
-			_RenderSelectorButton(entity);
+		_RenderEntityRow(entity);
+
+		_RenderSelectorButton(entity);
+		
+		if (treeOpen) {
 
 			for (Entity* e : entity->GetChildren())
 				_RenderEntity(e);
 
 			ImGui::TreePop();
 		}
-		else {
-
-			_RenderEntityRow(entity);
-
-			// render selector button for entity
-			_RenderSelectorButton(entity);
-		}
 
 	}
 	else {
 
 		ImGui::Text(entity->GetName().c_str());
+		_ColourFinish();
+
+		_ShowSelectedEntity(entity);
 		
 		_RenderEntityRow(entity);
 
 		_RenderSelectorButton(entity);
 	}
 
+}
+
+void WorldUI::_ShowSelectedEntity(Entity* entity) {
+
+	if (entity == world->currentSelectedEntity) {
+
+		ImGui::PushStyleColor(ImGuiCol_Text, selected);
+		ImGui::SameLine();
+		ImGui::Text("[S]");
+		ImGui::PopStyleColor();
+	}
 }
 
 void WorldUI::_RenderEntityRow(Entity* entity) {
@@ -156,4 +166,62 @@ void WorldUI::_RenderSelectorButton(Entity* entity) {
 
 	// ImGui::SameLine();
 	ImGui::NextColumn();
+}
+
+void WorldUI::_RenderFPS() {
+
+	_currentfps = (float)(1 / timePassed);
+	_frames.push_back(_currentfps);
+	assert(!_frames.empty());
+	_frames.erase(_frames.begin());
+
+	ImGui::Text("FPS : (%f)", _currentfps);
+	ImGui::PlotLines(
+		"Frame Times",
+		&_frames[0],
+		_frames.size(),
+		100,
+		NULL,
+		0.0f,
+		80.0f,
+		ImVec2(0, 80)
+	);
+
+	ImGui::Separator();
+}
+
+void WorldUI::_ColourActive(Entity* entity) {
+
+	ImVec4 color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+
+	switch (entity->GetEntityType()) {
+
+	case EntityType::OBJ: 
+	case EntityType::OBJ_INSTANCED:
+	case EntityType::OBJ_PARTICLE_SYS:
+	case EntityType::OBJ_PRIMITIVE:
+	{
+	
+		Object3D* obj = dynamic_cast<Object3D*>(entity);
+
+		if (!obj->isActive)
+			color = isNotActive;
+
+		else if (!obj->isLocallyActive)
+			color = isNotLocallyActive;
+
+		else if (!obj->IsGloballyActive())
+			color = isNotGloballyActive;
+
+		break;
+	}
+
+	}
+
+	ImGui::PushStyleColor(ImGuiCol_Text, color);
+}
+
+void WorldUI::_ColourFinish() {
+
+	ImGui::PopStyleColor();
 }

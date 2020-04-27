@@ -22,8 +22,6 @@ public:
 
 	bool rideCam = false;						// flag denoting if POV cam is in use
 
-	// Light light;								// Light object for the sun
-
 	RideAnimation animator;						// the model animator
 
 	Texture textures;							// the set of loaded textures

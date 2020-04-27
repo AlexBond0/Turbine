@@ -63,8 +63,6 @@ int windowX, windowY;
 GLFWwindow* window;
 
 DebugUI* debugUI;
-Object3DUI* moveUI;
-CameraUI* camUI;
 WorldUI* worldUI;
 EntityUI* entityUI;
 
@@ -108,7 +106,7 @@ int main()
 
 			// get time passed
 			timeDiff = glfwGetTime() - timepassed;
-			camUI->timePassed = timeDiff;
+			worldUI->timePassed = timeDiff;
 			timepassed = glfwGetTime();
 
 			// Render scene
@@ -238,14 +236,6 @@ int OnCreate(const char* glsl_version) {
 }
 
 void SetupDebugUI() {
-
-	moveUI = new Object3DUI();
-	moveUI->object = scene->world.GetObject3D("Seats");
-	debugUI->AddComponent(moveUI);
-
-	camUI = new CameraUI();
-	camUI->camera = dynamic_cast<Camera*>(scene->world.GetEntity("POV Camera"));
-	debugUI->AddComponent(camUI);
 
 	worldUI = new WorldUI();
 	worldUI->world = &scene->world;
@@ -527,18 +517,21 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
 
 void OnMouseClickL(int winX, int winY, int mouseX, int mouseY) {
 
-	if (pickedObj.hasBeenPicked)
-		pickedObj.object->isHighlighted = false;
+	// is the shift key down
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
 
-	// calculate picking ray
-	glm::vec3 pickRay = scene->world.GetActiveCamera()->CalculatePickRay(mouseX, mouseY, winX, winY);
+		if (pickedObj.hasBeenPicked)
+			pickedObj.object->isHighlighted = false;
 
-	// get picked object from scene
-	pickedObj = scene->world.GetActiveCamera()->GetPickedObject(&scene->world, pickRay);
+		// calculate picking ray
+		glm::vec3 pickRay = scene->world.GetActiveCamera()->CalculatePickRay(mouseX, mouseY, winX, winY);
 
-	if (pickedObj.hasBeenPicked) {
-		
-		moveUI->object = pickedObj.object;
-		// pickedObj.object->isHighlighted = true;
+		// get picked object from scene
+		pickedObj = scene->world.GetActiveCamera()->GetPickedObject(&scene->world, pickRay);
+
+		if (pickedObj.hasBeenPicked) {
+
+			scene->world.currentSelectedEntity = pickedObj.object;
+		}
 	}
 }
