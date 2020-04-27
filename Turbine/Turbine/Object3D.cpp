@@ -63,7 +63,7 @@ void Object3D::Draw(RenderingContext& rcontext) {
 	_HandleVBOs(rcontext);
 
 	// is the object active
-	if (isActive) {
+	if (isActive && isLocallyActive) {
 
 		// if current render is for solid objects and obj is not transparent
 		if (!isTransparent && (rcontext.renderPass == RenderPass::OBJECT)) {
@@ -76,12 +76,16 @@ void Object3D::Draw(RenderingContext& rcontext) {
 
 			_BlendDraw(rcontext);
 		}
+
 	}
 
-	// draw the children objects
-	for (Entity* child : children) {
+	if (isActive) {
 
-		child->OnRender(rcontext);
+		// draw the children objects
+		for (Entity* child : children) {
+
+			child->OnRender(rcontext);
+		}
 	}
 
 	// remove rotation added in _AssignHandleInformation

@@ -42,8 +42,10 @@ public:
 
 	bool useLight = true;			// does the object use light information when shading
 	bool useTexture = false;		// does the object use texture information when shading
-	bool isActive = true;			// does the object get rendered
 	bool isTransparent = false;		// does the object have transparency
+
+	bool isActive = true;			// does the object and object children get rendered
+	bool isLocallyActive = true;	// does the object get rendered
 
 
 	// ===================================================================

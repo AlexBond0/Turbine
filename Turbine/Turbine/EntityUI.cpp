@@ -76,14 +76,16 @@ void EntityUI::_RenderObj() {
 
 	ImGui::Columns(2);
 
-	ImGui::Checkbox("Is Active", &object->isActive);
+	
 	ImGui::Checkbox("Use Texture", &object->useTexture);
 	ImGui::Checkbox("Use Lighing", &object->useLight);
+	ImGui::Checkbox("Is Transparent", &object->isTransparent);
 
 	ImGui::NextColumn();
 
 	ImGui::Checkbox("Show Highlighted", &object->isHighlighted);
-	ImGui::Checkbox("Is Transparent", &object->isTransparent);
+	ImGui::Checkbox("Is Active", &object->isActive);
+	ImGui::Checkbox("Is Locally Active", &object->isLocallyActive);
 
 	ImGui::Columns(1);
 	ImGui::Separator();
@@ -127,7 +129,6 @@ void EntityUI::_RenderParticle() {
 
 	ImGui::DragFloat4("Emitter position", &particle->profile.camPosition[0], 0.1);
 	ImGui::DragFloat4("Emitter speed", &particle->profile.speed[0], 0.1);
-	ImGui::ColorEdit4("Particle colour", (&particle->profile.colour.rgba)[0]);
 
 }
 
