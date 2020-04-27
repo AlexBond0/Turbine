@@ -40,27 +40,30 @@ void EntityUI::Render() {
 
 void EntityUI::_RenderEntity() {
 
-	glm::vec3 worldPos = currentEntity->GetWorldPosVec();
-	glm::vec3 localPos = currentEntity->GetLocalPosVec();
-	glm::vec3 up = currentEntity->GetUp();
-	glm::quat orientation = currentEntity->GetOrientationQuat();
-	glm::quat rotation = currentEntity->GetRotationQuat();
+	_worldPos		= currentEntity->GetWorldPosVec();
+	_localPos		= currentEntity->GetLocalPosVec();
+	_up				= currentEntity->GetUp();
+	_orientation	= currentEntity->GetOrientationEuler();
+	_rotation		= currentEntity->GetRotationQuat();
 
 	ImGui::NewLine();
 	ImGui::TextColored(entityCol, "Entity");
 	ImGui::Separator();
 
-	ImGui::DragFloat3("World position", &worldPos[0], 0.1);
-	ImGui::DragFloat3("Local position", &localPos[0], 0.1);
-	ImGui::DragFloat3("Local up", &up[0], 0.1);
-	ImGui::DragFloat4("Orientation", &orientation[0], 0.1);
-	ImGui::DragFloat4("Rotation", &rotation[0], 0.1);
+	if (ImGui::DragFloat3("World position", &_worldPos[0], 0.1)) 
+		currentEntity->SetWorldPos(_worldPos);
+	
+	if (ImGui::DragFloat3("Local position", &_localPos[0], 0.1))
+		currentEntity->SetLocalPos(_localPos);
 
-	currentEntity->SetWorldPos(worldPos);
-	currentEntity->SetLocalPos(localPos);
-	currentEntity->SetUp(up);
-	currentEntity->SetOrientation(orientation);
-	currentEntity->SetRotation(rotation);
+	if (ImGui::DragFloat3("Local up", &_up[0], 0.1))
+		currentEntity->SetUp(_up);
+
+	if (ImGui::DragFloat3("Orientation", &_orientation[0], 0.1))
+		currentEntity->SetOrientation(_orientation);
+
+	if (ImGui::DragFloat4("Rotation", &_rotation[0], 0.1))
+		currentEntity->SetRotation(_rotation);
 }
 
 void EntityUI::_RenderObj() {
@@ -153,9 +156,16 @@ void EntityUI::_RenderCamera() {
 	ImGui::Text("Aspect Ratio : ");
 	ImGui::SameLine();
 	ImGui::TextColored(value, (std::to_string(camera->fAspect).c_str()));
-	ImGui::DragFloat("Feild of View", &camera->fFovy, 0.01);
-	ImGui::DragFloat("Near clipping plane", &camera->fZNear, 0.1);
-	ImGui::DragFloat("Far clipping plane", &camera->fZFar, 0.1);
+
+	
+	bool fa = ImGui::DragFloat("Feild of View", &camera->fFovy, 0.01);
+	bool fb = ImGui::DragFloat("Near clipping plane", &camera->fZNear, 0.1);
+	bool fc = ImGui::DragFloat("Far clipping plane", &camera->fZFar, 0.1);
+
+	if (fa || fb || fc) {
+
+		camera->fDirty = true;
+	}
 
 	ImGui::Separator();
 	ImGui::DragFloat3("Camera position", &camera->camPosition[0], 0.1);

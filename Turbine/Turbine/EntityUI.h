@@ -27,5 +27,12 @@ private:
 	void _renderPrimitive();
 	void _RenderCamera();
 	void _RenderLight();
+
+	// saves making lots of data types each render
+	glm::vec3 _worldPos;
+	glm::vec3 _localPos;
+	glm::vec3 _up;
+	glm::vec3 _orientation;
+	glm::quat _rotation;
 };
 

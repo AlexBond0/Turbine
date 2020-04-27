@@ -33,6 +33,7 @@ public:
 
 	bool SetActiveCamera(std::string cameraName);
 	Camera* GetActiveCamera();
+	std::map<std::string, Camera*> GetAllCameras();
 
 	void UpdateParticles(double timePassed);
 
@@ -58,4 +59,9 @@ inline std::map<std::string, Entity*> World::GetAllEntities() {
 inline std::map<std::string, Entity*> World::GetAllBaseEntities() {
 
 	return _renderBase;
+}
+
+inline std::map<std::string, Camera*> World::GetAllCameras() {
+
+	return _cameras;
 }

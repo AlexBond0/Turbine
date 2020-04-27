@@ -258,9 +258,13 @@ void window_size_callback(GLFWwindow* window, int width, int height) {
 
 		glViewport(0, 0, width, height);
 
-		Camera* c = dynamic_cast<Camera*>(scene->world.GetEntity("Default Camera"));
+		// Camera* c = dynamic_cast<Camera*>(scene->world.GetEntity("Default Camera"));
 
-		c->CalculateProjection(*rcontext, width, height);
+		// calculate the new projection matrix for all scene cameras
+		for (auto const& camera : scene->world.GetAllCameras()) {
+
+			camera.second->CalculateProjection(*rcontext, width, height);
+		}
 	}
 }
 

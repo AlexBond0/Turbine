@@ -76,6 +76,8 @@ public:
 	void CalculateProjection(RenderingContext& rcontext, int width, int height);
 	void CalculateProjection(RenderingContext& rcontext);
 
+	bool		fDirty = false;
+
 	float		fFovy	= (60.0f*(float)M_PI / 180.0f); // feild of view
 
 	float		fZNear	= 0.01f;		// near clipping plane

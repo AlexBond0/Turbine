@@ -298,8 +298,12 @@ void Camera::FocusCam(int zoomDelta) {
 // Produce a viewmatrix in rcontext for the camera
 void Camera::LookThrough(RenderingContext& rcontext) {
 
-	// Calculate camera projection matrix
-	CalculateProjection(rcontext);
+	// Calculate camera projection matrix if values changed
+	if (fDirty) {
+
+ 		CalculateProjection(rcontext);
+		fDirty = false;
+	}
 
 	// calcuate camera lookat atrix
 	rcontext.viewMatrix = glm::lookAt(
