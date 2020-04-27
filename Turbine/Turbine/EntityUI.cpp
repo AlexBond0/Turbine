@@ -122,7 +122,7 @@ void EntityUI::_RenderParticle() {
 
 	Particle* particle = dynamic_cast<Particle*>(currentEntity);
 
-	ImGui::Checkbox("Is active", &particle->active);
+	ImGui::Checkbox("Is Active", &particle->active);
 	ImGui::DragFloat("Partcle weight", &particle->profile.weight);
 	ImGui::DragInt("Particle spread", &particle->profile.spread);
 	ImGui::DragFloat("Partile life", (float*)(&particle->profile.life));
@@ -148,6 +148,14 @@ void EntityUI::_RenderCamera() {
 	Camera* camera = dynamic_cast<Camera*>(currentEntity);
 
 	ImGui::Checkbox("Show Camera in scene", &camera->showUI);
+
+	ImGui::Separator();
+	ImGui::Text("Aspect Ratio : ");
+	ImGui::SameLine();
+	ImGui::TextColored(value, (std::to_string(camera->fAspect).c_str()));
+	ImGui::DragFloat("Feild of View", &camera->fFovy, 0.01);
+	ImGui::DragFloat("Near clipping plane", &camera->fZNear, 0.1);
+	ImGui::DragFloat("Far clipping plane", &camera->fZFar, 0.1);
 
 	ImGui::Separator();
 	ImGui::DragFloat3("Camera position", &camera->camPosition[0], 0.1);

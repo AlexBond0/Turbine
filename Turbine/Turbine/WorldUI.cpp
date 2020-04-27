@@ -27,12 +27,12 @@ void WorldUI::Render() {
 		case 1: rcontext->SetLiveShader("smooth"); break;
 	}
 
-	ImGui::Separator();
+	ImGui::BeginChild("Entites", ImVec2(0, 0), true);
 
 	ImGui::Columns(3);
-	ImGui::SetColumnWidth(0, ImGui::GetWindowWidth() - 140);
+	ImGui::SetColumnWidth(0, ImGui::GetWindowWidth() - 145);
 	ImGui::SetColumnWidth(1, 80);
-	ImGui::SetColumnWidth(2, 60);
+	ImGui::SetColumnWidth(2, 65);
 
 	ImGui::Text("Entites");
 	ImGui::NextColumn();
@@ -42,12 +42,13 @@ void WorldUI::Render() {
 	ImGui::NextColumn();
 	ImGui::Separator();
 
-
 	// for each entity at base
 	for (auto const& base : world->GetAllBaseEntities()) {
 
 		_RenderEntity(base.second);
 	}
+
+	ImGui::EndChild();
 
 	ImGui::Columns(1);
 	ImGui::End();

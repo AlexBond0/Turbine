@@ -298,6 +298,9 @@ void Camera::FocusCam(int zoomDelta) {
 // Produce a viewmatrix in rcontext for the camera
 void Camera::LookThrough(RenderingContext& rcontext) {
 
+	// Calculate camera projection matrix
+	CalculateProjection(rcontext);
+
 	// calcuate camera lookat atrix
 	rcontext.viewMatrix = glm::lookAt(
 		camPosition,
@@ -312,6 +315,33 @@ void Camera::LookThrough(RenderingContext& rcontext) {
 
 		rcontext.viewMatrix *= glm::inverse(*camTranslation.GetCurrentModelMatrix());
 	}
+}
+
+// Calculate the projection matrix from the camera's state and the new window dimentions
+void Camera::CalculateProjection(RenderingContext& rcontext, int width, int height) {
+
+	fAspect = (float)width / height;
+
+	CalculateProjection(rcontext);
+}
+
+// Calculate the projection matrix from the camera's state
+void Camera::CalculateProjection(RenderingContext& rcontext) {
+
+	float top = (float)(tan(fFovy * 0.5) * fZNear);
+
+	float bottom = -top;
+	float left = fAspect * bottom;
+	float right = fAspect * top;
+
+	rcontext.projectionMatrix = glm::frustum(
+		left,
+		right,
+		bottom,
+		top,
+		fZNear,
+		fZFar
+	);
 }
 
 // move cameras position and target in space

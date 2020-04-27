@@ -256,27 +256,11 @@ void window_size_callback(GLFWwindow* window, int width, int height) {
 		windowX = width;
 		windowY = height;
 
-
 		glViewport(0, 0, width, height);
 
 		Camera* c = dynamic_cast<Camera*>(scene->world.GetEntity("Default Camera"));
 
-		c->fAspect = (float)width / height;
-
-		float top = (float)(tan(c->fFovy * 0.5) * c->fZNear);
-
-		float bottom = -top;
-		float left = c->fAspect * bottom;
-		float right = c->fAspect * top;
-
-		rcontext->projectionMatrix = glm::frustum(
-			left,
-			right,
-			bottom,
-			top,
-			c->fZNear,
-			c->fZFar
-		);
+		c->CalculateProjection(*rcontext, width, height);
 	}
 }
 
