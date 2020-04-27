@@ -24,6 +24,7 @@ private:
 	void _RenderObj();
 	void _RenderInstance();
 	void _RenderParticle();
+	void _renderPrimitive();
 	void _RenderCamera();
 	void _RenderLight();
 };
