@@ -143,6 +143,11 @@
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Model3D.cpp" />
     <ClCompile Include="Moveable.cpp" />
+    <ClCompile Include="MoveableDirector.cpp" />
+    <ClCompile Include="MoveableOrientation.cpp" />
+    <ClCompile Include="MoveablePoint.cpp" />
+    <ClCompile Include="MoveableTarget.cpp" />
+    <ClCompile Include="MoveableUnit.cpp" />
     <ClCompile Include="Object3D.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="PointData.cpp" />
@@ -181,6 +186,11 @@
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Model3D.h" />
     <ClInclude Include="Moveable.h" />
+    <ClInclude Include="MoveableDirector.h" />
+    <ClInclude Include="MoveableOrientation.h" />
+    <ClInclude Include="MoveablePoint.h" />
+    <ClInclude Include="MoveableTarget.h" />
+    <ClInclude Include="MoveableUnit.h" />
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="PointData.h" />

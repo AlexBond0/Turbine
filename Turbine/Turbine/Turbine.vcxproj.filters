@@ -43,6 +43,9 @@
     <Filter Include="Turbine Engine\Debug UI\Objects">
       <UniqueIdentifier>{a8c3fb0b-63c2-463b-a349-dd7879ea10d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Turbine Engine\Object\Base\Moveable">
+      <UniqueIdentifier>{13c2884f-38f2-43e6-b317-acc2d94efa10}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui_demo.cpp">
@@ -138,6 +141,21 @@
     </ClCompile>
     <ClCompile Include="EntityUI.cpp">
       <Filter>Turbine Engine\Debug UI\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveableTarget.cpp">
+      <Filter>Turbine Engine\Object\Base\Moveable</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveablePoint.cpp">
+      <Filter>Turbine Engine\Object\Base\Moveable</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveableOrientation.cpp">
+      <Filter>Turbine Engine\Object\Base\Moveable</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveableUnit.cpp">
+      <Filter>Turbine Engine\Object\Base\Moveable</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveableDirector.cpp">
+      <Filter>Turbine Engine\Object\Base\Moveable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -251,6 +269,21 @@
     </ClInclude>
     <ClInclude Include="EntityUI.h">
       <Filter>Turbine Engine\Debug UI\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveableTarget.h">
+      <Filter>Turbine Engine\Object\Base\Moveable</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveablePoint.h">
+      <Filter>Turbine Engine\Object\Base\Moveable</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveableOrientation.h">
+      <Filter>Turbine Engine\Object\Base\Moveable</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveableUnit.h">
+      <Filter>Turbine Engine\Object\Base\Moveable</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveableDirector.h">
+      <Filter>Turbine Engine\Object\Base\Moveable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
