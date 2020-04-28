@@ -48,6 +48,7 @@ public:
 
 	void SetScale(byte* buffer);
 	void SetScale(float x, float y, float z);
+	void SetScale(float newScale);
 	void SetScale(glm::vec3 newScale);
 	glm::vec3 GetScaleVec();
 

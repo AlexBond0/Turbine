@@ -159,18 +159,24 @@ void Moveable::SetRotation(float x, float y, float z, bool usingRads) {
 			DEGSTORADS(z)
 		));
 	}
+
+	up = up * rotation;
 }
 
 // Set the rotation of the element
 void Moveable::SetRotation(glm::vec3 rot) {
 
 	rotation = glm::quat(rot);
+
+	up = up * rotation;
 }
 
 // Set the rotation of the element
 void Moveable::SetRotation(glm::quat rot) {
 
 	rotation = rot;
+
+	up = up * rotation;
 }
 
 // ======================================
@@ -231,6 +237,14 @@ void Moveable::SetScale(float x, float y, float z)
 	scale.x = x;
 	scale.y = y;
 	scale.z = z;
+}
+
+// Set the scale of the element
+void Moveable::SetScale(float newScale)
+{
+	scale.x = newScale;
+	scale.y = newScale;
+	scale.z = newScale;
 }
 
 // Set the scale of the element

@@ -84,7 +84,7 @@ void Primitive::GenerateDirector(float radius) {
 
 	Geomitory sphere = _GenerateBaseIcoSphere(radius);
 
-	Geomitory pointer = _GenerateCylinder((radius / 3), (radius * 2), 3);
+	Geomitory pointer = _GenerateCylinder((radius / 3), (radius * 2), 4);
 	_TranslateGeomitory(pointer, 0.0f, radius, 0.0f);
 
 	Geomitory director = sphere + pointer;

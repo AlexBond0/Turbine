@@ -154,6 +154,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TranslationStack.cpp" />
+    <ClCompile Include="UIPointer.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldUI.cpp" />
   </ItemGroup>
@@ -191,6 +192,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TranslationStack.h" />
+    <ClInclude Include="UIPointer.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="World.h" />
     <ClInclude Include="WorldUI.h" />

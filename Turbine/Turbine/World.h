@@ -6,6 +6,7 @@
 #include "Particle.h"
 #include "Primitive.h"
 #include "Camera.h"
+#include "Light.h"
 
 class Camera; //forward decleration
 

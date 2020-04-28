@@ -42,6 +42,8 @@ void EntityUI::_RenderEntity() {
 
 	_worldPos		= currentEntity->GetWorldPosVec();
 	_localPos		= currentEntity->GetLocalPosVec();
+	_translation	= currentEntity->GetTranlationVec();
+	_scale			= currentEntity->GetScaleVec();
 	_up				= currentEntity->GetUp();
 	_orientation	= currentEntity->GetOrientationEuler();
 	_rotation		= currentEntity->GetRotationQuat();
@@ -56,8 +58,18 @@ void EntityUI::_RenderEntity() {
 	if (ImGui::DragFloat3("Local position", &_localPos[0], 0.1))
 		currentEntity->SetLocalPos(_localPos);
 
+	if (ImGui::DragFloat3("Translation", &_localPos[0], 0.1))
+		currentEntity->SetTranslation(_translation);
+
 	if (ImGui::DragFloat3("Local up", &_up[0], 0.1))
 		currentEntity->SetUp(_up);
+
+	ImGui::Separator();
+
+	if (ImGui::DragFloat3("Scale", &_scale[0], 0.1))
+		currentEntity->SetScale(_scale);
+
+	ImGui::Separator();
 
 	if (ImGui::DragFloat3("Orientation", &_orientation[0], 0.1))
 		currentEntity->SetOrientation(_orientation);
@@ -149,7 +161,7 @@ void EntityUI::_RenderCamera() {
 
 	Camera* camera = dynamic_cast<Camera*>(currentEntity);
 
-	ImGui::Checkbox("Show Camera in scene", &camera->showUI);
+	ImGui::Checkbox("Show Camera in scene", &camera->cameraUI.showUIObject);
 
 	ImGui::Separator();
 	ImGui::Text("Aspect Ratio : ");
@@ -167,9 +179,9 @@ void EntityUI::_RenderCamera() {
 	}
 
 	ImGui::Separator();
-	ImGui::DragFloat3("Camera position", &camera->camPosition[0], 0.1);
-	ImGui::DragFloat3("Camera target", &camera->camTarget[0], 0.1);
-	ImGui::DragFloat3("Camera up", &camera->up[0], 0.1);
+	ImGui::DragFloat3("Camera position", &camera->camPosition[0], 0.01);
+	ImGui::DragFloat3("Camera target", &camera->camTarget[0], 0.01);
+	ImGui::DragFloat3("Camera up", &camera->up[0], 0.01);
 }
 
 void EntityUI::_RenderLight() {
@@ -179,4 +191,13 @@ void EntityUI::_RenderLight() {
 	ImGui::NewLine();
 	ImGui::TextColored(lightCol, "Light");
 	ImGui::Separator();
+
+	Light* light = dynamic_cast<Light*>(currentEntity);
+
+	ImGui::Checkbox("Show Light in scene", &light->lightUI.showUIObject);
+
+	ImGui::Separator();
+	ImGui::ColorEdit4("Ambient", &light->ambient.rgba[0]);
+	ImGui::ColorEdit4("Diffuse", &light->diffuse.rgba[0]);
+	ImGui::ColorEdit4("Specular", &light->specular.rgba[0]);
 }

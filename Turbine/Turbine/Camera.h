@@ -6,6 +6,7 @@
 #include "Primitive.h"
 #include "RenderingContext.h"
 #include "World.h"
+#include "UIPointer.h"
 
 #include <vector>
 
@@ -41,7 +42,7 @@ public:
 	glm::vec3 up;		// XYZ of camera up
 
 	bool moveable = true;
-	bool showUI = false;
+	// bool showUI = false;
 
 
 	// calcualte a picking ray from the scene
@@ -86,12 +87,12 @@ public:
 
 	float		focusDelta = 0.3;		// rate of camera focus
 
+	UIPointer cameraUI;
+
 private:
 	bool	_prevValuesDirty = true;
 	int		_prevX = -1;
 	int		_prevY = -1;
 
 	void	_MoveCam(glm::vec3 movement);
-
-	Primitive* _camObject;
 };

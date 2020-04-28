@@ -3,28 +3,26 @@
 
 
 Light::Light(std::string name)
-	: Entity(name, EntityType::LIGHT) {
+	: Entity(name, EntityType::LIGHT),
+	lightUI(this)
+{
 
-
+	lightUI.GetObject3D()->SetScale(2.0);
 }
 
 
-Light::~Light()
-{
+Light::~Light() {
+
 }
 
  // Return the direction of the light, stored in the up vector
-glm::vec3& Light::GetDirection() {
+glm::vec3& Light::GetLightDirection() {
 
-	return up;
+	_direction = glm::eulerAngles(orientation);
+
+	return _direction;
 }
 
-//// Return handle-friendly halfplane information
-//// might be replaced with a glm::value_ptr()
-//glm::vec3* Light::GetHalfplane() {
-//
-//	return &halfplane;
-//}
 
 // Calculate the half plane for sending to the GLSL shaders
 void Light::CalculateHalfPlane(glm::vec3 cameraPosition) {
@@ -56,10 +54,10 @@ void Light::CreateMoon() {
 
 void Light::OnRender(RenderingContext& rcontext) {
 
-
+	lightUI.RenderUI(rcontext);
 }
 
 Object3D* Light::OnPick() {
 
-	return nullptr;
+	return lightUI.GetObject3D();
 }

@@ -30,7 +30,7 @@ void Scene::Render(RenderingContext& rcontext) {
 	sun->CalculateHalfPlane(world.GetActiveCamera()->camPosition);
 
 	// assign light handles
-	rcontext.liveShader->SetVector("u_l_direction", sun->GetDirection());
+	rcontext.liveShader->SetVector("u_l_direction", sun->GetLightDirection());
 	rcontext.liveShader->SetVector("u_l_halfplane", sun->halfplane);
 	rcontext.liveShader->SetColor("u_l_ambient", sun->ambient.rgba);
 	rcontext.liveShader->SetColor("u_l_diffuse", sun->diffuse.rgba);
@@ -120,6 +120,7 @@ void Scene::Setup() {
 	// create sun light
 	Light* sun = new Light("sun");
 	sun->CreateSun();
+	sun->SetTranslation(0.0f, 2.0f, 0.0f);
 	world.AddEntity(sun);
 
 	// load animator

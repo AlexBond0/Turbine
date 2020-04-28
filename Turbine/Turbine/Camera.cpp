@@ -3,13 +3,14 @@
 
 
 Camera::Camera(std::string name)
-	: Entity(name, EntityType::CAMERA)
+	: Entity(name, EntityType::CAMERA),
+	cameraUI(this)
 {
 
 	DefaultSceneCam();
 
-	_camObject = new Primitive();
-	_camObject->GenerateDirector(0.005f);
+	cameraUI.UsePosition(&camPosition);
+	cameraUI.UseTarget(&camTarget);
 }
 
 
@@ -20,20 +21,13 @@ Camera::~Camera() {
 // Handle action taken by Object3D when called form entity heirarcy
 void Camera::OnRender(RenderingContext& rcontext) {
 
-	// position and render the camera UI object
-	if (showUI) {
-
-		_camObject->SetTranslation(camPosition);
-		_camObject->PointAt(camTarget);
-
-		_camObject->Draw(rcontext);
-	}
+	cameraUI.RenderUI(rcontext);
 }
 
 // Handle action when sending data to the picking function
 Object3D* Camera::OnPick() {
 
-	return _camObject;
+	return cameraUI.GetObject3D();
 }
 
 // ================================================================
