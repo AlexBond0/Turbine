@@ -83,8 +83,9 @@ void Scene::Setup() {
 	world.AddEntity(camPOV);
 	camPOV->moveable = false;
 	world.GetEntity("Seats")->AddChild(camPOV);
+
+	// set these after parenting as parenting would offsett these
 	camPOV->SetLocalPos(glm::vec3(0.0f, -0.083f, 0.0f));
-	// camPOV->SetTarget(glm::vec3(0.039f, -0.1f, 1.0f));
 	camPOV->SetTarget(glm::vec3(0.0f, -0.083f, 1.0f));
 	camPOV->SetUp(glm::vec3(0.0f, 1.0f, 0.0f));
 	

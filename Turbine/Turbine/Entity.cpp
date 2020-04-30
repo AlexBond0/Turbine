@@ -10,7 +10,7 @@ Entity::Entity(std::string name, EntityType type) {
 
 
 Entity::Entity(Entity* copy)
-	: MoveableUnit((MoveableUnit)copy)
+	: Moveable((Moveable)copy)
 {
 	children = copy->children;
 	parent = copy->parent;

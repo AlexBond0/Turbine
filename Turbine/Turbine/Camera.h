@@ -32,18 +32,7 @@ public:
 	Camera(std::string name);
 	~Camera();
 
-
-	// ===================================================================
-	// Variables
-
-	// seperate from element position
-	//glm::vec3 camPosition;	// XYZ of camera position
-	//glm::vec3 camTarget;	// XYZ of camera target
-	//glm::vec3 up;		// XYZ of camera up
-
 	bool moveable = true;
-	// bool showUI = false;
-
 
 	// calcualte a picking ray from the scene
 	glm::vec3 CalculatePickRay(float mouseX, float mouseY, float windW, float windH);
@@ -59,10 +48,6 @@ public:
 
 	// ===================================================================
 	// Methods
-
-	//void SetPosition(glm::vec3 newPosition);
-	//void SetTarget(glm::vec3 newTarget);
-	//void SetUp(glm::vec3 newUp);
 
 	void DefaultSceneCam();
 	void DefaultPOVCam();
@@ -93,6 +78,4 @@ private:
 	bool	_prevValuesDirty = true;
 	int		_prevX = -1;
 	int		_prevY = -1;
-
-	// void	_MoveCam(glm::vec3 movement);
 };

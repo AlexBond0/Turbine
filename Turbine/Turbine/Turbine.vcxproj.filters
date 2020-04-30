@@ -46,6 +46,9 @@
     <Filter Include="Turbine Engine\Object\Base\Moveable">
       <UniqueIdentifier>{13c2884f-38f2-43e6-b317-acc2d94efa10}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Turbine Engine\Object\Base\Moveable\Components">
+      <UniqueIdentifier>{0025b35b-ea1f-48d1-9ccb-e72eceb84ba5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui_demo.cpp">
@@ -83,9 +86,6 @@
       <Filter>Turbine Engine\Object\Base</Filter>
     </ClCompile>
     <ClCompile Include="Model3D.cpp">
-      <Filter>Turbine Engine\Object\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Moveable.cpp">
       <Filter>Turbine Engine\Object\Base</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
@@ -142,19 +142,13 @@
     <ClCompile Include="EntityUI.cpp">
       <Filter>Turbine Engine\Debug UI\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="MoveableTarget.cpp">
-      <Filter>Turbine Engine\Object\Base\Moveable</Filter>
-    </ClCompile>
     <ClCompile Include="MoveablePoint.cpp">
-      <Filter>Turbine Engine\Object\Base\Moveable</Filter>
+      <Filter>Turbine Engine\Object\Base\Moveable\Components</Filter>
     </ClCompile>
     <ClCompile Include="MoveableOrientation.cpp">
-      <Filter>Turbine Engine\Object\Base\Moveable</Filter>
+      <Filter>Turbine Engine\Object\Base\Moveable\Components</Filter>
     </ClCompile>
-    <ClCompile Include="MoveableUnit.cpp">
-      <Filter>Turbine Engine\Object\Base\Moveable</Filter>
-    </ClCompile>
-    <ClCompile Include="MoveableDirector.cpp">
+    <ClCompile Include="Moveable.cpp">
       <Filter>Turbine Engine\Object\Base\Moveable</Filter>
     </ClCompile>
   </ItemGroup>
@@ -199,9 +193,6 @@
       <Filter>Turbine Engine\Object\Base</Filter>
     </ClInclude>
     <ClInclude Include="Model3D.h">
-      <Filter>Turbine Engine\Object\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Moveable.h">
       <Filter>Turbine Engine\Object\Base</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
@@ -270,19 +261,13 @@
     <ClInclude Include="EntityUI.h">
       <Filter>Turbine Engine\Debug UI\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="MoveableTarget.h">
-      <Filter>Turbine Engine\Object\Base\Moveable</Filter>
-    </ClInclude>
     <ClInclude Include="MoveablePoint.h">
-      <Filter>Turbine Engine\Object\Base\Moveable</Filter>
+      <Filter>Turbine Engine\Object\Base\Moveable\Components</Filter>
     </ClInclude>
     <ClInclude Include="MoveableOrientation.h">
-      <Filter>Turbine Engine\Object\Base\Moveable</Filter>
+      <Filter>Turbine Engine\Object\Base\Moveable\Components</Filter>
     </ClInclude>
-    <ClInclude Include="MoveableUnit.h">
-      <Filter>Turbine Engine\Object\Base\Moveable</Filter>
-    </ClInclude>
-    <ClInclude Include="MoveableDirector.h">
+    <ClInclude Include="Moveable.h">
       <Filter>Turbine Engine\Object\Base\Moveable</Filter>
     </ClInclude>
   </ItemGroup>

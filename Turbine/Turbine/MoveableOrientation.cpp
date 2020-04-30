@@ -5,12 +5,20 @@
 MoveableOrientation::MoveableOrientation() {
 
 	_orientation = glm::quat(glm::vec3(0.0));
+	_rotation = glm::quat(glm::vec3(0.0));
+
+	_target = glm::vec3(0.0);
+	_front = glm::vec3(0.0, 0.0, 1.0);
 }
 
 
 MoveableOrientation::MoveableOrientation(MoveableOrientation* copy) {
 
 	_orientation = copy->_orientation;
+	_rotation = copy->_rotation;
+
+	_target = copy->_target;
+	_front = copy->_front;
 }
 
 // ======================================

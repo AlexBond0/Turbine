@@ -11,8 +11,6 @@ Camera::Camera(std::string name)
 
 	useTarget = true;
 
-	// cameraUI.UsePosition(&camPosition);
-	// cameraUI.UseTarget(&camTarget);
 	cameraUI.UsePosition(&_localPos);
 	cameraUI.UseTarget(&_target);
 }
@@ -34,25 +32,6 @@ Object3D* Camera::OnPick() {
 	return cameraUI.GetObject3D();
 }
 
-// ================================================================
-
-//// set position of camera
-//void Camera::SetPosition(glm::vec3 newPosition) {
-//
-//	camPosition = newPosition;
-//}
-//
-//// set the target of the camera
-//void Camera::SetTarget(glm::vec3 newTarget) {
-//
-//	camTarget = newTarget;
-//}
-//
-//// set the up direction of the camera
-//void Camera::SetUp(glm::vec3 newUp) {
-//
-//	up = newUp;
-//}
 
 // ================================================================
 
@@ -345,11 +324,3 @@ void Camera::CalculateProjection(RenderingContext& rcontext) {
 		fZFar
 	);
 }
-
-// move cameras position and target in space
-//void Camera::_MoveCam(glm::vec3 movement) {
-//
-//	camPosition += movement;
-//	camTarget += movement;
-//}
-

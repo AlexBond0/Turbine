@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "MoveableUnit.h"
+#include "Moveable.h"
 #include "RenderingContext.h"
 
 // type of entity
@@ -19,7 +19,7 @@ class Object3D; // forward decleration
 
 // Manages positional heirarchy of elements in a scene
 class Entity
-	: public MoveableUnit
+	: public Moveable
 {
 public:
 	Entity(std::string name, EntityType type);
