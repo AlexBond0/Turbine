@@ -179,9 +179,9 @@ void EntityUI::_RenderCamera() {
 	}
 
 	ImGui::Separator();
-	ImGui::DragFloat3("Camera position", &camera->camPosition[0], 0.01);
-	ImGui::DragFloat3("Camera target", &camera->camTarget[0], 0.01);
-	ImGui::DragFloat3("Camera up", &camera->up[0], 0.01);
+	ImGui::DragFloat3("Camera position", &(*camera->GetLocalPosVec())[0], 0.01);
+	ImGui::DragFloat3("Camera target", &(*camera->GetTarget())[0], 0.01);
+	ImGui::DragFloat3("Camera up", &(*camera->GetUpVec())[0], 0.01);
 }
 
 void EntityUI::_RenderLight() {

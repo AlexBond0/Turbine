@@ -9,8 +9,12 @@ Camera::Camera(std::string name)
 
 	DefaultSceneCam();
 
-	cameraUI.UsePosition(&camPosition);
-	cameraUI.UseTarget(&camTarget);
+	useTarget = true;
+
+	// cameraUI.UsePosition(&camPosition);
+	// cameraUI.UseTarget(&camTarget);
+	cameraUI.UsePosition(&_localPos);
+	cameraUI.UseTarget(&_target);
 }
 
 
@@ -32,30 +36,30 @@ Object3D* Camera::OnPick() {
 
 // ================================================================
 
-// set position of camera
-void Camera::SetPosition(glm::vec3 newPosition) {
-
-	camPosition = newPosition;
-}
-
-// set the target of the camera
-void Camera::SetTarget(glm::vec3 newTarget) {
-
-	camTarget = newTarget;
-}
-
-// set the up direction of the camera
-void Camera::SetUp(glm::vec3 newUp) {
-
-	up = newUp;
-}
+//// set position of camera
+//void Camera::SetPosition(glm::vec3 newPosition) {
+//
+//	camPosition = newPosition;
+//}
+//
+//// set the target of the camera
+//void Camera::SetTarget(glm::vec3 newTarget) {
+//
+//	camTarget = newTarget;
+//}
+//
+//// set the up direction of the camera
+//void Camera::SetUp(glm::vec3 newUp) {
+//
+//	up = newUp;
+//}
 
 // ================================================================
 
 void Camera::DefaultSceneCam() {
 
 	SetTarget(glm::vec3(0.0f, 0.2f, 0.0f));
-	SetPosition(glm::vec3(-0.8f, 0.5f, 1.0f));
+	SetLocalPos(glm::vec3(-0.8f, 0.5f, 1.0f));
 	SetUp(glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
@@ -63,7 +67,7 @@ void Camera::DefaultPOVCam() {
 
 	// these are more like offsets here as the camerapositioner handles the absolute position
 	SetTarget(glm::vec3(0.0f, 0.0f, 1.0f));
-	SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+	SetLocalPos(glm::vec3(0.0f, 0.0f, 0.0f));
 	SetUp(glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
@@ -75,11 +79,11 @@ glm::vec3 Camera::CalculatePickRay(float mouseX, float mouseY, float windW, floa
 	float clickPosY = mouseY / (windH * 0.5f) - 1.0f;
 
 	// get diection of camera
-	glm::vec3 direction = camPosition - camTarget;
+	glm::vec3 direction = _localPos - _target;
 
 	// calculate projection and view matrix for the camera
 	glm::mat4 proj = glm::perspective(fFovy, fAspect, fZNear, fZFar);
-	glm::mat4 view = glm::lookAt(glm::vec3(0.0f), -direction, up);
+	glm::mat4 view = glm::lookAt(glm::vec3(0.0f), -direction, _up);
 
 	// use matrices to calculate point clicked in sreen space
 	glm::mat4 invVP = glm::inverse(proj * view);
@@ -111,7 +115,7 @@ PickObject Camera::ObjectPicked(Object3D* object, glm::vec3 pickingRay) {
 
 	glm::vec3 translatedCameraPosition = 
 		glm::inverse(*(objectTranlation.GetCurrentModelMatrix()))
-		* glm::vec4(camPosition, 1.0);
+		* glm::vec4(_localPos, 1.0);
 
 	glm::vec3* v1;
 	glm::vec3* v2;
@@ -192,13 +196,13 @@ void Camera::RotateCam(int newX, int newY, bool arcballCam) {
 			glm::mat4 cameraRotation = glm::mat4(1.0);
 			
 			// get the direction vector
-			glm::vec3 direction = camPosition - camTarget;
+			glm::vec3 direction = _localPos - _target;
 
 			// preform pitch rotation
-			glm::vec3 cross = glm::normalize(glm::cross(direction, up));
+			glm::vec3 cross = glm::normalize(glm::cross(direction, _up));
 
 			// Rotate Mat4 By Vec3
-			cameraRotation = glm::rotate(cameraRotation, -diffY, glm::cross(direction, up));
+			cameraRotation = glm::rotate(cameraRotation, -diffY, glm::cross(direction, _up));
 
 			// preform yaw rotation
 			cameraRotation = glm::rotate(cameraRotation, diffX, glm::vec3(0, 1, 0));
@@ -209,15 +213,15 @@ void Camera::RotateCam(int newX, int newY, bool arcballCam) {
 			// set new position
 			if (arcballCam) {
 
-				camPosition = (direction + camTarget);
+				_localPos = (direction + _target);
 			}
 			else {
 
-				camTarget = (camPosition - direction);
+				_target = (_localPos - direction);
 			}
 
 			// calculate up
-			up = up * glm::mat3(cameraRotation);
+			_up = _up * glm::mat3(cameraRotation);
 		}
 
 		// save previous values
@@ -240,10 +244,10 @@ void Camera::MoveCam(int newX, int newY) {
 			float diffY = float(newY - _prevY) / 50.0f;
 
 			// get the direction vector
-			glm::vec3 direction = camPosition - camTarget;
+			glm::vec3 direction = _localPos - _target;
 
 			// calculate change horisontally
-			glm::vec3 horz = glm::normalize(glm::cross(direction, up));
+			glm::vec3 horz = glm::normalize(glm::cross(direction, _up));
 
 			// calculate change vertically
 			glm::vec3 vert = glm::normalize(glm::cross(horz, direction));
@@ -253,7 +257,7 @@ void Camera::MoveCam(int newX, int newY) {
 			vert *= diffY;
 
 			// apply the changes
-			_MoveCam(horz + vert);
+			Move(horz + vert);
 		}
 
 		// save previous values
@@ -274,7 +278,7 @@ void Camera::FocusCam(int zoomDelta) {
 
 	if (moveable) {
 
-		glm::vec3 direction = camPosition - camTarget;
+		glm::vec3 direction = _localPos - _target;
 
 		float focus = (float)(zoomDelta > 0 ? focusDelta : -focusDelta);
 
@@ -284,7 +288,7 @@ void Camera::FocusCam(int zoomDelta) {
 
 			direction *= focus;
 
-			camPosition -= direction;
+			_localPos -= direction;
 		}
 	}
 }
@@ -301,9 +305,9 @@ void Camera::LookThrough(RenderingContext& rcontext) {
 
 	// calcuate camera lookat atrix
 	rcontext.viewMatrix = glm::lookAt(
-		camPosition,
-		camTarget,
-		up
+		_localPos,
+		_target,
+		_up
 	);
 
 	// translate matrix by entity position
@@ -343,9 +347,9 @@ void Camera::CalculateProjection(RenderingContext& rcontext) {
 }
 
 // move cameras position and target in space
-void Camera::_MoveCam(glm::vec3 movement) {
-
-	camPosition += movement;
-	camTarget += movement;
-}
+//void Camera::_MoveCam(glm::vec3 movement) {
+//
+//	camPosition += movement;
+//	camTarget += movement;
+//}
 

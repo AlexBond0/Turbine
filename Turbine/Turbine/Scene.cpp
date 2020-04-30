@@ -27,7 +27,7 @@ void Scene::Render(RenderingContext& rcontext) {
 
 	// calculate light half plane
 	Light* sun = dynamic_cast<Light*>(world.GetEntity("sun"));
-	sun->CalculateHalfPlane(world.GetActiveCamera()->camPosition);
+	sun->CalculateHalfPlane(*world.GetActiveCamera()->GetLocalPosVec());
 
 	// assign light handles
 	rcontext.liveShader->SetVector("u_l_direction", sun->GetLightDirection());
@@ -82,10 +82,11 @@ void Scene::Setup() {
 	Camera* camPOV = new Camera("POV Camera");
 	world.AddEntity(camPOV);
 	camPOV->moveable = false;
-	camPOV->SetPosition(glm::vec3(0.0f, -0.083f, 0.0f));
-	camPOV->SetTarget(glm::vec3(0.039f, -0.1f, 1.0f));
-	camPOV->SetUp(glm::vec3(0.0f, 1.0f, 0.0f));
 	world.GetEntity("Seats")->AddChild(camPOV);
+	camPOV->SetLocalPos(glm::vec3(0.0f, -0.083f, 0.0f));
+	// camPOV->SetTarget(glm::vec3(0.039f, -0.1f, 1.0f));
+	camPOV->SetTarget(glm::vec3(0.0f, -0.083f, 1.0f));
+	camPOV->SetUp(glm::vec3(0.0f, 1.0f, 0.0f));
 	
 	// create skybox
 	Primitive* skybox = new Primitive();
