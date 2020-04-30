@@ -2,8 +2,8 @@
 
 
 
-EntityUI::EntityUI()
-{
+EntityUI::EntityUI() {
+
 }
 
 
@@ -28,7 +28,7 @@ void EntityUI::Render() {
 		case EntityType::OBJ: _RenderObj();  break;
 		case EntityType::OBJ_INSTANCED: _RenderInstance();  break;
 		case EntityType::OBJ_PARTICLE_SYS: _RenderParticle();  break;
-		case EntityType::OBJ_PRIMITIVE: _renderPrimitive();  break;
+		case EntityType::OBJ_PRIMITIVE: _RenderPrimitive();  break;
 		case EntityType::CAMERA: _RenderCamera();  break;
 		case EntityType::LIGHT: _RenderLight();  break;
 
@@ -45,8 +45,6 @@ void EntityUI::_RenderEntity() {
 	_translation	= *currentEntity->GetTranlationVec();
 	_scale			= *currentEntity->GetScaleVec();
 	_up				= *currentEntity->GetUpVec();
-	_orientation	= glm::eulerAngles(currentEntity->GetOrientationQuat());
-	_rotation		= glm::eulerAngles(currentEntity->GetRotationQuat());
 
 	ImGui::NewLine();
 	ImGui::TextColored(entityCol, "Entity");
@@ -71,33 +69,17 @@ void EntityUI::_RenderEntity() {
 
 	ImGui::Separator();
 
-	//if (ImGui::DragFloat("Orientation X", &_orientation.x, 0.1))
-	//	currentEntity->SetOrientationAngleAxis(_orientation.x, glm::vec3(1.0, 0.0, 0.0));
+	_orientation.RenderQuaterion(
+		"Orientation",
+		currentEntity,
+		[](Entity* e) -> glm::vec3 { return glm::eulerAngles(e->GetOrientationQuat()); }
+	);
 
-	//if (ImGui::DragFloat("Orientation Y", &_orientation.y, 0.1))
-	//	currentEntity->SetOrientationAngleAxis(_orientation.y, glm::vec3(0.0, 1.0, 0.0));
-
-	//if (ImGui::DragFloat("Orientation Z", &_orientation.z, 0.1))
-	//	currentEntity->SetOrientationAngleAxis(_orientation.z, glm::vec3(0.0, 0.0, 1.0));
-
-	_orientationSignX_old = (_orientation.x > 0);
-	_orientationSignZ_old = (_orientation.z > 0);
-
-	if (ImGui::DragFloat3("Orientation", &_orientation[0], (_orientationFlip ? 0.1 : -0.1))) {
-
-		currentEntity->SetOrientation(glm::quat(_orientation));
-		_orientation = glm::eulerAngles(currentEntity->GetOrientationQuat());
-
-		_orientationSignX_new = (_orientation.x > 0);
-		_orientationSignZ_new = (_orientation.z > 0);
-
-		if (_orientationSignX_old != _orientationSignX_new && _orientationSignZ_old != _orientationSignZ_new)
-			_orientationFlip = !_orientationFlip;
-		
-	}
-
-	if (ImGui::DragFloat3("Rotation", &_rotation[0], 0.1))
-		currentEntity->SetRotation(glm::quat(_rotation));
+	_rotation.RenderQuaterion(
+		"Rotation",
+		currentEntity,
+		[](Entity* e) -> glm::vec3 { return glm::eulerAngles(e->GetRotationQuat()); }
+	);
 }
 
 void EntityUI::_RenderObj() {
@@ -168,7 +150,7 @@ void EntityUI::_RenderParticle() {
 	ImGui::DragFloat4("Emitter speed", &particle->profile.speed[0], 0.1);
 }
 
-void EntityUI::_renderPrimitive() {
+void EntityUI::_RenderPrimitive() {
 
 	_RenderObj();
 }
@@ -222,4 +204,31 @@ void EntityUI::_RenderLight() {
 	ImGui::ColorEdit4("Ambient", &light->ambient.rgba[0]);
 	ImGui::ColorEdit4("Diffuse", &light->diffuse.rgba[0]);
 	ImGui::ColorEdit4("Specular", &light->specular.rgba[0]);
+}
+
+
+QuaterionHandler::QuaterionHandler() {
+
+	_orientationFlip = true;
+}
+
+void QuaterionHandler::RenderQuaterion(std::string label, Entity* entity, FuncPtrQuat getNewQuatValue) {
+
+	_quatAsEuler = getNewQuatValue(entity);
+
+	_orientationSignX_old = (_quatAsEuler.x > 0);
+	_orientationSignZ_old = (_quatAsEuler.z > 0);
+
+	if (ImGui::DragFloat3(label.c_str(), &_quatAsEuler[0], (_orientationFlip ? 0.1 : -0.1))) {
+
+		entity->SetOrientation(glm::quat(_quatAsEuler));
+		_quatAsEuler = getNewQuatValue(entity); // &glm::eulerAngles(_currentEntity->GetOrientationQuat());
+
+		_orientationSignX_new = (_quatAsEuler.x > 0);
+		_orientationSignZ_new = (_quatAsEuler.z > 0);
+
+		if (_orientationSignX_old != _orientationSignX_new && _orientationSignZ_old != _orientationSignZ_new)
+			_orientationFlip = !_orientationFlip;
+
+	}
 }
