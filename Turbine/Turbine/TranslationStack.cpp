@@ -46,10 +46,22 @@ void TranslationStack::Translate(const float x, const float y, const float z) {
 	_modelmatrix[_depth] = glm::translate(_modelmatrix[_depth], glm::vec3(x, y, z));
 }
 
+// Translate the current model matrix
+void TranslationStack::Translate(glm::vec3 translation) {
+
+	_modelmatrix[_depth] = glm::translate(_modelmatrix[_depth], translation);
+}
+
 // Scale the current model matrix
 void TranslationStack::Scale(const float x, const float y, const float z) {
 
 	_modelmatrix[_depth] = glm::scale(_modelmatrix[_depth], glm::vec3(x, y, z));
+}
+
+// Scale the current model matrix
+void TranslationStack::Scale(glm::vec3 scale) {
+
+	_modelmatrix[_depth] = glm::scale(_modelmatrix[_depth], scale);
 }
 
 // Rotate the current model matrix around the X axis

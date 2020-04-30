@@ -10,7 +10,7 @@ Entity::Entity(std::string name, EntityType type) {
 
 
 Entity::Entity(Entity* copy)
-	: Moveable((Moveable)copy)
+	: MoveableUnit((MoveableUnit)copy)
 {
 	children = copy->children;
 	parent = copy->parent;
@@ -28,9 +28,9 @@ void Entity::AddChild(Entity* newChild) {
 
 	children.push_back(newChild);
 
-	glm::vec3 childPosition = newChild->GetWorldPosVec();
+	glm::vec3 childPosition = *newChild->GetWorldPosVec();
 
-	newChild->SetLocalPos(newChild->GetWorldPosVec() - worldPos);
+	newChild->SetLocalPos(*newChild->GetWorldPosVec() - _worldPos);
 
 	newChild->SetParent(this);
 };
@@ -69,13 +69,13 @@ void Entity::_GetWorldTranslation(TranslationStack& translations) {
 	translations.PushModelMatrix();
 
 	// as the current translation values are global and not local, preform the offset values instead
-	translations.Translate(localPos[0], localPos[1], localPos[2]);
-	translations.Translate(translation[0], translation[1], translation[2]);
-	translations.Scale(scale[0], scale[1], scale[2]);
+	translations.Translate(_localPos);
+	translations.Translate(_translation);
+	translations.Scale(_scale);
 
 	// preform the rotation
-	translations.Rotate(GetOrientationMatrix());
-	translations.Rotate(GetRotationMatrix());
+	translations.Rotate(glm::toMat4(_orientation));
+	translations.Rotate(glm::toMat4(_rotation));
 }
 
 // Set the name of the entity

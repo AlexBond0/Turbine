@@ -26,7 +26,7 @@ void UIPointer::RenderUI(RenderingContext& rcontext) {
 			_uiObj->SetTranslation(*_position);
 
 		else
-			_uiObj->SetLocalPos(_entityToMirror->GetLocalPosVec());
+			_uiObj->SetLocalPos(*_entityToMirror->GetLocalPosVec());
 
 
 		// orientation
@@ -34,7 +34,7 @@ void UIPointer::RenderUI(RenderingContext& rcontext) {
 			_uiObj->PointAt(*_target);
 
 		else
-			_uiObj->SetOrientation(_entityToMirror->GetOrientationMatrix());
+			_uiObj->SetOrientation(_entityToMirror->GetOrientationQuat());
 
 
 		_uiObj->Draw(rcontext);

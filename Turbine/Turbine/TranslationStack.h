@@ -20,7 +20,11 @@ public:
 
 	// These all assume the transformation happens to the top-most matrix in the stack (model view)
 	void Translate(const float x, const float y, const float z);
+	void Translate(glm::vec3 translation);
+
 	void Scale(const float x, const float y, const float z);
+	void Scale(glm::vec3 scale);
+
 	void RotateX(const float degs);
 	void RotateY(const float degs);
 	void RotateZ(const float degs);

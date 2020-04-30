@@ -18,7 +18,7 @@ Light::~Light() {
  // Return the direction of the light, stored in the up vector
 glm::vec3& Light::GetLightDirection() {
 
-	_direction = glm::eulerAngles(orientation);
+	_direction = glm::eulerAngles(_orientation);
 
 	return _direction;
 }
@@ -27,7 +27,7 @@ glm::vec3& Light::GetLightDirection() {
 // Calculate the half plane for sending to the GLSL shaders
 void Light::CalculateHalfPlane(glm::vec3 cameraPosition) {
 
-	halfplane = glm::normalize(cameraPosition + (up * orientation));
+	halfplane = glm::normalize(cameraPosition + (_up * _orientation));
 }
 
 // Create a default sun light

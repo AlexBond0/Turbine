@@ -197,15 +197,13 @@ void Object3D::_AssignHandleInformation(RenderingContext& rcontext) {
 	rcontext.PushModelMatrix();
 
 	// as the current translation values are global and not local, preform the offset values instead
-	rcontext.Translate(localPos[0], localPos[1], localPos[2]);
-
-	rcontext.Translate(translation[0], translation[1], translation[2]);
-
-	rcontext.Scale(scale[0], scale[1], scale[2]);
+	rcontext.Translate(_localPos);
+	rcontext.Translate(_translation);
+	rcontext.Scale(_scale);
 
 	// preform the rotation
-	rcontext.Rotate(GetOrientationMatrix());
-	rcontext.Rotate(GetRotationMatrix());
+	rcontext.Rotate(glm::toMat4(_orientation));
+	rcontext.Rotate(glm::toMat4(_rotation));
 
 
 	rcontext.UpdateMVPs();

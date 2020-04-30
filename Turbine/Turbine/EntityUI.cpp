@@ -40,12 +40,12 @@ void EntityUI::Render() {
 
 void EntityUI::_RenderEntity() {
 
-	_worldPos		= currentEntity->GetWorldPosVec();
-	_localPos		= currentEntity->GetLocalPosVec();
-	_translation	= currentEntity->GetTranlationVec();
-	_scale			= currentEntity->GetScaleVec();
-	_up				= currentEntity->GetUp();
-	_orientation	= currentEntity->GetOrientationEuler();
+	_worldPos		= *currentEntity->GetWorldPosVec();
+	_localPos		= *currentEntity->GetLocalPosVec();
+	_translation	= *currentEntity->GetTranlationVec();
+	_scale			= *currentEntity->GetScaleVec();
+	_up				= *currentEntity->GetUpVec();
+	_orientation	= currentEntity->GetOrientationQuat();
 	_rotation		= currentEntity->GetRotationQuat();
 
 	ImGui::NewLine();
@@ -71,7 +71,7 @@ void EntityUI::_RenderEntity() {
 
 	ImGui::Separator();
 
-	if (ImGui::DragFloat3("Orientation", &_orientation[0], 0.1))
+	if (ImGui::DragFloat4("Orientation", &_orientation[0], 0.1))
 		currentEntity->SetOrientation(_orientation);
 
 	if (ImGui::DragFloat4("Rotation", &_rotation[0], 0.1))

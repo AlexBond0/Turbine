@@ -34,7 +34,7 @@ private:
 	glm::vec3 _translation;
 	glm::vec3 _scale;
 	glm::vec3 _up;
-	glm::vec3 _orientation;
+	glm::quat _orientation;
 	glm::quat _rotation;
 };
 
