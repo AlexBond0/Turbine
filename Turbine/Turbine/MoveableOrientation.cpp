@@ -58,32 +58,15 @@ void MoveableOrientation::SetOrientation(float x, float y, float z, bool usingRa
 }
 
 // Set the rotation of the element
-//void MoveableOrientation::SetOrientation(glm::vec3 rot) {
-//
-//	_orientation = glm::quat(rot);
-//}
-
-// Set the rotation of the element
 void MoveableOrientation::SetOrientation(glm::quat rot) {
 
 	_orientation = rot;
 }
 
-//glm::vec3 MoveableOrientation::GetOrientationEuler() {
-//
-//	// return rotation;
-//	return glm::eulerAngles(_orientation);
-//}
-
 glm::quat MoveableOrientation::GetOrientationQuat() {
 
 	return _orientation;
 }
-
-//glm::mat4 MoveableOrientation::GetOrientationMatrix() {
-//
-//	return glm::toMat4(_orientation);
-//}
 
 // Set the rotation of the element
 void MoveableOrientation::SetRotation(float x, float y, float z, bool usingRads) {
@@ -107,18 +90,13 @@ void MoveableOrientation::SetRotation(float x, float y, float z, bool usingRads)
 }
 
 // Set the rotation of the element
-//void MoveableOrientation::SetRotation(glm::vec3 rot) {
-//
-//	_rotation = glm::quat(rot);
-//}
-
-// Set the rotation of the element
 void MoveableOrientation::SetRotation(glm::quat rot) {
 
 	_rotation = rot;
 }
 
-// ======================================
+
+// =====================================================================
 
 // Rotate the current rotation of the element
 void MoveableOrientation::ShiftRotation(float* rot) {
@@ -149,8 +127,25 @@ glm::quat MoveableOrientation::GetRotationQuat() {
 	return _rotation;
 }
 
-//
-//glm::mat4 MoveableOrientation::GetRotationMatrix() {
-//
-//	return glm::toMat4(_rotation);
-//}
+
+// =====================================================================
+
+void MoveableOrientation::SetTarget(glm::vec3 target) {
+
+	_target = target;
+}
+
+glm::vec3* MoveableOrientation::GetTarget() {
+
+	return &_target;
+}
+
+void MoveableOrientation::SetFront(glm::vec3 front) {
+
+	_front = front;
+}
+
+glm::vec3* MoveableOrientation::GetFront() {
+
+	return &_front;
+}
