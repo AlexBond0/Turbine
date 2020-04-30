@@ -100,7 +100,12 @@ void MoveableOrientation::SetRotation(float x, float y, float z, bool usingRads)
 // Set the rotation of the element
 void MoveableOrientation::SetRotation(glm::quat rot) {
 
-	_rotation = rot;
+	// stop flipping
+	if ((rot.w > 0 && _rotation.w > 0) || (rot.w < 0 && _rotation.w < 0))
+		_rotation = -rot;
+
+	else
+		_rotation = rot;
 }
 
 
@@ -134,7 +139,6 @@ glm::quat MoveableOrientation::GetRotationQuat() {
 
 	return _rotation;
 }
-
 
 // =====================================================================
 

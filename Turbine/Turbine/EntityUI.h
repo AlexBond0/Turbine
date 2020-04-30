@@ -34,7 +34,15 @@ private:
 	glm::vec3 _translation;
 	glm::vec3 _scale;
 	glm::vec3 _up;
-	glm::quat _orientation;
-	glm::quat _rotation;
+	glm::vec3 _orientation;
+	glm::vec3 _rotation;
+
+	bool _orientationFlip;
+
+	bool _orientationSignX_old;
+	bool _orientationSignZ_old;
+
+	bool _orientationSignX_new;
+	bool _orientationSignZ_new;
 };
 

@@ -37,23 +37,23 @@ public:
 	Primitive();
 	~Primitive();
 
-	void GenerateCube(float size, bool invertNormals);
+	void GenerateBox(float size, bool invertNormals);
 	void GenerateTree(float radius, float height);
 	void GenerateIcoSphere(float radius, int recursions);
 	void GenerateDirector(float radius);
 
-private:
+	static Geomitory GenerateCylinder(float radius, float height, int segments);
+	static Geomitory GenerateCone(float radius, float height, int segments);
+	static Geomitory GenerateCube(float size, bool invertNormals);
+	static Geomitory GenerateBaseIcoSphere(float radius);
 
-	Geomitory _GenerateCylinder(float radius, float height, int segments);
-	Geomitory _GenerateCone(float radius, float height, int segments);
-	Geomitory _GenerateCube(float size, bool invertNormals);
-	Geomitory _GenerateBaseIcoSphere(float radius);
+	static Geomitory GenerateCircle(float radius, int segments, bool up);
 
-	Geomitory _GenerateCircle(float radius, int segments, bool up);
+	static void TranslateGeomitory(Geomitory& geomitory, float x, float y, float z);
+	static void TranslateUV(Geomitory& geomitory, float u, float v);
+	static void ScaleUV(Geomitory& geomitory, float u, float v);
 
-	void _TranslateGeomitory(Geomitory& geomitory, float x, float y, float z);
-	void _TranslateUV(Geomitory& geomitory, float u, float v);
-	void _ScaleUV(Geomitory& geomitory, float u, float v);
+	void AssignGeomitoryData(const Geomitory& geomitory);
 
-	void _AssignGeomitoryData(const Geomitory& geomitory);
+
 };

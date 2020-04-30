@@ -45,8 +45,8 @@ void EntityUI::_RenderEntity() {
 	_translation	= *currentEntity->GetTranlationVec();
 	_scale			= *currentEntity->GetScaleVec();
 	_up				= *currentEntity->GetUpVec();
-	_orientation	= currentEntity->GetOrientationQuat();
-	_rotation		= currentEntity->GetRotationQuat();
+	_orientation	= glm::eulerAngles(currentEntity->GetOrientationQuat());
+	_rotation		= glm::eulerAngles(currentEntity->GetRotationQuat());
 
 	ImGui::NewLine();
 	ImGui::TextColored(entityCol, "Entity");
@@ -71,11 +71,33 @@ void EntityUI::_RenderEntity() {
 
 	ImGui::Separator();
 
-	if (ImGui::DragFloat4("Orientation", &_orientation[0], 0.1))
-		currentEntity->SetOrientation(_orientation);
+	//if (ImGui::DragFloat("Orientation X", &_orientation.x, 0.1))
+	//	currentEntity->SetOrientationAngleAxis(_orientation.x, glm::vec3(1.0, 0.0, 0.0));
 
-	if (ImGui::DragFloat4("Rotation", &_rotation[0], 0.1))
-		currentEntity->SetRotation(_rotation);
+	//if (ImGui::DragFloat("Orientation Y", &_orientation.y, 0.1))
+	//	currentEntity->SetOrientationAngleAxis(_orientation.y, glm::vec3(0.0, 1.0, 0.0));
+
+	//if (ImGui::DragFloat("Orientation Z", &_orientation.z, 0.1))
+	//	currentEntity->SetOrientationAngleAxis(_orientation.z, glm::vec3(0.0, 0.0, 1.0));
+
+	_orientationSignX_old = (_orientation.x > 0);
+	_orientationSignZ_old = (_orientation.z > 0);
+
+	if (ImGui::DragFloat3("Orientation", &_orientation[0], (_orientationFlip ? 0.1 : -0.1))) {
+
+		currentEntity->SetOrientation(glm::quat(_orientation));
+		_orientation = glm::eulerAngles(currentEntity->GetOrientationQuat());
+
+		_orientationSignX_new = (_orientation.x > 0);
+		_orientationSignZ_new = (_orientation.z > 0);
+
+		if (_orientationSignX_old != _orientationSignX_new && _orientationSignZ_old != _orientationSignZ_new)
+			_orientationFlip = !_orientationFlip;
+		
+	}
+
+	if (ImGui::DragFloat3("Rotation", &_rotation[0], 0.1))
+		currentEntity->SetRotation(glm::quat(_rotation));
 }
 
 void EntityUI::_RenderObj() {

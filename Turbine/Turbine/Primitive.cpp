@@ -5,6 +5,7 @@ Primitive::Primitive()
 	: Object3D("PRIMITIVE")
 {
 	SetEntityType(EntityType::OBJ_PRIMITIVE);
+	vertices.SetUV(true);
 }
 
 
@@ -13,14 +14,14 @@ Primitive::~Primitive()
 }
 
 // generate a cube primitive
-void Primitive::GenerateCube(float size, bool invertNormals) {
+void Primitive::GenerateBox(float size, bool invertNormals) {
 
 	SetName("CUBE_PRIMITIVE");
 
 	// incuv = true;
 	vertices.SetUV(true);
 
-	_AssignGeomitoryData(_GenerateCube(size, invertNormals));
+	AssignGeomitoryData(GenerateCube(size, invertNormals));
 }
 
 // generate a tree primitive
@@ -34,27 +35,27 @@ void Primitive::GenerateTree(float radius, float height) {
 	// incuv = true;
 	vertices.SetUV(true);
 
-	Geomitory branchA = _GenerateCone(radius, (deciHeight * 3), 8);
-	_TranslateGeomitory(branchA, 0.0f, (deciHeight * 7), 0.0f);
-	_ScaleUV(branchA, 1.0f, 0.5f);
-	_TranslateUV(branchA, 0.0f, 0.51f);
+	Geomitory branchA = GenerateCone(radius, (deciHeight * 3), 8);
+	TranslateGeomitory(branchA, 0.0f, (deciHeight * 7), 0.0f);
+	ScaleUV(branchA, 1.0f, 0.5f);
+	TranslateUV(branchA, 0.0f, 0.51f);
 
-	Geomitory branchB = _GenerateCone(radius, (deciHeight * 3), 8);
-	_TranslateGeomitory(branchB, 0.0f, (deciHeight * 6), 0.0f);
-	_ScaleUV(branchB, 1.0f, 0.5f);
-	_TranslateUV(branchB, 0.3f, 0.51f);
+	Geomitory branchB = GenerateCone(radius, (deciHeight * 3), 8);
+	TranslateGeomitory(branchB, 0.0f, (deciHeight * 6), 0.0f);
+	ScaleUV(branchB, 1.0f, 0.5f);
+	TranslateUV(branchB, 0.3f, 0.51f);
 
-	Geomitory branchC = _GenerateCone(radius, (deciHeight * 3), 8);
-	_TranslateGeomitory(branchC, 0.0f, (deciHeight * 5), 0.0f);
-	_ScaleUV(branchC, 1.0f, 0.5f);
-	_TranslateUV(branchC, 0.6f, 0.51f);
+	Geomitory branchC = GenerateCone(radius, (deciHeight * 3), 8);
+	TranslateGeomitory(branchC, 0.0f, (deciHeight * 5), 0.0f);
+	ScaleUV(branchC, 1.0f, 0.5f);
+	TranslateUV(branchC, 0.6f, 0.51f);
 
-	Geomitory trunk		= _GenerateCylinder((radius / 6), (deciHeight * 5), 15);
-	_ScaleUV(trunk, 1.0f, 0.5f);
+	Geomitory trunk		= GenerateCylinder((radius / 6), (deciHeight * 5), 15);
+	ScaleUV(trunk, 1.0f, 0.5f);
 
 	Geomitory tree = branchA + branchB + branchC + trunk;
 
-	_AssignGeomitoryData(tree);
+	AssignGeomitoryData(tree);
 
 
 	SetAmbient(color4(0.4, 0.4, 0.4, 1.0));
@@ -68,8 +69,8 @@ void Primitive::GenerateIcoSphere(float radius, int recursions) {
 
 	vertices.SetUV(true);
 
-	Geomitory sphere = _GenerateBaseIcoSphere(radius);
-	_AssignGeomitoryData(sphere);
+	Geomitory sphere = GenerateBaseIcoSphere(radius);
+	AssignGeomitoryData(sphere);
 
 	SetAmbient(color4(0.4, 0.4, 0.4, 1.0));
 	SetDiffuse(color4(1.0, 1.0, 1.0, 1.0));
@@ -82,14 +83,14 @@ void Primitive::GenerateDirector(float radius) {
 
 	vertices.SetUV(true);
 
-	Geomitory sphere = _GenerateBaseIcoSphere(radius);
+	Geomitory sphere = GenerateBaseIcoSphere(radius);
 
-	Geomitory pointer = _GenerateCylinder((radius / 3), (radius * 2), 4);
-	_TranslateGeomitory(pointer, 0.0f, radius, 0.0f);
+	Geomitory pointer = GenerateCylinder((radius / 3), (radius * 2), 4);
+	TranslateGeomitory(pointer, 0.0f, radius, 0.0f);
 
 	Geomitory director = sphere + pointer;
 
-	_AssignGeomitoryData(director);
+	AssignGeomitoryData(director);
 
 	SetAmbient(color4(0.4, 0.4, 0.4, 1.0));
 	SetDiffuse(color4(1.0, 1.0, 1.0, 1.0));
@@ -98,13 +99,13 @@ void Primitive::GenerateDirector(float radius) {
 
 
 // generate a cylinder primitive
-Geomitory Primitive::_GenerateCylinder(float radius, float height, int segments) {
+Geomitory Primitive::GenerateCylinder(float radius, float height, int segments) {
 
-	Geomitory top = _GenerateCircle(radius, segments, true);
-	_TranslateGeomitory(top, 0.0f, height, 0.0f);
-	_TranslateUV(top, 0.0f, 1.0f);
+	Geomitory top = GenerateCircle(radius, segments, true);
+	TranslateGeomitory(top, 0.0f, height, 0.0f);
+	TranslateUV(top, 0.0f, 1.0f);
 
-	Geomitory bot = _GenerateCircle(radius, segments, false);
+	Geomitory bot = GenerateCircle(radius, segments, false);
 
 	Geomitory topAndBot = top + bot;
 
@@ -130,9 +131,9 @@ Geomitory Primitive::_GenerateCylinder(float radius, float height, int segments)
 }
 
 // generate a cone primitive
-Geomitory Primitive::_GenerateCone(float radius, float height, int segments) {
+Geomitory Primitive::GenerateCone(float radius, float height, int segments) {
 
-	Geomitory base = _GenerateCircle(radius, segments, false);
+	Geomitory base = GenerateCircle(radius, segments, false);
 
 	// create point vertex
 	base.vecs.push_back(0.0f);	// vector
@@ -158,7 +159,7 @@ Geomitory Primitive::_GenerateCone(float radius, float height, int segments) {
 }
 
 // generate a cube primitive
-Geomitory Primitive::_GenerateCube(float size, bool invertNormals) {
+Geomitory Primitive::GenerateCube(float size, bool invertNormals) {
 
 	Geomitory data;
 
@@ -221,7 +222,7 @@ Geomitory Primitive::_GenerateCube(float size, bool invertNormals) {
 	return data;
 }
 
-Geomitory Primitive::_GenerateBaseIcoSphere(float radius) {
+Geomitory Primitive::GenerateBaseIcoSphere(float radius) {
 
 	Geomitory data;
 
@@ -283,7 +284,7 @@ Geomitory Primitive::_GenerateBaseIcoSphere(float radius) {
 }
 
 // generate a circle primitive
-Geomitory Primitive::_GenerateCircle(float radius, int segments, bool up) {
+Geomitory Primitive::GenerateCircle(float radius, int segments, bool up) {
 
 	Geomitory data;
 
@@ -324,7 +325,7 @@ Geomitory Primitive::_GenerateCircle(float radius, int segments, bool up) {
 }
 
 // translate geometrical data in the Geomitory object
-void Primitive::_TranslateGeomitory(Geomitory& geomitory, float x, float y, float z) {
+void Primitive::TranslateGeomitory(Geomitory& geomitory, float x, float y, float z) {
 
 	for (int stride = 0; stride < geomitory.vecs.size(); stride += 8) {
 
@@ -335,7 +336,7 @@ void Primitive::_TranslateGeomitory(Geomitory& geomitory, float x, float y, floa
 }
 
 // translate UV data in the Geomitory object
-void Primitive::_TranslateUV(Geomitory& geomitory, float u, float v) {
+void Primitive::TranslateUV(Geomitory& geomitory, float u, float v) {
 
 	for (int stride = 0; stride < geomitory.vecs.size(); stride += 8) {
 
@@ -345,7 +346,7 @@ void Primitive::_TranslateUV(Geomitory& geomitory, float u, float v) {
 }
 
 // scale geometrical data in the Geomitory object
-void Primitive::_ScaleUV(Geomitory& geomitory, float u, float v) {
+void Primitive::ScaleUV(Geomitory& geomitory, float u, float v) {
 
 	for (int stride = 0; stride < geomitory.vecs.size(); stride += 8) {
 
@@ -355,7 +356,7 @@ void Primitive::_ScaleUV(Geomitory& geomitory, float u, float v) {
 }
 
 // assign the geometrical data in the Geomitory object to the base Object3D class
-void Primitive::_AssignGeomitoryData(const Geomitory& geomitory) {
+void Primitive::AssignGeomitoryData(const Geomitory& geomitory) {
 
 	// assign new vertex data
 	SetVertexData(

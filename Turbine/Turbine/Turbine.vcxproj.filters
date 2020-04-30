@@ -49,6 +49,9 @@
     <Filter Include="Turbine Engine\Object\Base\Moveable\Components">
       <UniqueIdentifier>{0025b35b-ea1f-48d1-9ccb-e72eceb84ba5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Turbine Engine\Object\Base\Data">
+      <UniqueIdentifier>{fea044ba-e476-495e-bf07-5d2f2c6df13a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui_demo.cpp">
@@ -103,12 +106,6 @@
     <ClCompile Include="DebugUI.cpp">
       <Filter>Turbine Engine\Debug UI</Filter>
     </ClCompile>
-    <ClCompile Include="PointData.cpp">
-      <Filter>Turbine Engine\Object\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="PolygonData.cpp">
-      <Filter>Turbine Engine\Object\Base</Filter>
-    </ClCompile>
     <ClCompile Include="RenderingContext.cpp">
       <Filter>Turbine Engine\Shading</Filter>
     </ClCompile>
@@ -150,6 +147,12 @@
     </ClCompile>
     <ClCompile Include="Moveable.cpp">
       <Filter>Turbine Engine\Object\Base\Moveable</Filter>
+    </ClCompile>
+    <ClCompile Include="PointData.cpp">
+      <Filter>Turbine Engine\Object\Base\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="PolygonData.cpp">
+      <Filter>Turbine Engine\Object\Base\Data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -222,12 +225,6 @@
     <ClInclude Include="DebugUIContainer.h">
       <Filter>Turbine Engine\Debug UI</Filter>
     </ClInclude>
-    <ClInclude Include="PointData.h">
-      <Filter>Turbine Engine\Object\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="PolygonData.h">
-      <Filter>Turbine Engine\Object\Base</Filter>
-    </ClInclude>
     <ClInclude Include="RenderingContext.h">
       <Filter>Turbine Engine\Shading</Filter>
     </ClInclude>
@@ -269,6 +266,12 @@
     </ClInclude>
     <ClInclude Include="Moveable.h">
       <Filter>Turbine Engine\Object\Base\Moveable</Filter>
+    </ClInclude>
+    <ClInclude Include="PointData.h">
+      <Filter>Turbine Engine\Object\Base\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="PolygonData.h">
+      <Filter>Turbine Engine\Object\Base\Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

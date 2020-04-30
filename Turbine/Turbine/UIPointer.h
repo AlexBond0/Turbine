@@ -25,6 +25,9 @@ private:
 	bool _useTarget = false;
 	glm::vec3* _target;
 
-	Primitive* _uiObj = nullptr;
-	Entity* _entityToMirror;
+	std::map<std::string, Primitive*> _uiObjs;	// map of primitives
+
+	Entity* _entityToMirror; // entity to mirror
+
+	void _GenXYZBall(Entity* entityToMirror);
 };

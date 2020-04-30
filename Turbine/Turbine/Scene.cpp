@@ -91,7 +91,7 @@ void Scene::Setup() {
 	
 	// create skybox
 	Primitive* skybox = new Primitive();
-	skybox->GenerateCube(20.0f, true);
+	skybox->GenerateBox(20.0f, true);
 	skybox->SetOrientation(0.0f, -90.0f, 0.0f);
 	skybox->SetTexture(textures.id["skybox"]);
 	skybox->useLight = false;

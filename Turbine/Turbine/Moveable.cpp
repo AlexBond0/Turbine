@@ -23,19 +23,22 @@ void Moveable::LookAt(glm::vec3 lookAt) {
 
 	glm::vec3 direction = lookAt - _localPos;
 
-	glm::quat rot1 = _RotationBetweenVectors(_front, direction);
+	direction = glm::normalize(direction);
+	_orientation = _RotationBetweenVectors(_up, direction);
 
-	// Recompute desiredUp so that it's perpendicular to the direction
-	// You can skip that part if you really want to force desiredUp
-	glm::vec3 right = cross(direction, _up);
-	_up = cross(right, direction);
+	//glm::quat rot1 = _RotationBetweenVectors(_front, direction);
 
-	// Because of the 1rst rotation, the up is probably completely screwed up.
-	// Find the rotation between the "up" of the rotated object, and the desired up
-	glm::vec3 newUp = rot1 * glm::vec3(0.0f, 1.0f, 0.0f);
-	glm::quat rot2 = _RotationBetweenVectors(newUp, _up);
+	//// Recompute desiredUp so that it's perpendicular to the direction
+	//// You can skip that part if you really want to force desiredUp
+	//glm::vec3 right = cross(direction, _up);
+	//_up = cross(right, direction);
 
-	_orientation = rot2 * rot1; // remember, in reverse order.
+	//// Because of the 1rst rotation, the up is probably completely screwed up.
+	//// Find the rotation between the "up" of the rotated object, and the desired up
+	//glm::vec3 newUp = rot1 * glm::vec3(0.0f, 1.0f, 0.0f);
+	//glm::quat rot2 = _RotationBetweenVectors(newUp, _up);
+
+	//_orientation = rot2 * rot1; // remember, in reverse order.
 }
 
 
