@@ -47,6 +47,7 @@ public:
 	void SetName(std::string name);
 
 	TranslationStack GetWorldTranslation();
+	glm::vec3 GetWorldPosition();
 
 	EntityType GetEntityType();
 	void SetEntityType(EntityType type);

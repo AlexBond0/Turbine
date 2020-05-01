@@ -20,14 +20,19 @@ void Shader::Use() {
 
 void Shader::SetupObjectShader() {
 
-	_StartLinking();
+	_StartLinking(true);
+
+	// Camera
+	_LinkUniformHandle("u_c_position");
 
 	// Light
+	_LinkUniformHandle("u_l_position");
 	_LinkUniformHandle("u_l_direction");
 	_LinkUniformHandle("u_l_halfplane");
 	_LinkUniformHandle("u_l_ambient");
 	_LinkUniformHandle("u_l_diffuse");
 	_LinkUniformHandle("u_l_specular");
+	_LinkUniformHandle("u_l_spec_strength");
 
 	// Material
 	_LinkUniformHandle("u_m_ambient");

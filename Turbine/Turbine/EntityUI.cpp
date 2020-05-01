@@ -204,6 +204,7 @@ void EntityUI::_RenderLight() {
 	ImGui::ColorEdit4("Ambient", &light->ambient.rgba[0]);
 	ImGui::ColorEdit4("Diffuse", &light->diffuse.rgba[0]);
 	ImGui::ColorEdit4("Specular", &light->specular.rgba[0]);
+	ImGui::DragFloat("Specular Strength", &light->specularStrength, 0.001);
 }
 
 

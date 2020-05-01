@@ -52,6 +52,9 @@
     <Filter Include="Turbine Engine\Object\Base\Data">
       <UniqueIdentifier>{fea044ba-e476-495e-bf07-5d2f2c6df13a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Turbine Engine\Shading\Lights">
+      <UniqueIdentifier>{36239749-840d-406f-9170-53e2a493517d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui_demo.cpp">
@@ -93,9 +96,6 @@
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Turbine Engine\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Light.cpp">
-      <Filter>Turbine Engine\Shading</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>Turbine Engine\Shading</Filter>
@@ -154,6 +154,12 @@
     <ClCompile Include="PolygonData.cpp">
       <Filter>Turbine Engine\Object\Base\Data</Filter>
     </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Turbine Engine\Shading\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="LightManager.cpp">
+      <Filter>Turbine Engine\Shading\Lights</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGui\imgui_impl_glfw.h">
@@ -202,9 +208,6 @@
       <Filter>Turbine Engine\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Color.h">
-      <Filter>Turbine Engine\Shading</Filter>
-    </ClInclude>
-    <ClInclude Include="Light.h">
       <Filter>Turbine Engine\Shading</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
@@ -272,6 +275,12 @@
     </ClInclude>
     <ClInclude Include="PolygonData.h">
       <Filter>Turbine Engine\Object\Base\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Turbine Engine\Shading\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="LightManager.h">
+      <Filter>Turbine Engine\Shading\Lights</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

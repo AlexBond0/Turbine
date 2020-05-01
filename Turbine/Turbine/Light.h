@@ -6,6 +6,12 @@
 #include "Primitive.h"
 #include "UIPointer.h"
 
+enum class LightType {
+	DIRECTION,
+	POINT,
+	SPOT
+};
+
 
 // Light element to add basic lighing to the scene
 class Light
@@ -23,7 +29,11 @@ public:
 	void OnRender(RenderingContext& rcontext);
 	Object3D* OnPick();
 
-	glm::vec3& GetLightDirection();
+	virtual glm::vec3 GetLightDirection() = 0;
+	virtual glm::vec3 GetLightPosition() = 0;
+
+	LightType lightType;
+
 	// glm::vec3* GetHalfplane();
 
 	glm::vec3 halfplane;
@@ -31,11 +41,40 @@ public:
 	color4 ambient;
 	color4 diffuse;
 	color4 specular;
+	float specularStrength;
 
 	UIPointer lightUI;
+};
 
-protected:
+class DirectionalLight
+	: public Light {
+public:
 
-	glm::vec3 _direction;
+	DirectionalLight(std::string name);
+	~DirectionalLight() {};
 
+	glm::vec3 GetLightDirection();
+	glm::vec3 GetLightPosition();
+};
+
+class PointLight
+	: public Light {
+public:
+
+	PointLight(std::string name);
+	~PointLight() {};
+
+	glm::vec3 GetLightDirection();
+	glm::vec3 GetLightPosition();
+};
+
+class SpotLight
+	: public Light {
+public:
+
+	SpotLight(std::string name);
+	~SpotLight() {};
+
+	glm::vec3 GetLightDirection();
+	glm::vec3 GetLightPosition();
 };

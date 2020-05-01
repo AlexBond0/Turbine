@@ -29,12 +29,18 @@ void Scene::Render(RenderingContext& rcontext) {
 	Light* sun = dynamic_cast<Light*>(world.GetEntity("sun"));
 	sun->CalculateHalfPlane(*world.GetActiveCamera()->GetLocalPosVec());
 
+	glm::vec3 dir = sun->GetLightDirection();
+
+	rcontext.liveShader->SetVector("u_c_position", *world.GetActiveCamera()->GetLocalPosVec());
+
 	// assign light handles
-	rcontext.liveShader->SetVector("u_l_direction", sun->GetLightDirection());
+	rcontext.liveShader->SetVector("u_l_position", *sun->GetLocalPosVec());
+	rcontext.liveShader->SetVector("u_l_direction", dir);
 	rcontext.liveShader->SetVector("u_l_halfplane", sun->halfplane);
 	rcontext.liveShader->SetColor("u_l_ambient", sun->ambient.rgba);
 	rcontext.liveShader->SetColor("u_l_diffuse", sun->diffuse.rgba);
 	rcontext.liveShader->SetColor("u_l_specular", sun->specular.rgba);
+	rcontext.liveShader->SetFloat("u_l_spec_strength", sun->specularStrength);
 
 	// render solid objects
 	_ObjectPass(rcontext);
@@ -120,9 +126,9 @@ void Scene::Setup() {
 	_GenerateTrees();
 
 	// create sun light
-	Light* sun = new Light("sun");
+	Light* sun = new DirectionalLight("sun");
 	sun->CreateSun();
-	sun->SetTranslation(0.0f, 2.0f, 0.0f);
+	sun->SetLocalPos(0.0f, 0.6f, 0.0f);
 	world.AddEntity(sun);
 
 	// load animator

@@ -8,6 +8,7 @@ Light::Light(std::string name)
 {
 
 	lightUI.GetObject3D()->SetScale(2.0);
+	lightUI.GetObject3D()->useLight = false;
 }
 
 
@@ -16,11 +17,9 @@ Light::~Light() {
 }
 
  // Return the direction of the light, stored in the up vector
-glm::vec3& Light::GetLightDirection() {
+glm::vec3 Light::GetLightDirection() {
 
-	_direction = glm::eulerAngles(_orientation);
-
-	return _direction;
+	return glm::eulerAngles(_orientation);
 }
 
 
@@ -60,4 +59,65 @@ void Light::OnRender(RenderingContext& rcontext) {
 Object3D* Light::OnPick() {
 
 	return lightUI.GetObject3D();
+}
+
+// ==========================================================================
+
+DirectionalLight::DirectionalLight(std::string name)
+	: Light(name) {
+
+	lightType = LightType::DIRECTION;
+}
+
+
+// Return the direction of the light
+glm::vec3 DirectionalLight::GetLightDirection() {
+
+	return glm::eulerAngles(_orientation);
+}
+
+// Return the position of the light
+glm::vec3 DirectionalLight::GetLightPosition() {
+
+	return glm::vec3(0);
+}
+
+// ==========================================================================
+
+PointLight::PointLight(std::string name) 
+	: Light(name) {
+
+	lightType = LightType::POINT;
+}
+
+// Return the direction of the light
+glm::vec3 PointLight::GetLightDirection() {
+
+	return glm::vec3(0);
+}
+
+// Return the position of the light
+glm::vec3 PointLight::GetLightPosition() {
+
+	return GetWorldPosition();
+}
+
+// ==========================================================================
+
+SpotLight::SpotLight(std::string name)
+	: Light(name) {
+
+	lightType = LightType::SPOT;
+}
+
+// Return the direction of the light
+glm::vec3 SpotLight::GetLightDirection() {
+
+	return glm::eulerAngles(_orientation);
+}
+
+// Return the position of the light
+glm::vec3 SpotLight::GetLightPosition() {
+
+	return GetWorldPosition();
 }

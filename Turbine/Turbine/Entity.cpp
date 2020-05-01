@@ -78,6 +78,18 @@ void Entity::_GetWorldTranslation(TranslationStack& translations) {
 	translations.Rotate(glm::toMat4(_rotation));
 }
 
+glm::vec3 Entity::GetWorldPosition() {
+
+	TranslationStack translations;
+	translations.InitModelMatrix(true);
+
+	_GetWorldTranslation(translations);
+
+	glm::mat4 transformation = *translations.GetCurrentModelMatrix();
+
+	return(glm::vec3(transformation[3]));
+}
+
 // Set the name of the entity
 void Entity::SetName(const char* name) {
 
