@@ -1,5 +1,18 @@
 #version 330 core
 
+struct PointLight {
+    vec3 position;
+    
+    float constant;
+    float linear;
+    float quadratic;
+	
+    vec4 ambient;
+    vec4 diffuse;
+    vec4 specular;
+	float specStrength;
+};
+uniform PointLight pointLight;
 
 // =============================================================================
 //		--= OUT =--
@@ -13,13 +26,13 @@ uniform vec3 u_c_position;
 // uniform vec3 u_c_direction;
 
 // Light 
-uniform vec3 u_l_position; 
-uniform vec3 u_l_direction; 
-uniform vec3 u_l_halfplane; 
-uniform vec4 u_l_ambient; 
-uniform vec4 u_l_diffuse; 
-uniform vec4 u_l_specular; 
-uniform float u_l_spec_strength;
+//uniform vec3 u_l_position; 
+//uniform vec3 u_l_direction; 
+//uniform vec3 u_l_halfplane; 
+//uniform vec4 u_l_ambient; 
+//uniform vec4 u_l_diffuse; 
+//uniform vec4 u_l_specular; 
+//uniform float u_l_spec_strength;
 uniform bool u_usesLight; 
 
 // Material 
@@ -44,26 +57,32 @@ void main() {
 
 	if (u_usesLight) {
 
+		vec3 norm = normalize(v_normal);
+		vec3 lightDir = normalize(pointLight.position - FragPos);
+		vec3 viewDir = normalize(u_c_position - FragPos);
 
 		// ambient
 		float ambientStrength = 0.1;
-		vec4 ambient = ambientStrength * u_l_ambient;
+		vec4 ambient = ambientStrength * pointLight.ambient;
 		ambient *= u_m_ambient;
   	
-		// diffuse 
-		vec3 norm = normalize(v_normal);
-		vec3 lightDir = normalize(u_l_position - FragPos);
-		// vec3 lightDir = normalize(-u_l_direction);
+		// diffuse
 		float diff = max(dot(norm, lightDir), 0.0);
-		vec4 diffuse = diff * u_l_diffuse;
+		vec4 diffuse = diff * pointLight.diffuse;
 		diffuse *= u_m_diffuse;
     
 		// specular
-		vec3 viewDir = normalize(u_c_position - FragPos);
 		vec3 reflectDir = reflect(-lightDir, norm);  
 		float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-		vec4 specular = u_l_spec_strength * spec * u_l_specular;  
+		vec4 specular = pointLight.specStrength * spec * pointLight.specular;  
 		specular *= u_m_specular;
+
+		// attenuation
+		float dist = length(pointLight.position - FragPos);
+		float attenuation = 1.0 / (pointLight.constant + pointLight.linear * dist + pointLight.quadratic * (dist * dist));   
+		ambient *= attenuation;
+		diffuse *= attenuation;
+		specular *= attenuation;
 
 		// combine
 		v_colour = ambient + diffuse + specular;

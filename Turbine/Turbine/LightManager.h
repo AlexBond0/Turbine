@@ -13,13 +13,15 @@ public:
 	void AddLight(Light* light);
 	std::map<std::string, Light*>* GetAllLights();
 
-	void RenderLights();
+	bool SetCurrentDirLight(std::string light);
+
+	void RenderLights(RenderingContext& rcontext);
 
 private:
 
 	std::map<std::string, Light*> _allLights;
 
-	Light* _currentDirLight;
+	Light* _currentDirLight = nullptr;
 
 	int _activePointLights;
 	int _activeSpotLights;
