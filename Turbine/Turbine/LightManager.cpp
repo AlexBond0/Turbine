@@ -26,7 +26,7 @@ std::map<std::string, Light*>* LightManager::GetAllLights() {
 void LightManager::RenderLights(RenderingContext& rcontext, glm::vec3 cameraPos) {
 
 	// directional light
-	if (_currentDirLight != nullptr) {
+	if (_currentDirLight != nullptr && _currentDirLight->isActive) {
 		rcontext.liveShader->SetBool("u_usesDirLight", true);
 
 		glm::vec3 dir = _currentDirLight->GetLightDirection();
@@ -51,9 +51,12 @@ void LightManager::RenderLights(RenderingContext& rcontext, glm::vec3 cameraPos)
 	int index = 0;
 	int lightCount = 0;
 	PointLight* pointLight;
+	Light* sortLight;
 	while (lightCount < MAX_LIGHTS && index < _sortableLights.size()) {
 
-		if (_sortableLights[index].light->lightType == LightType::POINT) {
+		sortLight = _sortableLights[index].light;
+
+		if (sortLight->lightType == LightType::POINT && sortLight->isActive) {
 
 			pointLight = dynamic_cast<PointLight*>(_sortableLights[index].light);
 
@@ -84,7 +87,9 @@ void LightManager::RenderLights(RenderingContext& rcontext, glm::vec3 cameraPos)
 	SpotLight* spotLight;
 	while (lightCount < MAX_LIGHTS && index < _sortableLights.size()) {
 
-		if (_sortableLights[index].light->lightType == LightType::SPOT) {
+		sortLight = _sortableLights[index].light;
+
+		if (sortLight->lightType == LightType::SPOT && sortLight->isActive) {
 
 			spotLight = dynamic_cast<SpotLight*>(_sortableLights[index].light);
 

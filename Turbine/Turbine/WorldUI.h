@@ -34,7 +34,7 @@ private:
 
 	void _RenderFPS();
 
-	int renderer = 0;
+	int renderer = 1;
 
 	float _currentfps;
 	std::vector<float> _frames;

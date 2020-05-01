@@ -99,7 +99,8 @@ void main() {
 		vec3 viewDir = normalize(u_c_position - FragPos);
 
 		// directional light
-		v_colour = CalcDirLight(dirLight, norm, viewDir);
+		if (u_usesDirLight)
+			v_colour += CalcDirLight(dirLight, norm, viewDir);
 		
 		// point lights
 		for (int i = 0; i < u_pointLightCount; i++)

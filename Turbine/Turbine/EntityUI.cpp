@@ -199,6 +199,7 @@ void EntityUI::_RenderLight() {
 	Light* light = dynamic_cast<Light*>(currentEntity);
 
 	ImGui::Checkbox("Show Light in scene", &light->lightUI.showUIObject);
+	ImGui::Checkbox("Light is Active", &light->isActive);
 
 	ImGui::Separator();
 	ImGui::ColorEdit4("Ambient", &light->ambient.rgba[0]);

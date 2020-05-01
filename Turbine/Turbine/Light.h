@@ -44,6 +44,8 @@ public:
 	color4 specular;
 	float specularStrength;
 
+	bool isActive = true;
+
 	UIPointer lightUI;
 };
 
