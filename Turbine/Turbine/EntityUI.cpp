@@ -40,7 +40,7 @@ void EntityUI::Render() {
 
 void EntityUI::_RenderEntity() {
 
-	_worldPos		= *currentEntity->GetWorldPosVec();
+	_worldPos		= currentEntity->GetWorldPosition();
 	_localPos		= *currentEntity->GetLocalPosVec();
 	_translation	= *currentEntity->GetTranlationVec();
 	_scale			= *currentEntity->GetScaleVec();

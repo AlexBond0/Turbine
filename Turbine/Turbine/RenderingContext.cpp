@@ -2,11 +2,17 @@
 
 RenderingContext::RenderingContext() {
 
-	shaders["object"] = new Shader(L"shader.vert", L"shader.frag");
-	shaders["object"]->SetupObjectShader();
+	shaders["object"] = new Shader(
+		"object",
+		L"shader.vert", 
+		L"shader.frag"
+	);
 
-	shaders["smooth"] = new Shader(L"SmoothLight.vert", L"SmoothLight.frag");
-	shaders["smooth"]->SetupObjectShader();
+	shaders["smooth"] = new Shader(
+		"smooth",
+		L"SmoothLight.vert", 
+		L"SmoothLight.frag"
+	);
 
 	liveShader = shaders["object"];
 
