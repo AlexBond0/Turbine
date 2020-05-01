@@ -87,6 +87,9 @@ public:
 	float cutOff;
 	float outerCutOff;
 
+	float CalculateInsideCutoff();
+	float CalculateOutsideCutoff();
+
 	glm::vec3 GetLightDirection();
 	glm::vec3 GetLightPosition();
 };

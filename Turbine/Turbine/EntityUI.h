@@ -51,6 +51,7 @@ private:
 	void _RenderParticle();
 	void _RenderPrimitive();
 	void _RenderCamera();
+
 	void _RenderLight();
 
 	// saves making lots of data types each render

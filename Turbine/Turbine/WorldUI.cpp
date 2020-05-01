@@ -147,8 +147,39 @@ void WorldUI::_RenderEntityRow(Entity* entity) {
 		}
 
 		case EntityType::LIGHT: {
+
+			Light* light = dynamic_cast<Light*>(entity);
+
+			switch (light->lightType) {
+
+				case LightType::DIRECTION: {
+			
+					color = dirLightCol;
+					name = "D";
+					break;
+				}
+
+				case LightType::POINT: {
+
+					color = pointLightCol;
+					name = "P";
+					break;
+				}
+
+				case LightType::SPOT: {
+
+					color = spotLightCol;
+					name = "S";
+					break;
+				}
+			}
+
+			ImGui::TextColored(color, name.c_str());
+			ImGui::SameLine();
+
 			color = lightCol;
 			name = "Light";
+
 			break;
 		}
 	}

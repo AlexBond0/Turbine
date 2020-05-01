@@ -68,13 +68,18 @@ DirectionalLight::DirectionalLight(std::string name)
 	: Light(name) {
 
 	lightType = LightType::DIRECTION;
+
+	useTarget = true;
+
+	lightUI.UsePosition(&_localPos);
+	lightUI.UseTarget(&_target);
 }
 
 
 // Return the direction of the light
 glm::vec3 DirectionalLight::GetLightDirection() {
 
-	return glm::eulerAngles(_orientation);
+	return (_target - _localPos);
 }
 
 // Return the position of the light
@@ -114,18 +119,33 @@ SpotLight::SpotLight(std::string name)
 
 	lightType = LightType::SPOT;
 
+	useTarget = true;
+
+	lightUI.UsePosition(&_localPos);
+	lightUI.UseTarget(&_target);
+
 	constant = 1.0f;
 	linear = 0.09;
 	quadratic = 0.032;
 
-	cutOff = glm::cos(glm::radians(12.5f));
-	outerCutOff = glm::cos(glm::radians(15.0f));
+	cutOff = 12.5f;
+	outerCutOff = 15.0f;
+}
+
+float SpotLight::CalculateInsideCutoff() {
+
+	return glm::cos(glm::radians(cutOff));
+}
+
+float SpotLight::CalculateOutsideCutoff() {
+
+	return glm::cos(glm::radians(outerCutOff));
 }
 
 // Return the direction of the light
 glm::vec3 SpotLight::GetLightDirection() {
 
-	return glm::eulerAngles(_orientation);
+	return (_target - _localPos);
 }
 
 // Return the position of the light

@@ -205,6 +205,58 @@ void EntityUI::_RenderLight() {
 	ImGui::ColorEdit4("Diffuse", &light->diffuse.rgba[0]);
 	ImGui::ColorEdit4("Specular", &light->specular.rgba[0]);
 	ImGui::DragFloat("Specular Strength", &light->specularStrength, 0.001);
+
+	switch (light->lightType) {
+
+		case LightType::DIRECTION : {
+
+			ImGui::NewLine();
+			ImGui::TextColored(dirLightCol, "Directional Light");
+			ImGui::Separator();
+
+			DirectionalLight* dirLight = dynamic_cast<DirectionalLight*>(currentEntity);
+
+			ImGui::DragFloat3("Light Target", &(*dirLight->GetTarget())[0], 0.01);
+
+			break;
+		}
+
+		case LightType::POINT: {
+
+			ImGui::NewLine();
+			ImGui::TextColored(pointLightCol, "Point Light");
+			ImGui::Separator();
+
+			PointLight* pointLight = dynamic_cast<PointLight*>(currentEntity);
+
+			ImGui::DragFloat("Light Constant", &pointLight->constant, 0.01);
+			ImGui::DragFloat("Light Linear", &pointLight->linear, 0.01);
+			ImGui::DragFloat("Light Quadratic", &pointLight->quadratic, 0.01);
+
+			break;
+		}
+
+		case LightType::SPOT: {
+
+			ImGui::NewLine();
+			ImGui::TextColored(spotLightCol, "Spotlight");
+			ImGui::Separator();
+
+			SpotLight* spotLight = dynamic_cast<SpotLight*>(currentEntity);
+
+			ImGui::DragFloat3("Light Target", &(*spotLight->GetTarget())[0], 0.01);
+			
+			ImGui::DragFloat("Light Constant", &spotLight->constant, 0.01);
+			ImGui::DragFloat("Light Linear", &spotLight->linear, 0.01);
+			ImGui::DragFloat("Light Quadratic", &spotLight->quadratic, 0.01);
+
+			ImGui::Separator();
+			ImGui::DragFloat("Light Inside Cutoff", &spotLight->cutOff, 0.01);
+			ImGui::DragFloat("Light Outside Cutoff", &spotLight->outerCutOff, 0.01);
+
+			break;
+		}
+	}
 }
 
 

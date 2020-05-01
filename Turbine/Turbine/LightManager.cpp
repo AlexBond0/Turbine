@@ -94,8 +94,8 @@ void LightManager::RenderLights(RenderingContext& rcontext, glm::vec3 cameraPos)
 			glm::vec3 dir = spotLight->GetLightDirection();
 			rcontext.liveShader->SetVector(lightStr + ".position", pos);
 			rcontext.liveShader->SetVector(lightStr + ".direction", dir);
-			rcontext.liveShader->SetFloat(lightStr + ".cutOff", spotLight->cutOff);
-			rcontext.liveShader->SetFloat(lightStr + ".outerCutOff", spotLight->outerCutOff);
+			rcontext.liveShader->SetFloat(lightStr + ".cutOff", spotLight->CalculateInsideCutoff());
+			rcontext.liveShader->SetFloat(lightStr + ".outerCutOff", spotLight->CalculateOutsideCutoff());
 
 			rcontext.liveShader->SetColor(lightStr + ".ambient", spotLight->ambient.rgba);
 			rcontext.liveShader->SetColor(lightStr + ".diffuse", spotLight->diffuse.rgba);
