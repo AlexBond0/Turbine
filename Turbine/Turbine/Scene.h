@@ -57,6 +57,7 @@ private:
 	void _GenerateTrees();
 	void _GenerateSeats();
 	void _GenerateParticles();
+	void _GenerateLights();
 
 };
 

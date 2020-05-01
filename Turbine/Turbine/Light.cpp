@@ -88,6 +88,10 @@ PointLight::PointLight(std::string name)
 	: Light(name) {
 
 	lightType = LightType::POINT;
+
+	constant = 1.0f;
+	linear = 0.09;
+	quadratic = 0.032;
 }
 
 // Return the direction of the light

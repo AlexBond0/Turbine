@@ -66,7 +66,7 @@ void World::AddEntity(Entity* entity) {
 
 			Light* light = dynamic_cast<Light*>(entity);
 
-			_lights.AddLight(light);
+			lights.AddLight(light);
 		}
 	}
 }
@@ -215,9 +215,4 @@ void World::UpdateParticles(double timePassed) {
 
 	for (auto const& particleSys : _particleSystems)
 		particleSys.second->Update(timePassed);
-}
-
-void World::AssignLightHandles(RenderingContext& rcontext) {
-
-	_lights.RenderLights(rcontext);
 }

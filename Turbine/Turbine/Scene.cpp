@@ -26,16 +26,18 @@ void Scene::Render(RenderingContext& rcontext) {
 	world.GetActiveCamera()->LookThrough(rcontext);
 
 	// calculate light half plane
-	Light* sun = dynamic_cast<Light*>(world.GetEntity("sun"));
-	sun->CalculateHalfPlane(*world.GetActiveCamera()->GetLocalPosVec());
+	//Light* sun = dynamic_cast<Light*>(world.GetEntity("sun"));
+	//sun->CalculateHalfPlane(*world.GetActiveCamera()->GetLocalPosVec());
 
-	glm::vec3 dir = sun->GetLightDirection();
-	glm::vec3 pos = *world.GetActiveCamera()->GetLocalPosVec();
+	//glm::vec3 dir = sun->GetLightDirection();
 
+	glm::vec3 pos = world.GetActiveCamera()->GetWorldPosition();
 	rcontext.liveShader->SetVector("u_c_position", pos);
 
 	// assign light handles
-	world.AssignLightHandles(rcontext);
+	world.lights.RenderLights(rcontext, pos);
+
+	// world.AssignLightHandles(rcontext);
 
 	//rcontext.liveShader->SetVector("u_l_position", *sun->GetLocalPosVec());
 	//rcontext.liveShader->SetVector("u_l_direction", dir);
@@ -134,14 +136,11 @@ void Scene::Setup() {
 	plane->SetDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
 	plane->SetTexture(textures.id["ground2"]);
 
+	// generate lights
+	_GenerateLights();
+
 	// generate trees
 	_GenerateTrees();
-
-	// create sun light
-	Light* sun = new PointLight("sun");
-	sun->CreateSun();
-	sun->SetLocalPos(0.0f, 0.6f, 0.0f);
-	world.AddEntity(sun);
 
 	// load animator
 	animator = RideAnimation(&world);
@@ -312,4 +311,34 @@ void Scene::_GenerateParticles() {
 	firesmoke->SetProfilePosition(0.0f, 0.0f, 0.0f);
 	firesmoke->SetProfileSpeed(0.0f, -1.0f, 0.0f);
 	world.AddEntity(firesmoke);
+}
+
+void Scene::_GenerateLights() {
+
+	Light* light;
+
+	// create sun light
+	light = new DirectionalLight("sun");
+	light->CreateSun();
+	light->SetLocalPos(0.0f, 0.6f, 0.0f);
+	world.AddEntity(light);
+	world.lights.SetCurrentDirLight("sun");
+
+	// create sun light
+	light = new PointLight("light1");
+	light->CreateSun();
+	light->SetLocalPos(1.0f, 1.0f, 0.0f);
+	world.AddEntity(light);
+
+	// create sun light
+	light = new PointLight("light2");
+	light->CreateSun();
+	light->SetLocalPos(0.0f, 1.0f, 1.0f);
+	world.AddEntity(light);
+
+	// create sun light
+	light = new PointLight("light3");
+	light->CreateSun();
+	light->SetLocalPos(-1.0f, 1.0f, 0.0f);
+	world.AddEntity(light);
 }

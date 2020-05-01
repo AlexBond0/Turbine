@@ -1,5 +1,18 @@
 #version 330 core
 
+#define MAX_LIGHTS 4
+
+struct DirLight {
+    vec3 direction;
+	
+    vec4 ambient;
+    vec4 diffuse;
+    vec4 specular;
+	float specStrength;
+};
+uniform DirLight dirLight;
+uniform bool u_usesDirLight; 
+
 struct PointLight {
     vec3 position;
     
@@ -12,7 +25,9 @@ struct PointLight {
     vec4 specular;
 	float specStrength;
 };
-uniform PointLight pointLight;
+
+uniform PointLight pointLights[MAX_LIGHTS];
+uniform int u_pointLightCount; 
 
 // =============================================================================
 //		--= OUT =--
@@ -45,6 +60,7 @@ in vec2 v_uvcoord;
 out vec4 out_color;
 
 vec4 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
+vec4 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
 
 void main() { 
 
@@ -55,7 +71,12 @@ void main() {
 		vec3 norm = normalize(v_normal);
 		vec3 viewDir = normalize(u_c_position - FragPos);
 
-		v_colour = CalcPointLight(pointLight, norm, FragPos, viewDir);
+		// directional light
+		v_colour = CalcDirLight(dirLight, norm, viewDir);
+		
+		// point lights
+		for (int i = 0; i < u_pointLightCount; i++)
+			v_colour += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
 
 		//// ambient
 		//float ambientStrength = 0.1;
@@ -148,7 +169,7 @@ void main() {
 
 vec4 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir) {
 
-	vec3 lightDir = normalize(pointLight.position - FragPos);
+	vec3 lightDir = normalize(light.position - FragPos);
 
 	// ambient
 	float ambientStrength = 0.1;
@@ -177,13 +198,28 @@ vec4 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir) {
 	return ambient + diffuse + specular;
 }
 
+// calculates the color when using a directional light.
+vec4 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir) {
 
+    vec3 lightDir = normalize(-light.direction);
 
+	// ambient
+	vec4 ambient = light.ambient * u_m_ambient;
 
+    // diffuse shading
+    float diff = max(dot(normal, lightDir), 0.0);
+	vec4 diffuse = light.diffuse * diff;
+	diffuse *= u_m_diffuse;
 
+    // specular shading
+    vec3 reflectDir = reflect(-lightDir, normal);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+	vec4 specular = light.specular * spec;
+	specular *= u_m_specular;
 
-
-
+    // combine 
+    return  ambient + diffuse + specular;
+}
 
 
 

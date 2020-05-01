@@ -41,7 +41,7 @@ public:
 
 	Entity* currentSelectedEntity = nullptr; // for object focus in world
 
-	void AssignLightHandles(RenderingContext& rcontext);
+	LightManager lights;
 
 private:
 
@@ -54,7 +54,6 @@ private:
 
 	std::map<std::string, Particle*> _particleSystems;	// particle systems in the scene
 
-	LightManager _lights;
 };
 
 inline std::map<std::string, Entity*> World::GetAllEntities() {

@@ -12,6 +12,7 @@ enum class LightType {
 	SPOT
 };
 
+#define MAX_LIGHTS = 4;
 
 // Light element to add basic lighing to the scene
 class Light
@@ -63,6 +64,10 @@ public:
 
 	PointLight(std::string name);
 	~PointLight() {};
+
+	float constant;
+	float linear;
+	float quadratic;
 
 	glm::vec3 GetLightDirection();
 	glm::vec3 GetLightPosition();
