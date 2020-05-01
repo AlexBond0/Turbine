@@ -2,7 +2,10 @@
 
 #define MAX_LIGHTS 4
 
+
+// Directional Light
 struct DirLight {
+
     vec3 direction;
 	
     vec4 ambient;
@@ -13,9 +16,12 @@ struct DirLight {
 uniform DirLight dirLight;
 uniform bool u_usesDirLight; 
 
+
+// Point Light
 struct PointLight {
+
     vec3 position;
-    
+   
     float constant;
     float linear;
     float quadratic;
@@ -25,9 +31,29 @@ struct PointLight {
     vec4 specular;
 	float specStrength;
 };
-
 uniform PointLight pointLights[MAX_LIGHTS];
 uniform int u_pointLightCount; 
+
+
+// Spot Light
+struct SpotLight {
+
+    vec3 position;
+    vec3 direction;
+    float cutOff;
+    float outerCutOff;
+  
+    float constant;
+    float linear;
+    float quadratic;
+  
+    vec4 ambient;
+    vec4 diffuse;
+    vec4 specular;
+	float specStrength;   
+};
+uniform SpotLight spotLights[MAX_LIGHTS];
+uniform int u_spotLightCount; 
 
 // =============================================================================
 //		--= OUT =--
@@ -59,8 +85,9 @@ in vec2 v_uvcoord;
 
 out vec4 out_color;
 
-vec4 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 vec4 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
+vec4 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
+vec4 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 
 void main() { 
 
@@ -77,6 +104,10 @@ void main() {
 		// point lights
 		for (int i = 0; i < u_pointLightCount; i++)
 			v_colour += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
+
+		// spot lights
+		for (int i = 0; i < u_spotLightCount; i++)
+			v_colour += CalcSpotLight(spotLights[i], norm, FragPos, viewDir);
 
 		//// ambient
 		//float ambientStrength = 0.1;
@@ -166,38 +197,6 @@ void main() {
 	}
 } 
 
-
-vec4 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir) {
-
-	vec3 lightDir = normalize(light.position - FragPos);
-
-	// ambient
-	float ambientStrength = 0.1;
-	vec4 ambient = ambientStrength * light.ambient;
-	ambient *= u_m_ambient;
-  	
-	// diffuse
-	float diff = max(dot(normal, lightDir), 0.0);
-	vec4 diffuse = diff * light.diffuse;
-	diffuse *= u_m_diffuse;
-    
-	// specular
-	vec3 reflectDir = reflect(-lightDir, normal);  
-	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-	vec4 specular = light.specStrength * spec * light.specular;  
-	specular *= u_m_specular;
-
-	// attenuation
-	float dist = length(light.position - fragPos);
-	float attenuation = 1.0 / (light.constant + light.linear * dist + light.quadratic * (dist * dist));   
-	ambient *= attenuation;
-	diffuse *= attenuation;
-	specular *= attenuation;
-
-	// combine
-	return ambient + diffuse + specular;
-}
-
 // calculates the color when using a directional light.
 vec4 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir) {
 
@@ -222,6 +221,77 @@ vec4 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir) {
 }
 
 
+// calculates the color when using a point light.
+vec4 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir) {
+
+	vec3 lightDir = normalize(light.position - FragPos);
+
+	// ambient
+	float ambientStrength = 0.1;
+	vec4 ambient = ambientStrength * light.ambient;
+	ambient *= u_m_ambient;
+  	
+	// diffuse
+	float diff = max(dot(normal, lightDir), 0.0);
+	vec4 diffuse = diff * light.diffuse;
+	diffuse *= u_m_diffuse;
+    
+	// specular
+	vec3 reflectDir = reflect(-lightDir, normal);  
+	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+	vec4 specular = light.specStrength * spec * light.specular;  
+	specular *= u_m_specular;
+
+	// attenuation
+	float dist = length(light.position - fragPos);
+	float attenuation = 1.0 / (light.constant + light.linear * dist + light.quadratic * (dist * dist));   
+	
+	// combine
+	ambient *= attenuation;
+	diffuse *= attenuation;
+	specular *= attenuation;
+
+	return ambient + diffuse + specular;
+}
+
+
+// calculates the color when using a spot light.
+vec4 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
+{
+    vec3 lightDir = normalize(light.position - fragPos);
+
+	// ambient
+	float ambientStrength = 0.1;
+	vec4 ambient = ambientStrength * light.ambient;
+	ambient *= u_m_ambient;
+  	
+	// diffuse
+	float diff = max(dot(normal, lightDir), 0.0);
+	vec4 diffuse = diff * light.diffuse;
+	diffuse *= u_m_diffuse;
+    
+	// specular
+	vec3 reflectDir = reflect(-lightDir, normal);  
+	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+	vec4 specular = light.specStrength * spec * light.specular;  
+	specular *= u_m_specular;
+
+	// attenuation
+	float dist = length(light.position - fragPos);
+	float attenuation = 1.0 / (light.constant + light.linear * dist + light.quadratic * (dist * dist)); 
+	
+    // spotlight intensity
+    float theta = dot(lightDir, normalize(-light.direction)); 
+    float epsilon = light.cutOff - light.outerCutOff;
+    float intensity = clamp((theta - light.outerCutOff) / epsilon, 0.0, 1.0);
+
+    // combine results
+    ambient *= attenuation * intensity;
+    diffuse *= attenuation * intensity;
+    specular *= attenuation * intensity;
+
+    return ambient + diffuse + specular;
+}
 
 
 

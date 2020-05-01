@@ -88,6 +88,7 @@ glm::vec3 Entity::GetWorldPosition() {
 	glm::mat4 transformation = *translations.GetCurrentModelMatrix();
 
 	return(glm::vec3(transformation[3]));
+	// return(glm::vec4(_localPos, 1.0) * transformation);
 	// return _localPos;
 }
 

@@ -53,6 +53,7 @@ void Light::CreateMoon() {
 
 void Light::OnRender(RenderingContext& rcontext) {
 
+	lightUI.GetObject3D()->SetAmbient(diffuse);
 	lightUI.RenderUI(rcontext);
 }
 
@@ -112,6 +113,13 @@ SpotLight::SpotLight(std::string name)
 	: Light(name) {
 
 	lightType = LightType::SPOT;
+
+	constant = 1.0f;
+	linear = 0.09;
+	quadratic = 0.032;
+
+	cutOff = glm::cos(glm::radians(12.5f));
+	outerCutOff = glm::cos(glm::radians(15.0f));
 }
 
 // Return the direction of the light

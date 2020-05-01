@@ -80,6 +80,13 @@ public:
 	SpotLight(std::string name);
 	~SpotLight() {};
 
+	float constant;
+	float linear;
+	float quadratic;
+
+	float cutOff;
+	float outerCutOff;
+
 	glm::vec3 GetLightDirection();
 	glm::vec3 GetLightPosition();
 };

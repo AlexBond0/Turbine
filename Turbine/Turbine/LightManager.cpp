@@ -59,14 +59,17 @@ void LightManager::RenderLights(RenderingContext& rcontext, glm::vec3 cameraPos)
 
 			std::string lightStr = "pointLights[" + std::to_string(lightCount) + "]";
 
-			rcontext.liveShader->SetVector(lightStr+".position", *pointLight->GetLocalPosVec());
+			glm::vec3 pos = pointLight->GetWorldPosition();
+			rcontext.liveShader->SetVector(lightStr+".position", pos);
+
+			rcontext.liveShader->SetFloat(lightStr + ".constant", pointLight->constant);
+			rcontext.liveShader->SetFloat(lightStr + ".linear", pointLight->linear);
+			rcontext.liveShader->SetFloat(lightStr + ".quadratic", pointLight->quadratic);
+
 			rcontext.liveShader->SetColor(lightStr+".ambient", pointLight->ambient.rgba);
 			rcontext.liveShader->SetColor(lightStr+".diffuse", pointLight->diffuse.rgba);
 			rcontext.liveShader->SetColor(lightStr+".specular", pointLight->specular.rgba);
 			rcontext.liveShader->SetFloat(lightStr+".specStrength", pointLight->specularStrength);
-			rcontext.liveShader->SetFloat(lightStr+".constant", pointLight->constant);
-			rcontext.liveShader->SetFloat(lightStr+".linear", pointLight->linear);
-			rcontext.liveShader->SetFloat(lightStr+".quadratic", pointLight->quadratic);
 
 			lightCount++;
 		}
@@ -74,6 +77,41 @@ void LightManager::RenderLights(RenderingContext& rcontext, glm::vec3 cameraPos)
 		index++;
 	}
 	rcontext.liveShader->SetInt("u_pointLightCount", lightCount);
+
+	// spot lights
+	index = 0;
+	lightCount = 0;
+	SpotLight* spotLight;
+	while (lightCount < MAX_LIGHTS && index < _sortableLights.size()) {
+
+		if (_sortableLights[index].light->lightType == LightType::SPOT) {
+
+			spotLight = dynamic_cast<SpotLight*>(_sortableLights[index].light);
+
+			std::string lightStr = "spotLights[" + std::to_string(lightCount) + "]";
+
+			glm::vec3 pos = spotLight->GetWorldPosition();
+			glm::vec3 dir = spotLight->GetLightDirection();
+			rcontext.liveShader->SetVector(lightStr + ".position", pos);
+			rcontext.liveShader->SetVector(lightStr + ".direction", dir);
+			rcontext.liveShader->SetFloat(lightStr + ".cutOff", spotLight->cutOff);
+			rcontext.liveShader->SetFloat(lightStr + ".outerCutOff", spotLight->outerCutOff);
+
+			rcontext.liveShader->SetColor(lightStr + ".ambient", spotLight->ambient.rgba);
+			rcontext.liveShader->SetColor(lightStr + ".diffuse", spotLight->diffuse.rgba);
+			rcontext.liveShader->SetColor(lightStr + ".specular", spotLight->specular.rgba);
+
+			rcontext.liveShader->SetFloat(lightStr + ".specStrength", spotLight->specularStrength);
+			rcontext.liveShader->SetFloat(lightStr + ".constant", spotLight->constant);
+			rcontext.liveShader->SetFloat(lightStr + ".linear", spotLight->linear);
+			rcontext.liveShader->SetFloat(lightStr + ".quadratic", spotLight->quadratic);
+
+			lightCount++;
+		}
+
+		index++;
+	}
+	rcontext.liveShader->SetInt("u_spotLightCount", lightCount);
 
 }
 

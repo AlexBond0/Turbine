@@ -327,18 +327,27 @@ void Scene::_GenerateLights() {
 	// create sun light
 	light = new PointLight("light1");
 	light->CreateSun();
-	light->SetLocalPos(1.0f, 1.0f, 0.0f);
+	light->diffuse = color4(0.0, 1.0, 0.0, 1.0);
+	world.GetEntity("seats-5")->AddChild(light);
 	world.AddEntity(light);
 
 	// create sun light
 	light = new PointLight("light2");
 	light->CreateSun();
-	light->SetLocalPos(0.0f, 1.0f, 1.0f);
+	light->diffuse = color4(0.0, 0.0, 1.0, 1.0);
+	world.GetEntity("Spinner")->AddChild(light);
 	world.AddEntity(light);
 
 	// create sun light
 	light = new PointLight("light3");
 	light->CreateSun();
-	light->SetLocalPos(-1.0f, 1.0f, 0.0f);
+	light->diffuse = color4(1.0, 0.0, 0.0, 1.0);
+	world.GetEntity("Pivot")->AddChild(light);
+	world.AddEntity(light);
+
+	// create spotlight
+	light = new SpotLight("spotlight");
+	light->CreateSun();
+	light->diffuse = color4(1.0, 0.0, 1.0, 1.0);
 	world.AddEntity(light);
 }
