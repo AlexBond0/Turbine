@@ -80,14 +80,15 @@ void Entity::_GetWorldTranslation(TranslationStack& translations) {
 
 glm::vec3 Entity::GetWorldPosition() {
 
-	TranslationStack translations;
-	translations.InitModelMatrix(true);
+	//TranslationStack translations;
+	//translations.InitModelMatrix(true);
 
-	_GetWorldTranslation(translations);
+	//_GetWorldTranslation(translations);
 
-	glm::mat4 transformation = *translations.GetCurrentModelMatrix();
+	//glm::mat4 transformation = *translations.GetCurrentModelMatrix();
 
-	return(glm::vec3(transformation[3]));
+	//return(glm::vec3(transformation[3]));
+	return _localPos;
 }
 
 // Set the name of the entity

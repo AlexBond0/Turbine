@@ -30,8 +30,9 @@ void Scene::Render(RenderingContext& rcontext) {
 	sun->CalculateHalfPlane(*world.GetActiveCamera()->GetLocalPosVec());
 
 	glm::vec3 dir = sun->GetLightDirection();
+	glm::vec3 pos = *world.GetActiveCamera()->GetLocalPosVec();
 
-	rcontext.liveShader->SetVector("u_c_position", *world.GetActiveCamera()->GetLocalPosVec());
+	rcontext.liveShader->SetVector("u_c_position", pos);
 
 	// assign light handles
 	rcontext.liveShader->SetVector("u_l_position", *sun->GetLocalPosVec());

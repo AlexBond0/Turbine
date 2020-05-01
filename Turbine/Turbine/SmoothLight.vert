@@ -50,6 +50,8 @@ void main() {
 			a_offset.z + a_position.z,
 			1.0
 		);
+
+		FragPos = vec3(u_model_matrix * position);
 	}
 	else {
 	
