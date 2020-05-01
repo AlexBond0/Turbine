@@ -6,7 +6,8 @@
 #include "Particle.h"
 #include "Primitive.h"
 #include "Camera.h"
-#include "Light.h"
+#include "LightManager.h"
+
 
 class Camera; //forward decleration
 
@@ -40,6 +41,8 @@ public:
 
 	Entity* currentSelectedEntity = nullptr; // for object focus in world
 
+	void AssignLightHandles(RenderingContext& rcontext);
+
 private:
 
 	std::map<std::string, Entity*> _entities;	// entity pool managed by the world
@@ -50,6 +53,8 @@ private:
 	std::map<std::string, Entity*> _renderBase;		// base render entites
 
 	std::map<std::string, Particle*> _particleSystems;	// particle systems in the scene
+
+	LightManager _lights;
 };
 
 inline std::map<std::string, Entity*> World::GetAllEntities() {

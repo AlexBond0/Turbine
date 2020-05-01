@@ -43,7 +43,7 @@ void World::AddEntity(Entity* entity) {
 		// save particle systems 
 		case EntityType::OBJ_PARTICLE_SYS: {
 
-			Particle* particle = static_cast<Particle*>(entity);
+			Particle* particle = dynamic_cast<Particle*>(entity);
 			_particleSystems[particle->GetName()] = particle;
 
 			break;
@@ -52,7 +52,7 @@ void World::AddEntity(Entity* entity) {
 		// save the camera to the scene
 		case EntityType::CAMERA: {
 
-			Camera* cam = static_cast<Camera*>(entity);
+			Camera* cam = dynamic_cast<Camera*>(entity);
 
 			_cameras[cam->GetName()] = cam;
 
@@ -60,6 +60,13 @@ void World::AddEntity(Entity* entity) {
 				_currentActiveCamera = cam;
 
 			break;
+		}
+
+		case EntityType::LIGHT: {
+
+			Light* light = dynamic_cast<Light*>(entity);
+
+			_lights.AddLight(light);
 		}
 	}
 }
@@ -208,4 +215,9 @@ void World::UpdateParticles(double timePassed) {
 
 	for (auto const& particleSys : _particleSystems)
 		particleSys.second->Update(timePassed);
+}
+
+void World::AssignLightHandles(RenderingContext& rcontext) {
+
+	_lights.RenderLights(rcontext);
 }

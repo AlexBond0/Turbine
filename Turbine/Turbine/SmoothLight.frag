@@ -26,13 +26,6 @@ uniform vec3 u_c_position;
 // uniform vec3 u_c_direction;
 
 // Light 
-//uniform vec3 u_l_position; 
-//uniform vec3 u_l_direction; 
-//uniform vec3 u_l_halfplane; 
-//uniform vec4 u_l_ambient; 
-//uniform vec4 u_l_diffuse; 
-//uniform vec4 u_l_specular; 
-//uniform float u_l_spec_strength;
 uniform bool u_usesLight; 
 
 // Material 
@@ -51,6 +44,8 @@ in vec2 v_uvcoord;
 
 out vec4 out_color;
 
+vec4 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
+
 void main() { 
 
 	vec4 v_colour;
@@ -58,34 +53,35 @@ void main() {
 	if (u_usesLight) {
 
 		vec3 norm = normalize(v_normal);
-		vec3 lightDir = normalize(pointLight.position - FragPos);
 		vec3 viewDir = normalize(u_c_position - FragPos);
 
-		// ambient
-		float ambientStrength = 0.1;
-		vec4 ambient = ambientStrength * pointLight.ambient;
-		ambient *= u_m_ambient;
+		v_colour = CalcPointLight(pointLight, norm, FragPos, viewDir);
+
+		//// ambient
+		//float ambientStrength = 0.1;
+		//vec4 ambient = ambientStrength * pointLight.ambient;
+		//ambient *= u_m_ambient;
   	
-		// diffuse
-		float diff = max(dot(norm, lightDir), 0.0);
-		vec4 diffuse = diff * pointLight.diffuse;
-		diffuse *= u_m_diffuse;
+		//// diffuse
+		//float diff = max(dot(norm, lightDir), 0.0);
+		//vec4 diffuse = diff * pointLight.diffuse;
+		//diffuse *= u_m_diffuse;
     
-		// specular
-		vec3 reflectDir = reflect(-lightDir, norm);  
-		float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-		vec4 specular = pointLight.specStrength * spec * pointLight.specular;  
-		specular *= u_m_specular;
+		//// specular
+		//vec3 reflectDir = reflect(-lightDir, norm);  
+		//float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+		//vec4 specular = pointLight.specStrength * spec * pointLight.specular;  
+		//specular *= u_m_specular;
 
-		// attenuation
-		float dist = length(pointLight.position - FragPos);
-		float attenuation = 1.0 / (pointLight.constant + pointLight.linear * dist + pointLight.quadratic * (dist * dist));   
-		ambient *= attenuation;
-		diffuse *= attenuation;
-		specular *= attenuation;
+		//// attenuation
+		//float dist = length(pointLight.position - FragPos);
+		//float attenuation = 1.0 / (pointLight.constant + pointLight.linear * dist + pointLight.quadratic * (dist * dist));   
+		//ambient *= attenuation;
+		//diffuse *= attenuation;
+		//specular *= attenuation;
 
-		// combine
-		v_colour = ambient + diffuse + specular;
+		//// combine
+		//v_colour = ambient + diffuse + specular;
 
 
 		// v_colour = ambient + diffuse + specular;
@@ -148,6 +144,53 @@ void main() {
 		out_color = (v_colour); 
 	}
 } 
+
+
+vec4 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir) {
+
+	vec3 lightDir = normalize(pointLight.position - FragPos);
+
+	// ambient
+	float ambientStrength = 0.1;
+	vec4 ambient = ambientStrength * light.ambient;
+	ambient *= u_m_ambient;
+  	
+	// diffuse
+	float diff = max(dot(normal, lightDir), 0.0);
+	vec4 diffuse = diff * light.diffuse;
+	diffuse *= u_m_diffuse;
+    
+	// specular
+	vec3 reflectDir = reflect(-lightDir, normal);  
+	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+	vec4 specular = light.specStrength * spec * light.specular;  
+	specular *= u_m_specular;
+
+	// attenuation
+	float dist = length(light.position - fragPos);
+	float attenuation = 1.0 / (light.constant + light.linear * dist + light.quadratic * (dist * dist));   
+	ambient *= attenuation;
+	diffuse *= attenuation;
+	specular *= attenuation;
+
+	// combine
+	return ambient + diffuse + specular;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //#version 330 core
 

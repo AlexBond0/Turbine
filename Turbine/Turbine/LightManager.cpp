@@ -29,6 +29,17 @@ void LightManager::RenderLights(RenderingContext& rcontext) {
 
 
 	}
+
+	PointLight* sun = dynamic_cast<PointLight*>(_allLights["sun"]);
+
+	rcontext.liveShader->SetVector("pointLight.position", *sun->GetLocalPosVec());
+	rcontext.liveShader->SetColor("pointLight.ambient", sun->ambient.rgba);
+	rcontext.liveShader->SetColor("pointLight.diffuse", sun->diffuse.rgba);
+	rcontext.liveShader->SetColor("pointLight.specular", sun->specular.rgba);
+	rcontext.liveShader->SetFloat("pointLight.specStrength", sun->specularStrength);
+	rcontext.liveShader->SetFloat("pointLight.constant", 1.0f);
+	rcontext.liveShader->SetFloat("pointLight.linear", 0.09);
+	rcontext.liveShader->SetFloat("pointLight.quadratic", 0.032);
 }
 
 bool LightManager::SetCurrentDirLight(std::string light) {

@@ -35,6 +35,8 @@ void Scene::Render(RenderingContext& rcontext) {
 	rcontext.liveShader->SetVector("u_c_position", pos);
 
 	// assign light handles
+	world.AssignLightHandles(rcontext);
+
 	//rcontext.liveShader->SetVector("u_l_position", *sun->GetLocalPosVec());
 	//rcontext.liveShader->SetVector("u_l_direction", dir);
 	//rcontext.liveShader->SetVector("u_l_halfplane", sun->halfplane);
@@ -42,14 +44,15 @@ void Scene::Render(RenderingContext& rcontext) {
 	//rcontext.liveShader->SetColor("u_l_diffuse", sun->diffuse.rgba);
 	//rcontext.liveShader->SetColor("u_l_specular", sun->specular.rgba);
 	//rcontext.liveShader->SetFloat("u_l_spec_strength", sun->specularStrength);
-	rcontext.liveShader->SetVector("pointLight.position", *sun->GetLocalPosVec());
-	rcontext.liveShader->SetColor("pointLight.ambient", sun->ambient.rgba);
-	rcontext.liveShader->SetColor("pointLight.diffuse", sun->diffuse.rgba);
-	rcontext.liveShader->SetColor("pointLight.specular", sun->specular.rgba);
-	rcontext.liveShader->SetFloat("pointLight.specStrength", sun->specularStrength);
-	rcontext.liveShader->SetFloat("pointLight.constant", 1.0f);
-	rcontext.liveShader->SetFloat("pointLight.linear", 0.09);
-	rcontext.liveShader->SetFloat("pointLight.quadratic", 0.032);
+
+	//rcontext.liveShader->SetVector("pointLight.position", *sun->GetLocalPosVec());
+	//rcontext.liveShader->SetColor("pointLight.ambient", sun->ambient.rgba);
+	//rcontext.liveShader->SetColor("pointLight.diffuse", sun->diffuse.rgba);
+	//rcontext.liveShader->SetColor("pointLight.specular", sun->specular.rgba);
+	//rcontext.liveShader->SetFloat("pointLight.specStrength", sun->specularStrength);
+	//rcontext.liveShader->SetFloat("pointLight.constant", 1.0f);
+	//rcontext.liveShader->SetFloat("pointLight.linear", 0.09);
+	//rcontext.liveShader->SetFloat("pointLight.quadratic", 0.032);
 
 	// render solid objects
 	_ObjectPass(rcontext);
@@ -135,7 +138,7 @@ void Scene::Setup() {
 	_GenerateTrees();
 
 	// create sun light
-	Light* sun = new DirectionalLight("sun");
+	Light* sun = new PointLight("sun");
 	sun->CreateSun();
 	sun->SetLocalPos(0.0f, 0.6f, 0.0f);
 	world.AddEntity(sun);
