@@ -8,14 +8,17 @@ UIPointer::UIPointer(Entity* entityToMirror) {
 	_uiObjs["PointerBall"] = new Primitive();
 	_uiObjs["PointerBall"]->GenerateDirector(0.005f);
 	_uiObjs["PointerBall"]->SetName(entityToMirror->GetName()+" UI Pointer");
-	//_uiObjs["PointerBall"]->SetOrientation(glm::vec3(90.0, 0.0, 0.0));
-	//_uiObjs["PointerBall"]->SetUp(glm::vec3(0, 1, 0));
-	//_uiObjs["PointerBall"]->SetFront(glm::vec3(1, 0, 0));
 
 	_uiObjs["PointerTarget"] = new Primitive();
 	Geomitory sphere = Primitive::GenerateBaseIcoSphere(0.005f);
 	_uiObjs["PointerTarget"]->AssignGeomitoryData(sphere);
 	_uiObjs["PointerTarget"]->SetName(entityToMirror->GetName() + " UI Target");
+	_uiObjs["PointerTarget"]->useLight = false;
+
+	_uiObjs["BasicBall"] = new Primitive();
+	_uiObjs["BasicBall"]->AssignGeomitoryData(sphere);
+	_uiObjs["BasicBall"]->SetName(entityToMirror->GetName() + " UI Ball");
+	_uiObjs["BasicBall"]->useLight = false;
 
 	_entityToMirror = entityToMirror;
 }
@@ -31,30 +34,41 @@ void UIPointer::RenderUI(RenderingContext& rcontext) {
 
 	if (showUIObject) {
 
-		// position
-		if (_usePosition)
-			_uiObjs["PointerBall"]->SetLocalPos(*_position);
+		if (showDirection) {
 
-		else
-			_uiObjs["PointerBall"]->SetLocalPos(*_entityToMirror->GetLocalPosVec());
+			// position
+			if (_usePosition)
+				_uiObjs["PointerBall"]->SetLocalPos(*_position);
+
+			else
+				_uiObjs["PointerBall"]->SetLocalPos(*_entityToMirror->GetLocalPosVec());
 
 
-		// orientation
-		if (_target) {
+			// orientation
+			if (_target) {
 
-			_uiObjs["PointerBall"]->LookAt(*_target);
+				_uiObjs["PointerBall"]->LookAt(*_target);
 
-			_uiObjs["PointerTarget"]->SetLocalPos(*_target);
-			_uiObjs["PointerTarget"]->Draw(rcontext);
+				_uiObjs["PointerTarget"]->SetLocalPos(*_target);
+				_uiObjs["PointerTarget"]->Draw(rcontext);
+			}
+
+			else
+				_uiObjs["PointerBall"]->SetOrientation(_entityToMirror->GetOrientationQuat());
+
+			_uiObjs["PointerBall"]->Draw(rcontext);
 		}
+		else {
 
-		else
-			_uiObjs["PointerBall"]->SetOrientation(_entityToMirror->GetOrientationQuat());
+			// position
+			if (_usePosition)
+				_uiObjs["BasicBall"]->SetLocalPos(*_position);
 
+			else
+				_uiObjs["BasicBall"]->SetLocalPos(*_entityToMirror->GetLocalPosVec());
 
-
-
-		_uiObjs["PointerBall"]->Draw(rcontext);
+			_uiObjs["BasicBall"]->Draw(rcontext);
+		}
 	}
 }
 
@@ -73,6 +87,13 @@ void UIPointer::UseTarget(glm::vec3* target) {
 
 	_useTarget = true;
 	_target = target;
+}
+
+void UIPointer::SetColor(color4 color) {
+
+	_uiObjs["PointerBall"]->SetAmbient(color);
+	_uiObjs["PointerTarget"]->SetAmbient(color);
+	_uiObjs["BasicBall"]->SetAmbient(color);
 }
 
 void UIPointer::_GenXYZBall(Entity* entityToMirror) {

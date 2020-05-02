@@ -53,7 +53,7 @@ void Light::CreateMoon() {
 
 void Light::OnRender(RenderingContext& rcontext) {
 
-	lightUI.GetObject3D()->SetAmbient(diffuse);
+	lightUI.SetColor(diffuse);
 	lightUI.RenderUI(rcontext);
 }
 
@@ -94,6 +94,7 @@ PointLight::PointLight(std::string name)
 	: Light(name) {
 
 	lightType = LightType::POINT;
+	lightUI.showDirection = false;
 
 	constant = 1.0f;
 	linear = 0.09;

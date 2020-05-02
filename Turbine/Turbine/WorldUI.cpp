@@ -254,29 +254,6 @@ void WorldUI::_ColourActive(Entity* entity) {
 
 	ImVec4 color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-	/*switch (entity->GetEntityType()) {
-
-	case EntityType::OBJ: 
-	case EntityType::OBJ_INSTANCED:
-	case EntityType::OBJ_PARTICLE_SYS:
-	case EntityType::OBJ_PRIMITIVE:
-	case EntityType::MODEL:
-	{
-
-		if (!entity->isActive)
-			color = isNotActive;
-
-		else if (!entity->isLocallyActive)
-			color = isNotLocallyActive;
-
-		else if (!entity->IsGloballyActive())
-			color = isNotGloballyActive;
-
-		break;
-	}
-
-	}*/
-
 	if (!entity->isActive)
 		color = isNotActive;
 

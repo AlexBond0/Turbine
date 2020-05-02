@@ -17,6 +17,10 @@ public:
 	void UsePosition(glm::vec3* position);
 	void UseTarget(glm::vec3* target);
 
+	void SetColor(color4 color);
+
+	bool showDirection = true;
+
 private:
 
 	bool _usePosition = false;
