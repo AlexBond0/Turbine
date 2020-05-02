@@ -12,7 +12,8 @@ enum class EntityType {
 	OBJ_INSTANCED,		// Insanced Object3D
 	OBJ_PARTICLE_SYS,	// Object Particle system
 	LIGHT,				// Light
-	CAMERA				// Camera
+	CAMERA,				// Camera
+	MODEL				// Model system
 };
 
 class Object3D; // forward decleration

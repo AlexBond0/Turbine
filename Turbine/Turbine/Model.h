@@ -1,16 +1,23 @@
 #pragma once
 
-#include "Entity.h"
+#include "EntityManager.h"
 
 
 class Model
+	: public EntityManager
+	, public Entity
 {
 public:
-	Model();
-	~Model();
+	Model(std::string name);
+	~Model() {};
+
+	Entity* GetBaseEntity();
+	bool SetBaseEntity(std::string name);
+
+	void Render(RenderingContext& rcontext);
 
 private:
 
-	std::map<std::string, Entity*> _entities;	// entity pool managed by the world
+	Entity* _baseEntity;
 };
 

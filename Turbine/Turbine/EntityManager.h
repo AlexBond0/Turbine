@@ -4,10 +4,11 @@
 #include "Particle.h"
 #include "ModelLoader.h"
 
-class EntityManager
-{
+// Manages a group of entites
+class EntityManager {
+
 public:
-	EntityManager();
+	EntityManager() {};
 	~EntityManager();
 
 	Entity* GetEntity(std::string name);
@@ -18,6 +19,8 @@ public:
 	Object3D* GetObject3D(std::string name);
 
 	void UnpackModel3D(ModelLoader* model);
+
+	void UpdateParticles(double timePassed);
 
 	virtual void AddEntity(Entity* entity);
 	virtual bool DeleteEntity(std::string name);

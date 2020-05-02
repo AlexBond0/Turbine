@@ -1,35 +1,26 @@
 #include "EntityManager.h"
 
 
-EntityManager::EntityManager()
-{
-}
-
 
 EntityManager::~EntityManager() {
 
-	// delete all entities managed by the EntityManager
+	// delete all entities managed by the entity manager
 	for (auto const& entity : _entities)
 		delete entity.second;
 }
 
+// return map of all managed entities
 std::map<std::string, Entity*> EntityManager::GetAllEntities() {
 
 	return _entities;
 }
 
-// Add an existsing entity to the world
-// entites managed by the world will be deleted by the world
+// Add an existsing entity to the entity manager
+// entites managed by the entity manager will be deleted by the entity manager
 void EntityManager::AddEntity(Entity* entity) {
 
 	// add entity to the managed entity pool
 	_entities[entity->GetName()] = entity;
-
-	//// if the object has no parent
-	//if (entity->parent == nullptr) {
-
-	//	_renderBase[entity->GetName()] = entity;
-	//}
 
 	// manage entity type
 	switch (entity->GetEntityType()) {
@@ -60,7 +51,7 @@ Entity* EntityManager::GetEntity(std::string name) {
 	return _entities[name];
 }
 
-// Remove an entity form the world, retruns true if found entity to remove
+// Remove an entity form the entity manager, retruns true if found entity to remove
 bool EntityManager::DeleteEntity(std::string name) {
 
 	bool deleted = false;
@@ -87,7 +78,7 @@ bool EntityManager::DeleteEntity(std::string name) {
 		return deleted;
 }
 
-// Create an Object3D in the world
+// Create an Object3D in the entity manager
 Object3D* EntityManager::CreateObject3D(std::string name) {
 
 	Object3D* newObj = new Object3D(name);
@@ -95,7 +86,7 @@ Object3D* EntityManager::CreateObject3D(std::string name) {
 	return newObj;
 }
 
-// Duplicate an Object3D in the scene and return the new object3D pointer
+// Duplicate an Object3D in the entity manager and return the new object3D pointer
 Object3D* EntityManager::DuplicateObject3D(std::string copyObjectName, std::string newObjectName) {
 
 	Object3D* oldObj = GetObject3D(copyObjectName);
@@ -148,10 +139,9 @@ void EntityManager::Clean() {
 	}
 }
 
+// Update all current particle systems in the entity manager
+void EntityManager::UpdateParticles(double timePassed) {
 
-// Update all current particle systems in the world
-//void EntityManager::UpdateParticles(double timePassed) {
-//
-//	for (auto const& particleSys : _particleSystems)
-//		particleSys.second->Update(timePassed);
-//}
+	for (auto const& particleSys : _particleSystems)
+		particleSys.second->Update(timePassed);
+}
