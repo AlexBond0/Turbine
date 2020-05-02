@@ -102,7 +102,7 @@ void Scene::Setup() {
 	Camera* camPOV = new Camera("POV Camera");
 	world.AddEntity(camPOV);
 	camPOV->moveable = false;
-	world.GetEntity("Seats")->AddChild(camPOV);
+	world.GetModelEntity("uv-spinner", "Seats")->AddChild(camPOV);
 
 	// set these after parenting as parenting would offsett these
 	camPOV->SetLocalPos(glm::vec3(0.0f, -0.083f, 0.0f));
@@ -120,17 +120,18 @@ void Scene::Setup() {
 
 	// load the ground model
 	ModelLoader* ground = ModelLoader::LoadModel("GroundPlane2.3dm");
-	world.UnpackModel3D(ground);
+	world.AddEntity(ground->GetModel());
 
 	// load the bulb fly model
 	ModelLoader* bulbfly = ModelLoader::LoadModel("bulbFly.obj");
-	world.UnpackModel3D(bulbfly);
-	world.GetObject3D("Body_Base")->SetTranslation(glm::vec3(1.0, 1.0, 0.0));
+	world.AddEntity(bulbfly->GetModel());
+	world.GetModelObject3D("bulbFly", "Body_Base")->SetTranslation(glm::vec3(1.0, 1.0, 0.0));
+	dynamic_cast<Model*>(world.GetEntity("bulbFly"))->Clean();
 
 	//world.GetObject3D("Lightbulb")->isTransparent = true;
 
 	// set property information for the ground plane
-	Object3D* plane = world.GetObject3D("Plane");
+	Object3D* plane = world.GetModelObject3D("GroundPlane2", "Plane");
 	plane->SetScale(30.0f, 30.0f, 30.0f);
 	plane->SetAmbient(0.3f, 0.3f, 0.3f, 1.0f);
 	plane->SetDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
@@ -166,42 +167,45 @@ void Scene::OnTimer(RenderingContext& rcontext, double timePassed) {
 void Scene::_LoadRide() {
 
 	// load the ride and save it in the world
-	ModelLoader* ride = ModelLoader::LoadModel("uv-spinner.3dm");
-	world.UnpackModel3D(ride);
+	ModelLoader* spinner = ModelLoader::LoadModel("uv-spinner.3dm");
+	world.AddEntity(spinner->GetModel());
+
+	Model* ride = dynamic_cast<Model*>(world.GetEntity("uv-spinner"));
 
 	// Base
-	world.GetObject3D("Base")->SetTexture(textures.id["wood-base"]);				// set texture
-	world.GetObject3D("Base")->SetOrientation(0.0f, 0.0f, 3.3f);					// adjust angle
-	world.GetObject3D("Base")->AddChild(world.GetObject3D("Platter"));				// add child
+	ride->GetObject3D("Base")->SetTexture(textures.id["wood-base"]);				// set texture
+	ride->GetObject3D("Base")->SetOrientation(0.0f, 0.0f, 3.3f);					// adjust angle
+	ride->GetObject3D("Base")->AddChild(ride->GetObject3D("Platter"));				// add child
 
 	// Platter
-	world.GetObject3D("Platter")->SetTexture(textures.id["diamond-metal"]);			// set texture
-	world.GetObject3D("Platter")->AddChild(world.GetObject3D("Pivot"));				// add child
+	ride->GetObject3D("Platter")->SetTexture(textures.id["diamond-metal"]);			// set texture
+	ride->GetObject3D("Platter")->AddChild(ride->GetObject3D("Pivot"));				// add child
 
 	// Pivot
-	world.GetObject3D("Pivot")->SetTexture(textures.id["singed-white-metal"]);		// set texture
-	world.GetObject3D("Pivot")->SetSpecular(0.6f, 0.6f, 0.6f, 1.0f);				// add specular material information
-	world.GetObject3D("Pivot")->SetSpecLevel(20.0f);								// add specular level
-	world.GetObject3D("Pivot")->AddChild(world.GetObject3D("DryIce"));				// add the left dry ice smoke effect
-	world.GetObject3D("Pivot")->AddChild(world.GetObject3D("DryIce2"));				// add the left dry ice smoke effect
-	world.GetObject3D("Pivot")->AddChild(world.GetObject3D("Arm"));					// add child
+	ride->GetObject3D("Pivot")->SetTexture(textures.id["singed-white-metal"]);		// set texture
+	ride->GetObject3D("Pivot")->SetSpecular(0.6f, 0.6f, 0.6f, 1.0f);				// add specular material information
+	ride->GetObject3D("Pivot")->SetSpecLevel(20.0f);								// add specular level
+	ride->GetObject3D("Pivot")->AddChild(world.GetObject3D("DryIce"));				// add the left dry ice smoke effect
+	ride->GetObject3D("Pivot")->AddChild(world.GetObject3D("DryIce2"));				// add the left dry ice smoke effect
+	ride->GetObject3D("Pivot")->AddChild(ride->GetObject3D("Arm"));					// add child
 
 	// Arm
-	world.GetObject3D("Arm")->SetTexture(textures.id["singed-white-metal"]);		// set texture
-	world.GetObject3D("Arm")->SetSpecular(0.6f, 0.6f, 0.6f, 1.0f);					// add specular material information
-	world.GetObject3D("Arm")->SetSpecLevel(20.0f);									// add specular level
-	world.GetObject3D("Arm")->AddChild(world.GetObject3D("Spinner"));				// add child
+	ride->GetObject3D("Arm")->SetTexture(textures.id["singed-white-metal"]);		// set texture
+	ride->GetObject3D("Arm")->SetSpecular(0.6f, 0.6f, 0.6f, 1.0f);					// add specular material information
+	ride->GetObject3D("Arm")->SetSpecLevel(20.0f);									// add specular level
+	ride->GetObject3D("Arm")->AddChild(ride->GetObject3D("Spinner"));				// add child
 
 	// Spinner
-	world.GetObject3D("Spinner")->SetTexture(textures.id["hot-metal"]);				// set texture
-	world.GetObject3D("Spinner")->AddChild(world.GetObject3D("Seats"));				// add child
-	world.GetObject3D("Spinner")->AddChild(world.GetObject3D("Fire"));				// add the fire effect
-	world.GetObject3D("Spinner")->AddChild(world.GetObject3D("FireSmoke"));			// add the fire's smoke effect
+	ride->GetObject3D("Spinner")->SetTexture(textures.id["hot-metal"]);				// set texture
+	ride->GetObject3D("Spinner")->AddChild(ride->GetObject3D("Seats"));				// add child
+	ride->GetObject3D("Spinner")->AddChild(world.GetObject3D("Fire"));				// add the fire effect
+	ride->GetObject3D("Spinner")->AddChild(world.GetObject3D("FireSmoke"));			// add the fire's smoke effect
 
 	// Seats
-	world.GetObject3D("Seats")->SetTexture(textures.id["seats"]);						// set texture
+	ride->GetObject3D("Seats")->SetTexture(textures.id["seats"]);						// set texture
 	_GenerateSeats();														// create the duplicate seat information
 
+	ride->Clean();
 }
 
 // generate tree primitives for the scene
@@ -217,7 +221,7 @@ void Scene::_GenerateTrees() {
 	world.AddEntity(trees);
 
 	// get vert data
-	Object3D* plane = world.GetObject3D("Plane");
+	Object3D* plane = world.GetModelObject3D("GroundPlane2", "Plane");
 	int size = plane->GetVertCount() * 8;
 	float* verts = (float*)plane->GetVertData();
 
@@ -255,29 +259,45 @@ void Scene::_GenerateSeats() {
 	// this shows the object copying capabillities
 
 	Object3D* objRef;
-	Object3D* spinner = world.GetObject3D("Spinner");
+	Object3D* spinner = world.GetModelObject3D("uv-spinner", "Spinner");
+	Object3D* seats = world.GetModelObject3D("uv-spinner", "Seats");
+	Model* ride = dynamic_cast<Model*>(world.GetEntity("uv-spinner"));
 
-	objRef = world.DuplicateObject3D("Seats", "seats-1");
+	objRef = world.DuplicateObject3D(seats, "seats-1", false);
+	ride->AddEntity(objRef);
+
 	objRef->SetTranslation(-0.16f, 0.0f, 0.095f);
 	objRef->SetOrientation(0.0f, 60.0f, 0.0f);
 	spinner->AddChild(objRef);
 
-	objRef = world.DuplicateObject3D("Seats", "seats-2");
+
+	objRef = world.DuplicateObject3D(seats, "seats-2", false);
+	ride->AddEntity(objRef);
+
 	objRef->SetTranslation(-0.16f, 0.0f, 0.280f);
 	objRef->SetOrientation(0.0f, 120.0f, 0.0f);
 	spinner->AddChild(objRef);
 
-	objRef = world.DuplicateObject3D("Seats", "seats-3");
+
+	objRef = world.DuplicateObject3D(seats, "seats-3", false);
+	ride->AddEntity(objRef);
+
 	objRef->SetTranslation(0.0f, 0.0f, 0.372f);
 	objRef->SetOrientation(0.0f, 180.0f, 0.0f);
 	spinner->AddChild(objRef);
 
-	objRef = world.DuplicateObject3D("Seats", "seats-4");
+
+	objRef = world.DuplicateObject3D(seats, "seats-4", false);
+	ride->AddEntity(objRef);
+
 	objRef->SetTranslation(0.16f, 0.0f, 0.095f);
 	objRef->SetOrientation(0.0f, -60.0f, 0.0f);
 	spinner->AddChild(objRef);
 
-	objRef = world.DuplicateObject3D("Seats", "seats-5");
+
+	objRef = world.DuplicateObject3D(seats, "seats-5", false);
+	ride->AddEntity(objRef);
+
 	objRef->SetTranslation(0.16f, 0.0f, 0.280f);
 	objRef->SetOrientation(0.0f, -120.0f, 0.0f);
 	spinner->AddChild(objRef);
@@ -328,21 +348,21 @@ void Scene::_GenerateLights() {
 	light = new PointLight("light1");
 	light->CreateSun();
 	light->diffuse = color4(0.0, 1.0, 0.0, 1.0);
-	world.GetEntity("seats-5")->AddChild(light);
+	world.GetModelEntity("uv-spinner", "seats-5")->AddChild(light);
 	world.AddEntity(light);
 
 	// create sun light
 	light = new PointLight("light2");
 	light->CreateSun();
 	light->diffuse = color4(0.0, 0.0, 1.0, 1.0);
-	world.GetEntity("Spinner")->AddChild(light);
+	world.GetModelEntity("uv-spinner", "Spinner")->AddChild(light);
 	world.AddEntity(light);
 
 	// create sun light
 	light = new PointLight("light3");
 	light->CreateSun();
 	light->diffuse = color4(1.0, 0.0, 0.0, 1.0);
-	world.GetEntity("Pivot")->AddChild(light);
+	world.GetModelEntity("uv-spinner", "Pivot")->AddChild(light);
 	world.AddEntity(light);
 
 	// create spotlight

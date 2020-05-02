@@ -2,22 +2,17 @@
 
 #include "EntityManager.h"
 
-
 class Model
-	: public EntityManager
-	, public Entity
+	: public Entity
+	, public EntityManager
 {
 public:
 	Model(std::string name);
 	~Model() {};
 
-	Entity* GetBaseEntity();
-	bool SetBaseEntity(std::string name);
+	Object3D* OnPick();
+	void OnRender(RenderingContext& rcontext);
 
-	void Render(RenderingContext& rcontext);
 
-private:
-
-	Entity* _baseEntity;
 };
 

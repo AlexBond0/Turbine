@@ -59,8 +59,30 @@ void WorldUI::_RenderEntity(Entity* entity) {
 	// show entity activity
 	_ColourActive(entity);
 
+	if (entity->GetEntityType() == EntityType::MODEL) {
+
+		bool treeOpen = ImGui::TreeNode(entity->GetName().c_str());
+		_ColourFinish();
+
+		_ShowSelectedEntity(entity);
+
+		_RenderEntityRow(entity);
+
+		_RenderSelectorButton(entity);
+
+		if (treeOpen) {
+
+			Model* model = dynamic_cast<Model*>(entity);
+
+			for (auto const& modelEntity : model->GetAllBaseEntities())
+				_RenderEntity(modelEntity.second);
+
+			ImGui::TreePop();
+		}
+	}
+
 	// if there are children entites
-	if (entity->GetChildren().size() > 0) {
+	else if (entity->GetChildren().size() > 0) {
 
 		ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_DefaultOpen;
 		bool treeOpen = ImGui::TreeNodeEx(entity->GetName().c_str(), node_flags);
@@ -119,6 +141,12 @@ void WorldUI::_RenderEntityRow(Entity* entity) {
 		case EntityType::OBJ: {
 			color = objCol;
 			name = "Object3D";
+			break;
+		}
+
+		case EntityType::MODEL: {
+			color = modelCol;
+			name = "Model";
 			break;
 		}
 

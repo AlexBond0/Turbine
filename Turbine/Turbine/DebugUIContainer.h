@@ -15,6 +15,7 @@ protected:
 	ImVec4 particleCol = ImVec4(0.01f, 0.89f, 0.58f, 1.0f);
 	ImVec4 primitiveCol = ImVec4(0.53f, 0.76f, 0.0f, 1.0f);
 	ImVec4 cameraCol = ImVec4(1.0f, 1.0f, 0.0f, 1.0f);
+	ImVec4 modelCol = ImVec4(0.5f, 0.3f, 1.0f, 1.0f);
 
 	ImVec4 lightCol = ImVec4(1.0f, 0.0f, 1.0f, 1.0f);
 	ImVec4 dirLightCol = ImVec4(1.0f, 0.0f, 0.5f, 1.0f);

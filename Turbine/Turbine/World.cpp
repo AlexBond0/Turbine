@@ -7,14 +7,16 @@ void World::AddEntity(Entity* entity) {
 
 	EntityManager::AddEntity(entity);
 
-	// if the object has no parent
-	if (entity->parent == nullptr) {
-
-		_renderBase[entity->GetName()] = entity;
-	}
-
 	// manage entity type
 	switch (entity->GetEntityType()) {
+
+		case EntityType::MODEL: {
+
+			Model* model = dynamic_cast<Model*>(entity);
+
+			_models[model->GetName()] = model;
+			break;
+		}
 
 		// save the camera to the scene
 		case EntityType::CAMERA: {
@@ -74,50 +76,6 @@ bool World::DeleteEntity(std::string name) {
 		return true;
 }
 
-// Check all entities and update as necessary
-void World::Clean() {
-
-	// check all saved entities
-	Entity* entity;
-	std::string entityName;
-
-	for (auto const& entityPair : _entities) {
-
-		entity = entityPair.second;
-		entityName = entity->GetName();
-
-		// does entity need deleting
-		if (entity->FlaggedForRemoval()) {
-
-			DeleteEntity(entityName);
-		}
-
-		// does entity needs checking
-		else if (entity->isDirty) {
-
-			// no longer dirty
-			entity->isDirty = false;
-		}
-
-		// is entity still a base entity
-		if (entity->parent == nullptr) {
-
-			_renderBase[entityName] = entity;
-		}
-		else {
-
-			_renderBase.erase(entityName);
-		}
-	}
-}
-
-// Render the entites in the world using a RenderingContext
-void World::Render(RenderingContext& rcontext) {
-
-	for (auto const& baseEntity : _renderBase)
-		baseEntity.second->OnRender(rcontext);
-}
-
 // Set the world's current active camera, retruns true if found camera to activate
 bool World::SetActiveCamera(std::string cameraName) {
 
@@ -134,4 +92,14 @@ bool World::SetActiveCamera(std::string cameraName) {
 Camera* World::GetActiveCamera() {
 
 	return _currentActiveCamera;
+}
+
+Entity* World::GetModelEntity(std::string model, std::string name) {
+
+	return _models[model]->GetEntity(name);
+}
+
+Object3D* World::GetModelObject3D(std::string model, std::string name) {
+
+	return dynamic_cast<Object3D*>(_models[model]->GetEntity(name));
 }

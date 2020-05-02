@@ -7,26 +7,15 @@ Model::Model(std::string name)
 }
 
 
-Entity* Model::GetBaseEntity() {
+Object3D* Model::OnPick() {
 
-	return _baseEntity;
+	return nullptr;
 }
 
-bool Model::SetBaseEntity(std::string name) {
+// Check all entities and update as necessary
 
-	bool found = false;
+void Model::OnRender(RenderingContext& rcontext) {
 
-	// base entity exists
-	if (_entities.count(name) > 0) {
-
-		_baseEntity = _entities[name];
-		found = true;
-	}
-
-	return found;
-}
-
-void Model::Render(RenderingContext& rcontext) {
-
-	_baseEntity->OnRender(rcontext);
+	for (auto const& baseEntity : _baseEntites)
+		baseEntity.second->OnRender(rcontext);
 }

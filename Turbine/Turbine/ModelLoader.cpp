@@ -19,6 +19,10 @@ ModelLoader* ModelLoader::LoadModel(std::string filename) {
 	// is a .3dm file
 	if (filetype.compare(".3dm") == 0) {
 
+		// get model name
+		std::vector<std::string> modelName = _GetTokens(filename, '.');
+		model->_model = new Model(modelName[0]);
+
 		std::wstring wideFilename = std::wstring(filename.begin(), filename.end());
 
 		FILE* file = NULL;
@@ -45,8 +49,8 @@ ModelLoader* ModelLoader::LoadModel(std::string filename) {
 }
 
 // Read the data from a 3dsMax model
-void ModelLoader::_Read3DSVersion4(FILE* file, ModelLoader* model)
-{
+void ModelLoader::_Read3DSVersion4(FILE* file, ModelLoader* model) {
+
 	int config = 0;   // if the file includes texture coordinates then config&1=1
 	int bufflen = 60;
 	byte* buffer = (byte*)malloc(bufflen);  // enough for a bulk material read
@@ -67,14 +71,14 @@ void ModelLoader::_Read3DSVersion4(FILE* file, ModelLoader* model)
 
 	for (int i = 0; i<noofobjects; i++)
 	{
-		// Object3D* object = objs[i] = new Object3D("OBJ_FROM_FILE");
+
 		Object3D* object = new Object3D("OBJ_FROM_FILE");
-		model->_objects.push_back(object);
 
 		fread(buffer, 1, 4, file);
 		int len = *(int*)buffer;
 		fread(buffer, 1, len, file);
 
+		// get name
 		buffer[len] = '\0';
 		object->SetName((char*)buffer);
 
@@ -87,6 +91,7 @@ void ModelLoader::_Read3DSVersion4(FILE* file, ModelLoader* model)
 			reqsize += noofverts * 2; // uv coordindates
 		reqsize *= 4;
 
+		// set vertices
 		if (bufflen<reqsize)
 		{
 			free(buffer);
@@ -103,6 +108,8 @@ void ModelLoader::_Read3DSVersion4(FILE* file, ModelLoader* model)
 		} while (read>0 && pos<reqsize);
 		object->SetVertexData(buffer, noofverts, reqsize);
 
+
+		// set polygons
 		reqsize = noofpolys * 6;
 		if (bufflen<reqsize)
 		{
@@ -125,6 +132,9 @@ void ModelLoader::_Read3DSVersion4(FILE* file, ModelLoader* model)
 
 		fread(buffer, 1, 52, file);
 		object->SetMaterial(buffer);
+
+		// save object in model
+		model->_model->AddEntity(object);
 	}
 
 	// save the objects to the obj vector
@@ -133,8 +143,13 @@ void ModelLoader::_Read3DSVersion4(FILE* file, ModelLoader* model)
 
 void ModelLoader::_ReadOBJ(std::string filename, ModelLoader* model) {
 
-	std::ifstream file(filename.c_str(), std::ifstream::in);
+	// get model name
+	std::vector<std::string> modelName = _GetTokens(filename, '.');
+	model->_model = new Model(modelName[0]);
 
+
+	std::ifstream file(filename.c_str(), std::ifstream::in);
+	
 	std::string line;
 	std::vector<std::string> tokens;
 	std::vector<std::string> subTokens;
@@ -261,7 +276,8 @@ void ModelLoader::_ReadOBJ(std::string filename, ModelLoader* model) {
 						newobj->SetTriangles(polygons);
 
 						// save object
-						model->_objects.push_back(newobj);
+						// model->_objects.push_back(newobj);
+						model->_model->AddEntity(newobj);
 						objectMap[newobj->GetName()] = newobj;
 
 						//clear old datastructures
@@ -296,7 +312,8 @@ void ModelLoader::_ReadOBJ(std::string filename, ModelLoader* model) {
 		newobj->SetTriangles(polygons);
 
 		// save object
-		model->_objects.push_back(newobj);
+		// model->_objects.push_back(newobj);
+		model->_model->AddEntity(newobj);
 		objectMap[newobj->GetName()] = newobj;
 
 		// construct object heirarchy if defined
@@ -337,4 +354,9 @@ std::vector<std::string> ModelLoader::_GetTokens(std::string line, char seperato
 		vec.push_back(token);
 
 	return vec;
+}
+
+Model* ModelLoader::GetModel() {
+
+	return _model;
 }
