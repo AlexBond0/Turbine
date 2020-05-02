@@ -119,11 +119,11 @@ void Scene::Setup() {
 	world.AddEntity(skybox);
 
 	// load the ground model
-	Model3D* ground = Model3D::LoadModel("GroundPlane2.3dm");
+	ModelLoader* ground = ModelLoader::LoadModel("GroundPlane2.3dm");
 	world.UnpackModel3D(ground);
 
 	// load the bulb fly model
-	Model3D* bulbfly = Model3D::LoadModel("bulbFly.obj");
+	ModelLoader* bulbfly = ModelLoader::LoadModel("bulbFly.obj");
 	world.UnpackModel3D(bulbfly);
 	world.GetObject3D("Body_Base")->SetTranslation(glm::vec3(1.0, 1.0, 0.0));
 
@@ -166,7 +166,7 @@ void Scene::OnTimer(RenderingContext& rcontext, double timePassed) {
 void Scene::_LoadRide() {
 
 	// load the ride and save it in the world
-	Model3D* ride = Model3D::LoadModel("uv-spinner.3dm");
+	ModelLoader* ride = ModelLoader::LoadModel("uv-spinner.3dm");
 	world.UnpackModel3D(ride);
 
 	// Base

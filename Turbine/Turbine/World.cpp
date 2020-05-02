@@ -10,8 +10,8 @@ World::World()
 World::~World() {
 
 	// delete all entities managed by the world
-	for (auto const& entity : _entities)
-		delete entity.second;
+	//for (auto const& entity : _entities)
+	//	delete entity.second;
 }
 
 
@@ -19,8 +19,10 @@ World::~World() {
 // entites managed by the world will be deleted by the world
 void World::AddEntity(Entity* entity) {
 
+	EntityManager::AddEntity(entity);
+
 	// add entity to the managed entity pool
-	_entities[entity->GetName()] = entity;
+	// _entities[entity->GetName()] = entity;
 
 	// if the object has no parent
 	if (entity->parent == nullptr) {
@@ -31,23 +33,23 @@ void World::AddEntity(Entity* entity) {
 	// manage entity type
 	switch (entity->GetEntityType()) {
 
-		case EntityType::OBJ:
-		case EntityType::OBJ_INSTANCED:
-		case EntityType::OBJ_PRIMITIVE: 
-		{
+		//case EntityType::OBJ:
+		//case EntityType::OBJ_INSTANCED:
+		//case EntityType::OBJ_PRIMITIVE: 
+		//{
 
 
-			break;
-		}
+		//	break;
+		//}
 
-		// save particle systems 
-		case EntityType::OBJ_PARTICLE_SYS: {
+		//// save particle systems 
+		//case EntityType::OBJ_PARTICLE_SYS: {
 
-			Particle* particle = dynamic_cast<Particle*>(entity);
-			_particleSystems[particle->GetName()] = particle;
+		//	Particle* particle = dynamic_cast<Particle*>(entity);
+		//	_particleSystems[particle->GetName()] = particle;
 
-			break;
-		}
+		//	break;
+		//}
 
 		// save the camera to the scene
 		case EntityType::CAMERA: {
@@ -72,81 +74,79 @@ void World::AddEntity(Entity* entity) {
 }
 
 // Return a pointer to an entity given the name of the entity
-Entity* World::GetEntity(std::string name) {
-
-	return _entities[name];
-}
+//Entity* World::GetEntity(std::string name) {
+//
+//	return _entities[name];
+//}
 
 // Remove an entity form the world, retruns true if found entity to remove
 bool World::DeleteEntity(std::string name) {
 
-	if (_entities.count(name) > 0) {
+	// if the entitymanager didn't delete the entity
+	if (!EntityManager::DeleteEntity(name)) {
 
-		Entity* entity = _entities[name];
+		bool deleted = false;
 
-		switch (entity->GetEntityType()) {
+		if (_entities.count(name) > 0) {
 
-			case EntityType::OBJ : {
+			Entity* entity = _entities[name];
 
-				if (_renderBase.count(name) > 0)
-					_renderBase.erase(name);
+			switch (entity->GetEntityType()) {
 
-				delete entity;
-				break;
+				case EntityType::CAMERA: {
+
+					// remove camera
+					_cameras.erase(name);
+					delete entity;
+
+					deleted = true;
+					break;
+				}
+
 			}
 
-			case EntityType::CAMERA: {
-
-				// remove camera
-				_cameras.erase(name);
-				delete entity;
-
-				// if (_currentActiveCamera == nullptr)
-
-				break;
-			}
-
+			return deleted;
 		}
-
-		return true;
+		else
+			return deleted;
 	}
 	else
-		return false;
+		return true;
 }
 
 // Create an Object3D in the world
-Object3D* World::CreateObject3D(std::string name) {
-
-	Object3D* newObj = new Object3D(name);
-	AddEntity(newObj);
-	return newObj;
-}
-
-// Duplicate an Object3D in the scene and return the new object3D pointer
-Object3D* World::DuplicateObject3D(std::string copyObjectName, std::string newObjectName) {
-
-	Object3D* oldObj = GetObject3D(copyObjectName);
-	Object3D* newObj = new Object3D(oldObj, newObjectName);
-	AddEntity(newObj);
-	return newObj;
-}
-
-// Return a pointer to a dynamically casted Object3D given the name of the entity
-Object3D* World::GetObject3D(std::string name) {
-
-	return dynamic_cast<Object3D*>(_entities[name]);
-}
-
-// Unpack entites loaded from Model3D into the entity manager
-void World::UnpackModel3D(Model3D* model) {
-
-	for (int i = 0; i < model->GetNoOfObjects(); i++) {
-
-		AddEntity(model->GetObjects()[i]);
-	}
-
-	Clean();
-}
+//Object3D* World::CreateObject3D(std::string name) {
+//
+//	Object3D* newObj = new Object3D(name);
+//	AddEntity(newObj);
+//	return newObj;
+//}
+//
+//// Duplicate an Object3D in the scene and return the new object3D pointer
+//Object3D* World::DuplicateObject3D(std::string copyObjectName, std::string newObjectName) {
+//
+//	Object3D* oldObj = GetObject3D(copyObjectName);
+//	Object3D* newObj = new Object3D(oldObj, newObjectName);
+//	AddEntity(newObj);
+//	return newObj;
+//}
+//
+//// Return a pointer to a dynamically casted Object3D given the name of the entity
+//Object3D* World::GetObject3D(std::string name) {
+//
+//	return dynamic_cast<Object3D*>(_entities[name]);
+//}
+//
+//// Unpack entites loaded from Model3D into the entity manager
+//void World::UnpackModel3D(ModelLoader* model) {
+//
+//	for (int i = 0; i < model->GetNoOfObjects(); i++) {
+//
+//		AddEntity(model->GetObjects()[i]);
+//	}
+//
+//	Clean();
+//}
 
 // Check all entities and update as necessary
 void World::Clean() {

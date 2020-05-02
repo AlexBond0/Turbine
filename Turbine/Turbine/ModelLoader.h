@@ -7,13 +7,13 @@
 
 // A collection of Object3D elements to be rendered together, usually
 // loaded from a precalculated object file
-class Model3D
+class ModelLoader
 {
 public:
-	Model3D();
-	~Model3D();
+	ModelLoader();
+	~ModelLoader();
 
-	static Model3D* LoadModel(std::string filename);
+	static ModelLoader* LoadModel(std::string filename);
 
 	void Draw(RenderingContext& rcontext);
 
@@ -26,23 +26,23 @@ private:
 
 	std::vector<Object3D*> _objects;
 
-	static void _Read3DSVersion4(FILE* file, Model3D* model);
-	static void _ReadOBJ(std::string filename, Model3D* model);
+	static void _Read3DSVersion4(FILE* file, ModelLoader* model);
+	static void _ReadOBJ(std::string filename, ModelLoader* model);
 
 	static std::vector<std::string> _GetTokens(std::string line, char seperator);
 };
 
-inline int Model3D::GetNoOfObjects()
+inline int ModelLoader::GetNoOfObjects()
 {
 	return _objects.size();
 }
 
-inline std::vector<Object3D*> Model3D::GetObjects()
+inline std::vector<Object3D*> ModelLoader::GetObjects()
 {
 	return _objects;
 }
 
-inline void Model3D::Draw(RenderingContext& rcontext)
+inline void ModelLoader::Draw(RenderingContext& rcontext)
 {
 	if (rootObject == nullptr) {
 

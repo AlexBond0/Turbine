@@ -129,6 +129,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DebugUI.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="EntityUI.cpp" />
     <ClCompile Include="GLSetup.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />
@@ -142,7 +143,8 @@
     <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
-    <ClCompile Include="Model3D.cpp" />
+    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="ModelLoader.cpp" />
     <ClCompile Include="Moveable.cpp" />
     <ClCompile Include="MoveableOrientation.cpp" />
     <ClCompile Include="MoveablePoint.cpp" />
@@ -168,6 +170,7 @@
     <ClInclude Include="DebugUI.h" />
     <ClInclude Include="DebugUIContainer.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityManager.h" />
     <ClInclude Include="EntityUI.h" />
     <ClInclude Include="GLSetup.h" />
     <ClInclude Include="ImGui\imconfig.h" />
@@ -183,7 +186,8 @@
     <ClInclude Include="LightManager.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Matrix.h" />
-    <ClInclude Include="Model3D.h" />
+    <ClInclude Include="Model.h" />
+    <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="Moveable.h" />
     <ClInclude Include="MoveableOrientation.h" />
     <ClInclude Include="MoveablePoint.h" />

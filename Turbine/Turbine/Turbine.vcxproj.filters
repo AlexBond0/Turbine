@@ -55,6 +55,9 @@
     <Filter Include="Turbine Engine\Shading\Lights">
       <UniqueIdentifier>{36239749-840d-406f-9170-53e2a493517d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Turbine Engine\Object\Base\Model">
+      <UniqueIdentifier>{d7b069d5-bee4-4e0e-a781-07de682a1d6b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui_demo.cpp">
@@ -82,16 +85,10 @@
     <ClCompile Include="Particle.cpp">
       <Filter>Turbine Engine\Object\Instancing</Filter>
     </ClCompile>
-    <ClCompile Include="Object3D.cpp">
-      <Filter>Turbine Engine\Object</Filter>
-    </ClCompile>
     <ClCompile Include="Primitive.cpp">
       <Filter>Turbine Engine\Object</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
-      <Filter>Turbine Engine\Object\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Model3D.cpp">
       <Filter>Turbine Engine\Object\Base</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
@@ -113,12 +110,6 @@
       <Filter>Turbine Engine\Shading\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="Entity.cpp">
-      <Filter>Turbine Engine\Scene\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="World.cpp">
-      <Filter>Turbine Engine\Scene\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
       <Filter>Turbine Engine\Scene\Entity</Filter>
     </ClCompile>
     <ClCompile Include="TranslationStack.cpp">
@@ -160,6 +151,24 @@
     <ClCompile Include="LightManager.cpp">
       <Filter>Turbine Engine\Shading\Lights</Filter>
     </ClCompile>
+    <ClCompile Include="ModelLoader.cpp">
+      <Filter>Turbine Engine\Object\Base\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Turbine Engine\Object\Base\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Object3D.cpp">
+      <Filter>Turbine Engine\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Turbine Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Turbine Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityManager.cpp">
+      <Filter>Turbine Engine\Scene\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGui\imgui_impl_glfw.h">
@@ -192,16 +201,10 @@
     <ClInclude Include="Particle.h">
       <Filter>Turbine Engine\Object\Instancing</Filter>
     </ClInclude>
-    <ClInclude Include="Object3D.h">
-      <Filter>Turbine Engine\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Primitive.h">
       <Filter>Turbine Engine\Object</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
-      <Filter>Turbine Engine\Object\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Model3D.h">
       <Filter>Turbine Engine\Object\Base</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
@@ -235,12 +238,6 @@
       <Filter>Turbine Engine\Shading\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
-      <Filter>Turbine Engine\Scene\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="World.h">
-      <Filter>Turbine Engine\Scene\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
       <Filter>Turbine Engine\Scene\Entity</Filter>
     </ClInclude>
     <ClInclude Include="TranslationStack.h">
@@ -281,6 +278,24 @@
     </ClInclude>
     <ClInclude Include="LightManager.h">
       <Filter>Turbine Engine\Shading\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader.h">
+      <Filter>Turbine Engine\Object\Base\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Turbine Engine\Object\Base\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Object3D.h">
+      <Filter>Turbine Engine\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Turbine Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>Turbine Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityManager.h">
+      <Filter>Turbine Engine\Scene\Entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

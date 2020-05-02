@@ -1,17 +1,17 @@
-#include "Model3D.h"
+#include "ModelLoader.h"
 
-Model3D::Model3D() {
+ModelLoader::ModelLoader() {
 
 }
 
-Model3D::~Model3D() {
+ModelLoader::~ModelLoader() {
 
 }
 
 // Load a 3dsMax model into the scene
-Model3D* Model3D::LoadModel(std::string filename) {
+ModelLoader* ModelLoader::LoadModel(std::string filename) {
 
-	Model3D* model = new Model3D();
+	ModelLoader* model = new ModelLoader();
 
 	size_t lastindex = filename.find_last_of(".");
 	std::string filetype = filename.substr(lastindex, filename.size());
@@ -45,7 +45,7 @@ Model3D* Model3D::LoadModel(std::string filename) {
 }
 
 // Read the data from a 3dsMax model
-void Model3D::_Read3DSVersion4(FILE* file, Model3D* model)
+void ModelLoader::_Read3DSVersion4(FILE* file, ModelLoader* model)
 {
 	int config = 0;   // if the file includes texture coordinates then config&1=1
 	int bufflen = 60;
@@ -131,7 +131,7 @@ void Model3D::_Read3DSVersion4(FILE* file, Model3D* model)
 	free(buffer);
 }
 
-void Model3D::_ReadOBJ(std::string filename, Model3D* model) {
+void ModelLoader::_ReadOBJ(std::string filename, ModelLoader* model) {
 
 	std::ifstream file(filename.c_str(), std::ifstream::in);
 
@@ -315,7 +315,7 @@ void Model3D::_ReadOBJ(std::string filename, Model3D* model) {
 	}
 }
 
-std::vector<std::string> Model3D::_GetTokens(std::string line, char seperator) {
+std::vector<std::string> ModelLoader::_GetTokens(std::string line, char seperator) {
 
 	std::vector<std::string> vec;
 	std::string token = "";

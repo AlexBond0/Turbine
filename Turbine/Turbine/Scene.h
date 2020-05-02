@@ -4,7 +4,7 @@
 #include <time.h>
 
 #include "RenderingContext.h"
-#include "Model3D.h"
+#include "ModelLoader.h"
 #include "Texture.h"
 #include "Camera.h"
 #include "Light.h"
