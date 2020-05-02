@@ -47,6 +47,7 @@ private:
 
 	void _RenderEntity();
 	void _RenderObj();
+	void _RenderModel();
 	void _RenderInstance();
 	void _RenderParticle();
 	void _RenderPrimitive();

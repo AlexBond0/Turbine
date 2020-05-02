@@ -37,7 +37,7 @@ public:
 	// calcualte a picking ray from the scene
 	glm::vec3 CalculatePickRay(float mouseX, float mouseY, float windW, float windH);
 	PickObject ObjectPicked(Object3D* object, glm::vec3 pickingRay);
-	PickObject GetPickedObject(World* world, glm::vec3 pickingRay);
+	PickObject GetPickedObject(EntityManager* entities, glm::vec3 pickingRay);
 
 
 	// ===================================================================

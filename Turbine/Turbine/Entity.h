@@ -31,6 +31,9 @@ public:
 	Entity* parent;					// parent in Entity heirarchy
 
 	bool isDirty = false;			// flag to tell world if entity needs evaluating
+	bool isActive = true;			// does the object and object children get rendered
+	bool isLocallyActive = true;	// does the object get rendered
+	bool IsGloballyActive();		// is the object globally active in the scene
 
 	// implement in child classes to define functionality of entity when called to render
 	virtual void OnRender(RenderingContext& rcontext) = 0;
@@ -68,3 +71,11 @@ private:
 	bool _removeFromWorld = false;
 };
 
+inline bool Entity::IsGloballyActive() {
+
+	if (parent != nullptr)
+		return (isActive && parent->IsGloballyActive());
+
+	else
+		return isActive;
+}

@@ -254,29 +254,37 @@ void WorldUI::_ColourActive(Entity* entity) {
 
 	ImVec4 color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-	switch (entity->GetEntityType()) {
+	/*switch (entity->GetEntityType()) {
 
 	case EntityType::OBJ: 
 	case EntityType::OBJ_INSTANCED:
 	case EntityType::OBJ_PARTICLE_SYS:
 	case EntityType::OBJ_PRIMITIVE:
+	case EntityType::MODEL:
 	{
-	
-		Object3D* obj = dynamic_cast<Object3D*>(entity);
 
-		if (!obj->isActive)
+		if (!entity->isActive)
 			color = isNotActive;
 
-		else if (!obj->isLocallyActive)
+		else if (!entity->isLocallyActive)
 			color = isNotLocallyActive;
 
-		else if (!obj->IsGloballyActive())
+		else if (!entity->IsGloballyActive())
 			color = isNotGloballyActive;
 
 		break;
 	}
 
-	}
+	}*/
+
+	if (!entity->isActive)
+		color = isNotActive;
+
+	else if (!entity->isLocallyActive)
+		color = isNotLocallyActive;
+
+	else if (!entity->IsGloballyActive())
+		color = isNotGloballyActive;
 
 	ImGui::PushStyleColor(ImGuiCol_Text, color);
 }

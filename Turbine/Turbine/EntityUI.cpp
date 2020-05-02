@@ -26,6 +26,7 @@ void EntityUI::Render() {
 		switch (currentEntity->GetEntityType()) {
 
 		case EntityType::OBJ: _RenderObj();  break;
+		case EntityType::MODEL: _RenderModel();  break;
 		case EntityType::OBJ_INSTANCED: _RenderInstance();  break;
 		case EntityType::OBJ_PARTICLE_SYS: _RenderParticle();  break;
 		case EntityType::OBJ_PRIMITIVE: _RenderPrimitive();  break;
@@ -80,6 +81,14 @@ void EntityUI::_RenderEntity() {
 		currentEntity,
 		[](Entity* e) -> glm::vec3 { return glm::eulerAngles(e->GetRotationQuat()); }
 	);
+
+	ImGui::Separator();
+	ImGui::Checkbox("Is Active", &currentEntity->isActive);
+	ImGui::Checkbox("Is Locally Active", &currentEntity->isLocallyActive);
+
+	ImGui::Text("Is Globally Active : ");
+	ImGui::SameLine();
+	ImGui::TextColored(value, (currentEntity->IsGloballyActive() ? "TRUE" : "FALSE"));
 }
 
 void EntityUI::_RenderObj() {
@@ -92,28 +101,26 @@ void EntityUI::_RenderObj() {
 
 	Object3D* object = dynamic_cast<Object3D*>(currentEntity);
 
-
-	ImGui::Columns(2);
-
-	
 	ImGui::Checkbox("Use Texture", &object->useTexture);
 	ImGui::Checkbox("Use Lighing", &object->useLight);
 	ImGui::Checkbox("Is Transparent", &object->isTransparent);
-
-	ImGui::NextColumn();
-
 	ImGui::Checkbox("Show Highlighted", &object->isHighlighted);
-	ImGui::Checkbox("Is Active", &object->isActive);
-	ImGui::Checkbox("Is Locally Active", &object->isLocallyActive);
 
-	ImGui::Columns(1);
 	ImGui::Separator();
-
 	ImGui::DragFloat("Specular level", object->GetSpecLevel(), 0.1f);
 	ImGui::ColorEdit4("Ambient", (&object->GetAmbient()->rgba)[0]);
 	ImGui::ColorEdit4("Diffuse", (&object->GetDiffuse()->rgba)[0]);
 	ImGui::ColorEdit4("Specular", (&object->GetSpecular()->rgba)[0]);
 
+}
+
+void EntityUI::_RenderModel() {
+
+	_RenderEntity();
+
+	ImGui::NewLine();
+	ImGui::TextColored(modelCol, "Model");
+	ImGui::Separator();
 }
 
 void EntityUI::_RenderInstance() {
@@ -252,8 +259,8 @@ void EntityUI::_RenderLight() {
 			ImGui::DragFloat("Light Quadratic", &spotLight->quadratic, 0.01);
 
 			ImGui::Separator();
-			ImGui::DragFloat("Light Inside Cutoff", &spotLight->cutOff, 0.01);
-			ImGui::DragFloat("Light Outside Cutoff", &spotLight->outerCutOff, 0.01);
+			ImGui::DragFloat("Inside Cutoff", &spotLight->cutOff, 0.01);
+			ImGui::DragFloat("Outside Cutoff", &spotLight->outerCutOff, 0.01);
 
 			break;
 		}

@@ -134,12 +134,23 @@ PickObject Camera::ObjectPicked(Object3D* object, glm::vec3 pickingRay) {
 	return pickedObject;
 }
 
-PickObject Camera::GetPickedObject(World* world, glm::vec3 pickingRay) {
+PickObject Camera::GetPickedObject(EntityManager* entities, glm::vec3 pickingRay) {
 
 	PickObject picked;
 	Object3D* objRef;
 
-	for (auto const& entityRef : world->GetAllEntities()) {
+	for (auto const& entityRef : entities->GetAllEntities()) {
+
+		// models need checking recursivey
+		// could be swapped for bounding box thing
+		if (entityRef.second->GetEntityType() == EntityType::MODEL) {
+
+			Model* model = dynamic_cast<Model*>(entityRef.second);
+			PickObject newPick = GetPickedObject(model, pickingRay);
+
+			if (newPick.distance < picked.distance)
+				picked = newPick;
+		}
 
 		objRef = entityRef.second->OnPick();
 

@@ -13,6 +13,7 @@ public:
 	Object3D* OnPick();
 	void OnRender(RenderingContext& rcontext);
 
+	void Clean();
 
 };
 
