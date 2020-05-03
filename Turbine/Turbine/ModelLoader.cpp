@@ -219,6 +219,7 @@ void ModelLoader::_ReadOBJ(std::string filename, ModelLoader* model) {
 						subTokens = _GetTokens(tokens[tokenID], '/');
 
 						int vertIndex = stoi(subTokens[0]) - 1;
+						int uvIndex = stoi(subTokens[1]) - 1;		// only works if verts have shared uv coords
 						int normalIndex = stoi(subTokens[2]) - 1;
 
 						// has vertex been located before
@@ -231,6 +232,7 @@ void ModelLoader::_ReadOBJ(std::string filename, ModelLoader* model) {
 							int vertIndex = stoi(subTokens[0]) - 1;
 
 							p.vertex = vertices[vertIndex];
+							p.uv = uvs[uvIndex];
 							p.normal = normals[normalIndex];
 
 

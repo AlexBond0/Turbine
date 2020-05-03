@@ -55,6 +55,8 @@ private:
 
 	void _RenderLight();
 
+	void _RenderStringVal(std::string tag, std::string value);
+
 	// saves making lots of data types each render
 	glm::vec3 _worldPos;
 	glm::vec3 _localPos;

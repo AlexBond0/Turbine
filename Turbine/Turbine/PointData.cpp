@@ -266,3 +266,18 @@ void PointData::SetUV(bool hasuv) {
 
 	_incuv = hasuv;
 }
+
+// Scale UV coordinates, making tesselation bigger or smaller
+// Only recommended for large areas like terrain, better UV editing implementation needed
+bool PointData::ScaleUV(float scale) {
+
+	if (_incuv) {
+
+		for (PointUV& p : _point_vnu_data) 
+			p.uv *= scale;
+		
+		return true;
+	}
+	else
+		return false;
+}

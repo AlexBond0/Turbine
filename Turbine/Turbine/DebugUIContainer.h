@@ -22,7 +22,7 @@ protected:
 	ImVec4 pointLightCol = ImVec4(0.5f, 0.0f, 1.0f, 1.0f);
 	ImVec4 spotLightCol = ImVec4(1.0f, 0.0f, 0.3f, 1.0f);
 
-	ImVec4 value = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
+	ImVec4 valueCol = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
 	ImVec4 selected = ImVec4(0.5f, 0.0f, 1.0f, 1.0f);
 
 	ImVec4 isNotGloballyActive = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);

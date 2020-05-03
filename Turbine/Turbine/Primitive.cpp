@@ -324,6 +324,49 @@ Geomitory Primitive::GenerateCircle(float radius, int segments, bool up) {
 	return data;
 }
 
+Geomitory Primitive::GeneratePlane(float width, int height, bool doubleSided = false) {
+
+	Geomitory data;
+
+	// vertices
+	float verts[4][8] = {
+		{ (-width * 0.5), 0, (-height * 0.5), (-width * 0.5), 0, (-height * 0.5), 0, 0 },
+		{ (width * 0.5), 0, (-height * 0.5), (width * 0.5), 0, (-height * 0.5), 1, 0 },
+		{ (-width * 0.5), 0, (height * 0.5), (-width * 0.5), 0, (height * 0.5), 0, 1 },
+		{ (width * 0.5), 0, (height * 0.5), (width * 0.5), 0, (height * 0.5), 1, 1 }
+	};
+	for (int vert = 0; vert < 4; vert++)
+		for (int part = 0; part < 8; part++)
+			data.vecs.push_back(verts[vert][part]);
+
+	// uvs
+	if (doubleSided) {
+
+		unsigned short polys[4][3] = {
+			{0, 1, 2},
+			{1, 3, 2},
+			{2, 1, 0},
+			{2, 3, 1}
+		};
+		for (int poly = 0; poly < 4; poly++)
+			for (int part = 0; part < 3; part++)
+				data.polys.push_back(polys[poly][part]);
+	}
+	else {
+
+		unsigned short polys[2][3] = {
+			{0, 1, 2},
+			{1, 3, 2}
+		};
+		for (int poly = 0; poly < 2; poly++)
+			for (int part = 0; part < 3; part++)
+				data.polys.push_back(polys[poly][part]);
+	}
+
+
+	return data;
+}
+
 // translate geometrical data in the Geomitory object
 void Primitive::TranslateGeomitory(Geomitory& geomitory, float x, float y, float z) {
 

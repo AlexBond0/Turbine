@@ -25,36 +25,11 @@ void Scene::Render(RenderingContext& rcontext) {
 	// calculate camera properties
 	world.GetActiveCamera()->LookThrough(rcontext);
 
-	// calculate light half plane
-	//Light* sun = dynamic_cast<Light*>(world.GetEntity("sun"));
-	//sun->CalculateHalfPlane(*world.GetActiveCamera()->GetLocalPosVec());
-
-	//glm::vec3 dir = sun->GetLightDirection();
-
 	glm::vec3 pos = world.GetActiveCamera()->GetWorldPosition();
 	rcontext.liveShader->SetVector("u_c_position", pos);
 
 	// assign light handles
 	world.lights.RenderLights(rcontext, pos);
-
-	// world.AssignLightHandles(rcontext);
-
-	//rcontext.liveShader->SetVector("u_l_position", *sun->GetLocalPosVec());
-	//rcontext.liveShader->SetVector("u_l_direction", dir);
-	//rcontext.liveShader->SetVector("u_l_halfplane", sun->halfplane);
-	//rcontext.liveShader->SetColor("u_l_ambient", sun->ambient.rgba);
-	//rcontext.liveShader->SetColor("u_l_diffuse", sun->diffuse.rgba);
-	//rcontext.liveShader->SetColor("u_l_specular", sun->specular.rgba);
-	//rcontext.liveShader->SetFloat("u_l_spec_strength", sun->specularStrength);
-
-	//rcontext.liveShader->SetVector("pointLight.position", *sun->GetLocalPosVec());
-	//rcontext.liveShader->SetColor("pointLight.ambient", sun->ambient.rgba);
-	//rcontext.liveShader->SetColor("pointLight.diffuse", sun->diffuse.rgba);
-	//rcontext.liveShader->SetColor("pointLight.specular", sun->specular.rgba);
-	//rcontext.liveShader->SetFloat("pointLight.specStrength", sun->specularStrength);
-	//rcontext.liveShader->SetFloat("pointLight.constant", 1.0f);
-	//rcontext.liveShader->SetFloat("pointLight.linear", 0.09);
-	//rcontext.liveShader->SetFloat("pointLight.quadratic", 0.032);
 
 	// render solid objects
 	_ObjectPass(rcontext);
@@ -96,7 +71,9 @@ void Scene::Setup() {
 	_LoadRide();
 
 	// create the default camera
-	world.AddEntity(new Camera("Default Camera"));
+	Camera* defaultCam = new Camera("Default Camera");
+	world.AddEntity(defaultCam);
+	defaultCam->fZFar = 1500;
 
 	// set up the POV camera
 	Camera* camPOV = new Camera("POV Camera");
@@ -113,29 +90,44 @@ void Scene::Setup() {
 	Primitive* skybox = new Primitive();
 	skybox->GenerateBox(20.0f, true);
 	skybox->SetOrientation(0.0f, -90.0f, 0.0f);
+	skybox->SetScale(40.0f);
 	skybox->SetTexture(textures.id["skybox"]);
 	skybox->useLight = false;
 	skybox->SetName("skybox");
 	world.AddEntity(skybox);
 
 	// load the ground model
-	ModelLoader* ground = ModelLoader::LoadModel("GroundPlane2.3dm");
+	ModelLoader* ground = ModelLoader::LoadModel("GroundPlane2.3dm"); //"GroundPlane2.3dm");
 	world.AddEntity(ground->GetModel());
+	ground->GetModel()->Clean();
+
+	Model* island = ground->GetModel();
+	// island->SetScale(1.0, 1.0, 1.0);
+	// island->SetLocalPos(-25.3, -10.0, 19.0);
+	island->SetScale(30.0f);
+
+	Object3D* plane = world.GetModelObject3D("GroundPlane2", "Plane");
+	plane->SetAmbient(0.3f, 0.3f, 0.3f, 1.0f);
+	plane->SetDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
+	plane->SetTexture(textures.id["ground2"]);
+	// plane->vertices.ScaleUV(200.0f);
+
+	// make some water
+	Primitive* ocean = new Primitive();
+	ocean->SetName("Ocean");
+	Geomitory water = Primitive::GeneratePlane(5.0, 5.0, true);
+	ocean->AssignGeomitoryData(water);
+	ocean->SetLocalPos(0.0, -10.0, 0.0);
+	ocean->SetScale(100.0, 100.0, 100.0);
+	ocean->SetAmbient(0.0f, 0.3f, 1.0f, 1.0f);
+	ocean->SetDiffuse(0.0f, 0.6f, 1.0f, 1.0f);
+	world.AddEntity(ocean);
 
 	// load the bulb fly model
 	ModelLoader* bulbfly = ModelLoader::LoadModel("bulbFly.obj");
 	world.AddEntity(bulbfly->GetModel());
 	world.GetModelObject3D("bulbFly", "Body_Base")->SetTranslation(glm::vec3(1.0, 1.0, 0.0));
 	dynamic_cast<Model*>(world.GetEntity("bulbFly"))->Clean();
-
-	//world.GetObject3D("Lightbulb")->isTransparent = true;
-
-	// set property information for the ground plane
-	Object3D* plane = world.GetModelObject3D("GroundPlane2", "Plane");
-	plane->SetScale(30.0f, 30.0f, 30.0f);
-	plane->SetAmbient(0.3f, 0.3f, 0.3f, 1.0f);
-	plane->SetDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
-	plane->SetTexture(textures.id["ground2"]);
 
 	// generate lights
 	_GenerateLights();

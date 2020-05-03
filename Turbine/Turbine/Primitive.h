@@ -48,6 +48,7 @@ public:
 	static Geomitory GenerateBaseIcoSphere(float radius);
 
 	static Geomitory GenerateCircle(float radius, int segments, bool up);
+	static Geomitory GeneratePlane(float width, int height, bool doubleSided);
 
 	static void TranslateGeomitory(Geomitory& geomitory, float x, float y, float z);
 	static void TranslateUV(Geomitory& geomitory, float u, float v);

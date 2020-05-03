@@ -21,6 +21,7 @@ void EntityUI::Render() {
 
 		ImGui::Begin("Entity");
 		ImGui::Text(("Name : " + std::string(currentEntity->GetName())).c_str());
+
 		ImGui::Separator();
 
 		switch (currentEntity->GetEntityType()) {
@@ -83,12 +84,32 @@ void EntityUI::_RenderEntity() {
 	);
 
 	ImGui::Separator();
+	ImGui::Columns(2);
+
 	ImGui::Checkbox("Is Active", &currentEntity->isActive);
 	ImGui::Checkbox("Is Locally Active", &currentEntity->isLocallyActive);
 
-	ImGui::Text("Is Globally Active : ");
-	ImGui::SameLine();
-	ImGui::TextColored(value, (currentEntity->IsGloballyActive() ? "TRUE" : "FALSE"));
+	_RenderStringVal(
+		"Is Globally Active : ",
+		(currentEntity->IsGloballyActive() ? "TRUE" : "FALSE")
+	);
+
+	ImGui::NextColumn();
+
+	if (ImGui::Button("Look at entity")) {
+
+		// camera can't look at itself
+		if (world->GetActiveCamera() != currentEntity) {
+
+			world->GetActiveCamera()->SetTarget(
+				currentEntity->GetWorldPosition()
+			);
+
+			world->GetActiveCamera()->SetUp(glm::vec3(0.0, 1.0, 0.0));
+		}
+	}
+
+	ImGui::Columns(1);
 }
 
 void EntityUI::_RenderObj() {
@@ -101,10 +122,18 @@ void EntityUI::_RenderObj() {
 
 	Object3D* object = dynamic_cast<Object3D*>(currentEntity);
 
+	ImGui::Columns(2);
 	ImGui::Checkbox("Use Texture", &object->useTexture);
 	ImGui::Checkbox("Use Lighing", &object->useLight);
+	ImGui::NextColumn();
 	ImGui::Checkbox("Is Transparent", &object->isTransparent);
 	ImGui::Checkbox("Show Highlighted", &object->isHighlighted);
+	ImGui::Columns(1);
+
+	_RenderStringVal(
+		"Has UV Coordinates : ",
+		(object->vertices.HasUV() ? "TRUE" : "FALSE")
+	);
 
 	ImGui::Separator();
 	ImGui::DragFloat("Specular level", object->GetSpecLevel(), 0.1f);
@@ -133,9 +162,10 @@ void EntityUI::_RenderInstance() {
 
 	InstancedObject* instance = dynamic_cast<InstancedObject*>(currentEntity);
 
-	ImGui::Text("Instance count : ");
-	ImGui::SameLine();
-	ImGui::TextColored(value, (std::to_string(instance->GetInstanceCount())).c_str());
+	_RenderStringVal(
+		"Instance count : ",
+		std::to_string(instance->GetInstanceCount())
+	);
 }
 
 void EntityUI::_RenderParticle() {
@@ -175,9 +205,11 @@ void EntityUI::_RenderCamera() {
 	ImGui::Checkbox("Show Camera in scene", &camera->cameraUI.showUIObject);
 
 	ImGui::Separator();
-	ImGui::Text("Aspect Ratio : ");
-	ImGui::SameLine();
-	ImGui::TextColored(value, (std::to_string(camera->fAspect).c_str()));
+
+	_RenderStringVal(
+		"Aspect Ratio : ",
+		std::to_string(camera->fAspect)
+	);
 
 	
 	bool fa = ImGui::DragFloat("Feild of View", &camera->fFovy, 0.01);
@@ -265,6 +297,14 @@ void EntityUI::_RenderLight() {
 			break;
 		}
 	}
+}
+
+
+void EntityUI::_RenderStringVal(std::string tag, std::string value) {
+
+	ImGui::Text(tag.c_str());
+	ImGui::SameLine();
+	ImGui::TextColored(valueCol, value.c_str());
 }
 
 

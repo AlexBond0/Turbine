@@ -50,6 +50,7 @@ public:
 
 	int DataSize();
 	bool HasUV();
+	bool ScaleUV(float scale);
 
 private:
 
