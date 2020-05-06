@@ -161,5 +161,5 @@ int InstancedObject::GetInstanceCount() {
 
 int InstancedObject::InstanceDataSize() {
 
-	return sizeof(Poly) * GetInstanceCount();
+	return sizeof(Instance) * GetInstanceCount();
 }

@@ -207,7 +207,7 @@ void Particle::_UpdateParticles(double step_seconds) {
 	std::sort(points.begin(), points.end());
 
 	// get all 
-	std::vector<Poly>* particleData = instances.GetVector();
+	std::vector<Instance>* particleData = instances.GetVector();
 
 	for (int particleID = 0; particleID < particles.size(); particleID++) {
 
@@ -215,12 +215,12 @@ void Particle::_UpdateParticles(double step_seconds) {
 		/*rawParticleData[(particleID * 3)]		= points[particleID].x;
 		rawParticleData[(particleID * 3) + 1]	= points[particleID].y;
 		rawParticleData[(particleID * 3) + 2]	= points[particleID].z;*/
-		particleData->at(particleID).point[0] = points[particleID].x;
-		particleData->at(particleID).point[1] = points[particleID].y;
-		particleData->at(particleID).point[2] = points[particleID].z;
+		particleData->at(particleID).position.x = points[particleID].x;
+		particleData->at(particleID).position.y = points[particleID].y;
+		particleData->at(particleID).position.z = points[particleID].z;
 	}
 
-	// set instance data
+	// set instance data 
 	// SetInstanceData(rawParticleData, particles.size());
 
 	if (particles.size() > 200)

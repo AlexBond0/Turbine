@@ -169,6 +169,9 @@
     <ClCompile Include="EntityManager.cpp">
       <Filter>Turbine Engine\Scene\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="InstanceData.cpp">
+      <Filter>Turbine Engine\Object\Base\Data</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGui\imgui_impl_glfw.h">
@@ -296,6 +299,9 @@
     </ClInclude>
     <ClInclude Include="EntityManager.h">
       <Filter>Turbine Engine\Scene\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="InstanceData.h">
+      <Filter>Turbine Engine\Object\Base\Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
