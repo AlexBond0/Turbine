@@ -13,14 +13,20 @@ public:
 	InstancedObject(Object3D* copy, std::string newName);
 	virtual ~InstancedObject();
 
-	void SetInstanceData(float* newInstanceData, int noofnewinstances);
+	std::vector<Poly>* GetInstanceVector();
+	void SetInstanceData(int instanceCount);
 	int GetInstanceCount();
+	int InstanceDataSize();
+
+	PolygonData instances;
 
 protected:
 
 	// instance data
-	float* instanceData;
-	int noofinstances;
+	// float* instanceData;
+	int _noofinstances = 0;
+
+
 
 	void _InitVBOs();
 
@@ -29,8 +35,13 @@ protected:
 	void _HandleVBOs(RenderingContext& rcontext);
 };
 
+//
+//inline int InstancedObject::GetInstanceCount() {
+//
+//	return noofinstances;
+//}
 
-inline int InstancedObject::GetInstanceCount() {
+inline std::vector<Poly>* InstancedObject::GetInstanceVector() {
 
-	return noofinstances;
+	return instances.GetVector();
 }

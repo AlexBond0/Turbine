@@ -133,7 +133,7 @@ void Scene::Setup() {
 	_GenerateLights();
 
 	// generate trees
-	_GenerateTrees();
+	// _GenerateTrees();
 
 	// load animator
 	animator = RideAnimation(&world);
@@ -238,7 +238,7 @@ void Scene::_GenerateTrees() {
 	}
 
 	// assign the new instance data
-	trees->SetInstanceData(treeInstances, noofTrees);
+	// trees->SetInstanceData(treeInstances, noofTrees);
 
 	// remove 
 	free(treeInstances);

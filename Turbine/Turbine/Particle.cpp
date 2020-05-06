@@ -36,6 +36,8 @@ void Particle::_SetupParticle(int max, int perms) {
 	particlesPerms = perms;
 	isBillboarded = true;
 
+	instances.Reserve(maxParticles);
+
 	srand(time(NULL));
 
 	_GenerateParticleInstance();
@@ -43,14 +45,14 @@ void Particle::_SetupParticle(int max, int perms) {
 	SetAmbient(profile.colour);
 
 	// create memory space for tree instances
-	int particleDataSize = sizeof(float) * 3 * max;
-	rawParticleData = (float*)malloc(particleDataSize);
-	noofinstances = max;
+	// int particleDataSize = sizeof(float) * 3 * max;
+	// rawParticleData = (float*)malloc(particleDataSize);
+	// noofinstances = max;
 }
 
 Particle::~Particle() {
 
-	free(rawParticleData);
+	// free(rawParticleData);
 }
 
 // =================================================================================
@@ -205,16 +207,26 @@ void Particle::_UpdateParticles(double step_seconds) {
 	std::sort(points.begin(), points.end());
 
 	// get all 
+	std::vector<Poly>* particleData = instances.GetVector();
+
 	for (int particleID = 0; particleID < particles.size(); particleID++) {
 
 		// save particle to raw data
-		rawParticleData[(particleID * 3)]		= points[particleID].x;
+		/*rawParticleData[(particleID * 3)]		= points[particleID].x;
 		rawParticleData[(particleID * 3) + 1]	= points[particleID].y;
-		rawParticleData[(particleID * 3) + 2]	= points[particleID].z;
+		rawParticleData[(particleID * 3) + 2]	= points[particleID].z;*/
+		particleData->at(particleID).point[0] = points[particleID].x;
+		particleData->at(particleID).point[1] = points[particleID].y;
+		particleData->at(particleID).point[2] = points[particleID].z;
 	}
 
 	// set instance data
-	SetInstanceData(rawParticleData, particles.size());
+	// SetInstanceData(rawParticleData, particles.size());
+
+	if (particles.size() > 200)
+		int P = 0;
+
+	SetInstanceData(particles.size());
 }
 
 

@@ -80,7 +80,7 @@ private:
 	glm::mat4 inverseView;	// inverse view matrix
 	glm::mat4 modelView;	// model view matrix
 
-	float* rawParticleData;	// raw partcile data passed to instance VBO
+	// float* rawParticleData;	// raw partcile data passed to instance VBO
 
 	void _SetupParticle(int max, int perms);
 

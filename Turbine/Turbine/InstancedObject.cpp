@@ -23,7 +23,7 @@ InstancedObject::~InstancedObject() {
 	if (handles.initialised)
 		glDeleteBuffers(1, &handles.instance_vbo);
 
-	free(instanceData);
+	// free(instanceData);
 }
 
 // Bind the VAO and draw the object
@@ -39,7 +39,7 @@ void InstancedObject::_Draw(RenderingContext& rcontext) {
 		polygons.ElementCount(),
 		GL_UNSIGNED_SHORT,
 		0,
-		noofinstances
+		_noofinstances
 	);
 
 	glBindVertexArray(0);
@@ -76,9 +76,17 @@ void InstancedObject::_InitVBOs() {
 	);
 
 	// instances
-	int size = 4 * 3 * noofinstances;
-	glBindBuffer(GL_ARRAY_BUFFER, handles.instance_vbo);
-	glBufferData(GL_ARRAY_BUFFER, size, instanceData, GL_DYNAMIC_DRAW);
+	// int size = 4 * 3 * noofinstances;
+	if (instances.Size() > 0) {
+
+		glBindBuffer(GL_ARRAY_BUFFER, handles.instance_vbo);
+		glBufferData(
+			GL_ARRAY_BUFFER,
+			InstanceDataSize(),
+			instances.GetData(),
+			GL_DYNAMIC_DRAW
+		);
+	}
 
 	handles.initialised = true;
 
@@ -111,18 +119,47 @@ void InstancedObject::_HandleVBOs(RenderingContext& rcontext) {
 // =====================================================================
 
 // set instance data for this object
-void InstancedObject::SetInstanceData(float* newInstanceData, int noofnewinstances) {
+//void InstancedObject::SetInstanceData(float* newInstanceData, int noofnewinstances) {
+//
+//	int length = sizeof(float) * noofnewinstances * 3;
+//
+//	free(instanceData);
+//	instanceData = (float*)malloc(length);
+//	memcpy(instanceData, newInstanceData, length);
+//	noofinstances = noofnewinstances;
+//
+//	if (handles.initialised && noofinstances > 0) {
+//
+//		glBindBuffer(GL_ARRAY_BUFFER, handles.instance_vbo);
+//		glBufferData(GL_ARRAY_BUFFER, length, instanceData, GL_DYNAMIC_DRAW);
+//	}
+//}
 
-	int length = sizeof(float) * noofnewinstances * 3;
 
-	free(instanceData);
-	instanceData = (float*)malloc(length);
-	memcpy(instanceData, newInstanceData, length);
-	noofinstances = noofnewinstances;
+void InstancedObject::SetInstanceData(int instanceCount) {
 
-	if (handles.initialised && noofinstances > 0) {
+	_noofinstances = instanceCount;
 
+
+	if (handles.initialised && _noofinstances > 0) {
+		
 		glBindBuffer(GL_ARRAY_BUFFER, handles.instance_vbo);
-		glBufferData(GL_ARRAY_BUFFER, length, instanceData, GL_DYNAMIC_DRAW);
+		glBufferData(
+			GL_ARRAY_BUFFER, 
+			InstanceDataSize(),
+			instances.GetData(), 
+			GL_DYNAMIC_DRAW
+		);
 	}
+}
+
+
+int InstancedObject::GetInstanceCount() {
+	
+	return _noofinstances; // (instances.Size() < _noofinstances ? instances.Size() : _noofinstances);
+}
+
+int InstancedObject::InstanceDataSize() {
+
+	return sizeof(Poly) * GetInstanceCount();
 }

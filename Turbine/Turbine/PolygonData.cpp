@@ -108,3 +108,12 @@ int PolygonData::ElementType() {
 
 	return _polygonElementType;
 }
+
+void PolygonData::Reserve(int newPolys) {
+
+	_polygon_struct_data.empty();
+	_polygon_struct_data.reserve(newPolys);
+
+	for (int x = 0; x < newPolys; x++)
+		_polygon_struct_data.push_back(Poly());
+}

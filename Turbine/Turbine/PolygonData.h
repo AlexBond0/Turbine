@@ -32,6 +32,8 @@ public:
 	int DataSize();
 	int ElementType();
 
+	void Reserve(int newPolys);
+
 private:
 
 	int _polygonElementType;				// Type of OpenGL polygon element
