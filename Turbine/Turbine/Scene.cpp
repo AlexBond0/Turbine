@@ -74,6 +74,7 @@ void Scene::Setup() {
 	Camera* defaultCam = new Camera("Default Camera");
 	world.AddEntity(defaultCam);
 	defaultCam->fZFar = 1500;
+	defaultCam->fDirty = true; // needs calling as f properties have changed
 
 	// set up the POV camera
 	Camera* camPOV = new Camera("POV Camera");
@@ -133,7 +134,7 @@ void Scene::Setup() {
 	_GenerateLights();
 
 	// generate trees
-	// _GenerateTrees();
+	_GenerateTrees();
 
 	// load animator
 	animator = RideAnimation(&world);
@@ -214,34 +215,27 @@ void Scene::_GenerateTrees() {
 
 	// get vert data
 	Object3D* plane = world.GetModelObject3D("GroundPlane2", "Plane");
-	int size = plane->GetVertCount() * 8;
-	float* verts = (float*)plane->GetVertData();
-
-	// create memory space for tree instances
 	int noofTrees = plane->GetVertCount();
-	int t_ID = 0;
-	int length = sizeof(float) * 3 * noofTrees;
-	float* treeInstances = (float*)malloc(length);
+	std::vector<Instance> treeInstances;
+	PointUV* point;
 
 	// collate instance data
 	srand(time(NULL));
-	float treeX, treeY, treeZ;
-	for (int stride = 0; stride < size; stride += 8) {
+	for (int treeID = 0; treeID < noofTrees; treeID++) {
 
-		treeX = (verts[stride] * 30);
-		treeY = (verts[stride + 1] * 30) - (float(rand() % 20) / 100.0f);
-		treeZ = (verts[stride + 2] * 30);
+		point = plane->vertices.GetPointUV(treeID);
 
-		treeInstances[t_ID++] = treeX;
-		treeInstances[t_ID++] = treeY;
-		treeInstances[t_ID++] = treeZ;
+		Instance i;
+		i.position[0] = (point->vertex.x * 30);
+		i.position[1] = (point->vertex.y * 30) - (float(rand() % 20) / 100.0f);
+		i.position[2] = (point->vertex.z * 30);
+
+		treeInstances.push_back(i);
 	}
 
 	// assign the new instance data
-	// trees->SetInstanceData(treeInstances, noofTrees);
-
-	// remove 
-	free(treeInstances);
+	trees->instances.SetData(treeInstances);
+	trees->UpdateInstanceCount();
 }
 
 // generate copied seats for the ride

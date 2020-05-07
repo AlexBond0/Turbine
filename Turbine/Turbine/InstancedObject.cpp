@@ -116,30 +116,24 @@ void InstancedObject::_HandleVBOs(RenderingContext& rcontext) {
 	}
 }
 
-// =====================================================================
+// Update number of instaces to render
+// This is seperate to number of instances stored as not all instances stored may want to be rendered
+void InstancedObject::UpdateInstanceCount() {
 
-// set instance data for this object
-//void InstancedObject::SetInstanceData(float* newInstanceData, int noofnewinstances) {
-//
-//	int length = sizeof(float) * noofnewinstances * 3;
-//
-//	free(instanceData);
-//	instanceData = (float*)malloc(length);
-//	memcpy(instanceData, newInstanceData, length);
-//	noofinstances = noofnewinstances;
-//
-//	if (handles.initialised && noofinstances > 0) {
-//
-//		glBindBuffer(GL_ARRAY_BUFFER, handles.instance_vbo);
-//		glBufferData(GL_ARRAY_BUFFER, length, instanceData, GL_DYNAMIC_DRAW);
-//	}
-//}
+	_noofinstances = instances.Size();
 
+	UpdateInstanceCount(_noofinstances);
+}
 
-void InstancedObject::SetInstanceData(int instanceCount) {
+// Update number of instaces to render with a given instance count
+// This is seperate to number of instances stored as not all instances stored may want to be rendered
+void InstancedObject::UpdateInstanceCount(int instanceCount) {
 
-	_noofinstances = instanceCount;
-
+	if (instanceCount < 0)
+		_noofinstances = instances.Size();
+			
+	else
+		_noofinstances = instanceCount;
 
 	if (handles.initialised && _noofinstances > 0) {
 		
@@ -153,10 +147,9 @@ void InstancedObject::SetInstanceData(int instanceCount) {
 	}
 }
 
-
 int InstancedObject::GetInstanceCount() {
 	
-	return _noofinstances; // (instances.Size() < _noofinstances ? instances.Size() : _noofinstances);
+	return _noofinstances;
 }
 
 int InstancedObject::InstanceDataSize() {

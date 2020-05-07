@@ -14,7 +14,8 @@ public:
 	InstancedObject(Object3D* copy, std::string newName);
 	virtual ~InstancedObject();
 
-	void SetInstanceData(int instanceCount);
+	void UpdateInstanceCount();
+	void UpdateInstanceCount(int instanceCount);
 	int GetInstanceCount();
 	int InstanceDataSize();
 
@@ -22,14 +23,10 @@ public:
 
 protected:
 
-	// instance data
-	// float* instanceData;
-	int _noofinstances = 0;
 
+	int _noofinstances = 0;	// number of instances to render
 
 	void _InitVBOs();
-
 	void _Draw(RenderingContext& rcontext);
-
 	void _HandleVBOs(RenderingContext& rcontext);
 };

@@ -19,6 +19,7 @@ public:
 	~InstanceData() {};
 
 	void SetData(InstanceData pointData);
+	void SetData(std::vector<Instance> instances);
 	void AddInstance(Instance newInstance);
 
 	std::vector<Instance>* GetVector();
@@ -33,6 +34,5 @@ private:
 
 	std::vector<Instance> _instance_struct_data;	// Storage of Poly elements defining the object
 
-	void _SetData(std::vector<Instance> instances);
 };
 

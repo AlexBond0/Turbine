@@ -212,21 +212,12 @@ void Particle::_UpdateParticles(double step_seconds) {
 	for (int particleID = 0; particleID < particles.size(); particleID++) {
 
 		// save particle to raw data
-		/*rawParticleData[(particleID * 3)]		= points[particleID].x;
-		rawParticleData[(particleID * 3) + 1]	= points[particleID].y;
-		rawParticleData[(particleID * 3) + 2]	= points[particleID].z;*/
 		particleData->at(particleID).position.x = points[particleID].x;
 		particleData->at(particleID).position.y = points[particleID].y;
 		particleData->at(particleID).position.z = points[particleID].z;
 	}
 
-	// set instance data 
-	// SetInstanceData(rawParticleData, particles.size());
-
-	if (particles.size() > 200)
-		int P = 0;
-
-	SetInstanceData(particles.size());
+	UpdateInstanceCount(particles.size());
 }
 
 

@@ -15,7 +15,7 @@ void InstanceData::AddInstance(Instance newInstance) {
 
 
 // Assign polygon data to the Object
-void InstanceData::_SetData(std::vector<Instance> instances) {
+void InstanceData::SetData(std::vector<Instance> instances) {
 
 	_instance_struct_data.empty();
 	_instance_struct_data.reserve(instances.size());
