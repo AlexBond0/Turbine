@@ -98,20 +98,20 @@ void Scene::Setup() {
 	world.AddEntity(skybox);
 
 	// load the ground model
-	ModelLoader* ground = ModelLoader::LoadModel("GroundPlane2.3dm"); //"GroundPlane2.3dm");
+	ModelLoader* ground = ModelLoader::LoadModel("island.obj"); //"GroundPlane2.3dm");
 	world.AddEntity(ground->GetModel());
 	ground->GetModel()->Clean();
 
 	Model* island = ground->GetModel();
-	// island->SetScale(1.0, 1.0, 1.0);
-	// island->SetLocalPos(-25.3, -10.0, 19.0);
-	island->SetScale(30.0f);
+	island->SetScale(1.0, 1.0, 1.0);
+	island->SetLocalPos(-25.3, -10.0, 19.0);
+	// island->SetScale(30.0f);
 
-	Object3D* plane = world.GetModelObject3D("GroundPlane2", "Plane");
+	Object3D* plane = world.GetModelObject3D("island", "Plane");
 	plane->SetAmbient(0.3f, 0.3f, 0.3f, 1.0f);
 	plane->SetDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
 	plane->SetTexture(textures.id["ground2"]);
-	// plane->vertices.ScaleUV(200.0f);
+	plane->vertices.ScaleUV(200.0f);
 
 	// make some water
 	Primitive* ocean = new Primitive();
@@ -204,6 +204,8 @@ void Scene::_LoadRide() {
 // generate tree primitives for the scene
 void Scene::_GenerateTrees() {
 
+	int treeDividor = 1;
+
 	// create primitive tree
 	Primitive tree;
 	tree.GenerateTree(0.13f, 0.7f);
@@ -214,21 +216,25 @@ void Scene::_GenerateTrees() {
 	world.AddEntity(trees);
 
 	// get vert data
-	Object3D* plane = world.GetModelObject3D("GroundPlane2", "Plane");
+	Object3D* plane = world.GetModelObject3D("island", "Plane");
 	int noofTrees = plane->GetVertCount();
 	std::vector<Instance> treeInstances;
-	PointUV* point;
+	glm::vec4 point;
 
 	// collate instance data
+	noofTrees /= treeDividor;
+
+	glm::mat4 translation = *plane->GetWorldTranslation().GetCurrentModelMatrix();
+
 	srand(time(NULL));
 	for (int treeID = 0; treeID < noofTrees; treeID++) {
 
-		point = plane->vertices.GetPointUV(treeID);
+		point = translation * glm::vec4(plane->vertices.GetPointUV(treeID * treeDividor)->vertex, 1.0f);
 
 		Instance i;
-		i.position[0] = (point->vertex.x * 30);
-		i.position[1] = (point->vertex.y * 30) - (float(rand() % 20) / 100.0f);
-		i.position[2] = (point->vertex.z * 30);
+		i.position[0] = point.x + (float(rand() % 20) / 40.0f);
+		i.position[1] = point.y - (float(rand() % 20) / 100.0f); // -(float(rand() % 20) / 100.0f);
+		i.position[2] = point.z + (float(rand() % 20) / 40.0f);
 
 		treeInstances.push_back(i);
 	}

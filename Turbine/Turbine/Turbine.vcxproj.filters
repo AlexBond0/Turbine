@@ -321,6 +321,12 @@
     <None Include="SmoothLight.frag">
       <Filter>Turbine Engine\Shading\Shaders</Filter>
     </None>
+    <None Include="SmoothFog.frag">
+      <Filter>Turbine Engine\Shading\Shaders</Filter>
+    </None>
+    <None Include="SmoothFog.vert">
+      <Filter>Turbine Engine\Shading\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="shader.frag">

@@ -14,6 +14,12 @@ RenderingContext::RenderingContext() {
 		L"SmoothLight.frag"
 	);
 
+	shaders["fog"] = new Shader(
+		"fog",
+		L"SmoothFog.vert",
+		L"SmoothFog.frag"
+	);
+
 	liveShader = shaders["object"];
 
 	createdShaders = true;

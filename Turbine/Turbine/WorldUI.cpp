@@ -20,11 +20,13 @@ void WorldUI::Render() {
 
 	ImGui::Text("Rendering");
 	ImGui::RadioButton("Object", &renderer, 0); ImGui::SameLine();
-	ImGui::RadioButton("Smooth", &renderer, 1);
+	ImGui::RadioButton("Smooth", &renderer, 1); ImGui::SameLine();
+	ImGui::RadioButton("Fog", &renderer, 2);
 
 	switch (renderer) {
 		case 0: rcontext->SetLiveShader("object"); break;
 		case 1: rcontext->SetLiveShader("smooth"); break;
+		case 2: rcontext->SetLiveShader("fog"); break;
 	}
 
 	ImGui::BeginChild("Entites", ImVec2(0, 0), true);

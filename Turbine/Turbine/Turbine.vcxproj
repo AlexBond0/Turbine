@@ -212,6 +212,8 @@
   <ItemGroup>
     <None Include="..\..\README.md" />
     <None Include="ImGui\imgui.ini" />
+    <None Include="SmoothFog.frag" />
+    <None Include="SmoothFog.vert" />
     <None Include="SmoothLight.frag" />
     <None Include="SmoothLight.vert" />
     <None Include="Turbine_DebugUI.md" />
