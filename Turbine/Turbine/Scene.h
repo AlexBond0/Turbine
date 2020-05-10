@@ -59,6 +59,8 @@ private:
 	void _GenerateParticles();
 	void _GenerateLights();
 
+	void _LoadBigScene();
+	void _LoadSmallScene();
 };
 
 // toggle the simple animation state

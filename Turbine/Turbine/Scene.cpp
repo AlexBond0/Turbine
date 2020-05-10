@@ -73,7 +73,7 @@ void Scene::Setup() {
 	// create the default camera
 	Camera* defaultCam = new Camera("Default Camera");
 	world.AddEntity(defaultCam);
-	defaultCam->fZFar = 1500;
+	defaultCam->fZFar = 1500.0f;
 	defaultCam->fDirty = true; // needs calling as f properties have changed
 
 	// set up the POV camera
@@ -98,31 +98,8 @@ void Scene::Setup() {
 	world.AddEntity(skybox);
 
 	// load the ground model
-	ModelLoader* ground = ModelLoader::LoadModel("island.obj"); //"GroundPlane2.3dm");
-	world.AddEntity(ground->GetModel());
-	ground->GetModel()->Clean();
-
-	Model* island = ground->GetModel();
-	island->SetScale(1.0, 1.0, 1.0);
-	island->SetLocalPos(-25.3, -10.0, 19.0);
-	// island->SetScale(30.0f);
-
-	Object3D* plane = world.GetModelObject3D("island", "Plane");
-	plane->SetAmbient(0.3f, 0.3f, 0.3f, 1.0f);
-	plane->SetDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
-	plane->SetTexture(textures.id["ground2"]);
-	plane->vertices.ScaleUV(200.0f);
-
-	// make some water
-	Primitive* ocean = new Primitive();
-	ocean->SetName("Ocean");
-	Geomitory water = Primitive::GeneratePlane(5.0, 5.0, true);
-	ocean->AssignGeomitoryData(water);
-	ocean->SetLocalPos(0.0, -10.0, 0.0);
-	ocean->SetScale(100.0, 100.0, 100.0);
-	ocean->SetAmbient(0.0f, 0.3f, 1.0f, 1.0f);
-	ocean->SetDiffuse(0.0f, 0.6f, 1.0f, 1.0f);
-	world.AddEntity(ocean);
+	// _LoadBigScene();
+	_LoadSmallScene();
 
 	// load the bulb fly model
 	ModelLoader* bulbfly = ModelLoader::LoadModel("bulbFly.obj");
@@ -132,9 +109,6 @@ void Scene::Setup() {
 
 	// generate lights
 	_GenerateLights();
-
-	// generate trees
-	_GenerateTrees();
 
 	// load animator
 	animator = RideAnimation(&world);
@@ -362,4 +336,53 @@ void Scene::_GenerateLights() {
 	light->CreateSun();
 	light->diffuse = color4(1.0, 0.0, 1.0, 1.0);
 	world.AddEntity(light);
+}
+
+void Scene::_LoadBigScene() {
+
+	// load the ground model
+	ModelLoader* ground = ModelLoader::LoadModel("island.obj"); //"GroundPlane2.3dm");
+	world.AddEntity(ground->GetModel());
+	ground->GetModel()->Clean();
+
+	Model* island = ground->GetModel();
+	island->SetScale(1.0, 1.0, 1.0);
+	island->SetLocalPos(-25.3, -10.0, 19.0);
+	// island->SetScale(30.0f);
+
+	Object3D* plane = world.GetModelObject3D("island", "Plane");
+	plane->SetAmbient(0.3f, 0.3f, 0.3f, 1.0f);
+	plane->SetDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
+	plane->SetTexture(textures.id["ground2"]);
+	plane->vertices.ScaleUV(200.0f);
+
+	// make some water
+	Primitive* ocean = new Primitive();
+	ocean->SetName("Ocean");
+	Geomitory water = Primitive::GeneratePlane(5.0, 5.0, true);
+	ocean->AssignGeomitoryData(water);
+	ocean->SetLocalPos(0.0, -10.0, 0.0);
+	ocean->SetScale(100.0, 100.0, 100.0);
+	ocean->SetAmbient(0.0f, 0.3f, 1.0f, 1.0f);
+	ocean->SetDiffuse(0.0f, 0.6f, 1.0f, 1.0f);
+	world.AddEntity(ocean);
+
+	// generate trees
+	_GenerateTrees();
+}
+
+void Scene::_LoadSmallScene() {
+
+	// load the ground model
+	ModelLoader* ground = ModelLoader::LoadModel("GroundPlane2.3dm"); //"GroundPlane2.3dm");
+	world.AddEntity(ground->GetModel());
+	ground->GetModel()->Clean();
+
+	Model* island = ground->GetModel();
+	island->SetScale(30.0f);
+
+	Object3D* plane = world.GetModelObject3D("GroundPlane2", "Plane");
+	plane->SetAmbient(0.3f, 0.3f, 0.3f, 1.0f);
+	plane->SetDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
+	plane->SetTexture(textures.id["ground2"]);
 }

@@ -61,6 +61,7 @@ public:
 
 	void CalculateProjection(RenderingContext& rcontext, int width, int height);
 	void CalculateProjection(RenderingContext& rcontext);
+	void UpdateAspectRatio(int width, int height);
 
 	bool		fDirty = false;
 

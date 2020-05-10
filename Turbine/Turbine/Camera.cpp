@@ -335,3 +335,10 @@ void Camera::CalculateProjection(RenderingContext& rcontext) {
 		fZFar
 	);
 }
+
+// Calculate the aspect ratio for the camera and flag for recalculation of projection matrix
+void Camera::UpdateAspectRatio(int width, int height) {
+
+	fAspect = (float)width / height;
+	fDirty = true;
+}
