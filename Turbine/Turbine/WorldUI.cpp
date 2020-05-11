@@ -1,7 +1,6 @@
 #include "WorldUI.h"
 
 
-
 WorldUI::WorldUI() {
 
 	_frames = std::vector<float>(100, 0.0f);
@@ -18,17 +17,6 @@ void WorldUI::Render() {
 
 	_RenderFPS();
 
-	ImGui::Text("Rendering");
-	ImGui::RadioButton("Object", &renderer, 0); ImGui::SameLine();
-	ImGui::RadioButton("Smooth", &renderer, 1); ImGui::SameLine();
-	ImGui::RadioButton("Fog", &renderer, 2);
-
-	switch (renderer) {
-		case 0: rcontext->SetLiveShader("object"); break;
-		case 1: rcontext->SetLiveShader("smooth"); break;
-		case 2: rcontext->SetLiveShader("fog"); break;
-	}
-
 	if (ImGui::BeginTabBar("Floobi")) {
 
 		if (ImGui::BeginTabItem("Entities")) {
@@ -40,6 +28,19 @@ void WorldUI::Render() {
 		if (ImGui::BeginTabItem("Environment")) {
 
 			_RenderEnviro();
+			ImGui::EndTabItem();
+		}
+
+		if (ImGui::BeginTabItem("Serialize")) {
+
+			if (ImGui::Button("Serialize World")) {
+
+				std::ofstream myfile;
+				myfile.open("data.txt");
+				myfile << world->Serialize();
+				myfile.close();
+			}
+
 			ImGui::EndTabItem();
 		}
 

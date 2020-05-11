@@ -18,7 +18,10 @@ public:
 	World() {};
 	~World() {};
 
-	// std::map<std::string, Entity*> GetAllBaseEntities();
+	Entity* currentSelectedEntity = nullptr;	// for object focus in world
+	LightManager lights;						// light manager for all lights in world
+
+	Environment enviro;
 
 	bool SetActiveCamera(std::string cameraName);
 	Camera* GetActiveCamera();
@@ -30,10 +33,8 @@ public:
 	Entity* GetModelEntity(std::string model, std::string name);
 	Object3D* GetModelObject3D(std::string model, std::string name);
 
-	Entity* currentSelectedEntity = nullptr;	// for object focus in world
-	LightManager lights;						// light manager for all lights in world
-
-	Environment enviro;
+	std::string Serialize();
+	void Deserialize(json& data);
 
 private:
 

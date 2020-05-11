@@ -259,3 +259,27 @@ void Object3D::SetTexture(unsigned int newTextureID) {
 	useTexture = true;
 	textureID = newTextureID;
 }
+
+void Object3D::Serialize(json& data) {
+
+	Entity::Serialize(data);
+
+	json me;
+
+	me["renderFlags"]["useLight"] = useLight;
+	me["renderFlags"]["useTexture"] = useTexture;
+	me["renderFlags"]["isTransparent"] = isTransparent;
+	me["renderFlags"]["isInstanced"] = isInstanced;
+	me["renderFlags"]["isBillboarded"] = isBillboarded;
+
+	me["texture"]["hasTexture"] = hasTexture;
+	me["texture"]["textureID"] = textureID;
+	me["texture"]["texturemap"] = texturemap;
+
+	data[_name]["Object3D"] = me;
+}
+
+
+void Object3D::Deserialize(json& data) {
+
+}

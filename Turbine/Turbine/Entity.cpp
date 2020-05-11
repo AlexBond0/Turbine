@@ -134,3 +134,30 @@ bool Entity::FlaggedForRemoval() {
 
 	return _removeFromWorld;
 }
+
+void Entity::Serialize(json& data) {
+
+	// add new data
+	json me;
+	// me["name"] = _name;
+	
+	for (Entity* e : children) {
+
+		me["children"].push_back(e->GetName());
+	}
+
+	if (parent != nullptr)
+		me["parent"] = parent->GetName();
+
+	me["isDirty"] = isDirty;
+	me["isActive"] = isActive;
+	me["isLocallyActive"] = isLocallyActive;
+
+	me["type"] = _type;
+
+	data[_name] = me;
+}
+
+void Entity::Deserialize(json& data) {
+
+}

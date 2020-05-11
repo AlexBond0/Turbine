@@ -103,3 +103,19 @@ Object3D* World::GetModelObject3D(std::string model, std::string name) {
 
 	return dynamic_cast<Object3D*>(_models[model]->GetEntity(name));
 }
+
+std::string World::Serialize() {
+
+	json data;
+
+	for (const auto& e : _entities) {
+
+		e.second->Serialize(data);
+	}
+
+	return data.dump();
+}
+
+void World::Deserialize(json& data) {
+
+}

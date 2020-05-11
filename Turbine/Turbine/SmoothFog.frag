@@ -71,7 +71,6 @@ uniform mat4 u_normal_matrix;
 
 // Camera
 uniform vec3 u_c_position;
-// uniform vec3 u_c_direction;
 
 // Light 
 uniform bool u_usesLight; 
@@ -91,6 +90,10 @@ in vec3 v_normal;
 in vec2 v_uvcoord;
 
 out vec4 out_color;
+
+
+// =============================================================================
+//		--= PROTOTYPES =--
 
 vec4 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
 vec4 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
@@ -246,14 +249,7 @@ vec4 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 
 vec4 CalculateFog(vec4 incolour, float dist) {
 
-	// vec4 fogcol = vec4(dist, dist, dist, 1.0);
-	// return incolour - (fogcol * 0.01);
-
-	// float density = 0.02;
-	// vec4 fogCol = vec4(0.8, 0.8, 0.8, 1.0);
-
-	// float result = exp(-pow(fog.density * dist, 2.0));
-
+	// fog density
 	float result = exp(-pow(fog.density * dist, 2.0));
 	result = 1.0 - clamp(result, 0.0, 1.0);
 

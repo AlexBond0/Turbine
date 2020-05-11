@@ -4,6 +4,9 @@
 #include "Moveable.h"
 #include "RenderingContext.h"
 
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
+
 // type of entity
 enum class EntityType {
 
@@ -58,6 +61,9 @@ public:
 
 	void RemoveFromWorld();
 	bool FlaggedForRemoval();
+
+	virtual void Serialize(json& data);
+	virtual void Deserialize(json& data);
 
 protected:
 

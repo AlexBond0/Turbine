@@ -1,8 +1,9 @@
 #pragma once
 
 #include "DebugUIContainer.h"
-
 #include "World.h"
+
+#include <fstream>
 
 class WorldUI
 	: public DebugUIContainer 

@@ -5,7 +5,12 @@ void Environment::Render(RenderingContext& rcontext) {
 
 	if (fog.active) {
 
+		rcontext.SetLiveShader("fog");
 		rcontext.liveShader->SetColor("fog.color", fog.color.rgba);
 		rcontext.liveShader->SetFloat("fog.density", fog.density);
+	}
+	else {
+
+		rcontext.SetLiveShader("smooth");
 	}
 }

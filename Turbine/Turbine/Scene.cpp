@@ -101,8 +101,8 @@ void Scene::Setup() {
 	world.AddEntity(skybox);
 
 	// load the ground model
-	_LoadBigScene();
-	// _LoadSmallScene();
+	// _LoadBigScene();
+	_LoadSmallScene();
 
 	// load the bulb fly model
 	ModelLoader* bulbfly = ModelLoader::LoadModel("bulbFly.obj");

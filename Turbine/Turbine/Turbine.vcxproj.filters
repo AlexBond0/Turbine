@@ -333,6 +333,7 @@
     <None Include="SmoothFog.vert">
       <Filter>Turbine Engine\Shading\Shaders</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="shader.frag">
