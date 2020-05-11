@@ -309,6 +309,9 @@
     <ClInclude Include="Environment.h">
       <Filter>Turbine Engine\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Serialize.h">
+      <Filter>Turbine Engine\Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ImGui\imgui.ini">

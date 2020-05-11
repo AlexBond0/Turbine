@@ -63,6 +63,9 @@ public:
 	void CalculateProjection(RenderingContext& rcontext);
 	void UpdateAspectRatio(int width, int height);
 
+	virtual json Serialize();
+	virtual void Deserialize(json& data);
+
 	bool		fDirty = false;
 
 	float		fFovy	= (60.0f*(float)M_PI / 180.0f); // feild of view

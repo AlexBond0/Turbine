@@ -91,3 +91,34 @@ glm::quat Moveable::_RotationBetweenVectors(glm::vec3 start, glm::vec3 dest) {
 		rotationAxis.z * invs
 	);
 }
+
+json Moveable::Serialize() {
+
+	json mp;
+
+	Serialize::SerializeVec3(mp, "_worldPos", _worldPos);
+	Serialize::SerializeVec3(mp, "_localPos", _localPos);
+	Serialize::SerializeVec3(mp, "_translation", _translation);
+	Serialize::SerializeVec3(mp, "_scale", _scale);
+	Serialize::SerializeVec3(mp, "_up", _up);
+
+	json mo;
+	mo["useTarget"] = useTarget;
+	Serialize::SerializeVec3(mo, "_target", _target);
+	Serialize::SerializeVec3(mo, "_front", _front);
+	Serialize::SerializeQuat(mo, "_orientation", _orientation);
+	Serialize::SerializeQuat(mo, "_rotation", _rotation);
+
+	json me;
+	me["MoveablePoint"] = mp;
+	me["MoveableOrientation"] = mo;
+
+	// pack and send json
+	json ret;
+	ret["Moveable"] = me;
+	return ret;
+}
+
+void Moveable::Deserialize(json& data) {
+
+}

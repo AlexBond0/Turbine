@@ -1,7 +1,10 @@
 #pragma once
 
+#include "Serialize.h"
+
 #include "MoveablePoint.h"
 #include "MoveableOrientation.h"
+
 
 // a moveable system comprised of a point ion space and an orientation
 class Moveable
@@ -20,6 +23,9 @@ public:
 	void LookAtTarget();
 
 	void Move(glm::vec3 direction);
+
+	virtual json Serialize();
+	virtual void Deserialize(json& data);
 
 protected:
 

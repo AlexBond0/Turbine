@@ -342,3 +342,24 @@ void Camera::UpdateAspectRatio(int width, int height) {
 	fAspect = (float)width / height;
 	fDirty = true;
 }
+
+
+json Camera::Serialize() {
+
+	json me = Entity::Serialize();
+
+	me["fZNear"] = fZNear;
+	me["fZFar"] = fZFar;
+	me["fAspect"] = fAspect;
+
+	me["focusDelta"] = focusDelta;
+
+	// pack and send json
+	json ret;
+	ret["Camera"] = me;
+	return ret;
+}
+
+void Camera::Deserialize(json& data) {
+
+}

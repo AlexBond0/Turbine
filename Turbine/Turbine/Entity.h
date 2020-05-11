@@ -4,8 +4,6 @@
 #include "Moveable.h"
 #include "RenderingContext.h"
 
-#include <nlohmann/json.hpp>
-using json = nlohmann::json;
 
 // type of entity
 enum class EntityType {

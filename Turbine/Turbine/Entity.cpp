@@ -137,10 +137,8 @@ bool Entity::FlaggedForRemoval() {
 
 json Entity::Serialize() {
 
-	// add new data
-	json me;
-	// me["name"] = _name;
-	
+	json me = Moveable::Serialize();
+
 	for (Entity* e : children) {
 
 		me["children"].push_back(e->GetName());

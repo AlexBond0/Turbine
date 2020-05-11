@@ -203,6 +203,7 @@
     <ClInclude Include="RenderingContext.h" />
     <ClInclude Include="RideAnimation.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Serialize.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TranslationStack.h" />
