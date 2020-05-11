@@ -33,6 +33,9 @@ public:
 	virtual glm::vec3 GetLightDirection() = 0;
 	virtual glm::vec3 GetLightPosition() = 0;
 
+	virtual json Serialize();
+	virtual void Deserialize(json& data);
+
 	LightType lightType;
 
 	// glm::vec3* GetHalfplane();
@@ -58,6 +61,9 @@ public:
 
 	glm::vec3 GetLightDirection();
 	glm::vec3 GetLightPosition();
+
+	virtual json Serialize();
+	virtual void Deserialize(json& data);
 };
 
 class PointLight
@@ -73,6 +79,9 @@ public:
 
 	glm::vec3 GetLightDirection();
 	glm::vec3 GetLightPosition();
+
+	virtual json Serialize();
+	virtual void Deserialize(json& data);
 };
 
 class SpotLight
@@ -94,4 +103,7 @@ public:
 
 	glm::vec3 GetLightDirection();
 	glm::vec3 GetLightPosition();
+
+	virtual json Serialize();
+	virtual void Deserialize(json& data);
 };

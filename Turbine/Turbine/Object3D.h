@@ -72,7 +72,7 @@ public:
 
 	bool IsInstanced();
 
-	virtual void Serialize(json& data);
+	virtual json Serialize();
 	virtual void Deserialize(json& data);
 
 	PointData vertices;			// vertex data

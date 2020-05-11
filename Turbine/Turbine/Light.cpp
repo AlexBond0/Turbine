@@ -62,6 +62,25 @@ Object3D* Light::OnPick() {
 	return lightUI.GetObject3D();
 }
 
+json Light::Serialize() {
+
+	json me = Entity::Serialize();
+
+	me["ambient"] = ambient.rgba;
+	me["diffuse"] = diffuse.rgba;
+	me["specular"] = specular.rgba;
+	me["specularStrength"] = specularStrength;
+
+	me["isActive"] = isActive;
+
+	// pack and send json
+	json ret;
+	ret["Light"] = me;
+	return ret;
+}
+
+void Light::Deserialize(json& data) {} ;
+
 // ==========================================================================
 
 DirectionalLight::DirectionalLight(std::string name)
@@ -88,6 +107,15 @@ glm::vec3 DirectionalLight::GetLightPosition() {
 	return glm::vec3(0);
 }
 
+json DirectionalLight::Serialize() {
+
+	json ret;
+	ret["DirectionalLight"] = Light::Serialize();
+	return ret;
+}
+
+void DirectionalLight::Deserialize(json& data) {};
+
 // ==========================================================================
 
 PointLight::PointLight(std::string name) 
@@ -112,6 +140,22 @@ glm::vec3 PointLight::GetLightPosition() {
 
 	return GetWorldPosition();
 }
+
+json PointLight::Serialize() {
+
+	json me = Light::Serialize();
+
+	me["constant"] = constant;
+	me["linear"] = linear;
+	me["quadratic"] = quadratic;
+
+	// pack and send json
+	json ret;
+	ret["PointLight"] = me;
+	return ret;
+}
+
+void PointLight::Deserialize(json& data) {};
 
 // ==========================================================================
 
@@ -154,3 +198,22 @@ glm::vec3 SpotLight::GetLightPosition() {
 
 	return GetWorldPosition();
 }
+
+json SpotLight::Serialize() {
+
+	json me = Light::Serialize();
+
+	me["constant"] = constant;
+	me["linear"] = linear;
+	me["quadratic"] = quadratic;
+
+	me["cutOff"] = cutOff;
+	me["outerCutOff"] = outerCutOff;
+
+	// pack and send json
+	json ret;
+	ret["SpotLight"] = me;
+	return ret;
+}
+
+void SpotLight::Deserialize(json& data) {};

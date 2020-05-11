@@ -260,11 +260,9 @@ void Object3D::SetTexture(unsigned int newTextureID) {
 	textureID = newTextureID;
 }
 
-void Object3D::Serialize(json& data) {
+json Object3D::Serialize() {
 
-	Entity::Serialize(data);
-
-	json me;
+	json me = Entity::Serialize();
 
 	me["renderFlags"]["useLight"] = useLight;
 	me["renderFlags"]["useTexture"] = useTexture;
@@ -276,7 +274,10 @@ void Object3D::Serialize(json& data) {
 	me["texture"]["textureID"] = textureID;
 	me["texture"]["texturemap"] = texturemap;
 
-	data[_name]["Object3D"] = me;
+	// pack and send json
+	json ret;
+	ret["Object3D"] = me;
+	return ret;
 }
 
 

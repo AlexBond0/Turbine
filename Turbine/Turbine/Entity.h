@@ -62,7 +62,7 @@ public:
 	void RemoveFromWorld();
 	bool FlaggedForRemoval();
 
-	virtual void Serialize(json& data);
+	virtual json Serialize();
 	virtual void Deserialize(json& data);
 
 protected:

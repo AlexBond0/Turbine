@@ -110,7 +110,7 @@ std::string World::Serialize() {
 
 	for (const auto& e : _entities) {
 
-		e.second->Serialize(data);
+		data[e.second->GetName()] = e.second->Serialize();
 	}
 
 	return data.dump();

@@ -135,7 +135,7 @@ bool Entity::FlaggedForRemoval() {
 	return _removeFromWorld;
 }
 
-void Entity::Serialize(json& data) {
+json Entity::Serialize() {
 
 	// add new data
 	json me;
@@ -155,7 +155,10 @@ void Entity::Serialize(json& data) {
 
 	me["type"] = _type;
 
-	data[_name] = me;
+	// pack and send json
+	json ret;
+	ret["Entity"] = me;
+	return ret;
 }
 
 void Entity::Deserialize(json& data) {
