@@ -55,6 +55,13 @@ struct SpotLight {
 uniform SpotLight spotLights[MAX_LIGHTS];
 uniform int u_spotLightCount; 
 
+struct Fog {
+
+    vec4 color;
+	float density;
+};
+uniform Fog fog;
+
 // =============================================================================
 //		--= OUT =--
 
@@ -241,12 +248,14 @@ vec4 CalculateFog(vec4 incolour, float dist) {
 
 	// vec4 fogcol = vec4(dist, dist, dist, 1.0);
 	// return incolour - (fogcol * 0.01);
-	float density = 0.02;
 
-	vec4 fogCol = vec4(0.8, 0.8, 0.8, 1.0);
+	// float density = 0.02;
+	// vec4 fogCol = vec4(0.8, 0.8, 0.8, 1.0);
 
-	float result = exp(-pow(density * dist, 2.0));
+	// float result = exp(-pow(fog.density * dist, 2.0));
+
+	float result = exp(-pow(fog.density * dist, 2.0));
 	result = 1.0 - clamp(result, 0.0, 1.0);
 
-	return mix(incolour, fogCol, result);
+	return mix(incolour, fog.color, result);
 }

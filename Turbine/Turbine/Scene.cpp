@@ -28,6 +28,9 @@ void Scene::Render(RenderingContext& rcontext) {
 	glm::vec3 pos = world.GetActiveCamera()->GetWorldPosition();
 	rcontext.liveShader->SetVector("u_c_position", pos);
 
+	// setup environment 
+	world.enviro.Render(rcontext);
+
 	// assign light handles
 	world.lights.RenderLights(rcontext, pos);
 
@@ -98,8 +101,8 @@ void Scene::Setup() {
 	world.AddEntity(skybox);
 
 	// load the ground model
-	// _LoadBigScene();
-	_LoadSmallScene();
+	_LoadBigScene();
+	// _LoadSmallScene();
 
 	// load the bulb fly model
 	ModelLoader* bulbfly = ModelLoader::LoadModel("bulbFly.obj");

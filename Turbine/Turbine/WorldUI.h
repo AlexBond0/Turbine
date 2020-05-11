@@ -22,6 +22,9 @@ public:
 
 private:
 
+	void _RenderOutline();
+	void _RenderEnviro();
+
 	void _RenderEntity(Entity* entity);
 
 	void _ColourActive(Entity* entity);

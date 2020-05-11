@@ -29,7 +29,30 @@ void WorldUI::Render() {
 		case 2: rcontext->SetLiveShader("fog"); break;
 	}
 
-	ImGui::BeginChild("Entites", ImVec2(0, 0), true);
+	if (ImGui::BeginTabBar("Floobi")) {
+
+		if (ImGui::BeginTabItem("Entities")) {
+				
+			_RenderOutline();
+			ImGui::EndTabItem();
+		}
+
+		if (ImGui::BeginTabItem("Environment")) {
+
+			_RenderEnviro();
+			ImGui::EndTabItem();
+		}
+
+		ImGui::EndTabBar();
+	}
+
+
+	ImGui::End();
+}
+
+void WorldUI::_RenderOutline() {
+
+	ImGui::BeginChild("Entity Outline", ImVec2(0, 0), true);
 
 	ImGui::Columns(3);
 	ImGui::SetColumnWidth(0, ImGui::GetWindowWidth() - 145);
@@ -51,9 +74,18 @@ void WorldUI::Render() {
 	}
 
 	ImGui::EndChild();
-
 	ImGui::Columns(1);
-	ImGui::End();
+}
+
+void WorldUI::_RenderEnviro() {
+
+	ImGui::NewLine();
+	ImGui::TextColored(fogCol, "Fog");
+	ImGui::Separator();
+
+	ImGui::Checkbox("Is Active", &world->enviro.fog.active);
+	ImGui::DragFloat("Density", &world->enviro.fog.density, 0.001f);
+	ImGui::ColorEdit4("Color", &world->enviro.fog.color.rgba[0]);
 }
 
 void WorldUI::_RenderEntity(Entity* entity) {

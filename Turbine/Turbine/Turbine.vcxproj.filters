@@ -172,6 +172,9 @@
     <ClCompile Include="InstanceData.cpp">
       <Filter>Turbine Engine\Object\Base\Data</Filter>
     </ClCompile>
+    <ClCompile Include="Environment.cpp">
+      <Filter>Turbine Engine\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGui\imgui_impl_glfw.h">
@@ -302,6 +305,9 @@
     </ClInclude>
     <ClInclude Include="InstanceData.h">
       <Filter>Turbine Engine\Object\Base\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment.h">
+      <Filter>Turbine Engine\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

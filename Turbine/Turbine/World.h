@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "LightManager.h"
 #include "Model.h"
+#include "Environment.h"
 
 class Camera; //forward decleration
 
@@ -31,6 +32,8 @@ public:
 
 	Entity* currentSelectedEntity = nullptr;	// for object focus in world
 	LightManager lights;						// light manager for all lights in world
+
+	Environment enviro;
 
 private:
 
