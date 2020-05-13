@@ -32,6 +32,7 @@ void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void SetupDebugUI();
+void HandleCameraMovement();
 
 GLuint shaderProgram;
 GLuint VBO, VAO;
@@ -120,6 +121,7 @@ int main()
 
 			// Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
 			glfwPollEvents();
+			HandleCameraMovement();
 
 			// if time passed, apply time change to scene
 			if (timeDiff > 0.0)
@@ -294,8 +296,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		}
 
-		// toggle day / night | D
-		case GLFW_KEY_D: {
+		// toggle day / night | V
+		case GLFW_KEY_V: {
 
 			if (action == GLFW_RELEASE)
 				scene->ToggleDayNight();
@@ -412,8 +414,8 @@ void cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
 	else if (isLDragging || isRDragging) {
 		
 		hasBeenDragged = true;
-		
-		scene->RotateCamera(xpos, ypos, !(isRDragging || scene->pov));
+		 
+		scene->RotateCamera(xpos, ypos, isRDragging); // !(isRDragging || scene->pov));
 	}
 }
 
@@ -520,4 +522,56 @@ void OnMouseClickL(int winX, int winY, int mouseX, int mouseY) {
 			scene->world.currentSelectedEntity = pickedObj.object;
 		}
 	}
+}
+
+
+struct CamMoveViaKeyboard {
+
+	bool W;
+	bool A;
+	bool S;
+	bool D;
+};
+
+CamMoveViaKeyboard camControl;
+
+
+void HandleCameraMovement() {
+
+	camControl.W = glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS;
+	camControl.A = glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS;
+	camControl.S = glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS;
+	camControl.D = glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS;
+
+	if (!(camControl.W && camControl.S)) {
+
+		if (camControl.W)
+			scene->world.GetActiveCamera()->movementDelta.dolly = 0.1;
+
+		else if (camControl.S)
+			scene->world.GetActiveCamera()->movementDelta.dolly = -0.1;
+
+		else
+			scene->world.GetActiveCamera()->movementDelta.dolly = 0;
+	}
+
+	else
+		scene->world.GetActiveCamera()->movementDelta.dolly = 0;
+	
+
+	if (!(camControl.A && camControl.D)) {
+
+		if (camControl.A)
+			scene->world.GetActiveCamera()->movementDelta.truck = 0.1;
+
+		else if (camControl.D)
+			scene->world.GetActiveCamera()->movementDelta.truck = -0.1;
+
+		else
+			scene->world.GetActiveCamera()->movementDelta.truck = 0;
+	}
+	
+	else
+		scene->world.GetActiveCamera()->movementDelta.truck = 0;
+	
 }

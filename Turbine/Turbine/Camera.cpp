@@ -257,6 +257,38 @@ void Camera::MoveCam(int newX, int newY) {
 	}
 }
 
+// Move the camera in a dolly action (forward & backward)
+void Camera::MoveDolly(float ammount) {
+
+	if (moveable) {
+
+		glm::vec3 direction = glm::normalize(GetWorldPosition() - _target);
+
+		Move(direction * -ammount);
+	}
+}
+
+// Move the camera in a truck action (left & right)
+void Camera::MoveTruck(float ammount) {
+
+	if (moveable) {
+
+		glm::vec3 direction = glm::normalize(GetWorldPosition() - _target);
+		glm::vec3 horz = glm::normalize(glm::cross(direction, _up));
+
+		Move(horz * ammount);
+	}
+}
+
+void Camera::PerformDeltaMovements() {
+
+	if (movementDelta.truck != 0)
+		MoveTruck(movementDelta.truck);
+
+	if (movementDelta.dolly != 0)
+		MoveDolly(movementDelta.dolly);
+}
+
 void Camera::FinishMovement() {
 
 	_prevValuesDirty = true;
@@ -285,6 +317,9 @@ void Camera::FocusCam(int zoomDelta) {
 
 // Produce a viewmatrix in rcontext for the camera
 void Camera::LookThrough(RenderingContext& rcontext) {
+
+	// handle delta camera movements
+	PerformDeltaMovements();
 
 	// Calculate camera projection matrix if values changed
 	if (fDirty) {

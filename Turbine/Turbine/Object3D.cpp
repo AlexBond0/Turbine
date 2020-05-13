@@ -46,6 +46,7 @@ Object3D::~Object3D()
 // Handle action taken by Object3D when called form entity heirarchy
 void Object3D::OnRender(RenderingContext& rcontext) {
 
+
 	Draw(rcontext);
 }
 
@@ -57,6 +58,7 @@ Object3D* Object3D::OnPick() {
 
 // Draw the object using the given rendering contect
 void Object3D::Draw(RenderingContext& rcontext) {
+
 	
 	_AssignHandleInformation(rcontext);
 
@@ -98,6 +100,12 @@ void Object3D::_Draw(RenderingContext& rcontext) {
 
 	glBindVertexArray(handles.object_vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handles.polygon_vbo);
+
+	if (isWireframe)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	else
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	glDrawElements(
 		polygons.ElementType(),

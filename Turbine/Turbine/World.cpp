@@ -81,6 +81,7 @@ bool World::SetActiveCamera(std::string cameraName) {
 
 	if (_cameras.count(cameraName) > 0) {
 
+		_currentActiveCamera->fDirty = true;
 		_currentActiveCamera = _cameras[cameraName];
 		return true;
 	}

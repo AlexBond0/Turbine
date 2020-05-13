@@ -43,6 +43,7 @@ public:
 	bool useLight = true;			// does the object use light information when shading
 	bool useTexture = false;		// does the object use texture information when shading
 	bool isTransparent = false;		// does the object have transparency
+	bool isWireframe = false;		// does the object render as a wireframe
 
 	// ===================================================================
 	// Implemented for Entity class

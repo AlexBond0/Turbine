@@ -15,5 +15,9 @@ public:
 
 	void Clean();
 
+	std::string filename;
+
+	virtual json Serialize();
+	virtual void Deserialize(json& data);
 };
 

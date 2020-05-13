@@ -18,6 +18,19 @@ struct PickObject {
 	float		distance = FLT_MAX;		// distacne along the pick ray the object was picked from
 };
 
+struct CameraMoves {
+
+	// movement
+	float dolly = 0;	// forward / backward
+	float truck = 0;	// left / right
+	float boom = 0;		// up / dowm
+
+	// rotation
+	float roll = 0;		// twist
+	float pan = 0;		// left / right
+	float tilt = 0;		// up / down
+};
+
 class World; // forward decleration
 
 class Camera
@@ -76,6 +89,17 @@ public:
 
 	float		focusDelta = 0.3;		// rate of camera focus
 
+	// camera movements
+
+	void PerformDeltaMovements();
+
+	void MoveDolly(float ammount);
+	void MoveTruck(float ammount);
+
+	CameraMoves movementDelta;			// camera movements per call (needs to have time dilation added)
+
+
+	// UI 
 	UIPointer cameraUI;
 
 private:

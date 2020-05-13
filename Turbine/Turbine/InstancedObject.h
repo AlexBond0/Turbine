@@ -19,10 +19,14 @@ public:
 	int GetInstanceCount();
 	int InstanceDataSize();
 
+	virtual json Serialize();
+	virtual void Deserialize(json& data);
+
 	InstanceData instances;
 
-protected:
+	bool serializeInstanceData = true;
 
+protected:
 
 	int _noofinstances = 0;	// number of instances to render
 

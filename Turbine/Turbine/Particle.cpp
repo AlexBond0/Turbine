@@ -36,6 +36,9 @@ void Particle::_SetupParticle(int max, int perms) {
 	particlesPerms = perms;
 	isBillboarded = true;
 
+	// don't need to save instance data when saved
+	serializeInstanceData = false;
+
 	instances.Reserve(maxParticles);
 
 	srand(time(NULL));

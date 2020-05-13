@@ -51,3 +51,18 @@ void Model::Clean() {
 			entityPair.second->parent = this;
 	}
 }
+
+json Model::Serialize() {
+
+	json me = Entity::Serialize();
+	me["fileName"] = filename;
+
+	// pack and send json
+	json ret;
+	ret["Model"] = me;
+	return ret;
+}
+
+void Model::Deserialize(json& data) {
+
+}

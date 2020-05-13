@@ -45,6 +45,7 @@ ModelLoader* ModelLoader::LoadModel(std::string filename) {
 		_ReadOBJ(filename, model);
 	}
 
+	model->_model->filename = filename;
 	return model;
 }
 

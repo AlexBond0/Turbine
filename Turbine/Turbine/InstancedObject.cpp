@@ -31,6 +31,12 @@ void InstancedObject::_Draw(RenderingContext& rcontext) {
 
 	glBindVertexArray(handles.object_vao);
 
+	if (isWireframe)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	else
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
 	// tell the polygon data to handle instancing correctly
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handles.polygon_vbo);
 	glVertexAttribDivisor(3, 1);
@@ -155,4 +161,25 @@ int InstancedObject::GetInstanceCount() {
 int InstancedObject::InstanceDataSize() {
 
 	return sizeof(Instance) * GetInstanceCount();
+}
+
+json InstancedObject::Serialize() {
+
+	json me = Object3D::Serialize();
+
+	if (serializeInstanceData)
+		for (Instance& i : *instances.GetVector())
+			me["InstanceData"].push_back({ i.position.x, i.position.y, i.position.z });
+
+
+	me["_noofinstances"] = _noofinstances;
+
+	// pack and send json
+	json ret;
+	ret["InstancedObject"] = me;
+	return ret;
+}
+
+void InstancedObject::Deserialize(json& data) {
+
 }

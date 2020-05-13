@@ -127,6 +127,7 @@ void EntityUI::_RenderObj() {
 	ImGui::Checkbox("Use Lighing", &object->useLight);
 	ImGui::NextColumn();
 	ImGui::Checkbox("Is Transparent", &object->isTransparent);
+	ImGui::Checkbox("Render as Wireframe", &object->isWireframe);
 	ImGui::Checkbox("Show Highlighted", &object->isHighlighted);
 	ImGui::Columns(1);
 
