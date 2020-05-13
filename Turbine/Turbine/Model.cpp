@@ -57,6 +57,10 @@ json Model::Serialize() {
 	json me = Entity::Serialize();
 	me["fileName"] = filename;
 
+	// all contained elements
+	for (const auto& e : _baseEntites) 
+		me[e.second->GetName()] = e.second->Serialize();
+	
 	// pack and send json
 	json ret;
 	ret["Model"] = me;

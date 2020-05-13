@@ -109,10 +109,14 @@ std::string World::Serialize() {
 
 	json data;
 
-	for (const auto& e : _entities) {
-
+	// serialize all tracked entites 
+	for (const auto& e : _baseEntites) 
 		data[e.second->GetName()] = e.second->Serialize();
-	}
+
+	// save Environment
+	data["Environment"] = enviro.Serialize();
+
+	data["CurrentCamera"] = GetActiveCamera()->GetName();
 
 	return data.dump();
 }

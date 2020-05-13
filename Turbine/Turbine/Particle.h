@@ -61,6 +61,9 @@ public:
 
 	void Update(double step);
 
+	virtual json Serialize();
+	virtual void Deserialize(json& data);
+
 protected:
 
 	void Draw(RenderingContext& rcontext);
@@ -79,8 +82,6 @@ private:
 
 	glm::mat4 inverseView;	// inverse view matrix
 	glm::mat4 modelView;	// model view matrix
-
-	// float* rawParticleData;	// raw partcile data passed to instance VBO
 
 	void _SetupParticle(int max, int perms);
 

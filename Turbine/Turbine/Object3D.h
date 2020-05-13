@@ -51,7 +51,6 @@ public:
 	void OnRender(RenderingContext& rcontext);
 	Object3D* OnPick();
 
-
 	// ===================================================================
 	// Methods
 

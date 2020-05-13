@@ -14,3 +14,24 @@ void Environment::Render(RenderingContext& rcontext) {
 		rcontext.SetLiveShader("smooth");
 	}
 }
+
+json Environment::Serialize() {
+
+	json me;
+
+	json fg;
+	fg["active"] = fog.active;
+	fg["color"] = fog.color.rgba;
+	fg["density"] = fog.density;
+
+	me["fog"] = fg;
+
+	// pack and send json
+	json ret;
+	ret["Environment"] = me;
+	return ret;
+}
+
+void Environment::Deserialize(json& data) {
+
+}

@@ -97,6 +97,26 @@ void Particle::_AssignHandleInformation(RenderingContext& rcontext) {
 	InstancedObject::_AssignHandleInformation(rcontext);
 }
 
+json Particle::Serialize() {
+
+	json me = Object3D::Serialize();
+
+	Serialize::SerializeVec4(me, "camPosition", profile.camPosition);
+	Serialize::SerializeVec4(me, "speed", profile.speed);
+	me["colour"] = profile.colour.rgba;
+	me["weight"] = profile.weight;
+	me["spread"] = profile.spread;
+	me["life"] = profile.life;
+
+	// pack and send json
+	json ret;
+	ret["Particle"] = me;
+	return ret;
+}
+
+void Particle::Deserialize(json& data) {
+
+}
 
 // =================================================================================
 

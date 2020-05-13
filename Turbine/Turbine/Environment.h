@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Serialize.h"
 #include "RenderingContext.h"
 #include "Color.h"
 
@@ -19,7 +20,9 @@ public:
 
 	EnviromentFog fog;
 
-
 	void Render(RenderingContext& rcontext);
+
+	virtual json Serialize();
+	virtual void Deserialize(json& data);
 };
 
