@@ -58,7 +58,7 @@ json Model::Serialize() {
 	me["fileName"] = filename;
 
 	// all contained elements
-	for (const auto& e : _baseEntites) 
+	for (const auto& e : _entities)
 		me[e.second->GetName()] = e.second->Serialize();
 	
 	// pack and send json

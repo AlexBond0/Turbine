@@ -8,6 +8,7 @@ void Environment::Render(RenderingContext& rcontext) {
 		rcontext.SetLiveShader("fog");
 		rcontext.liveShader->SetColor("fog.color", fog.color.rgba);
 		rcontext.liveShader->SetFloat("fog.density", fog.density);
+		rcontext.liveShader->SetFloat("fog.focus", fog.density);
 	}
 	else {
 
@@ -23,6 +24,7 @@ json Environment::Serialize() {
 	fg["active"] = fog.active;
 	fg["color"] = fog.color.rgba;
 	fg["density"] = fog.density;
+	fg["focus"] = fog.focus;
 
 	me["fog"] = fg;
 

@@ -59,6 +59,7 @@ struct Fog {
 
     vec4 color;
 	float density;
+	float focus;
 };
 uniform Fog fog;
 
@@ -253,5 +254,17 @@ vec4 CalculateFog(vec4 incolour, float dist) {
 	float result = exp(-pow(fog.density * dist, 2.0));
 	result = 1.0 - clamp(result, 0.0, 1.0);
 
-	return mix(incolour, fog.color, result);
+	// fog sun mix
+	vec3 viewDir = normalize(u_c_position - FragPos);
+	vec3 reflectDir = normalize(reflect(-dirLight.direction, viewDir));  
+
+	float diff = max(dot(viewDir, normalize(dirLight.direction)), 0.0);
+	vec4 diffuse = diff * dirLight.diffuse;
+
+	// float spec = pow(max(dot(viewDir, reflectDir), 0.0), fog.focus);
+	// vec4 specular = dirLight.specStrength * spec * dirLight.specular;  
+
+	vec4 fogMix = fog.color + diffuse; // + specular;
+
+	return mix(incolour, fogMix, result);
 }

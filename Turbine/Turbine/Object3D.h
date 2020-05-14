@@ -33,6 +33,7 @@ public:
 	// Constructors and Destructors
 
 	Object3D(std::string name);
+	Object3D(std::string name, std::string model);
 	Object3D(Object3D* copy, std::string newName);
 	virtual ~Object3D();
 
@@ -78,9 +79,10 @@ public:
 	PointData vertices;			// vertex data
 	PolygonData polygons;		// polygon data
 
+	const std::string loadedFrom; // pointer to Model that Object3D was loaded from
+
 protected:
 
-	// char* name;					// object name
 	Object3DHandles handles;	// object handles
 
 	// texture data

@@ -41,6 +41,19 @@ void WorldUI::Render() {
 				myfile.close();
 			}
 
+			if (ImGui::Button("Load World")) {
+
+				std::ifstream myfile("data.txt");
+				if (myfile.is_open())
+				{
+				
+					json newWorld = json::parse(myfile);
+					world->Deserialize(newWorld);
+
+					myfile.close();
+				}
+			}
+
 			// ImGui::Text
 
 			ImGui::EndTabItem();
@@ -88,6 +101,7 @@ void WorldUI::_RenderEnviro() {
 
 	ImGui::Checkbox("Is Active", &world->enviro.fog.active);
 	ImGui::DragFloat("Density", &world->enviro.fog.density, 0.001f);
+	ImGui::DragFloat("Focus", &world->enviro.fog.focus, 0.001f);
 	ImGui::ColorEdit4("Color", &world->enviro.fog.color.rgba[0]);
 }
 

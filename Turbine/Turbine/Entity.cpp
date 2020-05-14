@@ -139,12 +139,9 @@ json Entity::Serialize() {
 
 	json me = Moveable::Serialize();
 
-	json childJSON;
-	for (Entity* e : children) {
-
-		childJSON[e->GetName()] = e->Serialize();
-	}
-	me["children"] = childJSON;
+	for (Entity* e : children) 
+		me["children"].push_back(e->GetName());
+	
 
 	if (parent != nullptr)
 		me["parent"] = parent->GetName();

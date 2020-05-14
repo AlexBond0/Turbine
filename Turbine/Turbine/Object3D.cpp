@@ -2,15 +2,27 @@
 
 Object3D::Object3D(std::string name)
 	: Entity(name, EntityType::OBJ)
+	, loadedFrom("")
 {
 	// SetName("NULL");
 	texturemap = -1;
 	parent = nullptr;
 }
 
+Object3D::Object3D(std::string name, std::string model)
+	: Entity(name, EntityType::OBJ)
+	, loadedFrom(model)
+{
+	// SetName("NULL");
+	texturemap = -1;
+	parent = nullptr;
+}
+
+
 Object3D::Object3D(Object3D* copy, std::string newName) 
 	: Material((Material)copy)
 	, Entity(copy)
+	, loadedFrom("")
 {
 
 	SetName((char*)newName.c_str());

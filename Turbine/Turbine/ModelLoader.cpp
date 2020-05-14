@@ -73,7 +73,7 @@ void ModelLoader::_Read3DSVersion4(FILE* file, ModelLoader* model) {
 	for (int i = 0; i<noofobjects; i++)
 	{
 
-		Object3D* object = new Object3D("OBJ_FROM_FILE");
+		Object3D* object = new Object3D("OBJ_FROM_FILE", model->_model->GetName());
 
 		fread(buffer, 1, 4, file);
 		int len = *(int*)buffer;
@@ -272,7 +272,7 @@ void ModelLoader::_ReadOBJ(std::string filename, ModelLoader* model) {
 							points.GetPointUV(x)->normal = glm::normalize(points.GetPointUV(x)->normal);
 
 						// create object
-						Object3D* newobj = new Object3D(currentObj);
+						Object3D* newobj = new Object3D(currentObj, model->_model->GetName());
 
 						// assign point and polygon data
 						newobj->SetVertexData(points);
@@ -308,7 +308,7 @@ void ModelLoader::_ReadOBJ(std::string filename, ModelLoader* model) {
 		// save last object
 
 		// create object
-		Object3D* newobj = new Object3D(currentObj);
+		Object3D* newobj = new Object3D(currentObj, model->_model->GetName());
 
 		// assign point and polygon data
 		newobj->SetVertexData(points);

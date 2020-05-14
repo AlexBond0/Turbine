@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "LightManager.h"
 #include "Model.h"
+#include "ModelLoader.h"
 #include "Environment.h"
 
 class Camera; //forward decleration
@@ -34,15 +35,18 @@ public:
 	Object3D* GetModelObject3D(std::string model, std::string name);
 
 	std::string Serialize();
-	void Deserialize(json& data);
+	static World Deserialize(json& data);
 
 private:
 
 	std::map<std::string, Camera*> _cameras;	// camera entites in the scene
 	Camera* _currentActiveCamera = nullptr;		// currently active camera
 
-	// std::map<std::string, Entity*> _renderBase;		// base render entites
 	std::map<std::string, Model*> _models;		// base render entites
+
+	void _CalculateRelations(json& data, std::map<std::string, Entity*> entites);
+	bool _HasEntityBeenLoaded(Entity* entity);
+	std::string _GetModelName(Entity* entity);
 };
 
 

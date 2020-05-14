@@ -10,6 +10,7 @@ struct EnviromentFog {
 
 	color4 color = color4(0.8, 0.8, 0.8, 1.0);
 	float density = 0.02;
+	float focus = 1.0f;
 };
 
 class Environment

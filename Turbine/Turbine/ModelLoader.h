@@ -21,17 +21,12 @@ public:
 
 	static ModelLoader* LoadModel(std::string filename);
 
-	// void Draw(RenderingContext& rcontext);
-
 	int GetNoOfObjects();
-	// std::vector<Object3D*> GetObjects();
 	Model* GetModel();
 
-	// Object3D* rootObject = nullptr;
 
 private:
 
-	// std::vector<Object3D*> _objects;
 	Model* _model;
 
 	static void _Read3DSVersion4(FILE* file, ModelLoader* model);
@@ -44,22 +39,3 @@ inline int ModelLoader::GetNoOfObjects() {
 
 	return _model->GetEntityCount();
 }
-
-//inline std::vector<Object3D*> ModelLoader::GetObjects()
-//{
-//	return _objects;
-//}
-//
-//inline void ModelLoader::Draw(RenderingContext& rcontext)
-//{
-//	if (rootObject == nullptr) {
-//
-//		for (int i = 0; i < _objects.size(); i++)
-//			_objects[i]->Draw(rcontext);
-//	}
-//	else {
-//
-//		rootObject->Draw(rcontext);
-//	}
-//}
-
