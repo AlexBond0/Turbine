@@ -20,7 +20,7 @@ public:
 	int InstanceDataSize();
 
 	virtual json Serialize();
-	virtual void Deserialize(json& data);
+	InstancedObject(json& data); // Deserialize
 
 	InstanceData instances;
 

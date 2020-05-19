@@ -66,7 +66,3 @@ json Model::Serialize() {
 	ret["Model"] = me;
 	return ret;
 }
-
-void Model::Deserialize(json& data) {
-
-}

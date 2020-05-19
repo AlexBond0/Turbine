@@ -80,7 +80,7 @@ json Light::Serialize() {
 }
 
 Light::Light(json& data)
-	: Entity(data["entity"])
+	: Entity(data["Entity"])
 	, lightUI(this) {
 
 	ambient		= color4(data["ambient"]);

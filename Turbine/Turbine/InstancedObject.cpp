@@ -180,6 +180,21 @@ json InstancedObject::Serialize() {
 	return ret;
 }
 
-void InstancedObject::Deserialize(json& data) {
+InstancedObject::InstancedObject(json& data)
+	: Object3D(data["Object3D"]) {
 
+	_noofinstances = data["_noofinstances"];
+
+	Instance i;
+	for (auto& instance : data["InstanceData"]) {
+
+		i.position.x = instance.at(0);
+		i.position.y = instance.at(1);
+		i.position.z = instance.at(2);
+
+		instances.AddInstance(i);
+	}
+
+	SetEntityType(EntityType::OBJ_INSTANCED);
+	isInstanced = true;
 }

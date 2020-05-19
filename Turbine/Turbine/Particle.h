@@ -62,7 +62,7 @@ public:
 	void Update(double step);
 
 	virtual json Serialize();
-	virtual void Deserialize(json& data);
+	Particle(json& data); // Deserialize
 
 protected:
 

@@ -221,7 +221,7 @@ World World::Deserialize(json& data) {
 	}
 
 	// create Entities
-	Entity* entityPointer;
+	Entity* entityPointer = nullptr;
 	for (auto& el : data["World"].items()) {
 
 		entity = el.value();
@@ -242,36 +242,32 @@ World World::Deserialize(json& data) {
 				break;
 			}
 
-			/*case EntityType::MODEL: {
+			case EntityType::MODEL: {
 
-	
+				// models allready loaded via object files
+				entityPointer = nullptr;
+				break;
 			}
-
+		
 			case EntityType::OBJ_INSTANCED: {
 
-				world.AddEntity();
+				entityPointer = new InstancedObject(entity["InstancedObject"]);
 				break;
 			}
 
+			
 			case EntityType::OBJ_PARTICLE_SYS: {
 
-				world.AddEntity();
-				break;
-			}
-
-			case EntityType::OBJ_PRIMITIVE: {
-
-				world.AddEntity();
+				entityPointer = new Particle(entity["Particle"]);
 				break;
 			}
 
 			case EntityType::CAMERA: {
 
-				world.AddEntity();
+				entityPointer = new Camera(entity["Camera"]);
 				break;
 			}
-			*/
-
+			
 			case EntityType::LIGHT: {
 
 				if (elementType.compare("PointLight") == 0)
@@ -295,8 +291,11 @@ World World::Deserialize(json& data) {
 
 		}
 
-		entityPointer->SetName(entityName);
-		world.AddEntity(entityPointer);
+		if (entityPointer != nullptr) {
+
+			entityPointer->SetName(entityName);
+			world.AddEntity(entityPointer);
+		}
 	}
 
 	// find relationships

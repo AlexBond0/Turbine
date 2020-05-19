@@ -99,7 +99,7 @@ void Particle::_AssignHandleInformation(RenderingContext& rcontext) {
 
 json Particle::Serialize() {
 
-	json me = Object3D::Serialize();
+	json me = InstancedObject::Serialize();
 
 	Serialize::SerializeVec4(me, "camPosition", profile.camPosition);
 	Serialize::SerializeVec4(me, "speed", profile.speed);
@@ -108,14 +108,39 @@ json Particle::Serialize() {
 	me["spread"] = profile.spread;
 	me["life"] = profile.life;
 
+	me["maxParticles"]			= maxParticles;
+	me["particlesPerms"]		= particlesPerms;
+	me["isBillboarded"]			= isBillboarded;
+	me["serializeInstanceData"] = serializeInstanceData;
+
 	// pack and send json
 	json ret;
 	ret["Particle"] = me;
 	return ret;
 }
 
-void Particle::Deserialize(json& data) {
+Particle::Particle(json& data)
+	: InstancedObject(data["InstancedObject"]) {
 
+	profile.camPosition = Serialize::DeserializeVec4(data["camPosition"]);
+	profile.speed		= Serialize::DeserializeVec4(data["speed"]);
+
+	profile.colour	= color4(data["colour"]);
+	profile.weight	= data["weight"];
+	profile.spread	= data["spread"];
+	profile.life	= data["life"];
+
+	maxParticles			= data["maxParticles"];
+	particlesPerms			= data["particlesPerms"];
+	isBillboarded			= data["isBillboarded"];
+	serializeInstanceData	= data["serializeInstanceData"];
+
+	SetEntityType(EntityType::OBJ_PARTICLE_SYS);
+
+	instances.Reserve(maxParticles);
+	srand(time(NULL));
+	_GenerateParticleInstance();
+	SetAmbient(profile.colour);
 }
 
 // =================================================================================

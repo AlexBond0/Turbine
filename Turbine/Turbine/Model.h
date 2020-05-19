@@ -18,6 +18,5 @@ public:
 	std::string filename;
 
 	virtual json Serialize();
-	virtual void Deserialize(json& data);
 };
 

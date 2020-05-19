@@ -395,6 +395,18 @@ json Camera::Serialize() {
 	return ret;
 }
 
-void Camera::Deserialize(json& data) {
+Camera::Camera(json& data)
+	: Entity(data["Entity"])
+	, cameraUI(this) {
 
+	fZNear	= data["fZNear"];
+	fZFar	= data["fZFar"];
+	fAspect = data["fAspect"];
+
+	focusDelta = data["focusDelta"];
+
+	useTarget = true;
+
+	cameraUI.UsePosition(&_localPos);
+	cameraUI.UseTarget(&_target);
 }

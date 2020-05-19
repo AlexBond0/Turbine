@@ -194,7 +194,7 @@ EntityType Entity::ConvertEntityType(std::string type) {
 	else if (type.compare("Model") == 0)
 		return EntityType::MODEL;
 
-	else if (type.compare("Instanced") == 0)
+	else if (type.compare("InstancedObject") == 0)
 		return EntityType::OBJ_INSTANCED;
 
 	else if (type.compare("Particle") == 0)

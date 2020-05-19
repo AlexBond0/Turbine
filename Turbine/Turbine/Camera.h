@@ -77,7 +77,7 @@ public:
 	void UpdateAspectRatio(int width, int height);
 
 	virtual json Serialize();
-	virtual void Deserialize(json& data);
+	Camera(json& data); // Deserialize
 
 	bool		fDirty = false;
 
