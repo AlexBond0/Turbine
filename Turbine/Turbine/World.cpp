@@ -220,6 +220,85 @@ World World::Deserialize(json& data) {
 		}
 	}
 
+	// create Entities
+	Entity* entityPointer;
+	for (auto& el : data["World"].items()) {
+
+		entity = el.value();
+		entityName = el.key();
+
+		// get element type
+		// there will only ever be one 
+		std::string elementType;
+		for (auto& type : entity.items())
+			elementType = type.key();
+ 
+
+		switch (Entity::ConvertEntityType(elementType)) {
+
+			case EntityType::OBJ: {
+
+				entityPointer = new Object3D(entity["Object3D"]);
+				break;
+			}
+
+			/*case EntityType::MODEL: {
+
+	
+			}
+
+			case EntityType::OBJ_INSTANCED: {
+
+				world.AddEntity();
+				break;
+			}
+
+			case EntityType::OBJ_PARTICLE_SYS: {
+
+				world.AddEntity();
+				break;
+			}
+
+			case EntityType::OBJ_PRIMITIVE: {
+
+				world.AddEntity();
+				break;
+			}
+
+			case EntityType::CAMERA: {
+
+				world.AddEntity();
+				break;
+			}
+			*/
+
+			case EntityType::LIGHT: {
+
+				if (elementType.compare("PointLight") == 0)
+					entityPointer = new PointLight(entity["PointLight"]);
+
+				else if (elementType.compare("DirectionalLight") == 0)
+					entityPointer = new DirectionalLight(entity["DirectionalLight"]);
+
+				else if (elementType.compare("SpotLight") == 0)
+					entityPointer = new SpotLight(entity["SpotLight"]);
+
+				break;
+			}
+
+			case EntityType::EMPTY: {
+
+				entityPointer = new Entity(entity);
+				entityPointer->SetEntityType(EntityType::EMPTY);
+				break;
+			}
+
+		}
+
+		entityPointer->SetName(entityName);
+		world.AddEntity(entityPointer);
+	}
+
 	// find relationships
 	std::map<std::string, std::string> childToParent;
 
@@ -227,7 +306,6 @@ World World::Deserialize(json& data) {
 
 		childToParent[el.value()] = el.key();
 	}
-
 
 	return world;
 }

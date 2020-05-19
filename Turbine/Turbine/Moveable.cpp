@@ -119,6 +119,16 @@ json Moveable::Serialize() {
 	return ret;
 }
 
-void Moveable::Deserialize(json& data) {
+Moveable::Moveable(json& data) {
 
+	_worldPos		= Serialize::DeserializeVec3(data["MoveablePoint"]["_worldPos"]);
+	_localPos		= Serialize::DeserializeVec3(data["MoveablePoint"]["_localPos"]);
+	_translation	= Serialize::DeserializeVec3(data["MoveablePoint"]["_translation"]);
+	_scale			= Serialize::DeserializeVec3(data["MoveablePoint"]["_scale"]);
+	_up				= Serialize::DeserializeVec3(data["MoveablePoint"]["_up"]);
+
+	_target			= Serialize::DeserializeVec3(data["MoveableOrientation"]["_target"]);
+	_front			= Serialize::DeserializeVec3(data["MoveableOrientation"]["_front"]);
+	_orientation	= Serialize::DeserializeQuat(data["MoveableOrientation"]["_orientation"]);
+	_rotation		= Serialize::DeserializeQuat(data["MoveableOrientation"]["_rotation"]);
 }

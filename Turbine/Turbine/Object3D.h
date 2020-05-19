@@ -26,7 +26,7 @@ struct Object3DHandles {
 class Object3D :
 	public Material,
 	public Entity
-{
+{  
 public:
 
 	// ===================================================================
@@ -74,7 +74,7 @@ public:
 	bool IsInstanced();
 
 	virtual json Serialize();
-	virtual void Deserialize(json& data);
+	Object3D(json& data);  // Deserialize
 
 	PointData vertices;			// vertex data
 	PolygonData polygons;		// polygon data

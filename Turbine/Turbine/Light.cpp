@@ -79,7 +79,20 @@ json Light::Serialize() {
 	return ret;
 }
 
-void Light::Deserialize(json& data) {} ;
+Light::Light(json& data)
+	: Entity(data["entity"])
+	, lightUI(this) {
+
+	ambient		= color4(data["ambient"]);
+	diffuse		= color4(data["diffuse"]);
+	specular	= color4(data["specular"]);
+	specularStrength = data["specularStrength"];
+
+	isActive = data["isActive"];
+
+	lightUI.GetObject3D()->SetScale(2.0);
+	lightUI.GetObject3D()->useLight = false;
+}
 
 // ==========================================================================
 
@@ -114,7 +127,15 @@ json DirectionalLight::Serialize() {
 	return ret;
 }
 
-void DirectionalLight::Deserialize(json& data) {};
+DirectionalLight::DirectionalLight(json& data) 
+	: Light(data["Light"]) {
+
+	lightType = LightType::DIRECTION;
+	useTarget = true;
+
+	lightUI.UsePosition(&_localPos);
+	lightUI.UseTarget(&_target);
+}
 
 // ==========================================================================
 
@@ -155,7 +176,16 @@ json PointLight::Serialize() {
 	return ret;
 }
 
-void PointLight::Deserialize(json& data) {};
+PointLight::PointLight(json& data)
+	: Light(data["Light"]) {
+
+	lightType = LightType::POINT;
+	lightUI.showDirection = false;
+
+	constant	= data["constant"];
+	linear		= data["linear"];
+	quadratic	= data["quadratic"];
+}
 
 // ==========================================================================
 
@@ -216,4 +246,15 @@ json SpotLight::Serialize() {
 	return ret;
 }
 
-void SpotLight::Deserialize(json& data) {};
+SpotLight::SpotLight(json& data)
+	: Light(data["Light"]) {
+
+	lightType = LightType::SPOT;
+
+	constant	= data["constant"];
+	linear		= data["linear"];
+	quadratic	= data["quadratic"];
+
+	cutOff		= data["cutOff"];
+	outerCutOff	= data["outerCutOff"];
+}

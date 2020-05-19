@@ -25,7 +25,7 @@ public:
 	void Move(glm::vec3 direction);
 
 	virtual json Serialize();
-	virtual void Deserialize(json& data);
+	Moveable(json& data); // Deserialize
 
 protected:
 

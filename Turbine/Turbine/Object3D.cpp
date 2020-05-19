@@ -300,7 +300,19 @@ json Object3D::Serialize() {
 	return ret;
 }
 
+// Deserialize
+Object3D::Object3D(json& data)
+	: Entity(data["Entity"]) {
 
-void Object3D::Deserialize(json& data) {
+	useLight		= data["renderFlags"]["useLight"];
+	useTexture		= data["renderFlags"]["useTexture"];
+	isTransparent	= data["renderFlags"]["isTransparent"];
+	isInstanced		= data["renderFlags"]["isInstanced"];
+	isBillboarded	= data["renderFlags"]["isBillboarded"];
 
+	hasTexture		= data["texture"]["hasTexture"];
+	textureID		= data["texture"]["textureID"];
+	texturemap		= data["texture"]["texturemap"];
+
+	parent = nullptr;
 }

@@ -14,7 +14,8 @@ enum class EntityType {
 	OBJ_PARTICLE_SYS,	// Object Particle system
 	LIGHT,				// Light
 	CAMERA,				// Camera
-	MODEL				// Model system
+	MODEL,				// Model system
+	EMPTY				// Empty Entity
 };
 
 class Object3D; // forward decleration
@@ -33,14 +34,14 @@ public:
 
 	bool isDirty = false;			// flag to tell world if entity needs evaluating
 	bool isActive = true;			// does the object and object children get rendered
-	bool isLocallyActive = true;	// does the object get rendered
+	bool isLocallyActive = true;	// does the object get renndered
 	bool IsGloballyActive();		// is the object globally active in the scene
 
 	// implement in child classes to define functionality of entity when called to render
-	virtual void OnRender(RenderingContext& rcontext) = 0;
+	virtual void OnRender(RenderingContext& rcontext) {};
 
 	// implement in child classes to define the Object3D* data to pick against
-	virtual Object3D* OnPick() = 0;
+	virtual Object3D* OnPick() { return nullptr; };
 
 
 	void AddChild(Entity* newChild);
@@ -61,7 +62,10 @@ public:
 	bool FlaggedForRemoval();
 
 	virtual json Serialize();
-	virtual void Deserialize(json& data);
+	Entity(json& data); // Deserialize
+
+	static std::string ConvertEntityType(EntityType type);
+	static EntityType ConvertEntityType(std::string type);
 
 protected:
 

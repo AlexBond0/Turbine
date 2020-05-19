@@ -158,6 +158,66 @@ json Entity::Serialize() {
 	return ret;
 }
 
-void Entity::Deserialize(json& data) {
+// Deserialize
+Entity::Entity(json& data)
+	: Moveable(data["Moveable"]) {
 
+	isDirty = data["isDirty"];
+	isActive = data["isActive"];
+	isLocallyActive = data["isLocallyActive"];
+
+	_type = data["type"];
+}
+
+std::string Entity::ConvertEntityType(EntityType type) {
+
+	switch (type) {
+
+		case EntityType::OBJ: return "Object3D";
+		case EntityType::MODEL: return "Model";
+		case EntityType::OBJ_INSTANCED: return "Instanced";
+		case EntityType::OBJ_PARTICLE_SYS: return "Particle";
+		case EntityType::OBJ_PRIMITIVE: return "Primitive";
+		case EntityType::CAMERA: return "Camera";
+		case EntityType::LIGHT: return "Light";
+		case EntityType::EMPTY: return "Empty";
+	}
+
+	return "Unknown!";
+}
+
+EntityType Entity::ConvertEntityType(std::string type) {
+
+	if (type.compare("Object3D") == 0)
+		return EntityType::OBJ;
+
+	else if (type.compare("Model") == 0)
+		return EntityType::MODEL;
+
+	else if (type.compare("Instanced") == 0)
+		return EntityType::OBJ_INSTANCED;
+
+	else if (type.compare("Particle") == 0)
+		return EntityType::OBJ_PARTICLE_SYS;
+
+	else if (type.compare("Primitive") == 0)
+		return EntityType::OBJ_PRIMITIVE;
+
+	else if (type.compare("Camera") == 0)
+		return EntityType::CAMERA;
+
+	else if (type.compare("Light") == 0)
+		return EntityType::LIGHT;
+
+	else if (type.compare("PointLight") == 0)
+		return EntityType::LIGHT;
+
+	else if (type.compare("DirectionalLight") == 0)
+		return EntityType::LIGHT;
+
+	else if (type.compare("SpotLight") == 0)
+		return EntityType::LIGHT;
+
+	else
+		return EntityType::EMPTY;
 }

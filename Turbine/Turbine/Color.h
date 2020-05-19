@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Serialize.h"
+
 // Lightweight color container
 struct color4 {
 
@@ -13,6 +15,14 @@ public:
 		rgba[1] = 0.0f;
 		rgba[2] = 0.0f;
 		rgba[3] = 0.0f;
+	}
+
+	color4(json data) {
+
+		rgba[0] = data.at(0);
+		rgba[1] = data.at(1);
+		rgba[2] = data.at(2);
+		rgba[3] = data.at(3);
 	}
 
 	color4(float red, float green, float blue, float alpha) {
