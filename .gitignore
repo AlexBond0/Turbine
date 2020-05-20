@@ -198,3 +198,7 @@ ModelManifest.xml
 *.3dm
 *.obj
 *.dae
+
+# Extra library folders
+**/ImGui/
+**/Sol2/

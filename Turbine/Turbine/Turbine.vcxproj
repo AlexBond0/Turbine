@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -75,8 +75,9 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <ConformanceMode>true</ConformanceMode>
+      <ConformanceMode>false</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)/../External/GLFW/include;$(SolutionDir)/../External/GLEW/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)/../External/GLFW/lib-vc2017;$(SolutionDir)/../External/GLEW/lib/Release/Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -99,8 +100,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <ConformanceMode>true</ConformanceMode>
+      <ConformanceMode>false</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)/../External/GLFW/include;$(SolutionDir)/../External/GLEW/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -205,6 +207,113 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Serialize.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="Sol2\as_args.hpp" />
+    <ClInclude Include="Sol2\as_returns.hpp" />
+    <ClInclude Include="Sol2\base_traits.hpp" />
+    <ClInclude Include="Sol2\bind_traits.hpp" />
+    <ClInclude Include="Sol2\bytecode.hpp" />
+    <ClInclude Include="Sol2\call.hpp" />
+    <ClInclude Include="Sol2\compatibility.hpp" />
+    <ClInclude Include="Sol2\compatibility\compat-5.3.c.h" />
+    <ClInclude Include="Sol2\compatibility\compat-5.3.h" />
+    <ClInclude Include="Sol2\compatibility\compat-5.4.h" />
+    <ClInclude Include="Sol2\compatibility\version.hpp" />
+    <ClInclude Include="Sol2\config.hpp" />
+    <ClInclude Include="Sol2\config_setup.hpp" />
+    <ClInclude Include="Sol2\coroutine.hpp" />
+    <ClInclude Include="Sol2\debug.hpp" />
+    <ClInclude Include="Sol2\demangle.hpp" />
+    <ClInclude Include="Sol2\deprecate.hpp" />
+    <ClInclude Include="Sol2\dump_handler.hpp" />
+    <ClInclude Include="Sol2\ebco.hpp" />
+    <ClInclude Include="Sol2\environment.hpp" />
+    <ClInclude Include="Sol2\error.hpp" />
+    <ClInclude Include="Sol2\error_handler.hpp" />
+    <ClInclude Include="Sol2\feature_test.hpp" />
+    <ClInclude Include="Sol2\forward.hpp" />
+    <ClInclude Include="Sol2\forward_detail.hpp" />
+    <ClInclude Include="Sol2\function.hpp" />
+    <ClInclude Include="Sol2\function_result.hpp" />
+    <ClInclude Include="Sol2\function_types.hpp" />
+    <ClInclude Include="Sol2\function_types_core.hpp" />
+    <ClInclude Include="Sol2\function_types_overloaded.hpp" />
+    <ClInclude Include="Sol2\function_types_stateful.hpp" />
+    <ClInclude Include="Sol2\function_types_stateless.hpp" />
+    <ClInclude Include="Sol2\function_types_templated.hpp" />
+    <ClInclude Include="Sol2\inheritance.hpp" />
+    <ClInclude Include="Sol2\in_place.hpp" />
+    <ClInclude Include="Sol2\load_result.hpp" />
+    <ClInclude Include="Sol2\lua_table.hpp" />
+    <ClInclude Include="Sol2\lua_value.hpp" />
+    <ClInclude Include="Sol2\make_reference.hpp" />
+    <ClInclude Include="Sol2\map.hpp" />
+    <ClInclude Include="Sol2\metatable.hpp" />
+    <ClInclude Include="Sol2\object.hpp" />
+    <ClInclude Include="Sol2\object_base.hpp" />
+    <ClInclude Include="Sol2\optional.hpp" />
+    <ClInclude Include="Sol2\optional_implementation.hpp" />
+    <ClInclude Include="Sol2\overload.hpp" />
+    <ClInclude Include="Sol2\pointer_like.hpp" />
+    <ClInclude Include="Sol2\policies.hpp" />
+    <ClInclude Include="Sol2\property.hpp" />
+    <ClInclude Include="Sol2\protect.hpp" />
+    <ClInclude Include="Sol2\protected_function.hpp" />
+    <ClInclude Include="Sol2\protected_function_result.hpp" />
+    <ClInclude Include="Sol2\protected_handler.hpp" />
+    <ClInclude Include="Sol2\proxy_base.hpp" />
+    <ClInclude Include="Sol2\raii.hpp" />
+    <ClInclude Include="Sol2\reference.hpp" />
+    <ClInclude Include="Sol2\resolve.hpp" />
+    <ClInclude Include="Sol2\sol.hpp" />
+    <ClInclude Include="Sol2\stack.hpp" />
+    <ClInclude Include="Sol2\stack_check.hpp" />
+    <ClInclude Include="Sol2\stack_check_get.hpp" />
+    <ClInclude Include="Sol2\stack_check_get_qualified.hpp" />
+    <ClInclude Include="Sol2\stack_check_get_unqualified.hpp" />
+    <ClInclude Include="Sol2\stack_check_qualified.hpp" />
+    <ClInclude Include="Sol2\stack_check_unqualified.hpp" />
+    <ClInclude Include="Sol2\stack_core.hpp" />
+    <ClInclude Include="Sol2\stack_field.hpp" />
+    <ClInclude Include="Sol2\stack_get.hpp" />
+    <ClInclude Include="Sol2\stack_get_qualified.hpp" />
+    <ClInclude Include="Sol2\stack_get_unqualified.hpp" />
+    <ClInclude Include="Sol2\stack_guard.hpp" />
+    <ClInclude Include="Sol2\stack_iterator.hpp" />
+    <ClInclude Include="Sol2\stack_pop.hpp" />
+    <ClInclude Include="Sol2\stack_probe.hpp" />
+    <ClInclude Include="Sol2\stack_proxy.hpp" />
+    <ClInclude Include="Sol2\stack_proxy_base.hpp" />
+    <ClInclude Include="Sol2\stack_push.hpp" />
+    <ClInclude Include="Sol2\stack_reference.hpp" />
+    <ClInclude Include="Sol2\state.hpp" />
+    <ClInclude Include="Sol2\state_handling.hpp" />
+    <ClInclude Include="Sol2\state_view.hpp" />
+    <ClInclude Include="Sol2\string_view.hpp" />
+    <ClInclude Include="Sol2\table.hpp" />
+    <ClInclude Include="Sol2\table_core.hpp" />
+    <ClInclude Include="Sol2\table_iterator.hpp" />
+    <ClInclude Include="Sol2\table_proxy.hpp" />
+    <ClInclude Include="Sol2\thread.hpp" />
+    <ClInclude Include="Sol2\tie.hpp" />
+    <ClInclude Include="Sol2\traits.hpp" />
+    <ClInclude Include="Sol2\trampoline.hpp" />
+    <ClInclude Include="Sol2\tuple.hpp" />
+    <ClInclude Include="Sol2\types.hpp" />
+    <ClInclude Include="Sol2\unicode.hpp" />
+    <ClInclude Include="Sol2\unique_usertype_traits.hpp" />
+    <ClInclude Include="Sol2\unsafe_function.hpp" />
+    <ClInclude Include="Sol2\unsafe_function_result.hpp" />
+    <ClInclude Include="Sol2\userdata.hpp" />
+    <ClInclude Include="Sol2\usertype.hpp" />
+    <ClInclude Include="Sol2\usertype_container.hpp" />
+    <ClInclude Include="Sol2\usertype_container_launch.hpp" />
+    <ClInclude Include="Sol2\usertype_core.hpp" />
+    <ClInclude Include="Sol2\usertype_proxy.hpp" />
+    <ClInclude Include="Sol2\usertype_storage.hpp" />
+    <ClInclude Include="Sol2\usertype_traits.hpp" />
+    <ClInclude Include="Sol2\variadic_args.hpp" />
+    <ClInclude Include="Sol2\variadic_results.hpp" />
+    <ClInclude Include="Sol2\wrapper.hpp" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TranslationStack.h" />
     <ClInclude Include="UIPointer.h" />
@@ -231,6 +340,8 @@
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\glm.0.9.9.700\build\native\glm.targets" Condition="Exists('..\packages\glm.0.9.9.700\build\native\glm.targets')" />
     <Import Project="..\packages\nlohmann.json.3.7.3\build\native\nlohmann.json.targets" Condition="Exists('..\packages\nlohmann.json.3.7.3\build\native\nlohmann.json.targets')" />
+    <Import Project="..\packages\lua.redist.5.3.5.1\build\native\lua.redist.targets" Condition="Exists('..\packages\lua.redist.5.3.5.1\build\native\lua.redist.targets')" />
+    <Import Project="..\packages\lua.5.3.5.1\build\native\lua.targets" Condition="Exists('..\packages\lua.5.3.5.1\build\native\lua.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -238,5 +349,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\glm.0.9.9.700\build\native\glm.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\glm.0.9.9.700\build\native\glm.targets'))" />
     <Error Condition="!Exists('..\packages\nlohmann.json.3.7.3\build\native\nlohmann.json.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\nlohmann.json.3.7.3\build\native\nlohmann.json.targets'))" />
+    <Error Condition="!Exists('..\packages\lua.redist.5.3.5.1\build\native\lua.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\lua.redist.5.3.5.1\build\native\lua.redist.targets'))" />
+    <Error Condition="!Exists('..\packages\lua.5.3.5.1\build\native\lua.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\lua.5.3.5.1\build\native\lua.targets'))" />
   </Target>
 </Project>

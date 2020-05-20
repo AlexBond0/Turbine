@@ -18,6 +18,9 @@
 // ImGui
 #include "DebugUI.h";
 
+#include "Sol2//sol.hpp"
+#include <cassert>
+
 // ===================================================================================
 // Prototyping
 
@@ -33,6 +36,8 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void SetupDebugUI();
 void HandleCameraMovement();
+
+void TestSol();
 
 GLuint shaderProgram;
 GLuint VBO, VAO;
@@ -88,6 +93,9 @@ int main()
 	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
 	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
 #endif
+
+	TestSol();
+
 
 	// hide console lol
 	HWND hwnd = GetConsoleWindow();
@@ -574,4 +582,13 @@ void HandleCameraMovement() {
 	else
 		scene->world->GetActiveCamera()->movementDelta.truck = 0;
 	
+}
+
+void TestSol() {
+
+	sol::state lua;
+	int x = 0;
+	lua.set_function("beep", [&x] { ++x; });
+	lua.script("beep()");
+	assert(x == 1);
 }

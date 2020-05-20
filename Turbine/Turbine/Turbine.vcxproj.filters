@@ -58,6 +58,9 @@
     <Filter Include="Turbine Engine\Object\Base\Model">
       <UniqueIdentifier>{d7b069d5-bee4-4e0e-a781-07de682a1d6b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sol2">
+      <UniqueIdentifier>{02346028-4caf-4aaf-98a1-58a10e57f4a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui_demo.cpp">
@@ -311,6 +314,327 @@
     </ClInclude>
     <ClInclude Include="Serialize.h">
       <Filter>Turbine Engine\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\bind_traits.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\bytecode.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\call.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\compatibility.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\config.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\config_setup.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\coroutine.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\debug.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\demangle.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\deprecate.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\dump_handler.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\ebco.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\environment.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\error.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\error_handler.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\feature_test.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\forward.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\forward_detail.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\function.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\function_result.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\function_types.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\function_types_core.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\function_types_overloaded.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\function_types_stateful.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\function_types_stateless.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\function_types_templated.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\in_place.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\inheritance.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\load_result.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\lua_table.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\lua_value.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\make_reference.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\map.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\metatable.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\object.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\object_base.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\optional.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\optional_implementation.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\overload.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\pointer_like.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\policies.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\property.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\protect.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\protected_function.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\protected_function_result.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\protected_handler.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\proxy_base.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\raii.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\reference.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\resolve.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\sol.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\stack.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\stack_check.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\stack_check_get.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\stack_check_get_qualified.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\stack_check_get_unqualified.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\stack_check_qualified.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\stack_check_unqualified.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\stack_core.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\stack_field.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\stack_get.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\stack_get_qualified.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\stack_get_unqualified.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\stack_guard.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\stack_iterator.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\stack_pop.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\stack_probe.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\stack_proxy.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\stack_proxy_base.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\stack_push.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\stack_reference.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\state.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\state_handling.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\state_view.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\string_view.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\table.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\table_core.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\table_iterator.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\table_proxy.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\thread.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\tie.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\traits.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\trampoline.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\tuple.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\types.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\unicode.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\unique_usertype_traits.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\unsafe_function.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\unsafe_function_result.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\userdata.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\usertype.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\usertype_container.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\usertype_container_launch.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\usertype_core.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\usertype_proxy.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\usertype_storage.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\usertype_traits.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\variadic_args.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\variadic_results.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\wrapper.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\compatibility\compat-5.3.c.h">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\compatibility\compat-5.3.h">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\compatibility\compat-5.4.h">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\compatibility\version.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\as_args.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\as_returns.hpp">
+      <Filter>Sol2</Filter>
+    </ClInclude>
+    <ClInclude Include="Sol2\base_traits.hpp">
+      <Filter>Sol2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
