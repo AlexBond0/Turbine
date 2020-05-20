@@ -178,6 +178,9 @@
     <ClCompile Include="Environment.cpp">
       <Filter>Turbine Engine\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="ImGui\imgui_ext_TextEditor.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGui\imgui_impl_glfw.h">
@@ -635,6 +638,9 @@
     </ClInclude>
     <ClInclude Include="Sol2\base_traits.hpp">
       <Filter>Sol3</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_ext_TextEditor.h">
+      <Filter>ImGui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
