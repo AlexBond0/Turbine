@@ -2,17 +2,24 @@
 
 
 
-Texture::Texture()
+TextureManager::TextureManager()
 {
 }
 
 
-Texture::~Texture()
-{
+TextureManager::~TextureManager() {
+
+	for (const auto& texture : _textures)
+		delete texture.second;
+}
+
+Texture* TextureManager::GetTexture(std::string name) {
+
+	return _textures[name];
 }
 
 // load all BMP textures found in the /textures directory
-void Texture::loadAllTextures() {
+void TextureManager::loadAllTextures() {
 
 	// get the /textures filepath
 	std::experimental::filesystem::path dirPath;
@@ -31,7 +38,9 @@ void Texture::loadAllTextures() {
 			std::string rawname = fullname.substr(0, lastindex);
 
 			// load the texture and save it into the texture map
-			id[rawname] = LoadTexture(entry.path());
+			_textures[rawname] = new Texture(rawname, LoadTexture(entry.path()));
+
+			// id[rawname] = LoadTexture(entry.path());
 			OutputDebugStringA(("\nLOADED TEXTURE : " + fullname + " > AS : " + rawname).c_str());
 		}
 	}
@@ -43,7 +52,7 @@ void Texture::loadAllTextures() {
 }
 
 // load an individual texture into OpenGL
-unsigned int Texture::LoadTexture(std::experimental::filesystem::path filename) {
+unsigned int TextureManager::LoadTexture(std::experimental::filesystem::path filename) {
 
 	// ===============================================================
 	// load texture from file
@@ -149,7 +158,7 @@ unsigned int Texture::LoadTexture(std::experimental::filesystem::path filename) 
 }
 
 // convert the file string into a wstring
-std::wstring Texture::_PrepFilename(const std::string& filestring) {
+std::wstring TextureManager::_PrepFilename(const std::string& filestring) {
 
 	int size = (int)filestring.length() + 1;
 	int length = MultiByteToWideChar(CP_ACP, 0, filestring.c_str(), size, 0, 0);

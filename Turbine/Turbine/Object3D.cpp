@@ -5,7 +5,7 @@ Object3D::Object3D(std::string name)
 	, loadedFrom("")
 {
 	// SetName("NULL");
-	texturemap = -1;
+	// texturemap = -1;
 	parent = nullptr;
 }
 
@@ -14,7 +14,7 @@ Object3D::Object3D(std::string name, std::string model)
 	, loadedFrom(model)
 {
 	// SetName("NULL");
-	texturemap = -1;
+	// texturemap = -1;
 	parent = nullptr;
 }
 
@@ -31,12 +31,15 @@ Object3D::Object3D(Object3D* copy, std::string newName)
 	vertices.SetData(copy->vertices);
 	polygons.SetData(copy->polygons);
 
-	texturemap = copy->texturemap;
-	hasTexture = copy->hasTexture;
-	textureID = copy->textureID;
+	_texture = copy->_texture;
+	// texturemap = copy->texturemap;
+	// hasTexture = copy->hasTexture;
+	// textureID = copy->textureID;
 
 	useLight = copy->useLight;
 	useTexture = copy->useTexture;
+	isTransparent = copy->isTransparent;
+	isWireframe = copy->isWireframe;
 }
 
 Object3D::~Object3D()
@@ -189,7 +192,8 @@ void Object3D::_AssignHandleInformation(RenderingContext& rcontext) {
 	rcontext.liveShader->SetBool("u_billboarding", isBillboarded);
 
 	// bind info in textureID to the textureHandle
-	if (hasTexture) {
+	// if (hasTexture) {
+	if (_texture != nullptr) {
 
 		glEnable(GL_TEXTURE_2D);
 
@@ -197,7 +201,7 @@ void Object3D::_AssignHandleInformation(RenderingContext& rcontext) {
 		rcontext.liveShader->SetInt("u_texture", 0);
 		glActiveTexture(GL_TEXTURE0);
 
-		glBindTexture(GL_TEXTURE_2D, textureID);
+		glBindTexture(GL_TEXTURE_2D, _texture->id); // textureID);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -273,12 +277,12 @@ void Object3D::_HandleVertVBO(RenderingContext& rcontext) {
 }
 
 // Assign texture handle
-void Object3D::SetTexture(unsigned int newTextureID) {
-
-	hasTexture = true;
-	useTexture = true;
-	textureID = newTextureID;
-}
+//void Object3D::SetTexture(unsigned int newTextureID) {
+//
+//	hasTexture = true;
+//	useTexture = true;
+//	textureID = newTextureID;
+//}
 
 json Object3D::Serialize() {
 
@@ -290,9 +294,10 @@ json Object3D::Serialize() {
 	me["renderFlags"]["isInstanced"] = isInstanced;
 	me["renderFlags"]["isBillboarded"] = isBillboarded;
 
-	me["texture"]["hasTexture"] = hasTexture;
-	me["texture"]["textureID"] = textureID;
-	me["texture"]["texturemap"] = texturemap;
+	me["textureName"] = _texture->name;
+	// me["texture"]["hasTexture"] = hasTexture;
+	// me["texture"]["textureID"] = textureID;
+	// me["texture"]["texturemap"] = texturemap;
 
 	// pack and send json
 	json ret;
@@ -310,9 +315,20 @@ Object3D::Object3D(json& data)
 	isInstanced		= data["renderFlags"]["isInstanced"];
 	isBillboarded	= data["renderFlags"]["isBillboarded"];
 
-	hasTexture		= data["texture"]["hasTexture"];
-	textureID		= data["texture"]["textureID"];
-	texturemap		= data["texture"]["texturemap"];
+	//hasTexture		= data["texture"]["hasTexture"];
+	//textureID			= data["texture"]["textureID"];
+	//texturemap		= data["texture"]["texturemap"];
 
 	parent = nullptr;
+}
+
+void Object3D::SetTexture(Texture* texture) {
+
+	useTexture = true;
+	_texture = texture;
+}
+
+Texture* Object3D::GetTexture() {
+
+	return _texture;
 }

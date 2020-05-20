@@ -6,7 +6,8 @@ EntityManager::~EntityManager() {
 
 	// delete all entities managed by the entity manager
 	for (auto const& entity : _entities)
-		delete entity.second;
+		if (entity.second)
+			delete entity.second;
 }
 
 // Return a pointer to an entity given the name of the entity

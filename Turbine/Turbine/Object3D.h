@@ -5,6 +5,7 @@
 #include "Entity.h"
 #include "PointData.h"
 #include "PolygonData.h"
+#include "Texture.h"
 
 #include <vector>
 #include <map>
@@ -68,8 +69,11 @@ public:
 	void SetTriangles(unsigned short* polygons, int noofElements);
 	void SetTriangles(PolygonData data);
 
-	void SetTextureMap(int id);
-	void SetTexture(unsigned int newTextureID);
+	// void SetTextureMap(int id);
+	// void SetTexture(unsigned int newTextureID);
+
+	void SetTexture(Texture* texture);
+	Texture* GetTexture();
 
 	bool IsInstanced();
 
@@ -84,11 +88,14 @@ public:
 protected:
 
 	Object3DHandles handles;	// object handles
+	Texture* _texture = nullptr;		// object texture
 
 	// texture data
-	bool hasTexture = false;	// does the object have a texture
-	unsigned int textureID;		// textureid for the object
-	int texturemap;				// texturemap for the object?
+	// bool hasTexture = false;	// does the object have a texture
+	// Texture* texture;			// object texture
+
+	// unsigned int textureID;		// textureid for the object
+	// int texturemap;				// texturemap for the object?
 
 	// rendering flags
 	bool isInstanced = false;	// is the object instanced
@@ -106,10 +113,10 @@ protected:
 };
 
 // Set the texturemap of the object via texturemap ID
-inline void Object3D::SetTextureMap(int id)
-{
-	texturemap = id;
-}
+//inline void Object3D::SetTextureMap(int id)
+//{
+//	texturemap = id;
+//}
 
 // Get Vertex Data in the form of a float* array
 // NEEDS DEPRECIATING

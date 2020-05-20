@@ -29,11 +29,13 @@ json Environment::Serialize() {
 	me["fog"] = fg;
 
 	// pack and send json
-	json ret;
-	ret["Environment"] = me;
-	return ret;
+	return me;
 }
 
-void Environment::Deserialize(json& data) {
+Environment::Environment(json& data) {
 
+	fog.active	= data["fog"]["active"];
+	fog.color	= color4(data["fog"]["color"]);
+	fog.density = data["fog"]["density"];
+	fog.focus	= data["fog"]["focus"];
 }

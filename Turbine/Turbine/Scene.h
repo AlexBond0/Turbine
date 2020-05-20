@@ -5,26 +5,25 @@
 
 #include "RenderingContext.h"
 #include "ModelLoader.h"
-#include "Texture.h"
 #include "Camera.h"
 #include "Light.h"
 #include "RideAnimation.h"
 #include "InstancedObject.h"
 #include "Particle.h"
-#include "World.h"
+#include "world.h"
 
 // The Rendering enviroment
 class Scene
 {
 public:
 
-	World world;
+	World* world;
 
 	bool rideCam = false;						// flag denoting if POV cam is in use
 
 	RideAnimation animator;						// the model animator
 
-	Texture textures;							// the set of loaded textures
+	// Texture textures;							// the set of loaded textures
 
 	bool pov = false;							// is the POV camera enabled
 
@@ -81,10 +80,10 @@ inline void Scene::ToggleCamera() {
 	pov = !pov;
 
 	if (pov)
-		world.SetActiveCamera("POV Camera");
+		world->SetActiveCamera("POV Camera");
 
 	else
-		world.SetActiveCamera("Default Camera");
+		world->SetActiveCamera("Default Camera");
 }
 
 // toggle day/night
@@ -94,18 +93,18 @@ inline void Scene::ToggleDayNight() {
 
 	if (isDay) {
 
-		world.GetObject3D("skybox")->SetTexture(textures.id["skybox"]);
-		dynamic_cast<Light*>(world.GetEntity("sun"))->CreateSun();
+		world->GetObject3D("skybox")->SetTexture(world->textures.GetTexture("skybox"));
+		dynamic_cast<Light*>(world->GetEntity("sun"))->CreateSun();
 	}
 	else {
 
-		world.GetObject3D("skybox")->SetTexture(textures.id["skybox-night"]);
-		dynamic_cast<Light*>(world.GetEntity("sun"))->CreateMoon();
+		world->GetObject3D("skybox")->SetTexture(world->textures.GetTexture("skybox-night"));
+		dynamic_cast<Light*>(world->GetEntity("sun"))->CreateMoon();
 	}
 }
 
 // preform the camera rotation
 inline void Scene::RotateCamera(float x, float y, bool thispov) {
 
-	world.GetActiveCamera()->RotateCam(x, y, thispov);
+	world->GetActiveCamera()->RotateCam(x, y, thispov);
 }

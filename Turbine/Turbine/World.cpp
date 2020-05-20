@@ -200,14 +200,16 @@ std::string World::_GetModelName(Entity* entity) {
 	}
 }
 
-World World::Deserialize(json& data) {
+World* World::Deserialize(json& data) {
 
-	World world;
+	World* world = new World();
 	json entity;
 	std::string entityName;
 	ModelLoader* model;
 
-	// load object files
+	// =======================================================================
+	// Load object files
+
 	for (auto& el : data["World"].items()) {
 
 		entity = el.value();
@@ -216,11 +218,13 @@ World World::Deserialize(json& data) {
 		if (entity.find("Model") != entity.end()) {
 
 			model = ModelLoader::LoadModel(entity["Model"]["fileName"]);
-			world.AddEntity(model->GetModel());
+			world->AddEntity(model->GetModel());
 		}
 	}
 
-	// create Entities
+	// =======================================================================
+	// Create Entities
+
 	Entity* entityPointer = nullptr;
 	for (auto& el : data["World"].items()) {
 
@@ -294,17 +298,59 @@ World World::Deserialize(json& data) {
 		if (entityPointer != nullptr) {
 
 			entityPointer->SetName(entityName);
-			world.AddEntity(entityPointer);
+			world->AddEntity(entityPointer);
 		}
 	}
 
-	// find relationships
-	std::map<std::string, std::string> childToParent;
+	// =======================================================================
+	// Find relationships
 
-	for (auto& el : data["Relations"].items()) {
+	Entity* child;
+	Entity* parent;
 
-		childToParent[el.value()] = el.key();
+	for (auto& relation : data["Relations"]) {
+
+		// get child
+		if (relation["child"].size() == 1) {
+
+			child = world->GetEntity(relation["child"].at(0));
+		}
+		else if (relation["child"].size() == 2) {
+
+			child = world->GetModelEntity(relation["child"].at(0), relation["child"].at(1));
+		}
+		else {
+
+			child = nullptr;
+		}
+
+		// get parent
+		if (relation["parent"].size() == 1) {
+
+			parent = world->GetEntity(relation["parent"].at(0));
+		}
+		else if (relation["parent"].size() == 2) {
+
+			parent = world->GetModelEntity(relation["parent"].at(0), relation["parent"].at(1));
+		}
+		else {
+
+			parent = nullptr;
+		}
+
+		if (child != nullptr && parent != nullptr) {
+
+			child->SetParent(parent);
+			parent->AddChild(child);
+		}
 	}
+
+	// =======================================================================
+	// Extra Data
+
+	world->enviro = Environment(data["Environment"]);
+
+	world->SetActiveCamera(data["CurrentCamera"]);
 
 	return world;
 }

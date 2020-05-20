@@ -8,6 +8,7 @@
 #include "Model.h"
 #include "ModelLoader.h"
 #include "Environment.h"
+#include "Texture.h"
 
 class Camera; //forward decleration
 
@@ -20,9 +21,10 @@ public:
 	~World() {};
 
 	Entity* currentSelectedEntity = nullptr;	// for object focus in world
-	LightManager lights;						// light manager for all lights in world
 
-	Environment enviro;
+	LightManager lights;						// light manager for all lights in world
+	Environment enviro;							// the world enviroment
+	TextureManager textures;					// the set of loaded textures
 
 	bool SetActiveCamera(std::string cameraName);
 	Camera* GetActiveCamera();
@@ -35,7 +37,7 @@ public:
 	Object3D* GetModelObject3D(std::string model, std::string name);
 
 	std::string Serialize();
-	static World Deserialize(json& data);
+	static World* Deserialize(json& data);
 
 private:
 

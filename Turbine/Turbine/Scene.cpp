@@ -4,6 +4,8 @@
 Scene::Scene() {
 
 	sceneLoaded = false;
+
+	world = new World();
 }
 
 
@@ -23,16 +25,16 @@ void Scene::Render(RenderingContext& rcontext) {
 	rcontext.InitModelMatrix(true);
 
 	// calculate camera properties
-	world.GetActiveCamera()->LookThrough(rcontext);
+	world->GetActiveCamera()->LookThrough(rcontext);
 
-	glm::vec3 pos = world.GetActiveCamera()->GetWorldPosition();
+	glm::vec3 pos = world->GetActiveCamera()->GetWorldPosition();
 	rcontext.liveShader->SetVector("u_c_position", pos);
 
 	// setup environment 
-	world.enviro.Render(rcontext);
+	world->enviro.Render(rcontext);
 
 	// assign light handles
-	world.lights.RenderLights(rcontext, pos);
+	world->lights.RenderLights(rcontext, pos);
 
 	// render solid objects
 	_ObjectPass(rcontext);
@@ -50,21 +52,21 @@ void Scene::_ShadowPass(RenderingContext& rcontext) {
 void Scene::_ObjectPass(RenderingContext& rcontext) {
 
 	rcontext.renderPass = RenderPass::OBJECT;
-	world.Render(rcontext);
+	world->Render(rcontext);
 }
 
 // render transparent objects in the scene
 void Scene::_TransparencyPass(RenderingContext& rcontext) {
 
 	rcontext.renderPass = RenderPass::BLEND;
-	world.Render(rcontext);
+	world->Render(rcontext);
 }
 
 // setup the scene
 void Scene::Setup() {
 
 	// load textures
-	textures.loadAllTextures();
+	world->textures.loadAllTextures();
 
 	// generate particles
 	// (before ride so we can attach them to the heirarchy)
@@ -75,15 +77,15 @@ void Scene::Setup() {
 
 	// create the default camera
 	Camera* defaultCam = new Camera("Default Camera");
-	world.AddEntity(defaultCam);
+	world->AddEntity(defaultCam);
 	defaultCam->fZFar = 1500.0f;
 	defaultCam->fDirty = true; // needs calling as f properties have changed
 
 	// set up the POV camera
 	Camera* camPOV = new Camera("POV Camera");
-	world.AddEntity(camPOV);
+	world->AddEntity(camPOV);
 	camPOV->moveable = false;
-	world.GetModelEntity("uv-spinner", "Seats")->AddChild(camPOV);
+	world->GetModelEntity("uv-spinner", "Seats")->AddChild(camPOV);
 
 	// set these after parenting as parenting would offsett these
 	camPOV->SetLocalPos(glm::vec3(0.0f, -0.083f, 0.0f));
@@ -95,10 +97,10 @@ void Scene::Setup() {
 	skybox->GenerateBox(20.0f, true);
 	skybox->SetOrientation(0.0f, -90.0f, 0.0f);
 	skybox->SetScale(40.0f);
-	skybox->SetTexture(textures.id["skybox"]);
+	skybox->SetTexture(world->textures.GetTexture("skybox"));
 	skybox->useLight = false;
 	skybox->SetName("skybox");
-	world.AddEntity(skybox);
+	world->AddEntity(skybox);
 
 	// load the ground model
 	// _LoadBigScene();
@@ -106,18 +108,18 @@ void Scene::Setup() {
 
 	// load the bulb fly model
 	ModelLoader* bulbfly = ModelLoader::LoadModel("bulbFly.obj");
-	world.AddEntity(bulbfly->GetModel());
-	world.GetModelObject3D("bulbFly", "Body_Base")->SetTranslation(glm::vec3(1.0, 1.0, 0.0));
-	dynamic_cast<Model*>(world.GetEntity("bulbFly"))->Clean();
+	world->AddEntity(bulbfly->GetModel());
+	world->GetModelObject3D("bulbFly", "Body_Base")->SetTranslation(glm::vec3(1.0, 1.0, 0.0));
+	dynamic_cast<Model*>(world->GetEntity("bulbFly"))->Clean();
 
 	// generate lights
 	_GenerateLights();
 
 	// load animator
-	animator = RideAnimation(&world);
+	animator = RideAnimation(world);
 
 	// clean the world from processing and loading objects into the scene
-	world.Clean();
+	world->Clean();
 
 	sceneLoaded = true;
 }
@@ -129,7 +131,7 @@ void Scene::OnTimer(RenderingContext& rcontext, double timePassed) {
 
 		animator.Animate(timePassed);
 
-		world.UpdateParticles(timePassed);
+		world->UpdateParticles(timePassed);
 	}
 }
 
@@ -138,42 +140,43 @@ void Scene::_LoadRide() {
 
 	// load the ride and save it in the world
 	ModelLoader* spinner = ModelLoader::LoadModel("uv-spinner.3dm");
-	world.AddEntity(spinner->GetModel());
+	world->AddEntity(spinner->GetModel());
 
-	Model* ride = dynamic_cast<Model*>(world.GetEntity("uv-spinner"));
+	Model* ride = dynamic_cast<Model*>(world->GetEntity("uv-spinner"));
 
 	// Base
-	ride->GetObject3D("Base")->SetTexture(textures.id["wood-base"]);				// set texture
+	// ride->GetObject3D("Base")->SetTexture(world->textures.id["wood-base"]);				// set texture
+	ride->GetObject3D("Base")->SetTexture(world->textures.GetTexture("wood-base"));	// set texture
 	ride->GetObject3D("Base")->SetOrientation(0.0f, 0.0f, 3.3f);					// adjust angle
 	ride->GetObject3D("Base")->AddChild(ride->GetObject3D("Platter"));				// add child
 
 	// Platter
-	ride->GetObject3D("Platter")->SetTexture(textures.id["diamond-metal"]);			// set texture
-	ride->GetObject3D("Platter")->AddChild(ride->GetObject3D("Pivot"));				// add child
+	ride->GetObject3D("Platter")->SetTexture(world->textures.GetTexture("diamond-metal"));	// set texture
+	ride->GetObject3D("Platter")->AddChild(ride->GetObject3D("Pivot"));						// add child
 
 	// Pivot
-	ride->GetObject3D("Pivot")->SetTexture(textures.id["singed-white-metal"]);		// set texture
-	ride->GetObject3D("Pivot")->SetSpecular(0.6f, 0.6f, 0.6f, 1.0f);				// add specular material information
-	ride->GetObject3D("Pivot")->SetSpecLevel(20.0f);								// add specular level
-	ride->GetObject3D("Pivot")->AddChild(world.GetObject3D("DryIce"));				// add the left dry ice smoke effect
-	ride->GetObject3D("Pivot")->AddChild(world.GetObject3D("DryIce2"));				// add the left dry ice smoke effect
-	ride->GetObject3D("Pivot")->AddChild(ride->GetObject3D("Arm"));					// add child
+	ride->GetObject3D("Pivot")->SetTexture(world->textures.GetTexture("singed-white-metal"));	// set texture
+	ride->GetObject3D("Pivot")->SetSpecular(0.6f, 0.6f, 0.6f, 1.0f);							// add specular material information
+	ride->GetObject3D("Pivot")->SetSpecLevel(20.0f);											// add specular level
+	ride->GetObject3D("Pivot")->AddChild(world->GetObject3D("DryIce"));							// add the left dry ice smoke effect
+	ride->GetObject3D("Pivot")->AddChild(world->GetObject3D("DryIce2"));						// add the left dry ice smoke effect
+	ride->GetObject3D("Pivot")->AddChild(ride->GetObject3D("Arm"));								// add child
 
 	// Arm
-	ride->GetObject3D("Arm")->SetTexture(textures.id["singed-white-metal"]);		// set texture
-	ride->GetObject3D("Arm")->SetSpecular(0.6f, 0.6f, 0.6f, 1.0f);					// add specular material information
-	ride->GetObject3D("Arm")->SetSpecLevel(20.0f);									// add specular level
-	ride->GetObject3D("Arm")->AddChild(ride->GetObject3D("Spinner"));				// add child
+	ride->GetObject3D("Arm")->SetTexture(world->textures.GetTexture("singed-white-metal"));	// set texture
+	ride->GetObject3D("Arm")->SetSpecular(0.6f, 0.6f, 0.6f, 1.0f);							// add specular material information
+	ride->GetObject3D("Arm")->SetSpecLevel(20.0f);											// add specular level
+	ride->GetObject3D("Arm")->AddChild(ride->GetObject3D("Spinner"));						// add child
 
 	// Spinner
-	ride->GetObject3D("Spinner")->SetTexture(textures.id["hot-metal"]);				// set texture
-	ride->GetObject3D("Spinner")->AddChild(ride->GetObject3D("Seats"));				// add child
-	ride->GetObject3D("Spinner")->AddChild(world.GetObject3D("Fire"));				// add the fire effect
-	ride->GetObject3D("Spinner")->AddChild(world.GetObject3D("FireSmoke"));			// add the fire's smoke effect
+	ride->GetObject3D("Spinner")->SetTexture(world->textures.GetTexture("hot-metal"));	// set texture
+	ride->GetObject3D("Spinner")->AddChild(ride->GetObject3D("Seats"));					// add child
+	ride->GetObject3D("Spinner")->AddChild(world->GetObject3D("Fire"));					// add the fire effect
+	ride->GetObject3D("Spinner")->AddChild(world->GetObject3D("FireSmoke"));			// add the fire's smoke effect
 
 	// Seats
-	ride->GetObject3D("Seats")->SetTexture(textures.id["seats"]);						// set texture
-	_GenerateSeats();														// create the duplicate seat information
+	ride->GetObject3D("Seats")->SetTexture(world->textures.GetTexture("seats"));		// set texture
+	_GenerateSeats();																	// create the duplicate seat information
 
 	ride->Clean();
 }
@@ -186,14 +189,14 @@ void Scene::_GenerateTrees() {
 	// create primitive tree
 	Primitive tree;
 	tree.GenerateTree(0.13f, 0.7f);
-	tree.SetTexture(textures.id["tree-wrap"]);
+	tree.SetTexture(world->textures.GetTexture("tree-wrap"));
 
 	// create instance object
 	InstancedObject* trees = new InstancedObject(&tree, "trees");
-	world.AddEntity(trees);
+	world->AddEntity(trees);
 
 	// get vert data
-	Object3D* plane = world.GetModelObject3D("island", "Plane");
+	Object3D* plane = world->GetModelObject3D("island", "Plane");
 	int noofTrees = plane->GetVertCount();
 	std::vector<Instance> treeInstances;
 	glm::vec4 point;
@@ -228,11 +231,11 @@ void Scene::_GenerateSeats() {
 	// this shows the object copying capabillities
 
 	Object3D* objRef;
-	Object3D* spinner = world.GetModelObject3D("uv-spinner", "Spinner");
-	Object3D* seats = world.GetModelObject3D("uv-spinner", "Seats");
-	Model* ride = dynamic_cast<Model*>(world.GetEntity("uv-spinner"));
+	Object3D* spinner = world->GetModelObject3D("uv-spinner", "Spinner");
+	Object3D* seats = world->GetModelObject3D("uv-spinner", "Seats");
+	Model* ride = dynamic_cast<Model*>(world->GetEntity("uv-spinner"));
 
-	objRef = world.DuplicateObject3D(seats, "seats-1", false);
+	objRef = world->DuplicateObject3D(seats, "seats-1", false);
 	ride->AddEntity(objRef);
 
 	objRef->SetTranslation(-0.16f, 0.0f, 0.095f);
@@ -240,7 +243,7 @@ void Scene::_GenerateSeats() {
 	spinner->AddChild(objRef);
 
 
-	objRef = world.DuplicateObject3D(seats, "seats-2", false);
+	objRef = world->DuplicateObject3D(seats, "seats-2", false);
 	ride->AddEntity(objRef);
 
 	objRef->SetTranslation(-0.16f, 0.0f, 0.280f);
@@ -248,7 +251,7 @@ void Scene::_GenerateSeats() {
 	spinner->AddChild(objRef);
 
 
-	objRef = world.DuplicateObject3D(seats, "seats-3", false);
+	objRef = world->DuplicateObject3D(seats, "seats-3", false);
 	ride->AddEntity(objRef);
 
 	objRef->SetTranslation(0.0f, 0.0f, 0.372f);
@@ -256,7 +259,7 @@ void Scene::_GenerateSeats() {
 	spinner->AddChild(objRef);
 
 
-	objRef = world.DuplicateObject3D(seats, "seats-4", false);
+	objRef = world->DuplicateObject3D(seats, "seats-4", false);
 	ride->AddEntity(objRef);
 
 	objRef->SetTranslation(0.16f, 0.0f, 0.095f);
@@ -264,7 +267,7 @@ void Scene::_GenerateSeats() {
 	spinner->AddChild(objRef);
 
 
-	objRef = world.DuplicateObject3D(seats, "seats-5", false);
+	objRef = world->DuplicateObject3D(seats, "seats-5", false);
 	ride->AddEntity(objRef);
 
 	objRef->SetTranslation(0.16f, 0.0f, 0.280f);
@@ -281,25 +284,25 @@ void Scene::_GenerateParticles() {
 	Particle* dryIce = new Particle("DryIce", ParticleType::SMOKE_WHITE, 10000, particleRate);
 	dryIce->SetProfilePosition(0.04f, 0.04f, 0.08f);
 	dryIce->SetProfileSpeed(1.0f, -1.5f, 4.0f);
-	world.AddEntity(dryIce);
+	world->AddEntity(dryIce);
 
 	// create right dry ice smoke effect
 	Particle* dryIce2 = new Particle("DryIce2", ParticleType::SMOKE_WHITE, 10000, particleRate);
 	dryIce2->SetProfilePosition(-0.04f, 0.04f, 0.08f);
 	dryIce2->SetProfileSpeed(-1.0f, -1.5f, 4.0f);
-	world.AddEntity(dryIce2);
+	world->AddEntity(dryIce2);
 
 	// create fire effect
 	Particle* fire = new Particle("Fire", ParticleType::FIRE, 10000, particleRate);
 	fire->SetProfilePosition(0.0f, 0.0f, 0.0f);
 	fire->SetProfileSpeed(0.0f, -3.0f, 0.0f);
-	world.AddEntity(fire);
+	world->AddEntity(fire);
 
 	// create dark fire smoke effect
 	Particle* firesmoke = new Particle("FireSmoke", ParticleType::SMOKE_BLACK, 10000, particleRate);
 	firesmoke->SetProfilePosition(0.0f, 0.0f, 0.0f);
 	firesmoke->SetProfileSpeed(0.0f, -1.0f, 0.0f);
-	world.AddEntity(firesmoke);
+	world->AddEntity(firesmoke);
 }
 
 void Scene::_GenerateLights() {
@@ -310,42 +313,42 @@ void Scene::_GenerateLights() {
 	light = new DirectionalLight("sun");
 	light->CreateSun();
 	light->SetLocalPos(0.0f, 0.6f, 0.0f);
-	world.AddEntity(light);
-	world.lights.SetCurrentDirLight("sun");
+	world->AddEntity(light);
+	world->lights.SetCurrentDirLight("sun");
 
 	// create sun light
 	light = new PointLight("light1");
 	light->CreateSun();
 	light->diffuse = color4(0.0, 1.0, 0.0, 1.0);
-	world.GetModelEntity("uv-spinner", "seats-5")->AddChild(light);
-	world.AddEntity(light);
+	world->GetModelEntity("uv-spinner", "seats-5")->AddChild(light);
+	world->AddEntity(light);
 
 	// create sun light
 	light = new PointLight("light2");
 	light->CreateSun();
 	light->diffuse = color4(0.0, 0.0, 1.0, 1.0);
-	world.GetModelEntity("uv-spinner", "Spinner")->AddChild(light);
-	world.AddEntity(light);
+	world->GetModelEntity("uv-spinner", "Spinner")->AddChild(light);
+	world->AddEntity(light);
 
 	// create sun light
 	light = new PointLight("light3");
 	light->CreateSun();
 	light->diffuse = color4(1.0, 0.0, 0.0, 1.0);
-	world.GetModelEntity("uv-spinner", "Pivot")->AddChild(light);
-	world.AddEntity(light);
+	world->GetModelEntity("uv-spinner", "Pivot")->AddChild(light);
+	world->AddEntity(light);
 
 	// create spotlight
 	light = new SpotLight("spotlight");
 	light->CreateSun();
 	light->diffuse = color4(1.0, 0.0, 1.0, 1.0);
-	world.AddEntity(light);
+	world->AddEntity(light);
 }
 
 void Scene::_LoadBigScene() {
 
 	// load the ground model
 	ModelLoader* ground = ModelLoader::LoadModel("island.obj"); //"GroundPlane2.3dm");
-	world.AddEntity(ground->GetModel());
+	world->AddEntity(ground->GetModel());
 	ground->GetModel()->Clean();
 
 	Model* island = ground->GetModel();
@@ -353,10 +356,10 @@ void Scene::_LoadBigScene() {
 	island->SetLocalPos(-25.3, -10.0, 19.0);
 	// island->SetScale(30.0f);
 
-	Object3D* plane = world.GetModelObject3D("island", "Plane");
+	Object3D* plane = world->GetModelObject3D("island", "Plane");
 	plane->SetAmbient(0.3f, 0.3f, 0.3f, 1.0f);
 	plane->SetDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
-	plane->SetTexture(textures.id["ground2"]);
+	plane->SetTexture(world->textures.GetTexture("ground2"));
 	plane->vertices.ScaleUV(200.0f);
 
 	// make some water
@@ -368,7 +371,7 @@ void Scene::_LoadBigScene() {
 	ocean->SetScale(100.0, 100.0, 100.0);
 	ocean->SetAmbient(0.0f, 0.3f, 1.0f, 1.0f);
 	ocean->SetDiffuse(0.0f, 0.6f, 1.0f, 1.0f);
-	world.AddEntity(ocean);
+	world->AddEntity(ocean);
 
 	// generate trees
 	_GenerateTrees();
@@ -378,14 +381,14 @@ void Scene::_LoadSmallScene() {
 
 	// load the ground model
 	ModelLoader* ground = ModelLoader::LoadModel("GroundPlane2.3dm"); //"GroundPlane2.3dm");
-	world.AddEntity(ground->GetModel());
+	world->AddEntity(ground->GetModel());
 	ground->GetModel()->Clean();
 
 	Model* island = ground->GetModel();
 	island->SetScale(30.0f);
 
-	Object3D* plane = world.GetModelObject3D("GroundPlane2", "Plane");
+	Object3D* plane = world->GetModelObject3D("GroundPlane2", "Plane");
 	plane->SetAmbient(0.3f, 0.3f, 0.3f, 1.0f);
 	plane->SetDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
-	plane->SetTexture(textures.id["ground2"]);
+	plane->SetTexture(world->textures.GetTexture("ground2"));
 }

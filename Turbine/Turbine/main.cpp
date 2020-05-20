@@ -240,12 +240,12 @@ int OnCreate(const char* glsl_version) {
 void SetupDebugUI() {
 
 	worldUI = new WorldUI();
-	worldUI->world = &scene->world;
+	worldUI->world = scene->world;
 	worldUI->rcontext = rcontext;
 	debugUI->AddComponent(worldUI);
 
 	entityUI = new EntityUI();
-	entityUI->world = &scene->world;
+	entityUI->world = scene->world;
 	debugUI->AddComponent(entityUI);
 }
 
@@ -261,7 +261,7 @@ void window_size_callback(GLFWwindow* window, int width, int height) {
 		glViewport(0, 0, width, height);
 
 		// calculate the new projection matrix for all scene cameras
-		for (auto const& camera : scene->world.GetAllCameras()) {
+		for (auto const& camera : scene->world->GetAllCameras()) {
 
 			camera.second->UpdateAspectRatio(width, height);
 		}
@@ -326,8 +326,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		// toggle dry ice | G
 		case GLFW_KEY_G: {
 
-			(dynamic_cast<Particle*>(scene->world.GetEntity("DryIce")))->active = keydown;
-			(dynamic_cast<Particle*>(scene->world.GetEntity("DryIce2")))->active = keydown;
+			(dynamic_cast<Particle*>(scene->world->GetEntity("DryIce")))->active = keydown;
+			(dynamic_cast<Particle*>(scene->world->GetEntity("DryIce2")))->active = keydown;
 
 			break;
 		}
@@ -335,8 +335,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		// toggle fire | F
 		case GLFW_KEY_F: {
 
-			(dynamic_cast<Particle*>(scene->world.GetEntity("Fire")))->active = keydown;
-			(dynamic_cast<Particle*>(scene->world.GetEntity("FireSmoke")))->active = keydown;
+			(dynamic_cast<Particle*>(scene->world->GetEntity("Fire")))->active = keydown;
+			(dynamic_cast<Particle*>(scene->world->GetEntity("FireSmoke")))->active = keydown;
 
 			break;
 		}
@@ -409,7 +409,7 @@ void cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
 		
 		hasBeenDragged = true;
 		
-		scene->world.GetActiveCamera()->MoveCam(xpos, ypos);
+		scene->world->GetActiveCamera()->MoveCam(xpos, ypos);
 	}
 	else if (isLDragging || isRDragging) {
 		
@@ -443,7 +443,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 
 				isLDragging = false;
 				isClicking = false;
-				scene->world.GetActiveCamera()->FinishMovement();
+				scene->world->GetActiveCamera()->FinishMovement();
 				
 				if (!hasBeenDragged && validRelease) {
 
@@ -465,7 +465,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 
 				isMDragging = false;
 				isClicking = false;
-				scene->world.GetActiveCamera()->FinishMovement();
+				scene->world->GetActiveCamera()->FinishMovement();
 				hasBeenDragged = false;
 			}
 			break;
@@ -481,7 +481,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 
 				isRDragging = false;
 				isClicking = false;
-				scene->world.GetActiveCamera()->FinishMovement();
+				scene->world->GetActiveCamera()->FinishMovement();
 				
 				//if (!hasBeenDragged)
 				//	OnMouseClick(nFlags, x, y);
@@ -499,7 +499,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
 	ImGuiIO& io = ImGui::GetIO();
 	if (!io.WantCaptureMouse) {
 
-		scene->world.GetActiveCamera()->FocusCam(yoffset);
+		scene->world->GetActiveCamera()->FocusCam(yoffset);
 	}
 }
 
@@ -512,14 +512,14 @@ void OnMouseClickL(int winX, int winY, int mouseX, int mouseY) {
 			pickedObj.object->isHighlighted = false;
 
 		// calculate picking ray
-		glm::vec3 pickRay = scene->world.GetActiveCamera()->CalculatePickRay(mouseX, mouseY, winX, winY);
+		glm::vec3 pickRay = scene->world->GetActiveCamera()->CalculatePickRay(mouseX, mouseY, winX, winY);
 
 		// get picked object from scene
-		pickedObj = scene->world.GetActiveCamera()->GetPickedObject(&scene->world, pickRay);
+		pickedObj = scene->world->GetActiveCamera()->GetPickedObject(scene->world, pickRay);
 
 		if (pickedObj.hasBeenPicked) {
 
-			scene->world.currentSelectedEntity = pickedObj.object;
+			scene->world->currentSelectedEntity = pickedObj.object;
 		}
 	}
 }
@@ -546,32 +546,32 @@ void HandleCameraMovement() {
 	if (!(camControl.W && camControl.S)) {
 
 		if (camControl.W)
-			scene->world.GetActiveCamera()->movementDelta.dolly = 0.1;
+			scene->world->GetActiveCamera()->movementDelta.dolly = 0.1;
 
 		else if (camControl.S)
-			scene->world.GetActiveCamera()->movementDelta.dolly = -0.1;
+			scene->world->GetActiveCamera()->movementDelta.dolly = -0.1;
 
 		else
-			scene->world.GetActiveCamera()->movementDelta.dolly = 0;
+			scene->world->GetActiveCamera()->movementDelta.dolly = 0;
 	}
 
 	else
-		scene->world.GetActiveCamera()->movementDelta.dolly = 0;
+		scene->world->GetActiveCamera()->movementDelta.dolly = 0;
 	
 
 	if (!(camControl.A && camControl.D)) {
 
 		if (camControl.A)
-			scene->world.GetActiveCamera()->movementDelta.truck = 0.1;
+			scene->world->GetActiveCamera()->movementDelta.truck = 0.1;
 
 		else if (camControl.D)
-			scene->world.GetActiveCamera()->movementDelta.truck = -0.1;
+			scene->world->GetActiveCamera()->movementDelta.truck = -0.1;
 
 		else
-			scene->world.GetActiveCamera()->movementDelta.truck = 0;
+			scene->world->GetActiveCamera()->movementDelta.truck = 0;
 	}
 	
 	else
-		scene->world.GetActiveCamera()->movementDelta.truck = 0;
+		scene->world->GetActiveCamera()->movementDelta.truck = 0;
 	
 }

@@ -24,6 +24,6 @@ public:
 	void Render(RenderingContext& rcontext);
 
 	virtual json Serialize();
-	virtual void Deserialize(json& data);
+	Environment(json& data); // Deserialize
 };
 

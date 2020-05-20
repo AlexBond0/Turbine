@@ -8,21 +8,38 @@
 
 #include "GLSetup.h"
 
+// texture information struct
+struct Texture {
+
+	Texture(std::string textureName, unsigned int textureID)
+		: name(textureName) {
+
+		id = textureID;
+	};
+
+	const std::string	name;
+	unsigned int		id;
+};
+
 // Container of handles to textures loaded from file
-class Texture {
+class TextureManager {
 
 public:
 
-	std::map<std::string, unsigned int> id;	// the map of texture handles
+	// std::map<std::string, unsigned int> id;	// the map of texture handles
 
-	Texture();
-	~Texture();
+	TextureManager();
+	~TextureManager();
 
 	void loadAllTextures(); 
+
+	Texture* GetTexture(std::string name);
 
 	unsigned int LoadTexture(std::experimental::filesystem::path filename);
 
 private:
+
+	std::map<std::string, Texture*> _textures;	// the map of textures
 
 	std::wstring _PrepFilename(const std::string& filestring);
 };

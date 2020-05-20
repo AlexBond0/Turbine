@@ -47,14 +47,15 @@ void WorldUI::Render() {
 				if (myfile.is_open())
 				{
 				
-					json newWorld = json::parse(myfile);
-					world->Deserialize(newWorld);
+					json newWorldData = json::parse(myfile);
+					// World newWorld = World::Deserialize(newWorldData);
+
+					world = World::Deserialize(newWorldData);
 
 					myfile.close();
 				}
 			}
 
-			// ImGui::Text
 
 			ImGui::EndTabItem();
 		}
