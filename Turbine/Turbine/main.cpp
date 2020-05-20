@@ -589,6 +589,9 @@ void TestSol() {
 	sol::state lua;
 	int x = 0;
 	lua.set_function("beep", [&x] { ++x; });
-	lua.script("beep()");
+
+	lua.script_file("Scripts/Test.lua");
+	// lua.script("beep()");
+
 	assert(x == 1);
 }
