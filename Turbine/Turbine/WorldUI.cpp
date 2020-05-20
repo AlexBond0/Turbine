@@ -25,6 +25,12 @@ void WorldUI::Render() {
 			ImGui::EndTabItem();
 		}
 
+		if (ImGui::BeginTabItem("Textures")) {
+
+			_RenderTextures();
+			ImGui::EndTabItem();
+		}
+
 		if (ImGui::BeginTabItem("Environment")) {
 
 			_RenderEnviro();
@@ -104,6 +110,20 @@ void WorldUI::_RenderEnviro() {
 	ImGui::DragFloat("Density", &world->enviro.fog.density, 0.001f);
 	ImGui::DragFloat("Focus", &world->enviro.fog.focus, 0.001f);
 	ImGui::ColorEdit4("Color", &world->enviro.fog.color.rgba[0]);
+}
+
+void WorldUI::_RenderTextures() {
+
+	Texture* texture;
+	for (const auto& texRef : world->textures.GetAllTextures()) {
+
+		texture = texRef.second;
+
+		ImGui::Text(texture->name.c_str());
+		glBindTexture(GL_TEXTURE_2D, texture->id);
+		ImGui::Text("pointer = %p", texture->id);
+		ImGui::Image(&(texture->id), ImVec2(512, 64));
+	}
 }
 
 void WorldUI::_RenderEntity(Entity* entity) {

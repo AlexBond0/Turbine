@@ -2,19 +2,15 @@
 
 Object3D::Object3D(std::string name)
 	: Entity(name, EntityType::OBJ)
-	, loadedFrom("")
-{
-	// SetName("NULL");
-	// texturemap = -1;
+	, loadedFrom("") {
+
 	parent = nullptr;
 }
 
 Object3D::Object3D(std::string name, std::string model)
 	: Entity(name, EntityType::OBJ)
-	, loadedFrom(model)
-{
-	// SetName("NULL");
-	// texturemap = -1;
+	, loadedFrom(model) {
+
 	parent = nullptr;
 }
 
@@ -32,9 +28,6 @@ Object3D::Object3D(Object3D* copy, std::string newName)
 	polygons.SetData(copy->polygons);
 
 	_texture = copy->_texture;
-	// texturemap = copy->texturemap;
-	// hasTexture = copy->hasTexture;
-	// textureID = copy->textureID;
 
 	useLight = copy->useLight;
 	useTexture = copy->useTexture;
@@ -52,8 +45,6 @@ Object3D::~Object3D()
 		glDeleteBuffers(1, &handles.polygon_vbo);
 		glDeleteBuffers(1, &handles.instance_vbo);
 	}
-
-	// free(name);
 }
 
 // ======================================
@@ -182,7 +173,7 @@ void Object3D::_AssignHandleInformation(RenderingContext& rcontext) {
 	// Material
 	rcontext.liveShader->SetColor("u_m_ambient", GetAmbient()->rgba);
 	rcontext.liveShader->SetColor("u_m_diffuse", GetDiffuse()->rgba);
-	rcontext.liveShader->SetColor("u_m_specular", GetSpecular()->rgba); //u_m_shininess
+	rcontext.liveShader->SetColor("u_m_specular", GetSpecular()->rgba);
 	rcontext.liveShader->SetFloat("u_m_shininess", glossiness);
 
 	// flags
@@ -192,7 +183,6 @@ void Object3D::_AssignHandleInformation(RenderingContext& rcontext) {
 	rcontext.liveShader->SetBool("u_billboarding", isBillboarded);
 
 	// bind info in textureID to the textureHandle
-	// if (hasTexture) {
 	if (_texture != nullptr) {
 
 		glEnable(GL_TEXTURE_2D);
@@ -275,14 +265,6 @@ void Object3D::_HandleVertVBO(RenderingContext& rcontext) {
 
 	glBindVertexArray(0);
 }
-
-// Assign texture handle
-//void Object3D::SetTexture(unsigned int newTextureID) {
-//
-//	hasTexture = true;
-//	useTexture = true;
-//	textureID = newTextureID;
-//}
 
 json Object3D::Serialize() {
 

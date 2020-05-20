@@ -25,6 +25,7 @@ private:
 
 	void _RenderOutline();
 	void _RenderEnviro();
+	void _RenderTextures();
 
 	void _RenderEntity(Entity* entity);
 

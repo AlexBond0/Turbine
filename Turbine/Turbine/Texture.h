@@ -34,6 +34,7 @@ public:
 	void loadAllTextures(); 
 
 	Texture* GetTexture(std::string name);
+	std::map<std::string, Texture*> GetAllTextures();
 
 	unsigned int LoadTexture(std::experimental::filesystem::path filename);
 
@@ -44,3 +45,7 @@ private:
 	std::wstring _PrepFilename(const std::string& filestring);
 };
 
+inline std::map<std::string, Texture*> TextureManager::GetAllTextures() {
+
+	return _textures;
+}

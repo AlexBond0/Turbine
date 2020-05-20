@@ -69,16 +69,13 @@ public:
 	void SetTriangles(unsigned short* polygons, int noofElements);
 	void SetTriangles(PolygonData data);
 
-	// void SetTextureMap(int id);
-	// void SetTexture(unsigned int newTextureID);
-
 	void SetTexture(Texture* texture);
 	Texture* GetTexture();
 
 	bool IsInstanced();
 
 	virtual json Serialize();
-	Object3D(json& data);  // Deserialize
+	Object3D(json& data);		// Deserialize
 
 	PointData vertices;			// vertex data
 	PolygonData polygons;		// polygon data
@@ -87,20 +84,12 @@ public:
 
 protected:
 
-	Object3DHandles handles;	// object handles
+	Object3DHandles handles;			// object handles
 	Texture* _texture = nullptr;		// object texture
-
-	// texture data
-	// bool hasTexture = false;	// does the object have a texture
-	// Texture* texture;			// object texture
-
-	// unsigned int textureID;		// textureid for the object
-	// int texturemap;				// texturemap for the object?
 
 	// rendering flags
 	bool isInstanced = false;	// is the object instanced
 	bool isBillboarded = false;	// is the object billboarded
-
 
 	virtual void _InitVBOs();
 
