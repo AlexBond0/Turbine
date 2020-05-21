@@ -146,6 +146,7 @@
     <ClCompile Include="InstancedObject.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="LightManager.cpp" />
+    <ClCompile Include="LuaEditorUI.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Model.cpp" />
@@ -192,6 +193,8 @@
     <ClInclude Include="InstancedObject.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightManager.h" />
+    <ClInclude Include="LuaEditorUI.h" />
+    <ClInclude Include="LuaSol3.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Model.h" />

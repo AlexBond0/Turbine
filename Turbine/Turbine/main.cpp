@@ -586,12 +586,28 @@ void HandleCameraMovement() {
 
 void TestSol() {
 
+	// create a lua state
 	sol::state lua;
-	int x = 0;
-	lua.set_function("beep", [&x] { ++x; });
 
-	lua.script_file("Scripts/Test.lua");
-	// lua.script("beep()");
+	auto result = lua.script_file("Scripts/Test.lua", [](lua_State*, sol::protected_function_result pfr) {
+		
+		// pfr will contain things that went wrong, for either loading or executing the script
+		// Can throw your own custom error
+		// You can also just return it, and let the call-site handle the error if necessary.
+		return pfr;
+	});
 
-	assert(x == 1);
+	// it did not work
+	if (result.valid()) {
+
+		int p = lua["factorial"](0);
+		int q = lua["factorial"](1);
+		int r = lua["factorial"](2);
+		int s = lua["factorial"](3);
+	}
+	else {
+
+		sol::error err = result;
+		std::string what = err.what();
+	}
 }

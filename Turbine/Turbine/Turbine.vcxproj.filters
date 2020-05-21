@@ -61,6 +61,9 @@
     <Filter Include="Sol3">
       <UniqueIdentifier>{02346028-4caf-4aaf-98a1-58a10e57f4a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Turbine Engine\Scripting">
+      <UniqueIdentifier>{a85d3762-c91a-443b-9955-0e59cb77dca9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui_demo.cpp">
@@ -180,6 +183,9 @@
     </ClCompile>
     <ClCompile Include="ImGui\imgui_ext_TextEditor.cpp">
       <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaEditorUI.cpp">
+      <Filter>Turbine Engine\Debug UI\Windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -641,6 +647,12 @@
     </ClInclude>
     <ClInclude Include="ImGui\imgui_ext_TextEditor.h">
       <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaEditorUI.h">
+      <Filter>Turbine Engine\Debug UI\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaSol3.h">
+      <Filter>Turbine Engine\Scripting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

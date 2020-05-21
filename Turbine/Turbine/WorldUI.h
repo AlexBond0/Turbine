@@ -2,9 +2,10 @@
 
 #include "DebugUIContainer.h"
 #include "World.h"
-#include "ImGui/imgui_ext_TextEditor.h"
 
 #include <fstream>
+
+#include "LuaEditorUI.h"
 
 class WorldUI
 	: public DebugUIContainer 
@@ -20,8 +21,7 @@ public:
 	World* world;
 	RenderingContext* rcontext;
 
-	TextEditor editor;
-	char* fileToEdit;
+	LuaEditorUI luaEditor;
 
 	double timePassed = 1.0f;
 
@@ -30,8 +30,6 @@ private:
 	void _RenderOutline();
 	void _RenderEnviro();
 	void _RenderTextures();
-
-	void _RenderEditor();
 
 	void _RenderEntity(Entity* entity);
 
