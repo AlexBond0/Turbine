@@ -64,6 +64,9 @@
     <Filter Include="Turbine Engine\Scripting">
       <UniqueIdentifier>{a85d3762-c91a-443b-9955-0e59cb77dca9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Turbine Engine\Object\Base\Message">
+      <UniqueIdentifier>{34b7eed0-2ff8-4b0f-9f15-cfaa13c3b17f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui_demo.cpp">
@@ -186,6 +189,12 @@
     </ClCompile>
     <ClCompile Include="LuaEditorUI.cpp">
       <Filter>Turbine Engine\Debug UI\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptRunner.cpp">
+      <Filter>Turbine Engine\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="MessagePump.cpp">
+      <Filter>Turbine Engine\Object\Base\Message</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -653,6 +662,12 @@
     </ClInclude>
     <ClInclude Include="LuaSol3.h">
       <Filter>Turbine Engine\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptRunner.h">
+      <Filter>Turbine Engine\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="MessagePump.h">
+      <Filter>Turbine Engine\Object\Base\Message</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -47,6 +47,15 @@ void LuaEditorUI::Render() {
 		editor.GetLanguageDefinition().mName.c_str(), fileToEdit
 	);
 
+	// compile status
+	if (_markers.size() != 0)
+		ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Compile Error");
+
+	else
+		ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Compile OK");
+
+	ImGui::Separator();
+
 	editor.Render("TextEditor");
 	ImGui::End();
 }
@@ -170,8 +179,13 @@ void LuaEditorUI::_Compile(bool fromFile) {
 		// error with linenumber
 		if (tokens.size() == 3) {
 
-			_markers.insert(std::make_pair<int, std::string>(
-				std::stoi(tokens[1]),
+			int errorLoc = std::stoi(tokens[1]);
+
+			if (errorLoc > editor.GetTotalLines())
+				errorLoc = editor.GetTotalLines();
+
+			_markers.insert(std::make_pair(
+				errorLoc,
 				tokens[2].c_str()
 			));
 		}

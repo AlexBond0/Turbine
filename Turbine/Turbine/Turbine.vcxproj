@@ -149,6 +149,7 @@
     <ClCompile Include="LuaEditorUI.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="MessagePump.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelLoader.cpp" />
     <ClCompile Include="Moveable.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="RenderingContext.cpp" />
     <ClCompile Include="RideAnimation.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="ScriptRunner.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TranslationStack.cpp" />
@@ -197,6 +199,7 @@
     <ClInclude Include="LuaSol3.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="MessagePump.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="Moveable.h" />
@@ -210,6 +213,7 @@
     <ClInclude Include="RenderingContext.h" />
     <ClInclude Include="RideAnimation.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="ScriptRunner.h" />
     <ClInclude Include="Serialize.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Sol2\as_args.hpp" />
