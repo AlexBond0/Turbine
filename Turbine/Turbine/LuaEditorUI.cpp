@@ -10,7 +10,7 @@ LuaEditorUI::LuaEditorUI() {
 	editor.SetShowWhitespaces(false);
 
 	// loading a file
-	fileToEdit = "Scripts/Test.lua";
+	fileToEdit = "Scripts/Test2.lua";
 	{
 		std::ifstream t(fileToEdit);
 		if (t.good())
@@ -21,11 +21,6 @@ LuaEditorUI::LuaEditorUI() {
 			_Compile(true);
 		}
 	}
-
-	// errors gan be added
-	//TextEditor::ErrorMarkers markers;
-	//markers.insert(std::make_pair<int, std::string>(13, "Example error here:\nInclude file not found: \"TextEditor.h\""));
-	//editor.SetErrorMarkers(markers);
 }
 
 LuaEditorUI::~LuaEditorUI() {
@@ -48,9 +43,13 @@ void LuaEditorUI::Render() {
 	);
 
 	// compile status
-	if (_markers.size() != 0)
+	if (_markers.size() != 0) {
+
 		ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Compile Error");
 
+		if (ImGui::IsItemHovered())
+			ImGui::Text(_topErrMsg.c_str());
+	}
 	else
 		ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Compile OK");
 
@@ -141,6 +140,11 @@ void LuaEditorUI::_Compile(bool fromFile) {
 	// create a lua state
 	sol::state lua;
 
+	// open libs
+	lua.open_libraries(sol::lib::math);
+	lua.open_libraries(sol::lib::base);
+	lua.open_libraries(sol::lib::string);
+
 	sol::protected_function_result result;
 	
 	// run the script contained in the file itself
@@ -195,6 +199,8 @@ void LuaEditorUI::_Compile(bool fromFile) {
 
 			_markers.insert(std::make_pair<int, std::string>(0, what.c_str()));
 		}
+
+		_topErrMsg = what;
 	}
 
 	editor.SetErrorMarkers(_markers);

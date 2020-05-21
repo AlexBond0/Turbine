@@ -29,6 +29,6 @@ private:
 	TextEditor::ErrorMarkers _markers;
 	void _Compile(bool fromFile);
 
-
+	std::string _topErrMsg;
 };
 

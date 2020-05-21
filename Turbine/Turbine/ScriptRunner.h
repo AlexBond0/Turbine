@@ -8,8 +8,10 @@ class ScriptRunner
 
 public:
 
-	ScriptRunner() {};
+	ScriptRunner();
 	~ScriptRunner() {};
+
+	bool AttachScript(char* scriptFile);
 
 	void OnLoad();
 	void OnWorldLoad();
@@ -19,5 +21,9 @@ public:
 protected:
 
 private:
+
+	sol::state _lua; // lua state
+
+	// static sol::state _jsonConverter;
 };
 

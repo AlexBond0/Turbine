@@ -18,8 +18,7 @@
 // ImGui
 #include "DebugUI.h";
 
-#include "Sol2//sol.hpp"
-#include <cassert>
+#include "ScriptRunner.h";
 
 // ===================================================================================
 // Prototyping
@@ -37,7 +36,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void SetupDebugUI();
 void HandleCameraMovement();
 
-void TestSol();
+void TestScriptRunner();
 
 GLuint shaderProgram;
 GLuint VBO, VAO;
@@ -94,8 +93,7 @@ int main()
 	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
 #endif
 
-	TestSol();
-
+	TestScriptRunner();
 
 	// hide console lol
 	HWND hwnd = GetConsoleWindow();
@@ -584,30 +582,15 @@ void HandleCameraMovement() {
 	
 }
 
-void TestSol() {
+void TestScriptRunner() {
 
-	// create a lua state
-	sol::state lua;
+	ScriptRunner s;
 
-	auto result = lua.script_file("Scripts/Test.lua", [](lua_State*, sol::protected_function_result pfr) {
-		
-		// pfr will contain things that went wrong, for either loading or executing the script
-		// Can throw your own custom error
-		// You can also just return it, and let the call-site handle the error if necessary.
-		return pfr;
-	});
+	s.AttachScript("Scripts/Test2.lua");
 
-	// it did not work
-	if (result.valid()) {
+	Message m;
 
-		int p = lua["factorial"](0);
-		int q = lua["factorial"](1);
-		int r = lua["factorial"](2);
-		int s = lua["factorial"](3);
-	}
-	else {
+	m.message["hello"] = "world";
 
-		sol::error err = result;
-		std::string what = err.what();
-	}
+	s.OnMessage(m);
 }

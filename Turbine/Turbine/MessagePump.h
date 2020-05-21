@@ -44,8 +44,6 @@ public:
 	// Shouldn't be assignable
 	void operator=(const MessagePump &) = delete;
 
-	// static MessagePump *GetInstance(const std::string& value);
-
 	static void AddReceiver(std::function<void(Message)> messageReceiver);
 	static void SendMessage(Message message);
 	static void Notify();
