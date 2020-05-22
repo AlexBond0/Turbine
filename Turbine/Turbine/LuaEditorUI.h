@@ -4,6 +4,7 @@
 #include "ImGui/imgui_ext_TextEditor.h"
 #include <fstream>
 
+#include "TurbineUserTypes.h"
 #include "Sol2//sol.hpp"
 #include "Utils.h"
 
@@ -18,7 +19,10 @@ public:
 
 	void Render();
 
+	void LoadTurbineTypes();
+
 	TextEditor editor;
+
 	char* fileToEdit;
 
 private:

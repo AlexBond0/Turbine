@@ -2,8 +2,8 @@
 -- OnTest test
 function OnTest() 
 
-    thingie = Thing1.new()
-    thongle = Thing2.new()
+    thingie = Turbine.Thing1.new()
+    thongle = Turbine.Thing2.new()
 
     -- c = thingie.a + thingie.b
     -- c = c + thingie:combineab()
@@ -12,7 +12,9 @@ function OnTest()
 
     -- p = thingie:gimmeX() + thongle:gimmeX()
 
-    p = thongle:gimmeY()
+    -- p = thongle:gimmeY() + thingie:gimmeY()
+
+    p = thingie:gimmeX() + thingie:gimmeX(5)
 
     return p
 end

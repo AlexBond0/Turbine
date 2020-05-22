@@ -5,14 +5,14 @@
 LuaEditorUI::LuaEditorUI() {
 
 	// creating the language and editor
-	auto lang = TextEditor::LanguageDefinition::Lua();
+	auto language = TextEditor::LanguageDefinition::Lua();
 
 	// example of tooltip added into the editor
 	TextEditor::Identifier msg;
 	msg.mDeclaration = "Turbine Callback\nCalled when the Entity receives a message";
-	lang.mIdentifiers["OnMessage"] = msg;
+	language.mIdentifiers["OnMessage"] = msg;
 
-	editor.SetLanguageDefinition(lang);
+	editor.SetLanguageDefinition(language);
 	editor.SetShowWhitespaces(false);
 
 	// loading a file
@@ -27,9 +27,12 @@ LuaEditorUI::LuaEditorUI() {
 			_Compile(true);
 		}
 	}
+
+	LoadTurbineTypes();
 }
 
 LuaEditorUI::~LuaEditorUI() {
+
 
 }
 
@@ -220,4 +223,18 @@ void LuaEditorUI::_AttemptSave() {
 			myfile.close();
 		}
 	}
+}
+
+void LuaEditorUI::LoadTurbineTypes() {
+
+	auto language = TextEditor::LanguageDefinition::Lua();
+
+	for (auto const& type : TurbineUsertypeDefiner::descriptions) {
+
+		TextEditor::Identifier msg;
+		msg.mDeclaration = type.second;
+		language.mIdentifiers[type.first] = msg;
+	}
+
+	editor.SetLanguageDefinition(language);
 }
