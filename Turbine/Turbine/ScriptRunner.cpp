@@ -10,6 +10,8 @@ ScriptRunner::ScriptRunner() {
 
 	_lua["JSON"] = _lua.script_file("Scripts/JSON.lua");
 
+	TurbineUsertypeDefiner::Define(_lua);
+
 	TurbineUsertypeDefiner::BuildTestOnes(_lua);
 }
 
@@ -75,6 +77,8 @@ void ScriptRunner::OnTest() {
 	if (_lua["OnTest"].valid()) {
 
 		std::string hehe = _lua["OnTest"]();
+
+		Entity* dog_pointer = _lua["entity"];
 
 		int x = 1;
 	}

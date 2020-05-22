@@ -18,15 +18,15 @@ descriptions[access] = description
 
 // ===============================================================
 
+#define BUILD_NEW_USERTYPE(state, type, description) \
+BUILD_DESCRIPTION(#type, description); \
+state.new_usertype<type>(#type);
+
+
 // builds a base new userrtype
 #define BUILD_NEW_USERTYPE_START(state, type, description) \
 BUILD_DESCRIPTION(#type, description); \
 state.new_usertype<type>(#type,
-
-// builds a base new userrtype with a parent
-//#define BUILD_NEW_CHILD_USERTYPE_START(state, type, parent, description) \
-//BUILD_DESCRIPTION(#type, description); \
-//state.new_usertype<type>(#type, sol::base_classes, sol::bases<parent>(),
 
 #define BUILD_USERTYPE_VARIABLE(type, member) \
 #member, &type::member
@@ -44,11 +44,6 @@ sol::base_classes, sol::bases<parent>()
 state[#type][#member] = &type::member; \
 BUILD_DESCRIPTION(#member, description);
 
-// builds a full decleration with description (variable speciffic)
-//#define BUILD_USERTYPE_VARIABLE(state, type, member, description) \
-//state[#type].set(#member, &type::member); \
-//BUILD_DESCRIPTION(#member, description);
-
 // Builds the start of an overloaded function decleration
 #define BUILD_OVERLOADED_METHOD_START(state, type, member, description) \
 BUILD_DESCRIPTION(#member, description); \
@@ -62,6 +57,17 @@ sol::resolve<format>(&type::member)
 #define BUILD_OVERLOADED_METHOD_END() \
 );
 
+// ===============================================================
+
+#define BUILD_NEW_ENUM_START(state, type) \
+state.new_enum(#type,
+
+#define BUILD_ENUM_VALUE(type, tag) \
+#tag, type::tag
+
+#define BUILD_NEW_ENUM_END() \
+);
+
 // doesn't work yet as editor needs some way of knowing types, a little complicated right now
 //BUILD_DESCRIPTION(BUILD_STR(BUILD_MEMBER_ACCESS(type, member)), description);
 
@@ -69,6 +75,9 @@ sol::resolve<format>(&type::member)
 class Thing1 {
 
 public:
+
+	Thing1() {};
+	Thing1(int p, int q) { a = p; b = q; };
 
 	int a = 1;
 	int b = 2;
@@ -112,11 +121,17 @@ public:
 
 private:
 
-	static void _MoveableOrientation(sol::state& luaState);
-	static void _MoveablePoint(sol::state& luaState);
-	static void _Moveable(sol::state& luaState);
+	static void _Structs(sol::table& luaState);
 
-	static void _LuaUsertypeBuilder(sol::state& luaState, json data);
+	static void _MoveableOrientation(sol::table& luaState);
+	static void _MoveablePoint(sol::table& luaState);
+	static void _Moveable(sol::table& luaState);
+
+	static void _Material(sol::table& luaState);
+
+	static void _Entity(sol::table& luaState);
+
+	static void _LuaUsertypeBuilder(sol::table& luaState, json data);
 
 	static void _SetupGLM(sol::state& luaState);
 
