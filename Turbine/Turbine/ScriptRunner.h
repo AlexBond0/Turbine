@@ -2,6 +2,7 @@
 
 #include "Sol2//sol.hpp"
 #include "MessagePump.h"
+#include "TurbineUserTypes.h"
 
 class ScriptRunner
 {
@@ -15,6 +16,8 @@ public:
 
 	void OnLoad();
 	void OnWorldLoad();
+
+	void OnTest();
 
 	void OnMessage(Message msg);
 

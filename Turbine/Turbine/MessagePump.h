@@ -23,13 +23,14 @@ public:
 	MessageNode();
 	~MessageNode() {};
 
-protected:
-
-	std::function<void(Message)> GetNotifyFunc();
+	
 	void Send(Message message);
 
 	// function to ovveride to handle the message
 	virtual void OnNotify(Message message) {};
+
+private:
+	std::function<void(Message)> GetNotifyFunc();
 
 };
 

@@ -196,6 +196,9 @@
     <ClCompile Include="MessagePump.cpp">
       <Filter>Turbine Engine\Object\Base\Message</Filter>
     </ClCompile>
+    <ClCompile Include="TurbineUserTypes.cpp">
+      <Filter>Turbine Engine\Scripting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGui\imgui_impl_glfw.h">
@@ -668,6 +671,9 @@
     </ClInclude>
     <ClInclude Include="MessagePump.h">
       <Filter>Turbine Engine\Object\Base\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="TurbineUserTypes.h">
+      <Filter>Turbine Engine\Scripting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

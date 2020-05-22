@@ -279,19 +279,22 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	//if (key == GLFW_KEY_E && action == GLFW_PRESS)
 	//	OutputDebugStringA("\nE");
 
-	bool keydown = (action == GLFW_PRESS);
-	switch (key) {
+	ImGuiIO& io = ImGui::GetIO();
+	if (!io.WantCaptureKeyboard) {
 
-		// swap cameras | SPACE
+		bool keydown = (action == GLFW_PRESS);
+		switch (key) {
+
+			// swap cameras | SPACE
 		case GLFW_KEY_SPACE: {
 
 			if (action == GLFW_RELEASE)
 				scene->ToggleCamera();
-			
+
 			break;
 		}
 
-		// toggle standard animation | ENTER
+							 // toggle standard animation | ENTER
 		case GLFW_KEY_ENTER: {
 
 			if (action == GLFW_RELEASE) {
@@ -302,7 +305,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		}
 
-		// toggle day / night | V
+							 // toggle day / night | V
 		case GLFW_KEY_V: {
 
 			if (action == GLFW_RELEASE)
@@ -311,7 +314,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		}
 
-		// start standard ride script | R
+						 // start standard ride script | R
 		case GLFW_KEY_R: {
 
 			if (action == GLFW_RELEASE)
@@ -320,7 +323,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		}
 
-		// start long ride script | L
+						 // start long ride script | L
 		case GLFW_KEY_L: {
 
 			if (action == GLFW_RELEASE)
@@ -329,7 +332,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		}
 
-		// toggle dry ice | G
+						 // toggle dry ice | G
 		case GLFW_KEY_G: {
 
 			(dynamic_cast<Particle*>(scene->world->GetEntity("DryIce")))->active = keydown;
@@ -338,7 +341,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		}
 
-		// toggle fire | F
+						 // toggle fire | F
 		case GLFW_KEY_F: {
 
 			(dynamic_cast<Particle*>(scene->world->GetEntity("Fire")))->active = keydown;
@@ -347,65 +350,66 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		}
 
-		// ==================================================
-		// manual ride controlls
+						 // ==================================================
+						 // manual ride controlls
 
-		// platter clockwise | LEFT KEY OR NUM 1
+						 // platter clockwise | LEFT KEY OR NUM 1
 		case GLFW_KEY_LEFT:
 		case GLFW_KEY_1:
 			scene->animator.MovePart(Part::PLATTER, Change::ROT_C);
 			break;
 
-		// platter anti-clockwise | RIGHT KEY OR NUM 3
+			// platter anti-clockwise | RIGHT KEY OR NUM 3
 		case 0x27:
 		case 0x33:
 		case 0x63:
 			scene->animator.MovePart(Part::PLATTER, Change::ROT_AC);
 			break;
 
-		// arm clockwise | NUM 7
+			// arm clockwise | NUM 7
 		case 0x37:
 		case 0x67:
 			scene->animator.MovePart(Part::ARM, Change::ROT_C);
 			break;
 
-		// arm anti-clockwise | NUM 9
+			// arm anti-clockwise | NUM 9
 		case 0x39:
 		case 0x69:
 			scene->animator.MovePart(Part::ARM, Change::ROT_AC);
 			break;
 
-		// seats clockwise | NUM 4
+			// seats clockwise | NUM 4
 		case 0x34:
 		case 0x64:
 			scene->animator.MovePart(Part::SEATS, Change::ROT_C);
 			break;
 
-		// seats anti-clockwise | NUM 6
+			// seats anti-clockwise | NUM 6
 		case 0x36:
 		case 0x66:
 			scene->animator.MovePart(Part::SEATS, Change::ROT_AC);
 			break;
 
-		// tilt up | UP KEY OR NUM 5
+			// tilt up | UP KEY OR NUM 5
 		case 0x26:
 		case 0x35:
 		case 0x65:
 			scene->animator.MovePart(Part::TILT, Change::TILT_UP);
 			break;
 
-		// tilt down | DOWN KEY OR NUM 2
+			// tilt down | DOWN KEY OR NUM 2
 		case 0x28:
 		case 0x32:
 		case 0x62:
 			scene->animator.MovePart(Part::TILT, Change::TILT_DOWN);
 			break;
 
-		// reset all rotations | NUM 8
+			// reset all rotations | NUM 8
 		case 0x38:
 		case 0x68:
 			scene->animator.ResetRotations();
 			break;
+		}
 	}
 }
 
@@ -544,53 +548,58 @@ CamMoveViaKeyboard camControl;
 
 void HandleCameraMovement() {
 
-	camControl.W = glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS;
-	camControl.A = glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS;
-	camControl.S = glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS;
-	camControl.D = glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS;
+	ImGuiIO& io = ImGui::GetIO();
+	if (!io.WantCaptureKeyboard) {
 
-	if (!(camControl.W && camControl.S)) {
+		camControl.W = glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS;
+		camControl.A = glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS;
+		camControl.S = glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS;
+		camControl.D = glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS;
 
-		if (camControl.W)
-			scene->world->GetActiveCamera()->movementDelta.dolly = 0.1;
+		if (!(camControl.W && camControl.S)) {
 
-		else if (camControl.S)
-			scene->world->GetActiveCamera()->movementDelta.dolly = -0.1;
+			if (camControl.W)
+				scene->world->GetActiveCamera()->movementDelta.dolly = 0.1;
+
+			else if (camControl.S)
+				scene->world->GetActiveCamera()->movementDelta.dolly = -0.1;
+
+			else
+				scene->world->GetActiveCamera()->movementDelta.dolly = 0;
+		}
 
 		else
 			scene->world->GetActiveCamera()->movementDelta.dolly = 0;
-	}
 
-	else
-		scene->world->GetActiveCamera()->movementDelta.dolly = 0;
-	
 
-	if (!(camControl.A && camControl.D)) {
+		if (!(camControl.A && camControl.D)) {
 
-		if (camControl.A)
-			scene->world->GetActiveCamera()->movementDelta.truck = 0.1;
+			if (camControl.A)
+				scene->world->GetActiveCamera()->movementDelta.truck = 0.1;
 
-		else if (camControl.D)
-			scene->world->GetActiveCamera()->movementDelta.truck = -0.1;
+			else if (camControl.D)
+				scene->world->GetActiveCamera()->movementDelta.truck = -0.1;
+
+			else
+				scene->world->GetActiveCamera()->movementDelta.truck = 0;
+		}
 
 		else
 			scene->world->GetActiveCamera()->movementDelta.truck = 0;
 	}
-	
-	else
-		scene->world->GetActiveCamera()->movementDelta.truck = 0;
-	
 }
 
 void TestScriptRunner() {
 
+	// testing script attachment
 	ScriptRunner s;
-
 	s.AttachScript("Scripts/Test2.lua");
-
 	Message m;
-
 	m.message["hello"] = "world";
-
 	s.OnMessage(m);
+
+	// testing script attachment
+	ScriptRunner q;
+	s.AttachScript("Scripts/Test3.lua");
+	s.OnTest();
 }

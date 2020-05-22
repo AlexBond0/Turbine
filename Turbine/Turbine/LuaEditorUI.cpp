@@ -6,11 +6,17 @@ LuaEditorUI::LuaEditorUI() {
 
 	// creating the language and editor
 	auto lang = TextEditor::LanguageDefinition::Lua();
+
+	// example of tooltip added into the editor
+	TextEditor::Identifier msg;
+	msg.mDeclaration = "Turbine Callback\nCalled when the Entity receives a message";
+	lang.mIdentifiers["OnMessage"] = msg;
+
 	editor.SetLanguageDefinition(lang);
 	editor.SetShowWhitespaces(false);
 
 	// loading a file
-	fileToEdit = "Scripts/Test2.lua";
+	fileToEdit = "Scripts/Test3.lua";
 	{
 		std::ifstream t(fileToEdit);
 		if (t.good())
@@ -65,19 +71,9 @@ void LuaEditorUI::_RenderMenuBar() {
 
 		if (ImGui::BeginMenu("File")) {
 
-			if (ImGui::MenuItem("Save")) {
-
-				auto textToSave = editor.GetText();
-
-				// save file
-				std::ofstream myfile(fileToEdit);
-				if (myfile.is_open()) {
-
-					myfile << textToSave;
-					myfile.close();
-				}
-			}
-
+			if (ImGui::MenuItem("Save")) 
+				_AttemptSave();
+			
 			if (ImGui::MenuItem("Compile"))
 				_Compile(false);
 
@@ -135,7 +131,7 @@ void LuaEditorUI::_RenderMenuBar() {
 	}
 }
 
-void LuaEditorUI::_Compile(bool fromFile) {
+bool LuaEditorUI::_Compile(bool fromFile) {
 
 	// create a lua state
 	sol::state lua;
@@ -204,4 +200,24 @@ void LuaEditorUI::_Compile(bool fromFile) {
 	}
 
 	editor.SetErrorMarkers(_markers);
+
+	return (_markers.size() == 0);
+}
+
+// check if file compiles then save
+void LuaEditorUI::_AttemptSave() {
+
+	// make sure everything compiles first
+	if (_Compile(false)) {
+
+		auto textToSave = editor.GetText();
+
+		// save file
+		std::ofstream myfile(fileToEdit);
+		if (myfile.is_open()) {
+
+			myfile << textToSave;
+			myfile.close();
+		}
+	}
 }

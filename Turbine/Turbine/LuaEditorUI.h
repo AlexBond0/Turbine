@@ -25,9 +25,10 @@ private:
 
 
 	void _RenderMenuBar();
+	void _AttemptSave();
 
 	TextEditor::ErrorMarkers _markers;
-	void _Compile(bool fromFile);
+	bool _Compile(bool fromFile);
 
 	std::string _topErrMsg;
 };

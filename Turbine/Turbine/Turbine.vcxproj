@@ -167,6 +167,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TranslationStack.cpp" />
+    <ClCompile Include="TurbineUserTypes.cpp" />
     <ClCompile Include="UIPointer.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldUI.cpp" />
@@ -325,6 +326,7 @@
     <ClInclude Include="Sol2\wrapper.hpp" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TranslationStack.h" />
+    <ClInclude Include="TurbineUserTypes.h" />
     <ClInclude Include="UIPointer.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="World.h" />
