@@ -68,11 +68,14 @@ void ScriptRunner::OnMessage(Message msg) {
 
 void ScriptRunner::OnTest() {
 
+
+	_lua["penguin"] = glm::vec3(3.0f);
+
 	// run the OnTest function
 	if (_lua["OnTest"].valid()) {
 
-		int hehe = _lua["OnTest"]();
+		std::string hehe = _lua["OnTest"]();
 
-		hehe = hehe + 1;
+		int x = 1;
 	}
 }

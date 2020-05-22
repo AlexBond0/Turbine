@@ -14,7 +14,28 @@ function OnTest()
 
     -- p = thongle:gimmeY() + thingie:gimmeY()
 
-    p = thingie:gimmeX() + thingie:gimmeX(5)
+    -- p = thingie:gimmeX() + thingie:gimmeX(5)
 
-    return p
+
+    q = glm.vec3.new(
+        thongle.a,
+        thongle.b,
+        thongle.c
+    )
+    -- thingie:setupVec()
+
+    -- wahoo = glm.vec3.new(1.0, 1.0, 1.0)
+
+    -- n = thingie.slammer[0]
+
+    -- return tostring(thingie.a)-- wahoo.y
+
+    -- n =  thingie.a + 3;
+
+    q.y = q.y + thingie.slammer.y
+
+    p = q.x + q.y + q.z
+
+    return p;
 end
+

@@ -16,32 +16,50 @@
 #define BUILD_DESCRIPTION(access, description) \
 descriptions[access] = description
 
+// ===============================================================
+
 // builds a base new userrtype
-#define BUILD_NEW_USERTYPE(state, type, description) \
-state.new_usertype<type>(#type); \
-BUILD_DESCRIPTION(#type, description);
+#define BUILD_NEW_USERTYPE_START(state, type, description) \
+BUILD_DESCRIPTION(#type, description); \
+state.new_usertype<type>(#type,
 
 // builds a base new userrtype with a parent
-#define BUILD_NEW_CHILD_USERTYPE(state, type, parent, description) \
-state.new_usertype<type>(#type, sol::base_classes, sol::bases<parent>()); \
-BUILD_DESCRIPTION(#type, description);
+//#define BUILD_NEW_CHILD_USERTYPE_START(state, type, parent, description) \
+//BUILD_DESCRIPTION(#type, description); \
+//state.new_usertype<type>(#type, sol::base_classes, sol::bases<parent>(),
+
+#define BUILD_USERTYPE_VARIABLE(type, member) \
+#member, &type::member
+
+#define BUILD_USERTYPE_BASE_CLASS(parent) \
+sol::base_classes, sol::bases<parent>()
+
+#define BUILD_NEW_USERTYPE_END() \
+); 
+
+// ===============================================================
 
 // builds a full decleration with description
-#define BUILD_USERTYPE_MEMBER(state, type, member, description) \
+#define BUILD_USERTYPE_METHOD(state, type, member, description) \
 state[#type][#member] = &type::member; \
 BUILD_DESCRIPTION(#member, description);
 
+// builds a full decleration with description (variable speciffic)
+//#define BUILD_USERTYPE_VARIABLE(state, type, member, description) \
+//state[#type].set(#member, &type::member); \
+//BUILD_DESCRIPTION(#member, description);
+
 // Builds the start of an overloaded function decleration
-#define BUILD_OVERLOADED_START(state, type, member, description) \
+#define BUILD_OVERLOADED_METHOD_START(state, type, member, description) \
 BUILD_DESCRIPTION(#member, description); \
 state[#type][#member] =  sol::overload(
 
 // Builds a member of an overloaded function, where the format of the parameters can be defined
-#define BUILD_OVERLOADED_MEMBER(type, member, format) \
+#define BUILD_OVERLOADED_METHOD_FORMAT(type, member, format) \
 sol::resolve<format>(&type::member)
 
 // Builds the end of an overloaded function decleration
-#define BUILD_OVERLOADED_END() \
+#define BUILD_OVERLOADED_METHOD_END() \
 );
 
 // doesn't work yet as editor needs some way of knowing types, a little complicated right now
@@ -55,10 +73,14 @@ public:
 	int a = 1;
 	int b = 2;
 
+	glm::vec3 slammer = glm::vec3(5.0f);
+
 	int combineab() { return a + b; }
 
 	virtual int gimmeX() { return 5; }
 	virtual int gimmeX(int p) { return p + 5; }
+
+	void setupVec() { slammer = glm::vec3(2.0, 2.0, 2.0); }
 
 	virtual int gimmeY() { return 3; }
 };
@@ -95,5 +117,7 @@ private:
 	static void _Moveable(sol::state& luaState);
 
 	static void _LuaUsertypeBuilder(sol::state& luaState, json data);
+
+	static void _SetupGLM(sol::state& luaState);
 
 };
