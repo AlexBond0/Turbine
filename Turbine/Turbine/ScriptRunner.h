@@ -9,8 +9,10 @@ class ScriptRunner
 
 public:
 
-	ScriptRunner();
+	ScriptRunner(std::string name);
 	~ScriptRunner() {};
+
+	static void SetupTurbine();
 
 	bool AttachScript(char* scriptFile);
 
@@ -25,9 +27,13 @@ public:
 
 protected:
 
+	const std::string _name;
+
 private:
 
-	sol::state _lua; // lua state
+	static sol::state _lua; // lua state
+
+	sol::table _namespace;
 
 	// static sol::state _jsonConverter;
 };

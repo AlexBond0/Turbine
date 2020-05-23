@@ -591,15 +591,17 @@ void HandleCameraMovement() {
 
 void TestScriptRunner() {
 
+	ScriptRunner::SetupTurbine();
+
 	// testing script attachment
-	ScriptRunner s;
+	ScriptRunner s("StateA");
 	s.AttachScript("Scripts/Test2.lua");
 	Message m;
 	m.message["hello"] = "world";
 	s.OnMessage(m);
 
 	// testing script attachment
-	ScriptRunner q;
+	ScriptRunner q("StateB");
 	s.AttachScript("Scripts/Test3.lua");
 	s.OnTest();
 }
