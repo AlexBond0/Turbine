@@ -199,7 +199,9 @@
     <ClCompile Include="TurbineUserTypes.cpp">
       <Filter>Turbine Engine\Scripting</Filter>
     </ClCompile>
-    <ClCompile Include="TurbineTextEditor.cpp" />
+    <ClCompile Include="TurbineTextEditor.cpp">
+      <Filter>Turbine Engine\Debug UI\Windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGui\imgui_impl_glfw.h">
@@ -676,7 +678,9 @@
     <ClInclude Include="TurbineUserTypes.h">
       <Filter>Turbine Engine\Scripting</Filter>
     </ClInclude>
-    <ClInclude Include="TurbineTextEditor.h" />
+    <ClInclude Include="TurbineTextEditor.h">
+      <Filter>Turbine Engine\Debug UI\Windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ImGui\imgui.ini">

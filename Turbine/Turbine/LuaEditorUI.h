@@ -1,7 +1,7 @@
 #pragma once
 
 #include "DebugUIContainer.h"
-#include "ImGui/imgui_ext_TextEditor.h"
+#include "TurbineTextEditor.h"
 #include <fstream>
 
 #include "TurbineUserTypes.h"
@@ -21,7 +21,7 @@ public:
 
 	void LoadTurbineTypes();
 
-	TextEditor editor;
+	TurbineTextEditor editor;
 
 	char* fileToEdit;
 
@@ -36,4 +36,3 @@ private:
 
 	std::string _topErrMsg;
 };
-
