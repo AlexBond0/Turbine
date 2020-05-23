@@ -229,12 +229,16 @@ void LuaEditorUI::LoadTurbineTypes() {
 
 	auto language = TextEditor::LanguageDefinition::Lua();
 
+	// normal ones
 	for (auto const& type : TurbineUsertypeDefiner::descriptions) {
 
 		TextEditor::Identifier msg;
 		msg.mDeclaration = type.second;
 		language.mIdentifiers[type.first] = msg;
 	}
+
+	// dictionary ones
+	editor.dictionary = TurbineUsertypeDefiner::dictionary;
 
 	editor.SetLanguageDefinition(language);
 }

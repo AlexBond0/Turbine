@@ -1,5 +1,12 @@
 #include "TurbineTextEditor.h"
 
+
+void TurbineTextEditor::Alphabetize() {
+
+
+}
+
+
 // Render the Autocomplete Tooltip (Called internally from base class)
 void TurbineTextEditor::_RenderAutocompleteTooltip() {
 
@@ -17,12 +24,11 @@ void TurbineTextEditor::_RenderAutocompleteTooltip() {
 
 		if (!lastWord.empty() && !lastChar.empty()) {
 
-			// is the last char an accessor
-			if (lastChar.compare(":") == 0) {
+			// is word in dictionary
+			if (dictionary.find(lastWord) != dictionary.end()) {
 
-				auto it = mLanguageDefinition.mIdentifiers.find(lastWord);
-				if (it != mLanguageDefinition.mIdentifiers.end())
-				{
+				// is the last char an accessor
+				if (lastChar.compare(":") == 0 || lastChar.compare(".") == 0) {
 
 					// get dimentions needed for rendering in editor
 					ImVec2 screen = ImGui::GetCursorScreenPos();
@@ -46,17 +52,28 @@ void TurbineTextEditor::_RenderAutocompleteTooltip() {
 
 						// render autocomplete tooltip
 						ImGui::SetNextWindowPos(renderPos);
-						_CreateAutocompleteTooltip();
+						_CreateAutocompleteTooltip(lastWord, lastChar.compare(":") == 0);
 					}
+
 				}
 			}
 		}
 	}
 }
 
-void TurbineTextEditor::_CreateAutocompleteTooltip() {
+void TurbineTextEditor::_CreateAutocompleteTooltip(std::string name, bool isMethod) {
 
 	ImGui::Begin("AUTOCOMPLETE", NULL, ImGuiWindowFlags_Tooltip | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoTitleBar);
-	ImGui::Text("AUTOCOMPLETE");
+	
+	// does name exist in dictionary
+	if (dictionary.find(name) != dictionary.end()) {
+
+		std::vector<std::string>& list = (isMethod ? dictionary[name].methods : dictionary[name].variables);
+
+		for (std::string& tag : list) {
+
+			ImGui::Text(tag.c_str());
+		}
+	}
 	ImGui::End();
 }

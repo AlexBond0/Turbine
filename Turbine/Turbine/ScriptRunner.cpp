@@ -11,7 +11,6 @@ ScriptRunner::ScriptRunner() {
 	_lua["JSON"] = _lua.script_file("Scripts/JSON.lua");
 
 	TurbineUsertypeDefiner::Define(_lua);
-
 	TurbineUsertypeDefiner::BuildTestOnes(_lua);
 }
 
@@ -83,3 +82,9 @@ void ScriptRunner::OnTest() {
 		int x = 1;
 	}
 }
+
+//void LoadTurbineDefinitons() {
+//
+//	TurbineUsertypeDefiner::Define(_lua);
+//	TurbineUsertypeDefiner::BuildTestOnes(_lua);
+//}

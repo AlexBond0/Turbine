@@ -2,6 +2,7 @@
 
 #include "Sol2//sol.hpp"
 #include "World.h"
+#include "TurbineTextEditor.h" // just for containers
 
 // build an inline type decleration
 #define BUILD_TYPE_REF(a, b) &a::b
@@ -119,6 +120,8 @@ public:
 
 	static std::map<std::string, std::string> descriptions;
 
+	static TurbineDictionary dictionary;
+
 private:
 
 	static void _Structs(sol::table& luaState);
@@ -135,4 +138,5 @@ private:
 
 	static void _SetupGLM(sol::state& luaState);
 
+	static void MakeDictionary();
 };

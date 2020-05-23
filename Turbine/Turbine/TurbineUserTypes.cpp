@@ -1,6 +1,7 @@
 #include "TurbineUserTypes.h"
 
 std::map<std::string, std::string> TurbineUsertypeDefiner::descriptions;
+TurbineDictionary TurbineUsertypeDefiner::dictionary;
 
 
 void TurbineUsertypeDefiner::BuildTestOnes(sol::state& luaState) {
@@ -56,6 +57,10 @@ void TurbineUsertypeDefiner::Define(sol::state& luaState) {
 	_Material(turbine);
 
 	_Entity(turbine);
+
+	// definitey needs better implementation
+	if (dictionary.size() == 0)
+		MakeDictionary();
 }
 
 void TurbineUsertypeDefiner::_Structs(sol::table& luaState) {
@@ -114,7 +119,7 @@ void TurbineUsertypeDefiner::_MoveableOrientation(sol::table& luaState) {
 	BUILD_NEW_USERTYPE_START(luaState, MoveableOrientation, "Manages the orientation of an Entity")
 		sol::constructors<MoveableOrientation(), MoveableOrientation(MoveableOrientation*)>(),
 		BUILD_USERTYPE_VARIABLE(MoveableOrientation, useTarget)
-	BUILD_NEW_USERTYPE_END()
+		BUILD_NEW_USERTYPE_END()
 
 	BUILD_USERTYPE_METHOD(luaState, MoveableOrientation, GetOrientationQuat, "Get the orientation of the Entity as a quat");
 	BUILD_USERTYPE_METHOD(luaState, MoveableOrientation, GetRotationQuat, "Get the rotation of the Entity as a quat");
@@ -314,4 +319,16 @@ void TurbineUsertypeDefiner::_SetupGLM(sol::state& luaState) {
 	//	"y", &glm::quat::y,
 	//	"z", &glm::quat::z
 	//);
+}
+
+void TurbineUsertypeDefiner::MakeDictionary() {
+
+	dictionary["Entity"] = DictionaryContainer();
+
+	dictionary["Entity"].methods.push_back("Hehe");
+	dictionary["Entity"].methods.push_back("Haaaaagas");
+	dictionary["Entity"].methods.push_back("Haadagas");
+
+	dictionary["Entity"].variables.push_back("Hooble");
+	dictionary["Entity"].variables.push_back("Honguas");
 }

@@ -21,6 +21,8 @@ public:
 
 	void OnMessage(Message msg);
 
+	// static void LoadTurbineDefinitons();
+
 protected:
 
 private:
