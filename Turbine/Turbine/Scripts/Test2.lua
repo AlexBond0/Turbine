@@ -1,8 +1,10 @@
 
+package = {}
+
 -- OnMessage test
-function OnMessage(message) 
+function package.OnMessage(message) 
 
     return message.hello
 end
 
-return OnMessage
+return package

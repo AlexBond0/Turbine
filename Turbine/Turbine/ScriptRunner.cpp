@@ -13,14 +13,14 @@ void ScriptRunner::SetupTurbine() {
 
 	TurbineUsertypeDefiner::Define(_lua);
 	TurbineUsertypeDefiner::BuildTestOnes(_lua);
+
+	_lua["DecodeJson"] = _lua.script("function DecodeJson (json) return JSON:decode(json) end return DecodeJson");
 }
 
 ScriptRunner::ScriptRunner(std::string name)
 	: _name(name) {
 
 	_namespace = _lua[_name].get_or_create<sol::table>();
-
-	_namespace["messageTbl"] = "";
 }
 
 // Load a script from a file into the script runner
@@ -77,15 +77,19 @@ void ScriptRunner::OnMessage(Message msg) {
 	if (_lua["JSON"]["decode"].valid()) {
 
 		// _lua[_name]["rawJson"] = rawJson;
-		_namespace["rawJson"] = rawJson;
+		_namespace["script"]["rawJson"] = rawJson;
 
-		_lua.script(_name+".messageTbl = JSON:decode("+_name+".rawJson)");
+		std::string localMessage = _name + "." + "script";
+
+		_lua.script(localMessage +".messageTbl = JSON:decode("+ localMessage +".rawJson)");
+		// _namespace["messageTbl"] = _lua["DecodeJson"](_namespace["rawJson"]);
 	}
 
 	// run the OnMessage function
-	if (_namespace["script"].valid()) {
+	if (_namespace["script"]["OnMessage"].valid()) {
 		
-		std::string hehe = _namespace["script"](_namespace["messageTbl"]);
+		// std::string hehe = _namespace["script"]["OnMessage"]("Echo"); //(_namespace["script"]["messageTbl"]);
+		std::string hehe = _namespace["script"]["OnMessage"]((_namespace["script"]["messageTbl"]));
 	}
 }
 
