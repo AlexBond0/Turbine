@@ -58,6 +58,9 @@ void TurbineUsertypeDefiner::Define(sol::state& luaState) {
 
 	_Entity(turbine);
 
+	_ObjectData(turbine);
+	_Object3D(turbine);
+
 	// definitey needs better implementation
 	if (dictionary.size() == 0)
 		MakeDictionary();
@@ -119,7 +122,7 @@ void TurbineUsertypeDefiner::_MoveableOrientation(sol::table& luaState) {
 	BUILD_NEW_USERTYPE_START(luaState, MoveableOrientation, "Manages the orientation of an Entity")
 		sol::constructors<MoveableOrientation(), MoveableOrientation(MoveableOrientation*)>(),
 		BUILD_USERTYPE_VARIABLE(MoveableOrientation, useTarget)
-		BUILD_NEW_USERTYPE_END()
+	BUILD_NEW_USERTYPE_END()
 
 	BUILD_USERTYPE_METHOD(luaState, MoveableOrientation, GetOrientationQuat, "Get the orientation of the Entity as a quat");
 	BUILD_USERTYPE_METHOD(luaState, MoveableOrientation, GetRotationQuat, "Get the rotation of the Entity as a quat");
@@ -244,6 +247,12 @@ void TurbineUsertypeDefiner::_Entity(sol::table& luaState) {
 		BUILD_USERTYPE_VARIABLE(Entity, isLocallyActive)
 	BUILD_NEW_USERTYPE_END()
 
+	BUILD_VARIABLE_DESCRIPTION(Entity, children);
+	BUILD_VARIABLE_DESCRIPTION(Entity, parent);
+	BUILD_VARIABLE_DESCRIPTION(Entity, isDirty);
+	BUILD_VARIABLE_DESCRIPTION(Entity, isActive);
+	BUILD_VARIABLE_DESCRIPTION(Entity, isLocallyActive);
+
 	BUILD_USERTYPE_METHOD(luaState, Entity, OnRender, "Gt");
 	BUILD_USERTYPE_METHOD(luaState, Entity, OnPick, "Gt");
 
@@ -270,6 +279,173 @@ void TurbineUsertypeDefiner::_Entity(sol::table& luaState) {
 		BUILD_OVERLOADED_METHOD_FORMAT(Entity, ConvertEntityType, std::string(EntityType)),
 		BUILD_OVERLOADED_METHOD_FORMAT(Entity, ConvertEntityType, EntityType(std::string))
 	BUILD_OVERLOADED_METHOD_END();
+}
+
+void TurbineUsertypeDefiner::_ObjectData(sol::table& luaState) {
+
+
+	// PointUV
+
+	BUILD_NEW_USERTYPE_START(luaState, PointUV, "Internal handles for rendering an Object3D")
+		BUILD_USERTYPE_VARIABLE(PointUV, vertex),
+		BUILD_USERTYPE_VARIABLE(PointUV, normal),
+		BUILD_USERTYPE_VARIABLE(PointUV, uv)
+	BUILD_NEW_USERTYPE_END()
+
+
+	// Point
+
+	BUILD_NEW_USERTYPE_START(luaState, Point, "Internal handles for rendering an Object3D")
+		BUILD_USERTYPE_VARIABLE(Point, vertex),
+		BUILD_USERTYPE_VARIABLE(Point, normal)
+	BUILD_NEW_USERTYPE_END()
+
+
+	// PointData
+
+	BUILD_NEW_USERTYPE(luaState, PointData, "Internal handles for rendering an Object3D");
+
+	BUILD_OVERLOADED_METHOD_START(luaState, PointData, SetData, "Overloaded type method")
+		BUILD_OVERLOADED_METHOD_FORMAT(PointData, SetData, void(PointData)),
+		BUILD_OVERLOADED_METHOD_FORMAT(PointData, SetData, void(byte*, int, int)),
+		BUILD_OVERLOADED_METHOD_FORMAT(PointData, SetData, void(float*, int, bool))
+	BUILD_OVERLOADED_METHOD_END();
+
+	BUILD_USERTYPE_METHOD(luaState, PointData, SetUV, "Gt");
+	BUILD_USERTYPE_METHOD(luaState, PointData, Size, "Gt");
+	BUILD_USERTYPE_METHOD(luaState, PointData, GetPointUV, "Gt");
+	BUILD_USERTYPE_METHOD(luaState, PointData, GetPoint, "Gt");
+
+	//BUILD_OVERLOADED_METHOD_START(luaState, PointData, AddPoint, "Overloaded type method")
+	//	BUILD_OVERLOADED_METHOD_FORMAT(PointData, AddPoint, void(Point)),
+	//	BUILD_OVERLOADED_METHOD_FORMAT(PointData, AddPoint, void(PointUV))
+	//BUILD_OVERLOADED_METHOD_END();
+
+	BUILD_USERTYPE_METHOD(luaState, PointData, DeletePoint, "Gt");
+	BUILD_USERTYPE_METHOD(luaState, PointData, DataSize, "Gt");
+	BUILD_USERTYPE_METHOD(luaState, PointData, HasUV, "Gt");
+	BUILD_USERTYPE_METHOD(luaState, PointData, ScaleUV, "Gt");
+
+
+	// Poly
+
+	BUILD_NEW_USERTYPE_START(luaState, Poly, "Internal handles for rendering an Object3D")
+		BUILD_USERTYPE_VARIABLE(Poly, point)
+	BUILD_NEW_USERTYPE_END();
+
+
+	// PolygonData
+
+	BUILD_NEW_USERTYPE(luaState, PolygonData, "Internal handles for rendering an Object3D")
+
+	BUILD_OVERLOADED_METHOD_START(luaState, PolygonData, SetData, "Overloaded type method")
+		BUILD_OVERLOADED_METHOD_FORMAT(PolygonData, SetData, void(PolygonData)),
+		BUILD_OVERLOADED_METHOD_FORMAT(PolygonData, SetData, void(byte*, int)),
+		BUILD_OVERLOADED_METHOD_FORMAT(PolygonData, SetData, void(unsigned short*, int))
+	BUILD_OVERLOADED_METHOD_END();
+
+	BUILD_USERTYPE_METHOD(luaState, PolygonData, AddPolygon, "Gt");
+	BUILD_USERTYPE_METHOD(luaState, PolygonData, GetVector, "Gt");
+	BUILD_USERTYPE_METHOD(luaState, PolygonData, GetData, "Gt");
+
+	BUILD_USERTYPE_METHOD(luaState, PolygonData, Size, "Gt");
+	BUILD_USERTYPE_METHOD(luaState, PolygonData, ElementCount, "Gt");
+	BUILD_USERTYPE_METHOD(luaState, PolygonData, DataSize, "Gt");
+	BUILD_USERTYPE_METHOD(luaState, PolygonData, ElementType, "Gt");
+	BUILD_USERTYPE_METHOD(luaState, PolygonData, Reserve, "Gt");
+
+
+	// Instance
+
+	BUILD_NEW_USERTYPE_START(luaState, Instance, "Internal handles for rendering an Object3D")
+		BUILD_USERTYPE_VARIABLE(Instance, position)
+	BUILD_NEW_USERTYPE_END();
+
+
+	// InstanceData
+
+	BUILD_NEW_USERTYPE(luaState, InstanceData, "Internal handles for rendering an Object3D")
+
+	BUILD_OVERLOADED_METHOD_START(luaState, InstanceData, SetData, "Overloaded type method")
+		BUILD_OVERLOADED_METHOD_FORMAT(InstanceData, SetData, void(InstanceData)),
+		BUILD_OVERLOADED_METHOD_FORMAT(InstanceData, SetData, void(std::vector<Instance>))
+	BUILD_OVERLOADED_METHOD_END();
+
+	BUILD_USERTYPE_METHOD(luaState, InstanceData, AddInstance, "Gt");
+	BUILD_USERTYPE_METHOD(luaState, InstanceData, GetVector, "Gt");
+	BUILD_USERTYPE_METHOD(luaState, InstanceData, GetData, "Gt");
+
+	BUILD_USERTYPE_METHOD(luaState, InstanceData, Size, "Gt");
+	BUILD_USERTYPE_METHOD(luaState, InstanceData, ElementCount, "Gt");
+	BUILD_USERTYPE_METHOD(luaState, InstanceData, DataSize, "Gt");
+	BUILD_USERTYPE_METHOD(luaState, InstanceData, Reserve, "Gt");
+}
+
+void TurbineUsertypeDefiner::_Object3D(sol::table& luaState) {
+
+	BUILD_NEW_USERTYPE_START(luaState, Object3DHandles, "Internal handles for rendering an Object3D")
+		BUILD_USERTYPE_VARIABLE(Object3DHandles, point_vbo),
+		BUILD_USERTYPE_VARIABLE(Object3DHandles, polygon_vbo),
+		BUILD_USERTYPE_VARIABLE(Object3DHandles, instance_vbo),
+		BUILD_USERTYPE_VARIABLE(Object3DHandles, object_vao),
+		BUILD_USERTYPE_VARIABLE(Object3DHandles, initialised),
+		BUILD_USERTYPE_VARIABLE(Object3DHandles, dirty)
+	BUILD_NEW_USERTYPE_END()
+
+	BUILD_USERTYPE_VARIABLE(Object3DHandles, point_vbo);
+	BUILD_USERTYPE_VARIABLE(Object3DHandles, polygon_vbo);
+	BUILD_USERTYPE_VARIABLE(Object3DHandles, instance_vbo);
+	BUILD_USERTYPE_VARIABLE(Object3DHandles, object_vao);
+	BUILD_USERTYPE_VARIABLE(Object3DHandles, initialised);
+	BUILD_USERTYPE_VARIABLE(Object3DHandles, dirty);
+
+	BUILD_NEW_USERTYPE_START(luaState, Object3D, "Manages the rendering data of an Entity")
+		sol::constructors<
+			Object3D(std::string),
+			Object3D(Object3D*, std::string),
+			Object3D(std::string, std::string)
+		>(),
+			sol::base_classes, sol::bases<
+			Material,
+			Entity
+		>(),
+		BUILD_USERTYPE_VARIABLE(Object3D, useLight),
+		BUILD_USERTYPE_VARIABLE(Object3D, useTexture),
+		BUILD_USERTYPE_VARIABLE(Object3D, isTransparent),
+		BUILD_USERTYPE_VARIABLE(Object3D, isWireframe),
+		BUILD_USERTYPE_VARIABLE(Object3D, vertices),
+		BUILD_USERTYPE_VARIABLE(Object3D, polygons)
+	BUILD_NEW_USERTYPE_END()
+
+	BUILD_VARIABLE_DESCRIPTION(Object3D, useLight);
+	BUILD_VARIABLE_DESCRIPTION(Object3D, useTexture);
+	BUILD_VARIABLE_DESCRIPTION(Object3D, isTransparent);
+	BUILD_VARIABLE_DESCRIPTION(Object3D, isWireframe);
+	BUILD_VARIABLE_DESCRIPTION(Object3D, vertices);
+	BUILD_VARIABLE_DESCRIPTION(Object3D, polygons);
+
+	BUILD_USERTYPE_METHOD(luaState, Object3D, OnRender, "Gt");
+	BUILD_USERTYPE_METHOD(luaState, Object3D, OnPick, "Gt");
+	BUILD_USERTYPE_METHOD(luaState, Object3D, Draw, "Gt");
+
+	BUILD_OVERLOADED_METHOD_START(luaState, Object3D, SetVertexData, "Overloaded type method")
+		BUILD_OVERLOADED_METHOD_FORMAT(Object3D, SetVertexData, void(byte*, int, int)),
+		BUILD_OVERLOADED_METHOD_FORMAT(Object3D, SetVertexData, void(float*, int, bool)),
+		BUILD_OVERLOADED_METHOD_FORMAT(Object3D, SetVertexData, void(PointData))
+	BUILD_OVERLOADED_METHOD_END();
+
+	BUILD_USERTYPE_METHOD(luaState, Object3D, GetVertData, "Gt");
+	BUILD_USERTYPE_METHOD(luaState, Object3D, GetVertCount, "Gt");
+
+	//BUILD_OVERLOADED_METHOD_START(luaState, Object3D, SetTriangles, "Overloaded type method")
+	//	BUILD_OVERLOADED_METHOD_FORMAT(Object3D, SetTriangles, void(byte*, int)),
+	//	BUILD_OVERLOADED_METHOD_FORMAT(Object3D, SetTriangles, void(unsigned short*, bool)),
+	//	BUILD_OVERLOADED_METHOD_FORMAT(Object3D, SetTriangles, void(PolygonData))
+	//BUILD_OVERLOADED_METHOD_END();
+
+	BUILD_USERTYPE_METHOD(luaState, Object3D, SetTexture, "Gt");
+	BUILD_USERTYPE_METHOD(luaState, Object3D, GetTexture, "Gt");
+	BUILD_USERTYPE_METHOD(luaState, Object3D, IsInstanced, "Gt");
 }
 
 void TurbineUsertypeDefiner::_LuaUsertypeBuilder(sol::table& luaState, json data) {

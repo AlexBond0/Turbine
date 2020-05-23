@@ -54,7 +54,6 @@ void TurbineTextEditor::_RenderAutocompleteTooltip() {
 						ImGui::SetNextWindowPos(renderPos);
 						_CreateAutocompleteTooltip(lastWord, lastChar.compare(":") == 0);
 					}
-
 				}
 			}
 		}

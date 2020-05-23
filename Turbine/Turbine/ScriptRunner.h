@@ -23,8 +23,6 @@ public:
 
 	void OnMessage(Message msg);
 
-	// static void LoadTurbineDefinitons();
-
 protected:
 
 	const std::string _name;
@@ -38,7 +36,5 @@ private:
 	int scriptsLoaded = 0;
 
 	void _OnEventBuilder(std::string tag);
-
-	// static sol::state _jsonConverter;
 };
 

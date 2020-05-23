@@ -14,19 +14,28 @@
 #define BUILD_STR(a) BUILD_STR_X(a)
 #define BUILD_STR_X(a) #a
 
-#define BUILD_DESCRIPTION(access, description) \
+#define BUILD_HOVER_DESCRIPTION(access, description) \
 descriptions[access] = description
 
 // ===============================================================
 
+#define BUILD_METHOD_DESCRIPTION(type, member) \
+dictionary[#type].methods.push_back(#member)
+
+#define BUILD_VARIABLE_DESCRIPTION(type, member) \
+dictionary[#type].variables.push_back(#member)
+
+
+// ===============================================================
+
 #define BUILD_NEW_USERTYPE(state, type, description) \
-BUILD_DESCRIPTION(#type, description); \
+BUILD_HOVER_DESCRIPTION(#type, description); \
 state.new_usertype<type>(#type);
 
 
 // builds a base new userrtype
 #define BUILD_NEW_USERTYPE_START(state, type, description) \
-BUILD_DESCRIPTION(#type, description); \
+BUILD_HOVER_DESCRIPTION(#type, description); \
 state.new_usertype<type>(#type,
 
 #define BUILD_USERTYPE_VARIABLE(type, member) \
@@ -42,12 +51,14 @@ sol::base_classes, sol::bases<parent>()
 
 // builds a full decleration with description
 #define BUILD_USERTYPE_METHOD(state, type, member, description) \
-state[#type][#member] = &type::member; \
-BUILD_DESCRIPTION(#member, description);
+BUILD_HOVER_DESCRIPTION(#member, description); \
+BUILD_METHOD_DESCRIPTION(type, member); \
+state[#type][#member] = &type::member; 
 
 // Builds the start of an overloaded function decleration
 #define BUILD_OVERLOADED_METHOD_START(state, type, member, description) \
-BUILD_DESCRIPTION(#member, description); \
+BUILD_HOVER_DESCRIPTION(#member, description); \
+BUILD_METHOD_DESCRIPTION(type, member); \
 state[#type][#member] =  sol::overload(
 
 // Builds a member of an overloaded function, where the format of the parameters can be defined
@@ -68,9 +79,6 @@ state.new_enum(#type,
 
 #define BUILD_NEW_ENUM_END() \
 );
-
-// doesn't work yet as editor needs some way of knowing types, a little complicated right now
-//BUILD_DESCRIPTION(BUILD_STR(BUILD_MEMBER_ACCESS(type, member)), description);
 
 
 class Thing1 {
@@ -133,6 +141,9 @@ private:
 	static void _Material(sol::table& luaState);
 
 	static void _Entity(sol::table& luaState);
+
+	static void _ObjectData(sol::table& luaState);
+	static void _Object3D(sol::table& luaState);
 
 	static void _LuaUsertypeBuilder(sol::table& luaState, json data);
 
