@@ -16,8 +16,10 @@ function OnTest()
 
     -- p = thongle:gimmeY() + thingie:gimmeY()
 
-    -- p = thingie:gimmeX() + thingie:gimmeX(5)
+    -- p = thingie:gimmeX() + thingie:gimmeX(5) 	-- Thing2:
+ 
 
+	-- Thing2:
 
     q = glm.vec3.new(
         thongle.a,
@@ -54,3 +56,4 @@ function OnTest()
 
     end
 end
+
