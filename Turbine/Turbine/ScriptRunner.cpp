@@ -21,6 +21,7 @@ ScriptRunner::ScriptRunner(std::string name)
 	: _name(name) {
 
 	_namespace = _lua[_name].get_or_create<sol::table>();
+
 }
 
 // Load a script from a file into the script runner
@@ -46,8 +47,11 @@ bool ScriptRunner::AttachScript(char* scriptFile) {
 
 	//else
 
+	//_lua[_name][scriptsLoaded].get_or_create<sol::table>();
+	//scriptsLoaded++;
 
-	_namespace["script"] = _lua.script_file(scriptFile);
+	_namespace[scriptsLoaded] = _lua.script_file(scriptFile);
+	scriptsLoaded++;
 	return false;
 }
 
@@ -55,17 +59,13 @@ bool ScriptRunner::AttachScript(char* scriptFile) {
 // Called immediately when an entity is created in the scene
 void ScriptRunner::OnLoad() {
 
-	if (_namespace["OnLoad"].valid()) {
-		_namespace["OnLoad"]();
-	}
+	_OnEventBuilder("OnLoad");
 }
 
 // Called when the full world has been loaded
 void ScriptRunner::OnWorldLoad() {
 
-	if (_namespace["OnWorldLoad"].valid()) {
-		_namespace["OnWorldLoad"]();
-	}
+	_OnEventBuilder("OnWorldLoad");
 }
 
 
@@ -77,41 +77,48 @@ void ScriptRunner::OnMessage(Message msg) {
 	if (_lua["JSON"]["decode"].valid()) {
 
 		// _lua[_name]["rawJson"] = rawJson;
-		_namespace["script"]["rawJson"] = rawJson;
+		_namespace["rawJson"] = rawJson;
 
 		std::string localMessage = _name + "." + "script";
 
-		_lua.script(localMessage +".messageTbl = JSON:decode("+ localMessage +".rawJson)");
+		_lua.script(_name +".messageTbl = JSON:decode("+ _name +".rawJson)");
 		// _namespace["messageTbl"] = _lua["DecodeJson"](_namespace["rawJson"]);
 	}
 
-	// run the OnMessage function
-	if (_namespace["script"]["OnMessage"].valid()) {
-		
-		// std::string hehe = _namespace["script"]["OnMessage"]("Echo"); //(_namespace["script"]["messageTbl"]);
-		std::string hehe = _namespace["script"]["OnMessage"]((_namespace["script"]["messageTbl"]));
+	for (int scriptID = 0; scriptID < scriptsLoaded; scriptID++) {
+
+		// run the OnMessage function
+		if (_namespace[scriptID]["OnMessage"].valid()) {
+
+			// std::string hehe = _namespace["script"]["OnMessage"]("Echo"); //(_namespace["script"]["messageTbl"]);
+			std::string hehe = _namespace[scriptID]["OnMessage"]((_namespace["messageTbl"]));
+		}
 	}
 }
 
 
 void ScriptRunner::OnTest() {
 
+	for (int scriptID = 0; scriptID < scriptsLoaded; scriptID++) {
 
-	_namespace["penguin"] = glm::vec3(3.0f);
+		// run the OnTest function
+		if (_namespace[scriptID]["OnTest"].valid()) {
 
-	// run the OnTest function
-	if (_namespace["OnTest"].valid()) {
+			Entity* frongle = _namespace[scriptID]["OnTest"]();
 
-		std::string hehe = _namespace["OnTest"]();
-
-		Entity* dog_pointer = _namespace["entity"];
-
-		int x = 1;
+			Entity* dog_pointer = _namespace[scriptID]["entity"];
+		}
 	}
 }
 
-//void LoadTurbineDefinitons() {
-//
-//	TurbineUsertypeDefiner::Define(_lua);
-//	TurbineUsertypeDefiner::BuildTestOnes(_lua);
-//}
+void ScriptRunner::_OnEventBuilder(std::string tag) {
+
+	for (int scriptID = 0; scriptID < scriptsLoaded; scriptID++) {
+
+		// run the OnMessage function
+		if (_namespace[scriptID][tag].valid()) {
+
+			_namespace[scriptID][tag]();
+		}
+	}
+}

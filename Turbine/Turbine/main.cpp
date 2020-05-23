@@ -596,12 +596,13 @@ void TestScriptRunner() {
 	// testing script attachment
 	ScriptRunner s("StateA");
 	s.AttachScript("Scripts/Test2.lua");
+	s.AttachScript("Scripts/Test4.lua");
 	Message m;
 	m.message["hello"] = "world";
 	s.OnMessage(m);
 
 	// testing script attachment
 	ScriptRunner q("StateB");
-	s.AttachScript("Scripts/Test3.lua");
-	s.OnTest();
+	q.AttachScript("Scripts/Test3.lua");
+	q.OnTest();
 }

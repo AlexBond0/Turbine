@@ -35,6 +35,10 @@ private:
 
 	sol::table _namespace;
 
+	int scriptsLoaded = 0;
+
+	void _OnEventBuilder(std::string tag);
+
 	// static sol::state _jsonConverter;
 };
 
