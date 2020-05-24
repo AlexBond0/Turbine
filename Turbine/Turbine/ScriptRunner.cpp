@@ -22,11 +22,18 @@ ScriptRunner::ScriptRunner(std::string name)
 }
 
 // Load a script from a file into the script runner
-bool ScriptRunner::AttachScript(char* scriptFile) {
+bool ScriptRunner::AttachScript(std::string scriptFile) {
 
-	_namespace[scriptsLoaded] = _lua.script_file(scriptFile);
-	scriptsLoaded++;
-	return false;
+	// is script a .lua file (not super clean but some protection)
+	if (scriptFile.find(".lua") != std::string::npos) {
+
+		std::string scriptName = scriptFile.substr(0, scriptFile.find(".lua"));
+		_namespace[scriptName] = _lua.script_file(scriptFile);
+
+		return true;
+	}
+	else
+		return false;
 }
 
 
@@ -55,7 +62,7 @@ void ScriptRunner::OnMessage(Message msg) {
 		_lua.script(_name + ".messageTbl = JSON:decode(" + _name + ".rawJson)");
 
 		// pass message to all message receiving functions
-		for (int scriptID = 0; scriptID < scriptsLoaded; scriptID++) {
+		for (std::string& scriptID : _scripts) {
 
 			// run the OnMessage function
 			if (_namespace[scriptID]["OnMessage"].valid()) {
@@ -69,7 +76,7 @@ void ScriptRunner::OnMessage(Message msg) {
 
 void ScriptRunner::OnTest() {
 
-	for (int scriptID = 0; scriptID < scriptsLoaded; scriptID++) {
+	for(std::string& scriptID : _scripts) {
 
 		// run the OnTest function
 		if (_namespace[scriptID]["OnTest"].valid()) {
@@ -85,7 +92,7 @@ void ScriptRunner::OnTest() {
 void ScriptRunner::_OnEventBuilder(std::string tag) {
 
 	// for each script
-	for (int scriptID = 0; scriptID < scriptsLoaded; scriptID++) {
+	for (std::string& scriptID : _scripts) {
 
 		// run the function
 		if (_namespace[scriptID][tag].valid()) {

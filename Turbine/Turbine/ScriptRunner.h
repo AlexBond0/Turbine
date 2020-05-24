@@ -4,6 +4,7 @@
 #include "MessagePump.h"
 #include "TurbineUserTypes.h"
 
+
 class ScriptRunner
 {
 
@@ -14,7 +15,7 @@ public:
 
 	static void SetupTurbine();
 
-	bool AttachScript(char* scriptFile);
+	bool AttachScript(std::string scriptFile);
 
 	void OnLoad();
 	void OnWorldLoad();
@@ -29,11 +30,10 @@ protected:
 
 private:
 
-	static sol::state _lua; // lua state
+	static sol::state _lua;		// global lua state
+	sol::table _namespace;		// local namespace for ScriptRunner
 
-	sol::table _namespace;
-
-	int scriptsLoaded = 0;
+	std::vector<std::string> _scripts; // scripts loaded
 
 	void _OnEventBuilder(std::string tag);
 };
