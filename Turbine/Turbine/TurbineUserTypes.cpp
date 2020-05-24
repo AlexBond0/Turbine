@@ -74,29 +74,29 @@ void TurbineUsertypeDefiner::_Structs(sol::table& luaState) {
 	BUILD_NEW_USERTYPE_START(luaState, color4, "Manages the orientation of an Entity")
 		sol::constructors<color4(), color4(json), color4(float, float, float, float)>(),
 		BUILD_USERTYPE_VARIABLE(color4, rgba)
-		BUILD_NEW_USERTYPE_END()
+	BUILD_NEW_USERTYPE_END();
 
-		BUILD_USERTYPE_METHOD(luaState, color4, Scale, "Get the orientation of the Entity as a quat");
+	BUILD_USERTYPE_METHOD(luaState, color4, Scale, "Get the orientation of the Entity as a quat");
 
 	BUILD_OVERLOADED_METHOD_START(luaState, color4, R, "Overloaded type method")
 		BUILD_OVERLOADED_METHOD_FORMAT(color4, R, void(float)),
 		BUILD_OVERLOADED_METHOD_FORMAT(color4, R, float())
-		BUILD_OVERLOADED_METHOD_END();
+	BUILD_OVERLOADED_METHOD_END();
 
 	BUILD_OVERLOADED_METHOD_START(luaState, color4, G, "Overloaded type method")
 		BUILD_OVERLOADED_METHOD_FORMAT(color4, G, void(float)),
 		BUILD_OVERLOADED_METHOD_FORMAT(color4, G, float())
-		BUILD_OVERLOADED_METHOD_END();
+	BUILD_OVERLOADED_METHOD_END();
 
 	BUILD_OVERLOADED_METHOD_START(luaState, color4, B, "Overloaded type method")
 		BUILD_OVERLOADED_METHOD_FORMAT(color4, B, void(float)),
 		BUILD_OVERLOADED_METHOD_FORMAT(color4, B, float())
-		BUILD_OVERLOADED_METHOD_END();
+	BUILD_OVERLOADED_METHOD_END();
 
 	BUILD_OVERLOADED_METHOD_START(luaState, color4, A, "Overloaded type method")
 		BUILD_OVERLOADED_METHOD_FORMAT(color4, A, void(float)),
 		BUILD_OVERLOADED_METHOD_FORMAT(color4, A, float())
-		BUILD_OVERLOADED_METHOD_END();
+	BUILD_OVERLOADED_METHOD_END();
 
 	// ==========================
 	// EntityType
@@ -316,10 +316,10 @@ void TurbineUsertypeDefiner::_ObjectData(sol::table& luaState) {
 	BUILD_USERTYPE_METHOD(luaState, PointData, GetPointUV, "Gt");
 	BUILD_USERTYPE_METHOD(luaState, PointData, GetPoint, "Gt");
 
-	//BUILD_OVERLOADED_METHOD_START(luaState, PointData, AddPoint, "Overloaded type method")
-	//	BUILD_OVERLOADED_METHOD_FORMAT(PointData, AddPoint, void(Point)),
-	//	BUILD_OVERLOADED_METHOD_FORMAT(PointData, AddPoint, void(PointUV))
-	//BUILD_OVERLOADED_METHOD_END();
+	BUILD_OVERLOADED_METHOD_START(luaState, PointData, AddPoint, "Overloaded type method")
+		BUILD_OVERLOADED_METHOD_FORMAT(PointData, AddPoint, bool(Point)),
+		BUILD_OVERLOADED_METHOD_FORMAT(PointData, AddPoint, bool(PointUV))
+	BUILD_OVERLOADED_METHOD_END();
 
 	BUILD_USERTYPE_METHOD(luaState, PointData, DeletePoint, "Gt");
 	BUILD_USERTYPE_METHOD(luaState, PointData, DataSize, "Gt");
@@ -437,11 +437,11 @@ void TurbineUsertypeDefiner::_Object3D(sol::table& luaState) {
 	BUILD_USERTYPE_METHOD(luaState, Object3D, GetVertData, "Gt");
 	BUILD_USERTYPE_METHOD(luaState, Object3D, GetVertCount, "Gt");
 
-	//BUILD_OVERLOADED_METHOD_START(luaState, Object3D, SetTriangles, "Overloaded type method")
-	//	BUILD_OVERLOADED_METHOD_FORMAT(Object3D, SetTriangles, void(byte*, int)),
-	//	BUILD_OVERLOADED_METHOD_FORMAT(Object3D, SetTriangles, void(unsigned short*, bool)),
-	//	BUILD_OVERLOADED_METHOD_FORMAT(Object3D, SetTriangles, void(PolygonData))
-	//BUILD_OVERLOADED_METHOD_END();
+	BUILD_OVERLOADED_METHOD_START(luaState, Object3D, SetTriangles, "Overloaded type method")
+		BUILD_OVERLOADED_METHOD_FORMAT(Object3D, SetTriangles, void(byte*, int)),
+		BUILD_OVERLOADED_METHOD_FORMAT(Object3D, SetTriangles, void(unsigned short*, int)),
+		BUILD_OVERLOADED_METHOD_FORMAT(Object3D, SetTriangles, void(PolygonData))
+	BUILD_OVERLOADED_METHOD_END();
 
 	BUILD_USERTYPE_METHOD(luaState, Object3D, SetTexture, "Gt");
 	BUILD_USERTYPE_METHOD(luaState, Object3D, GetTexture, "Gt");
